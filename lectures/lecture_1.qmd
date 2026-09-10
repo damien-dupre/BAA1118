@@ -1,6 +1,6 @@
 ---
 title: "Lecture 1: Getting Started with Python"
-subtitle: BAA1118 - Introduction to Python Programming
+subtitle: BAA1118 - Foundations of Programming for Analytics & AI
 author: Damien Dupré
 format:
   revealjs:

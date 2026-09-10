@@ -1,0 +1,764 @@
+---
+title: "Lecture 2: Variables, Types and Operators"
+subtitle: BAA1118 - Foundations of Programming for Analytics & AI
+author: Damien Dupré
+format:
+  revealjs:
+    theme: [theme/metropolis.scss, theme/baa1118.scss]
+    toc-depth: 1
+    chalkboard: false
+    menu: true
+    slide-number: true
+title-slide-attributes:
+    data-background-iframe: logo-fall/index.html
+preload-iframes: true
+jupyter: python3
+execute:
+  echo: true
+  warning: false
+filters:
+  - timer
+---
+
+## For Today
+
+#### Requirements
+
+- ✅ A Google account and a Colab notebook that opens
+- ✅ You have run `print()` at least once
+- ✅ You have seen a `NameError` and survived
+
+#### Programme
+
+1. Objects and assignment
+2. Numbers
+3. Strings
+4. Booleans
+5. Converting between types
+
+### Any questions?
+
+## Where We Are Going
+
+Everything in this module is built on one idea:
+
+. . .
+
+> **Data is stored in objects. Objects have a type. The type decides what you are allowed to do.**
+
+. . .
+
+A DataFrame in week 7 is just a very large object with a very particular type. Today is the foundation for all of it.
+
+# 1. Objects and Assignment
+
+## Assigning a Value
+
+```{python}
+revenue = 1500
+```
+
+::: incremental
+- `revenue` is the **name**
+- `1500` is the **value**
+- `=` is the **assignment operator**
+:::
+
+. . .
+
+Read it right to left: *"take 1500, and label it revenue"*.
+
+`=` is **not** the mathematical equals. Equality is `==`, which we will see later today.
+
+## Using a Name
+
+Once assigned, the name can be used anywhere the value could be used.
+
+```{python}
+revenue = 1500
+costs = 900
+
+profit = revenue - costs
+print(profit)
+```
+
+. . .
+
+The value is looked up **at the moment the line runs**:
+
+```{python}
+revenue = 2000
+print(profit)
+```
+
+`profit` does not update. It was computed once, and stored.
+
+## Reassigning
+
+A name can be reused. The old value is simply forgotten.
+
+```{python}
+counter = 1
+print(counter)
+
+counter = counter + 1
+print(counter)
+```
+
+. . .
+
+`counter = counter + 1` looks like nonsense in maths and is completely normal in code. The right-hand side is computed first, then stored under the same name.
+
+. . .
+
+There is a shortcut:
+
+```{python}
+counter += 1
+print(counter)
+```
+
+## Naming Rules
+
+Python **requires**:
+
+::: incremental
+- Letters, digits and underscores only
+- Cannot start with a digit: `2024_sales` is invalid, `sales_2024` is fine
+- No spaces, no dashes, no accents
+- Case sensitive: `Sales`, `sales` and `SALES` are three names
+- Cannot be a reserved word
+:::
+
+## Reserved Words
+
+These 35 words belong to Python. Using one as a name is an error:
+
+```{python}
+#| echo: false
+import keyword
+print(" ".join(keyword.kwlist))
+```
+
+. . .
+
+The dangerous ones in analytics are `sum`, `list`, `type`, `max`, `min`, `id` and `str`. They are not reserved, but they are **existing function names**, and overwriting them breaks things quietly.
+
+## Naming Conventions
+
+Python **convention** (not enforced, but universal):
+
+::: incremental
+- `snake_case` for variables and functions: `total_revenue`, `mean_price`
+- Short but descriptive: `df` is fine for a working DataFrame, `x1` is not fine for revenue
+- Nouns for data, verbs for functions: `sales_2024`, `compute_margin()`
+:::
+
+. . .
+
+```{python}
+#| eval: false
+a = 143.5     # what is this?
+avg_basket_eur = 143.5   # ah.
+```
+
+Naming is not decoration. It is 90% of what makes code readable.
+
+## Your Turn: Naming {background="#43464B"}
+
+Which of these are valid Python names? Which are *good* names?
+
+```{.python}
+1st_quarter
+first_quarter
+FirstQuarter
+first quarter
+first-quarter
+class
+customer_id
+c
+_internal
+```
+
+Try the invalid ones in Colab and read the error.
+
+::: {#timer1 .timer seconds="300" starton="interaction"}
+:::
+
+# 2. Types
+
+## Every Object Has a Type
+
+The function `type()` tells you what you are holding.
+
+```{python}
+print(type(42))
+print(type(4.2))
+print(type("42"))
+print(type(True))
+print(type(None))
+```
+
+## The Five Basic Types
+
+| Type | Name | Example | Used for |
+|:--|:--|:--|:--|
+| `int` | integer | `42` | counts, years, ids |
+| `float` | decimal | `4.2` | prices, measurements |
+| `str` | string | `"forty two"` | text, labels, categories |
+| `bool` | boolean | `True` | yes/no, filters |
+| `NoneType` | nothing | `None` | missing, not set yet |
+
+. . .
+
+Next week adds `list`, `dict`, `tuple` and `set`. Week 7 adds `Series` and `DataFrame`.
+
+## Type Decides What Works
+
+```{python}
+2 + 3
+```
+
+. . .
+
+```{python}
+"2" + "3"
+```
+
+. . .
+
+```{python}
+#| error: true
+2 + "3"
+```
+
+. . .
+
+Same operator `+`, three different behaviours. **Read the type before blaming the operator.**
+
+# 3. Numbers
+
+## Arithmetic Operators
+
+```{python}
+print(7 + 2)    # addition
+print(7 - 2)    # subtraction
+print(7 * 2)    # multiplication
+print(7 / 2)    # division, always returns a float
+```
+
+. . .
+
+```{python}
+print(7 // 2)   # floor division: how many whole 2s in 7
+print(7 % 2)    # modulo: the remainder
+print(7 ** 2)   # power
+```
+
+## Where `//` and `%` Are Useful
+
+`%` answers "is this divisible by":
+
+```{python}
+print(2024 % 4)   # 0, so 2024 is a leap year candidate
+print(17 % 2)     # 1, so 17 is odd
+```
+
+. . .
+
+`//` answers "how many complete units":
+
+```{python}
+total_minutes = 145
+print(total_minutes // 60, "hours and", total_minutes % 60, "minutes")
+```
+
+## Order of Operations
+
+Python follows normal mathematical precedence: `**` first, then `*` `/` `//` `%`, then `+` `-`.
+
+```{python}
+print(2 + 3 * 4)
+print((2 + 3) * 4)
+```
+
+. . .
+
+::: {.callout-tip}
+Use brackets even when they are unnecessary. `(revenue - costs) / revenue` costs nothing and removes all doubt.
+:::
+
+## int and float
+
+```{python}
+print(type(10))
+print(type(10.0))
+print(type(10 / 2))
+```
+
+. . .
+
+Division **always** produces a float, even when it divides evenly. This surprises everyone once.
+
+```{python}
+print(10 / 2)
+```
+
+## The Float Trap
+
+```{python}
+0.1 + 0.2
+```
+
+. . .
+
+This is not a Python bug. Computers store decimals in binary, and 0.1 has no exact binary representation, exactly as 1/3 has no exact decimal one.
+
+. . .
+
+Consequences:
+
+```{python}
+print(0.1 + 0.2 == 0.3)
+print(round(0.1 + 0.2, 10) == 0.3)
+```
+
+. . .
+
+**Never test floats for exact equality.** Round first, or compare a difference to a small tolerance.
+
+## Rounding
+
+```{python}
+price = 19.4567
+print(round(price))       # to the nearest whole number
+print(round(price, 2))    # to 2 decimals
+print(round(price, 1))
+```
+
+. . .
+
+```{python}
+print(abs(-15))     # absolute value
+print(max(3, 9, 2)) # largest
+print(min(3, 9, 2)) # smallest
+```
+
+## Your Turn: A VAT Calculator {background="#43464B"}
+
+An invoice has a net amount of €1,847.35. Irish standard VAT is 23%.
+
+1. Store the net amount and the VAT rate in two well named variables
+2. Compute the VAT amount, rounded to 2 decimals
+3. Compute the gross amount
+4. Print the three values on three lines
+5. Check: does `net + vat == gross` return `True`? Why might it not?
+
+::: {#timer2 .timer seconds="420" starton="interaction"}
+:::
+
+## Solution
+
+```{python}
+net_eur = 1847.35
+vat_rate = 0.23
+
+vat_eur = round(net_eur * vat_rate, 2)
+gross_eur = round(net_eur + vat_eur, 2)
+
+print("Net:", net_eur)
+print("VAT:", vat_eur)
+print("Gross:", gross_eur)
+
+print(net_eur + vat_eur == gross_eur)
+```
+
+# 4. Strings
+
+## Creating Strings
+
+Single or double quotes, as long as they match:
+
+```{python}
+name = "Damien"
+module = 'BAA1118'
+print(name, module)
+```
+
+. . .
+
+Use the other kind of quote when your text contains one:
+
+```{python}
+print("It's a string")
+print('She said "hello"')
+```
+
+. . .
+
+Triple quotes span multiple lines:
+
+```{python}
+print("""Line one
+Line two""")
+```
+
+## Numbers That Are Not Numbers
+
+```{python}
+year_text = "2024"
+print(type(year_text))
+```
+
+. . .
+
+```{python}
+#| error: true
+year_text + 1
+```
+
+. . .
+
+This is the single most common error when reading data from a file: the column looks numeric, and is stored as text. We will meet it again in week 7.
+
+## Joining Strings
+
+```{python}
+first = "Damien"
+last = "Dupré"
+print(first + " " + last)
+```
+
+. . .
+
+Repetition works too:
+
+```{python}
+print("-" * 40)
+```
+
+## f-strings
+
+Concatenating with `+` becomes painful fast. f-strings are the modern solution:
+
+```{python}
+units = 340
+price = 12.99
+revenue = units * price
+
+print(f"Selling {units} units at {price} euros gives {revenue} euros")
+```
+
+::: incremental
+- The `f` before the quote turns on the feature
+- Anything inside `{}` is Python code, evaluated and inserted
+:::
+
+## Formatting Inside f-strings
+
+```{python}
+revenue = 4416.6
+
+print(f"Revenue: {revenue:.2f}")      # 2 decimals
+print(f"Revenue: {revenue:,.2f}")     # thousands separator
+print(f"Revenue: {revenue:10.2f}|")   # padded to width 10
+print(f"Share: {0.2534:.1%}")         # as a percentage
+```
+
+. . .
+
+This is how every number in a report should be printed.
+
+## String Methods
+
+A **method** is a function attached to an object, called with a dot.
+
+```{python}
+country = "  ireland  "
+
+print(country.strip())          # remove surrounding spaces
+print(country.strip().title())  # and capitalise
+print(country.upper())
+print(country.replace("ireland", "Éire"))
+```
+
+. . .
+
+Methods **return a new string**. The original is unchanged:
+
+```{python}
+print(country)
+```
+
+## More String Methods
+
+```{python}
+sentence = "revenue,costs,profit"
+
+print(sentence.split(","))          # into a list
+print(sentence.startswith("rev"))
+print("costs" in sentence)          # membership test
+print(len(sentence))                # number of characters
+```
+
+. . .
+
+Data cleaning in week 7 is mostly these five methods applied to a whole column at once.
+
+## Indexing a String
+
+Python counts from **zero**.
+
+```{python}
+word = "Python"
+print(word[0])    # first character
+print(word[1])
+print(word[-1])   # last character
+print(word[0:3])  # from 0 up to, not including, 3
+```
+
+::: {.callout-important}
+Zero-indexing and "up to but not including" apply everywhere in Python: strings, lists, DataFrames. Learn it once, this week.
+:::
+
+## Your Turn: Cleaning a Name {background="#43464B"}
+
+A form returned this value:
+
+```{.python}
+raw = "   dublin city UNIVERSITY  "
+```
+
+1. Store it, then produce a clean version: no surrounding spaces, in title case
+2. Print the number of characters before and after cleaning
+3. Using an f-string, print: `Cleaned 'X' into 'Y'`
+4. Check whether the cleaned value contains the word `City`
+
+::: {#timer3 .timer seconds="420" starton="interaction"}
+:::
+
+## Solution
+
+```{python}
+raw = "   dublin city UNIVERSITY  "
+clean = raw.strip().title()
+
+print(len(raw), len(clean))
+print(f"Cleaned '{raw}' into '{clean}'")
+print("City" in clean)
+```
+
+# 5. Booleans
+
+## True and False
+
+```{python}
+print(type(True))
+print(True, False)
+```
+
+. . .
+
+Booleans are produced by **comparisons**:
+
+```{python}
+print(10 > 5)
+print(10 == 5)
+print(10 != 5)
+```
+
+## Comparison Operators
+
+| Operator | Meaning |
+|:--|:--|
+| `==` | equal to |
+| `!=` | not equal to |
+| `<` `>` | less than, greater than |
+| `<=` `>=` | less or equal, greater or equal |
+| `in` | is contained in |
+
+. . .
+
+::: {.callout-warning}
+`=` assigns, `==` compares. Writing `if x = 5` is a `SyntaxError`, and it happens to everyone.
+:::
+
+## Comparing Strings
+
+```{python}
+print("dublin" == "Dublin")
+print("dublin".lower() == "Dublin".lower())
+print("a" < "b")
+```
+
+. . .
+
+String comparison is alphabetical, and **case matters**. Lowercase everything before comparing text from real data.
+
+## Combining Conditions
+
+```{python}
+age = 25
+income = 48000
+
+print(age > 18 and income > 30000)
+print(age > 65 or income > 30000)
+print(not age > 65)
+```
+
+::: incremental
+- `and`: both must be true
+- `or`: at least one must be true
+- `not`: flips the answer
+:::
+
+. . .
+
+Python uses the English words, not `&&` and `||`. Week 7 will use `&` and `|` for columns, which is a different thing.
+
+## Booleans Are Numbers
+
+```{python}
+print(True + True)
+print(sum([True, False, True, True]))
+```
+
+. . .
+
+This looks like a curiosity. It is actually how you count things in data analysis:
+
+```{python}
+#| eval: false
+# how many customers spent more than 100 euros?
+(spending > 100).sum()
+```
+
+# 6. Converting Types
+
+## Casting
+
+```{python}
+print(int("42"))
+print(float("3.14"))
+print(str(42))
+print(bool(0), bool(1), bool(""))
+```
+
+. . .
+
+```{python}
+print(int(9.99))    # truncates, does not round
+print(round(9.99))
+```
+
+## When Casting Fails
+
+```{python}
+#| error: true
+int("forty two")
+```
+
+. . .
+
+```{python}
+#| error: true
+int("42.5")
+```
+
+. . .
+
+The second one is a classic: `int()` will not go via float. Use `int(float("42.5"))`.
+
+## input()
+
+`input()` asks the user for a value, and **always returns a string**.
+
+```{python}
+#| eval: false
+age = input("How old are you? ")
+print(type(age))        # str, even if they typed 25
+
+age = int(input("How old are you? "))
+print(age + 1)
+```
+
+. . .
+
+We will not use `input()` much: notebooks and data files replace it. But knowing it returns text explains a lot of beginner bugs.
+
+## Your Turn: Putting It Together {background="#43464B"}
+
+A survey exported these three values, all as text:
+
+```{.python}
+respondent = "  R_0042 "
+age_text = "34"
+spend_text = "128.75"
+```
+
+1. Clean the respondent id (no spaces, uppercase)
+2. Convert the age and the spend to the right numeric types
+3. Compute the spend per year of age
+4. Print, with an f-string and 2 decimals: `R_0042 (34) spends 3.79 per year of age`
+5. Print `True` if the respondent spent more than 100 **and** is under 40
+
+::: {#timer4 .timer seconds="600" starton="interaction"}
+:::
+
+## Solution
+
+```{python}
+respondent = "  R_0042 "
+age_text = "34"
+spend_text = "128.75"
+
+rid = respondent.strip().upper()
+age = int(age_text)
+spend = float(spend_text)
+
+ratio = spend / age
+print(f"{rid} ({age}) spends {ratio:.2f} per year of age")
+print(spend > 100 and age < 40)
+```
+
+## What We Have Seen
+
+::: incremental
+- A name points to a value: `name = value`
+- Every value has a **type**, and the type decides what works
+- `int`, `float`, `str`, `bool`, `None`
+- Arithmetic, including `//`, `%` and `**`
+- f-strings for readable output
+- String methods for cleaning text
+- Comparisons producing booleans, combined with `and` / `or` / `not`
+:::
+
+## Before Next Week
+
+::: incremental
+1. Redo the last exercise from an empty notebook
+2. Take any number and print it as a percentage with one decimal
+3. Assessment 1 opens next week: it covers weeks 1 to 3
+:::
+
+## References
+
+- Charles Severance, [Python for Everybody](https://www.py4e.com/), chapters 2 and 6
+- [Real Python: Python Data Types](https://realpython.com/python-data-types/)
+- Danilo Freire, [Variables and Lists](https://github.com/danilofreire/datasci151)
+
+## {background="#43464B"}
+
+```{=html}
+<style>img.circle {border-radius:50%;}</style>
+```
+
+::: {layout-ncol="2"}
+<img class="circle" src="https://github.com/damien-dupre.png" />
+
+**Thanks for your attention and don't hesitate to ask if you have any questions!**
+[{{< fa brands mastodon >}} @damien_dupre](https://datasci.social/@damien_dupre)
+[{{< fa brands github >}} @damien-dupre](https://github.com/damien-dupre)
+[{{< fa link >}} https://damien-dupre.github.io](https://damien-dupre.github.io)
+[{{< fa paper-plane >}} damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)
+:::

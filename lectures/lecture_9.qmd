@@ -1,0 +1,686 @@
+---
+title: "Lecture 9: Data Visualisation"
+subtitle: BAA1118 - Foundations of Programming for Analytics & AI
+author: Damien Dupré
+format:
+  revealjs:
+    theme: [theme/metropolis.scss, theme/baa1118.scss]
+    toc-depth: 1
+    chalkboard: false
+    menu: true
+    slide-number: true
+title-slide-attributes:
+    data-background-iframe: logo-fall/index.html
+preload-iframes: true
+jupyter: python3
+execute:
+  echo: true
+  warning: false
+  fig-align: center
+filters:
+  - timer
+---
+
+```{python}
+#| echo: false
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.rcParams["figure.figsize"] = (9, 4.2)
+plt.rcParams["figure.dpi"] = 110
+plt.rcParams["font.size"] = 11
+sns.set_theme(style="whitegrid", palette="colorblind")
+
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url).rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
+g2007 = gapminder.query("year == 2007")
+```
+
+## For Today
+
+#### Requirements
+
+- ✅ pandas: filtering, grouping, reshaping
+- ✅ Your project dataset, cleaned
+- ✅ Three interesting numbers from it
+
+#### Programme
+
+1. Why visualise
+2. matplotlib: the foundation
+3. seaborn: statistical graphics
+4. Distributions, relationships, comparisons
+5. Polishing, saving, and what not to do
+
+### Any questions?
+
+## Setup
+
+```{python}
+#| eval: false
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.set_theme(style="whitegrid", palette="colorblind")
+
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url).rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
+g2007 = gapminder.query("year == 2007")
+```
+
+. . .
+
+`sns.set_theme()` on one line replaces about 30 lines of matplotlib styling, and `palette="colorblind"` is not optional in a professional context.
+
+# 1. Why Visualise
+
+## Summary Statistics Lie
+
+```{python}
+#| echo: false
+anscombe_raw = {
+    "I":   [(10.0, 8.04), (8.0, 6.95), (13.0, 7.58), (9.0, 8.81), (11.0, 8.33), (14.0, 9.96),
+            (6.0, 7.24), (4.0, 4.26), (12.0, 10.84), (7.0, 4.82), (5.0, 5.68)],
+    "II":  [(10.0, 9.14), (8.0, 8.14), (13.0, 8.74), (9.0, 8.77), (11.0, 9.26), (14.0, 8.10),
+            (6.0, 6.13), (4.0, 3.10), (12.0, 9.13), (7.0, 7.26), (5.0, 4.74)],
+    "III": [(10.0, 7.46), (8.0, 6.77), (13.0, 12.74), (9.0, 7.11), (11.0, 7.81), (14.0, 8.84),
+            (6.0, 6.08), (4.0, 5.39), (12.0, 8.15), (7.0, 6.42), (5.0, 5.73)],
+    "IV":  [(8.0, 6.58), (8.0, 5.76), (8.0, 7.71), (8.0, 8.84), (8.0, 8.47), (8.0, 7.04),
+            (8.0, 5.25), (19.0, 12.50), (8.0, 5.56), (8.0, 7.91), (8.0, 6.89)]
+}
+anscombe = pd.DataFrame(
+    [(name, x, y) for name, pairs in anscombe_raw.items() for x, y in pairs],
+    columns=["dataset", "x", "y"]
+)
+print(anscombe.groupby("dataset")[["x", "y"]].agg(["mean", "std"]).round(2))
+```
+
+. . .
+
+Four datasets. Same means, same standard deviations, same correlation, same regression line.
+
+## Summary Statistics Lie
+
+```{python}
+#| echo: false
+g = sns.lmplot(data=anscombe, x="x", y="y", col="dataset", col_wrap=4,
+               height=2.6, ci=None, scatter_kws={"s": 40})
+plt.show()
+```
+
+. . .
+
+**Anscombe's quartet**, 1973. Always plot the data.
+
+## The Three Jobs of a Chart
+
+::: incremental
+1. **Exploration**: for you, fast, ugly, thrown away. Ten per hour.
+2. **Explanation**: for an audience, one message, polished. One per report.
+3. **Verification**: does the model fit? Are there outliers? Is the relationship linear?
+:::
+
+. . .
+
+Today covers all three. Job 3 is what feeds next week's regression.
+
+## Your Turn: Choose the Form {background="#43464B"}
+
+No code. For each question, write down **which chart** you would draw and **why**. Two minutes each, then we compare.
+
+1. Are salaries in our company spread evenly, or clustered at the bottom?
+2. Which of our five regions sells the most?
+3. Has customer churn risen since January?
+4. Do customers who spend more also visit more often?
+5. Is the median order value different for app users and web users?
+
+::: {#timer1 .timer seconds="600" starton="interaction"}
+:::
+
+## One Answer
+
+| Question | Form | Why |
+|:--|:--|:--|
+| Salary spread | histogram | one numeric variable, shape matters |
+| Sales per region | sorted bar chart | magnitude across few categories |
+| Churn since January | line chart | one variable over time |
+| Spend vs visits | scatter plot | two numerics, looking for a relationship |
+| App vs web orders | boxplot, or two histograms | a distribution compared across groups |
+
+. . .
+
+**The question picks the chart.** Choosing the chart first, then hunting for something to put in it, is how bad dashboards are born.
+
+# 2. matplotlib
+
+## The Foundation
+
+matplotlib is the plotting engine underneath almost everything in Python, including seaborn and pandas plots.
+
+::: incremental
+- Very powerful, and quite verbose
+- You will use seaborn for the chart, and matplotlib to **fix the details**
+- Knowing both is not optional: the labels, titles and limits come from matplotlib
+:::
+
+## Figure and Axes
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.2))
+ax.plot([1, 2, 3, 4], [10, 14, 12, 18], marker="o")
+ax.set_xlabel("Quarter")
+ax.set_ylabel("Revenue (€m)")
+ax.set_title("Revenue by quarter")
+plt.show()
+```
+
+## Figure and Axes
+
+:::: {layout="[1,1]"}
+::: {#first-column}
+### `fig`
+
+The canvas. Holds everything, controls the size and the saving.
+:::
+
+::: {#second-column}
+### `ax`
+
+One set of axes: the plotting area with its ticks, labels and marks.
+:::
+::::
+
+```{python}
+#| eval: false
+fig, ax = plt.subplots(figsize=(8, 4))
+```
+
+. . .
+
+Remember tuple unpacking from lecture 3? That is what this line is.
+
+## Several Panels
+
+```{python}
+fig, axes = plt.subplots(1, 2, figsize=(9, 3.2))
+
+axes[0].hist(g2007["life_exp"], bins=15, color="#4C72B0")
+axes[0].set_title("Life expectancy, 2007")
+
+axes[1].hist(g2007["gdp_per_cap"], bins=15, color="#DD8452")
+axes[1].set_title("GDP per capita, 2007")
+
+plt.tight_layout()
+plt.show()
+```
+
+## pandas Can Plot Directly
+
+```{python}
+gapminder.groupby("year")["life_exp"].mean().plot(
+    kind="line", marker="o", figsize=(8, 3), ylabel="Mean life expectancy"
+)
+plt.show()
+```
+
+. . .
+
+Convenient for a quick look during exploration. Not for anything you will show to another person.
+
+# 3. seaborn
+
+## Why seaborn
+
+seaborn is a layer on top of matplotlib that knows about **DataFrames and statistics**.
+
+```{python}
+#| eval: false
+sns.scatterplot(data=df, x="col_a", y="col_b", hue="col_c")
+```
+
+::: incremental
+- `data=` takes the DataFrame
+- `x=`, `y=`, `hue=`, `size=`, `style=` take **column names as strings**
+- It computes means, confidence intervals and regressions for you
+- The legend is built automatically
+:::
+
+## The Same Grammar Every Time
+
+| Function | Shows |
+|:--|:--|
+| `sns.histplot` | distribution of one numeric variable |
+| `sns.boxplot`, `sns.violinplot` | distribution across categories |
+| `sns.barplot`, `sns.countplot` | magnitude across categories |
+| `sns.scatterplot` | relationship between two numerics |
+| `sns.lineplot` | change over time |
+| `sns.heatmap` | a matrix of values |
+
+. . .
+
+Learn the arguments once; they are the same for all of them.
+
+# 4. The Four Questions
+
+## Question 1: How Is One Variable Distributed?
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.2))
+sns.histplot(data=g2007, x="life_exp", bins=20, ax=ax)
+ax.set_xlabel("Life expectancy in 2007 (years)")
+ax.set_ylabel("Number of countries")
+plt.show()
+```
+
+. . .
+
+Two clusters, not one. A mean of 67 describes neither of them.
+
+## Distribution, Split by Group
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.4))
+sns.kdeplot(data=g2007, x="life_exp", hue="continent", fill=True, alpha=0.35, ax=ax)
+ax.set_xlabel("Life expectancy in 2007 (years)")
+plt.show()
+```
+
+. . .
+
+The two clusters are now explained: Africa, and everywhere else.
+
+## Question 2: How Do Groups Compare?
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.4))
+sns.boxplot(data=g2007, x="continent", y="life_exp", ax=ax)
+ax.set_xlabel("")
+ax.set_ylabel("Life expectancy (years)")
+plt.show()
+```
+
+## Reading a Boxplot
+
+::: incremental
+- The box: the middle 50% of countries, from the 25th to the 75th percentile
+- The line inside: the **median**, not the mean
+- The whiskers: 1.5 times the box height, at most
+- The dots: points beyond that, conventionally called outliers
+:::
+
+. . .
+
+A boxplot hides how many observations there are. With small groups, show the points:
+
+```{python}
+#| eval: false
+sns.stripplot(data=g2007, x="continent", y="life_exp", color="black", alpha=0.5, ax=ax)
+```
+
+## Boxplot Plus Points
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.4))
+sns.boxplot(data=g2007, x="continent", y="life_exp", ax=ax, whis=(0, 100), fliersize=0)
+sns.stripplot(data=g2007, x="continent", y="life_exp", ax=ax,
+              color="black", alpha=0.45, size=3.5, jitter=0.25)
+ax.set_xlabel("")
+ax.set_ylabel("Life expectancy (years)")
+plt.show()
+```
+
+## Bars: Magnitude, Not Distribution
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.2))
+means = g2007.groupby("continent")["life_exp"].mean().sort_values(ascending=False)
+sns.barplot(x=means.values, y=means.index, ax=ax)
+ax.set_xlabel("Mean life expectancy in 2007 (years)")
+ax.set_ylabel("")
+plt.show()
+```
+
+::: {.callout-tip}
+Sort the bars by value, and put the labels horizontally. Category order is a choice, and alphabetical is almost never the useful one.
+:::
+
+## Question 3: Are Two Variables Related?
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.4))
+sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", hue="continent", ax=ax)
+ax.set_xlabel("GDP per capita (US$)")
+ax.set_ylabel("Life expectancy (years)")
+sns.move_legend(ax, "lower right", fontsize=8, title=None)
+plt.show()
+```
+
+## The Log Transformation
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.4))
+sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", hue="continent", ax=ax)
+ax.set_xscale("log")
+ax.set_xlabel("GDP per capita (US$, log scale)")
+ax.set_ylabel("Life expectancy (years)")
+sns.move_legend(ax, "lower right", fontsize=8, title=None)
+plt.show()
+```
+
+. . .
+
+The curve has become a **line**. Remember this slide next week.
+
+## Adding Size: The Fourth Variable
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.6))
+sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp",
+                hue="continent", size="pop", sizes=(20, 600), alpha=0.7, ax=ax)
+ax.set_xscale("log")
+ax.set_xlabel("GDP per capita (US$, log scale)")
+ax.set_ylabel("Life expectancy (years)")
+ax.legend().remove()
+plt.show()
+```
+
+. . .
+
+Four variables in one chart. This is the famous Hans Rosling plot, and it is 12 lines of Python.
+
+## Question 4: How Does It Change Over Time?
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.4))
+sns.lineplot(data=gapminder, x="year", y="life_exp", hue="continent",
+             errorbar=None, marker="o", ax=ax)
+ax.set_xlabel("")
+ax.set_ylabel("Mean life expectancy (years)")
+sns.move_legend(ax, "lower right", fontsize=8, title=None)
+plt.show()
+```
+
+. . .
+
+seaborn averaged the countries within each continent and year automatically.
+
+## Small Multiples
+
+```{python}
+g = sns.relplot(
+    data=gapminder, x="year", y="life_exp",
+    col="continent", col_wrap=3, kind="line",
+    errorbar=None, height=1.9, aspect=1.35
+)
+g.set_axis_labels("", "Life expectancy")
+g.set_titles("{col_name}")
+plt.show()
+```
+
+. . .
+
+One panel per group beats five overlapping lines whenever the lines cross.
+
+## Your Turn: Four Charts {background="#43464B"}
+
+Using gapminder, or your own project data:
+
+1. A histogram of `gdp_per_cap` in 2007. Then redo it on a log x-axis.
+2. A boxplot of `life_exp` per continent for **1952**, and one for 2007, side by side
+3. A scatter of `gdp_per_cap` against `life_exp` for Europe only, log x-axis
+4. A line chart of Ireland's life expectancy over time
+
+Label every axis with units. No exceptions.
+
+::: {#timer2 .timer seconds="900" starton="interaction"}
+:::
+
+## Solution: 1 and 2
+
+```{python}
+fig, axes = plt.subplots(1, 2, figsize=(9, 2.9))
+
+sns.histplot(data=g2007, x="gdp_per_cap", bins=20, ax=axes[0])
+axes[0].set_xlabel("GDP per capita (US$)")
+
+sns.histplot(data=g2007, x="gdp_per_cap", bins=20, log_scale=True, ax=axes[1])
+axes[1].set_xlabel("GDP per capita (US$, log)")
+
+plt.tight_layout()
+plt.show()
+```
+
+## Solution: 3 and 4
+
+```{python}
+fig, axes = plt.subplots(1, 2, figsize=(9, 3))
+
+europe = g2007.query("continent == 'Europe'")
+sns.scatterplot(data=europe, x="gdp_per_cap", y="life_exp", ax=axes[0])
+axes[0].set_xscale("log")
+axes[0].set_xlabel("GDP per capita (US$, log)")
+axes[0].set_ylabel("Life expectancy")
+
+ireland = gapminder.query("country == 'Ireland'")
+sns.lineplot(data=ireland, x="year", y="life_exp", marker="o", ax=axes[1])
+axes[1].set_xlabel("")
+axes[1].set_ylabel("Life expectancy")
+axes[1].set_title("Ireland")
+
+plt.tight_layout()
+plt.show()
+```
+
+# 5. Polishing
+
+## The Checklist Before Showing Anyone
+
+::: incremental
+- Does every axis have a **label with units**?
+- Does the title say the **finding**, not the variables?
+- Is the legend needed, and is it out of the way?
+- Are the categories in a meaningful **order**?
+- Would it survive being printed in black and white?
+- Is anything smaller than 8pt?
+:::
+
+## Title as Finding
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.2))
+sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", ax=ax, color="#4C72B0", alpha=0.75)
+ax.set_xscale("log")
+ax.set_xlabel("GDP per capita in 2007 (US$, log scale)")
+ax.set_ylabel("Life expectancy (years)")
+ax.set_title("Each doubling of income adds about 6 years of life", loc="left", fontsize=13)
+plt.show()
+```
+
+. . .
+
+"Life expectancy vs GDP" tells the reader what the axes already told them.
+
+## Annotating
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 3.2))
+sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", ax=ax, color="#bbbbbb")
+
+ie = g2007.query("country == 'Ireland'")
+ax.scatter(ie["gdp_per_cap"], ie["life_exp"], color="#C44E52", s=90, zorder=5)
+ax.annotate("Ireland", (ie["gdp_per_cap"].iloc[0], ie["life_exp"].iloc[0]),
+            xytext=(10, -14), textcoords="offset points", fontsize=11, color="#C44E52")
+ax.set_xscale("log")
+ax.set_xlabel("GDP per capita (US$, log)")
+ax.set_ylabel("Life expectancy (years)")
+plt.show()
+```
+
+. . .
+
+Grey everything, colour the one thing that matters.
+
+## Colour, Seriously
+
+::: incremental
+- About 8% of men have some form of colour vision deficiency
+- `palette="colorblind"` costs nothing and solves most of it
+- **Categories**: distinct hues, never a gradient
+- **Magnitude**: one hue, light to dark, never a rainbow
+- **Above/below a reference**: two hues with a neutral middle
+:::
+
+. . .
+
+Never encode a category by colour **alone** if the reader must identify it: add a direct label.
+
+## Saving a Figure
+
+```{python}
+#| eval: false
+fig, ax = plt.subplots(figsize=(8, 4.5))
+sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", ax=ax)
+fig.savefig("output/figures/life_gdp.png", dpi=300, bbox_inches="tight")
+```
+
+::: incremental
+- `dpi=300` for print, 150 for screen
+- `bbox_inches="tight"` stops the labels being cut off
+- `.png` for reports, `.svg` or `.pdf` for anything that will be resized
+- Save with **code**, never by right-clicking. Right-clicking is not reproducible.
+:::
+
+## What Not To Do
+
+::: incremental
+- **Two y-axes.** Any two series can be made to look correlated by choosing the scales. Use two charts.
+- **A truncated y-axis on bars.** Bar length *is* the value. Bars start at zero.
+- **Pie charts with more than three slices.** People compare angles badly. Use a sorted bar chart.
+- **3D anything.** The perspective distorts the values it is supposed to show.
+- **A number printed on every point.** If you need all the numbers, make a table.
+:::
+
+## What Not To Do
+
+```{python}
+#| echo: false
+fig, axes = plt.subplots(1, 2, figsize=(9, 2.9))
+means = g2007.groupby("continent")["life_exp"].mean().sort_values(ascending=False)
+
+sns.barplot(x=means.index, y=means.values, ax=axes[0])
+axes[0].set_ylim(50, 82)
+axes[0].set_title("Truncated axis: Oceania looks 8x Africa", fontsize=10)
+axes[0].set_ylabel("Life exp.")
+axes[0].tick_params(axis="x", labelrotation=30, labelsize=8)
+
+sns.barplot(x=means.index, y=means.values, ax=axes[1])
+axes[1].set_title("From zero: the real difference", fontsize=10)
+axes[1].set_ylabel("Life exp.")
+axes[1].tick_params(axis="x", labelrotation=30, labelsize=8)
+
+plt.tight_layout()
+plt.show()
+```
+
+Same data, same code, one changed line.
+
+## Your Turn: Fix This Chart {background="#43464B"}
+
+This runs, and it is bad in five ways. Find them and fix them.
+
+```{.python}
+sns.barplot(data=g2007, x="continent", y="gdp_per_cap", errorbar=None)
+plt.ylim(2000, 30000)
+plt.title("gdp_per_cap vs continent")
+plt.show()
+```
+
+::: incremental
+- What does the y-axis start at, and why does that matter for bars?
+- What order are the categories in?
+- What are the units?
+- What does the title tell a reader that the axes do not?
+- Is a mean the right summary here?
+:::
+
+::: {#timer3 .timer seconds="720" starton="interaction"}
+:::
+
+## One Fixed Version
+
+```{python}
+#| echo: false
+med = g2007.groupby("continent")["gdp_per_cap"].median().sort_values(ascending=False)
+
+fig, ax = plt.subplots(figsize=(8, 3.2))
+sns.barplot(x=med.values, y=med.index, ax=ax)
+ax.set_xlabel("Median GDP per capita in 2007 (US$)")
+ax.set_ylabel("")
+ax.set_title("Europe's median country is 19 times richer than Africa's",
+             loc="left", fontsize=12)
+plt.show()
+```
+
+::: {.small-font}
+Bars from zero, sorted by value, horizontal labels, units on the axis, a title that states the finding, and the median rather than the mean because Kuwait and Norway drag their continents' means upward.
+:::
+
+## Your Turn: One Good Chart {background="#43464B"}
+
+Make **one** chart from your own project dataset, ready to appear in your report:
+
+1. Choose the question it answers before you write any code
+2. Label both axes with units
+3. Give it a title that states the finding
+4. Highlight or annotate the one thing you want noticed
+5. Save it to `output/figures/` at 300 dpi
+
+Then show it to your neighbour and ask them what it says. If they get it wrong, the chart is wrong.
+
+::: {#timer4 .timer seconds="900" starton="interaction"}
+:::
+
+## What We Have Seen
+
+::: incremental
+- Always plot the data: Anscombe
+- `fig, ax = plt.subplots()`, and axes methods for the details
+- seaborn: `data=`, `x=`, `y=`, `hue=`, column names as strings
+- Histogram, KDE, box, bar, scatter, line, small multiples
+- Log scales for skewed variables
+- Labels, findings as titles, annotation, colourblind palettes
+- `savefig(dpi=300, bbox_inches="tight")`
+:::
+
+## Before Next Week
+
+::: incremental
+1. **Assessment 4 opens**: three charts with a written interpretation of each
+2. Reread the log-scale scatter slide. Next week we fit a line to it.
+3. Bring your cleaned dataset and your best chart to the final lecture.
+:::
+
+## References
+
+- [seaborn: official tutorial](https://seaborn.pydata.org/tutorial.html) and [example gallery](https://seaborn.pydata.org/examples/)
+- Claus Wilke, [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/), free online
+- Cole Nussbaumer Knaflic, *Storytelling with Data*
+- [From Data to Viz](https://www.data-to-viz.com/), choosing the right chart
+
+## {background="#43464B"}
+
+```{=html}
+<style>img.circle {border-radius:50%;}</style>
+```
+
+::: {layout-ncol="2"}
+<img class="circle" src="https://github.com/damien-dupre.png" />
+
+**Thanks for your attention and don't hesitate to ask if you have any questions!**
+[{{< fa brands mastodon >}} @damien_dupre](https://datasci.social/@damien_dupre)
+[{{< fa brands github >}} @damien-dupre](https://github.com/damien-dupre)
+[{{< fa link >}} https://damien-dupre.github.io](https://damien-dupre.github.io)
+[{{< fa paper-plane >}} damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)
+:::

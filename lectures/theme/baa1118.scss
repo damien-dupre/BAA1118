@@ -1,0 +1,30 @@
+/*-- scss:defaults --*/
+
+// Module specific additions layered on top of theme/metropolis.scss.
+// Keep metropolis.scss untouched so the BAA1028 and BAA1118 decks stay in sync.
+
+/*-- scss:rules --*/
+
+// countdown timer (produnis/timer extension): smaller and centred
+.base-timer {
+	width: 180px !important;
+	height: 180px !important;
+	margin: 0 auto;
+}
+
+// side by side code and output
+.reveal .columns pre {
+	margin: 0;
+}
+
+// a "note to self" block for the lecturer
+.reveal .aside-note {
+	font-size: 70%;
+	color: #555;
+}
+
+// output of python chunks, slightly muted so code stands out
+.reveal pre:not(.sourceCode) code {
+	background-color: #f0f0f0;
+	border-left: 4px solid #eb811b;
+}

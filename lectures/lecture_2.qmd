@@ -36,8 +36,6 @@ filters:
 4. Booleans
 5. Converting between types
 
-### Any questions?
-
 ## Where We Are Going
 
 Everything in this module is built on one idea:
@@ -166,7 +164,7 @@ Naming is not decoration. It is 90% of what makes code readable.
 
 ## Your Turn: Naming {background="#43464B"}
 
-Which of these are valid Python names? Which are *good* names?
+Try storing a value with the following names. Which of these are valid?
 
 ```{.python}
 1st_quarter
@@ -180,9 +178,7 @@ c
 _internal
 ```
 
-Try the invalid ones in Colab and read the error.
-
-::: {#timer1 .timer seconds="300" starton="interaction"}
+::: {#timer1 .timer seconds="240" starton="interaction"}
 :::
 
 # 2. Types
@@ -255,24 +251,6 @@ print(7 % 2)    # modulo: the remainder
 print(7 ** 2)   # power
 ```
 
-## Where `//` and `%` Are Useful
-
-`%` answers "is this divisible by":
-
-```{python}
-print(2024 % 4)   # 0, so 2024 is a leap year candidate
-print(17 % 2)     # 1, so 17 is odd
-```
-
-. . .
-
-`//` answers "how many complete units":
-
-```{python}
-total_minutes = 145
-print(total_minutes // 60, "hours and", total_minutes % 60, "minutes")
-```
-
 ## Order of Operations
 
 Python follows normal mathematical precedence: `**` first, then `*` `/` `//` `%`, then `+` `-`.
@@ -303,29 +281,6 @@ Division **always** produces a float, even when it divides evenly. This surprise
 ```{python}
 print(10 / 2)
 ```
-
-## The Float Trap
-
-```{python}
-0.1 + 0.2
-```
-
-. . .
-
-This is not a Python bug. Computers store decimals in binary, and 0.1 has no exact binary representation, exactly as 1/3 has no exact decimal one.
-
-. . .
-
-Consequences:
-
-```{python}
-print(0.1 + 0.2 == 0.3)
-print(round(0.1 + 0.2, 10) == 0.3)
-```
-
-. . .
-
-**Never test floats for exact equality.** Round first, or compare a difference to a small tolerance.
 
 ## Rounding
 
@@ -721,44 +676,27 @@ print(f"{rid} ({age}) spends {ratio:.2f} per year of age")
 print(spend > 100 and age < 40)
 ```
 
-## What We Have Seen
-
-::: incremental
-- A name points to a value: `name = value`
-- Every value has a **type**, and the type decides what works
-- `int`, `float`, `str`, `bool`, `None`
-- Arithmetic, including `//`, `%` and `**`
-- f-strings for readable output
-- String methods for cleaning text
-- Comparisons producing booleans, combined with `and` / `or` / `not`
-:::
-
-## Before Next Week
-
-::: incremental
-1. Redo the last exercise from an empty notebook
-2. Take any number and print it as a percentage with one decimal
-3. Assessment 1 opens next week: it covers weeks 1 to 3
-:::
-
-## References
-
-- Charles Severance, [Python for Everybody](https://www.py4e.com/), chapters 2 and 6
-- [Real Python: Python Data Types](https://realpython.com/python-data-types/)
-- Danilo Freire, [Variables and Lists](https://github.com/danilofreire/datasci151)
-
 ## {background="#43464B"}
 
 ```{=html}
 <style>img.circle {border-radius:50%;}</style>
 ```
 
-::: {layout-ncol="2"}
+:::: {layout="[1,1]"}
+::: {#first-column}
 <img class="circle" src="https://github.com/damien-dupre.png" />
 
+
+:::
+::: {#second-column}
 **Thanks for your attention and don't hesitate to ask if you have any questions!**
+
 [{{< fa brands mastodon >}} @damien_dupre](https://datasci.social/@damien_dupre)
+
 [{{< fa brands github >}} @damien-dupre](https://github.com/damien-dupre)
+
 [{{< fa link >}} https://damien-dupre.github.io](https://damien-dupre.github.io)
+
 [{{< fa paper-plane >}} damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)
 :::
+::::

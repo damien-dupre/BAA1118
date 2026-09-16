@@ -386,8 +386,12 @@ source .venv/bin/activate
 
 Your prompt changes:
 
-```{.bash}
+```{.bash filename="macOS / Linux"}
 (.venv) damien@laptop BAA1118 %
+```
+
+```{.bash filename="Windows PowerShell"}
+(.venv) PS C:\Users\damien\BAA1118>
 ```
 
 **That `(.venv)` is the whole point.** No `(.venv)`, no environment.
@@ -628,7 +632,8 @@ Source: Danilo Freire, [DATASCI 151 course tutorials](https://github.com/danilof
 
 . . .
 
-From a terminal, which is what a server or a colleague will do:
+From a terminal, which is what a server or a colleague will do. Open one inside VS Code with
+`View -> Terminal`, or <kbd>Ctrl</kbd>+<kbd>`</kbd> on **both** Windows and Mac:
 
 ```{.bash filename="Terminal"}
 cd path/to/your/folder
@@ -636,7 +641,9 @@ python test.py
 ```
 
 ::: {.small-font}
-`cd` changes directory, `cd ..` goes up one. `dir` lists files on Windows, `ls` on macOS and Linux.
+`cd` changes directory, `cd ..` goes up one. `dir` lists files on Windows, `ls` on macOS and
+Linux. On Windows the file is run with `python test.py`, on macOS with `python3 test.py`
+unless your `.venv` is active, in which case `python` is correct on both.
 :::
 
 ## Notebooks in VS Code
@@ -649,13 +656,44 @@ python test.py
 
 ## Notebook Shortcuts
 
-The same as Colab:
+| Action | Windows / Linux | Mac |
+|:--|:--|:--|
+| Run cell, move on | <kbd>Shift</kbd>+<kbd>Enter</kbd> | <kbd>Shift</kbd>+<kbd>Enter</kbd> |
+| Run cell, stay | <kbd>Ctrl</kbd>+<kbd>Enter</kbd> | <kbd>Cmd</kbd>+<kbd>Enter</kbd> |
+| Insert above / below | <kbd>Esc</kbd> then <kbd>A</kbd> / <kbd>B</kbd> | <kbd>Esc</kbd> then <kbd>A</kbd> / <kbd>B</kbd> |
+| Turn cell into text | <kbd>Esc</kbd> then <kbd>M</kbd> | <kbd>Esc</kbd> then <kbd>M</kbd> |
+| Delete cell | <kbd>Esc</kbd> then <kbd>D</kbd> <kbd>D</kbd> | <kbd>Esc</kbd> then <kbd>D</kbd> <kbd>D</kbd> |
 
-- <kbd>Shift</kbd>+<kbd>Enter</kbd>: run and move on
-- <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>Enter</kbd>: run and stay
-- <kbd>Esc</kbd> then <kbd>A</kbd> / <kbd>B</kbd>: insert a cell above / below
-- <kbd>Esc</kbd> then <kbd>M</kbd>: turn the cell into text
-- <kbd>Esc</kbd> then <kbd>D</kbd> <kbd>D</kbd>: delete the cell
+. . .
+
+::: {.callout-note}
+**Not quite the same as Colab.** Running cells is identical, but Colab puts its cell
+commands behind <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>M</kbd>, while VS Code uses
+<kbd>Esc</kbd> to leave the cell first. Same idea, one key different.
+:::
+
+## VS Code Shortcuts Worth Knowing
+
+| Action | Windows / Linux | Mac |
+|:--|:--|:--|
+| Command palette | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> | <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> |
+| Open / close terminal | <kbd>Ctrl</kbd>+<kbd>`</kbd> | <kbd>Ctrl</kbd>+<kbd>`</kbd> |
+| Open a folder | <kbd>Ctrl</kbd>+<kbd>K</kbd> <kbd>Ctrl</kbd>+<kbd>O</kbd> | <kbd>Cmd</kbd>+<kbd>O</kbd> |
+| Save | <kbd>Ctrl</kbd>+<kbd>S</kbd> | <kbd>Cmd</kbd>+<kbd>S</kbd> |
+| Comment / uncomment | <kbd>Ctrl</kbd>+<kbd>/</kbd> | <kbd>Cmd</kbd>+<kbd>/</kbd> |
+| Find in all files | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> | <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> |
+
+. . .
+
+The terminal one is the one to learn today. <kbd>Ctrl</kbd>+<kbd>`</kbd> is the same key on
+both, it opens **inside your project folder**, and it is already using your `.venv`.
+
+. . .
+
+::: {.small-font}
+The full list, with your own bindings, is `File -> Preferences -> Keyboard Shortcuts` on
+Windows and `Code -> Settings -> Keyboard Shortcuts` on macOS.
+:::
 
 ## Project Structure
 
@@ -876,6 +914,11 @@ extensions**.
 
 Every Windows user in this room should do that now. It prevents an entire category of
 wasted afternoon.
+
+. . .
+
+**macOS hides them too**, just more quietly: Finder, `Settings...` -> `Advanced` -> tick
+**Show all filename extensions**. Do it for the same reason.
 
 ## Debugging a Path in Four Steps
 
@@ -1200,7 +1243,7 @@ Never put data with personal information on GitHub. A public repository is publi
 - `pip freeze > requirements.txt` as the record of your environment
 - A project folder, and a path as root plus folders plus a file name
 - The working directory, `..` from a subfolder, and why absolute paths cannot be marked
-- Copy Relative Path in VS Code, and turning on file extensions in Windows
+- Copy Relative Path in VS Code, and turning on file extensions in Windows *and* macOS
 - The four-step path debug, `pathlib`, and folder constants defined once
 - `read_csv`, `read_parquet`, `read_json`, `read_excel` on a relative path, and the writers
   that match them

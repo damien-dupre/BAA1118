@@ -716,10 +716,35 @@ what it says. Four checks, in order, and they take twenty seconds:
 
 ::: incremental
 1. `!pwd` and `!ls`: am I where I think I am, and is the file there?
-2. Is the **extension** in the name? Windows hides them by default.
+2. Is the **extension** in the name? Windows and macOS both hide them by default.
 3. Is the **spelling and the capitalisation** right? `Stores.csv` is a different file.
 4. Did I copy the path, or type it?
 :::
+
+## Capitals Matter Here, But Not At Home
+
+::: {.callout-warning}
+**Windows and macOS do not care about capitals. Colab does.**
+:::
+
+Your own laptop will happily open `Stores.csv` when you asked for `stores.csv`, so the bug
+stays invisible until the code runs somewhere else.
+
+```{python}
+#| eval: false
+pd.read_csv("Stores.csv")   # works on your Mac or PC
+pd.read_csv("stores.csv")   # the same file, also works there
+```
+
+. . .
+
+Colab runs on Linux, where those are **two different files** and one of them does not exist.
+The same is true of every server your code will ever run on, including the one marking it.
+
+. . .
+
+**Type the name exactly as it appears**, capitals and all, or copy it. Lower case
+everywhere, always, is the habit that makes this a non-issue.
 
 ## Three Ways to Bridge the Gap
 
@@ -998,7 +1023,9 @@ If you can, download these two installers for your operating system **in advance
 - VS Code: [code.visualstudio.com](https://code.visualstudio.com/)
 
 ::: {.callout-tip}
-Do not run them yet. We do it together, in order, and the order matters on Windows.
+Do not run them yet. We do it together, in order: on Windows there is a checkbox on the
+first screen that must be ticked, and on macOS there is a step to run **after** the
+installer finishes. Both are easy to miss on your own.
 :::
 
 ## References

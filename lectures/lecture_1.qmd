@@ -303,6 +303,30 @@ Contain text written in Markdown. Used for titles, explanations, and comments to
 
 A notebook is therefore a **report and a program at the same time**. That is why it is the standard tool in data analytics.
 
+## Colab Keyboard Shortcuts
+
+Running cells is the same on every machine. Everything else uses a **prefix key**, and that
+key is where Windows and Mac differ.
+
+| Action | Windows / Linux | Mac |
+|:--|:--|:--|
+| Run cell, move on | <kbd>Shift</kbd>+<kbd>Enter</kbd> | <kbd>Shift</kbd>+<kbd>Enter</kbd> |
+| Run cell, stay | <kbd>Ctrl</kbd>+<kbd>Enter</kbd> | <kbd>Cmd</kbd>+<kbd>Enter</kbd> |
+| Insert cell below | <kbd>Ctrl</kbd>+<kbd>M</kbd> then <kbd>B</kbd> | <kbd>Cmd</kbd>+<kbd>M</kbd> then <kbd>B</kbd> |
+| Insert cell above | <kbd>Ctrl</kbd>+<kbd>M</kbd> then <kbd>A</kbd> | <kbd>Cmd</kbd>+<kbd>M</kbd> then <kbd>A</kbd> |
+| Delete cell | <kbd>Ctrl</kbd>+<kbd>M</kbd> then <kbd>D</kbd> | <kbd>Cmd</kbd>+<kbd>M</kbd> then <kbd>D</kbd> |
+| Turn cell into text | <kbd>Ctrl</kbd>+<kbd>M</kbd> then <kbd>M</kbd> | <kbd>Cmd</kbd>+<kbd>M</kbd> then <kbd>M</kbd> |
+| Undo | <kbd>Ctrl</kbd>+<kbd>Z</kbd> | <kbd>Cmd</kbd>+<kbd>Z</kbd> |
+
+::: {.small-font}
+The full list is under `Tools -> Keyboard shortcuts`, and Colab lets you rebind any of them.
+:::
+
+. . .
+
+**The rule for the rest of the module:** wherever these slides write <kbd>Ctrl</kbd>, a Mac
+uses <kbd>Cmd</kbd>. The only exceptions are called out where they happen.
+
 ## Anatomy of a Code Cell
 
 ![](images/code-cell.png)

@@ -221,7 +221,7 @@ Three lines of docstring now save you an hour in March.
 3. Write `grade(mark)` returning the DCU grade from lecture 4, as a function this time.
 4. Give each one a one-line docstring.
 
-::: {#timer1 .timer seconds="600" starton="interaction"}
+::: {#timer1 .timer seconds="540" starton="interaction"}
 :::
 
 ## Solution
@@ -384,7 +384,7 @@ Python returns a **tuple**, which you unpack exactly as in lecture 3.
 3. Write `clean_text(text)` that strips spaces, lowercases, and replaces any `"-"` with a space.
 4. Test `clean_text` on `"  Dublin-City  "`.
 
-::: {#timer2 .timer seconds="600" starton="interaction"}
+::: {#timer2 .timer seconds="540" starton="interaction"}
 :::
 
 ## Solution
@@ -916,7 +916,7 @@ Without searching the web, use `help()` in Colab to answer:
 3. `enumerate()` has an argument that changes the starting number. Find it, then print your list of countries numbered from 1 instead of 0.
 4. Write `clean(text, lower=True)`: it strips spaces always, and lowercases only when `lower` is `True`. Test both.
 
-::: {#timer4 .timer seconds="600" starton="interaction"}
+::: {#timer4 .timer seconds="540" starton="interaction"}
 :::
 
 ## Solution
@@ -952,7 +952,7 @@ print(clean("  Dublin  ", lower=False))
 4. Use `help()` on `random.randint` and say what its two arguments are
 5. Read the gapminder CSV straight from its URL with `pd.read_csv()`, and print its shape
 
-::: {#timer3 .timer seconds="600" starton="interaction"}
+::: {#timer3 .timer seconds="540" starton="interaction"}
 :::
 
 ## Solution

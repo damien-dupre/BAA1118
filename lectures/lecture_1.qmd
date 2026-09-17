@@ -362,7 +362,7 @@ print("Hello, my name is <your name>")
 
 4. Add a **text cell** above it and write `# My first notebook`
 
-::: {#timer1 .timer seconds="300" starton="interaction"}
+::: {#timer1 .timer seconds="240" starton="interaction"}
 :::
 
 # 4. Your First Python Code
@@ -475,7 +475,7 @@ In a new code cell:
 3. Print the profit with a sentence, using `print()`
 4. Add a comment above your code saying what it does
 
-::: {#timer2 .timer seconds="480" starton="interaction"}
+::: {#timer2 .timer seconds="420" starton="interaction"}
 :::
 
 ## One Solution
@@ -590,7 +590,7 @@ print(Price * 2)
 
 Then fix all five so that each prints something sensible.
 
-::: {#timer4 .timer seconds="480" starton="interaction"}
+::: {#timer4 .timer seconds="420" starton="interaction"}
 :::
 
 ## Solution
@@ -686,7 +686,7 @@ print("Total: " + total)
 2. Run again, fix the next one, and so on
 3. Once it works, ask an AI assistant to explain the third error you fixed
 
-::: {#timer3 .timer seconds="420" starton="interaction"}
+::: {#timer3 .timer seconds="360" starton="interaction"}
 :::
 
 ## Solution

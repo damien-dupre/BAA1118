@@ -132,7 +132,7 @@ Using the whole gapminder table:
 3. Produce one table giving the mean, median and standard deviation of `life_exp` and `gdp_per_cap` together
 4. What is the highest GDP per capita ever recorded in this dataset, and which country and year was it?
 
-::: {#timer4 .timer seconds="480" starton="interaction"}
+::: {#timer4 .timer seconds="420" starton="interaction"}
 :::
 
 ## Solution
@@ -299,7 +299,7 @@ gapminder.query("year == 2007 and continent == 'Europe'")[
 3. Which **country** had the largest increase in life expectancy between 1952 and 2007?
 4. Add a column giving each country's life expectancy relative to its continent's mean in that year
 
-::: {#timer1 .timer seconds="900" starton="interaction"}
+::: {#timer1 .timer seconds="840" starton="interaction"}
 :::
 
 ## Solution: 1 and 2
@@ -585,7 +585,7 @@ Source: UBC Master of Data Science, [Programming in Python for Data Science](htt
 3. Pivot the European data to get countries as rows and years as columns for `gdp_per_cap`
 4. Melt it back to long format and confirm you recover the original number of rows
 
-::: {#timer2 .timer seconds="720" starton="interaction"}
+::: {#timer2 .timer seconds="660" starton="interaction"}
 :::
 
 ## Solution
@@ -676,7 +676,7 @@ Write **one chain** that produces a table answering:
 
 Then write a second chain for the same table but for **1952**, and join the two so you can compare.
 
-::: {#timer3 .timer seconds="900" starton="interaction"}
+::: {#timer3 .timer seconds="840" starton="interaction"}
 :::
 
 ## Solution

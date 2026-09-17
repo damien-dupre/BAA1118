@@ -284,7 +284,7 @@ Source: Danilo Freire, [DATASCI 151 course tutorials](https://github.com/danilof
 4. Run `python -m pip --version`. Does it point at the Python you just installed?
 5. **Help your neighbour.** Nobody moves on alone.
 
-::: {#timer1 .timer seconds="900" starton="interaction"}
+::: {#timer1 .timer seconds="840" starton="interaction"}
 :::
 
 ## When It Does Not Work
@@ -578,7 +578,7 @@ The **ideas** you learn today transfer to all of them: an isolated set of packag
 5. Select the interpreter in VS Code, then create `test.py` with `import pandas as pd; print(pd.__version__)` and run it
 6. Freeze a `requirements.txt`
 
-::: {#timer2 .timer seconds="1200" starton="interaction"}
+::: {#timer2 .timer seconds="1140" starton="interaction"}
 :::
 
 ## Solution
@@ -746,7 +746,7 @@ margin(1000, 620)
 
 5. Why did the `print()` line also run when you imported?
 
-::: {#timer3 .timer seconds="720" starton="interaction"}
+::: {#timer3 .timer seconds="660" starton="interaction"}
 :::
 
 ## Solution
@@ -1160,7 +1160,7 @@ In your `BAA1118` folder:
 6. Write a `README.md` saying, in three lines, what this project is
 7. Create a `.gitignore` containing `.venv/` and `data/raw/`
 
-::: {#timer4 .timer seconds="720" starton="interaction"}
+::: {#timer4 .timer seconds="660" starton="interaction"}
 :::
 
 ## Solution

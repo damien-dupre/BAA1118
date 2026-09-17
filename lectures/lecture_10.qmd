@@ -182,7 +182,7 @@ Using the 2007 data:
 3. Compute the correlation between `life_exp` and `pop`. Plot it. Does the number match what you see?
 4. Repeat question 1 for **1952**. Was income as strongly related to life expectancy then?
 
-::: {#timer1 .timer seconds="720" starton="interaction"}
+::: {#timer1 .timer seconds="660" starton="interaction"}
 :::
 
 ## Solution
@@ -389,7 +389,7 @@ print("R-squared:", round(multi.rsquared, 3), "  (simple model:", round(results.
 3. Report $R^2$ for both models
 4. Plot residuals against fitted values for your best model. Is there a pattern?
 
-::: {#timer2 .timer seconds="900" starton="interaction"}
+::: {#timer2 .timer seconds="840" starton="interaction"}
 :::
 
 ## Solution
@@ -548,7 +548,7 @@ Using **your own project dataset**:
 4. Predict for three plausible new observations you invent
 5. Plot predicted against actual, with the diagonal line
 
-::: {#timer3 .timer seconds="1200" starton="interaction"}
+::: {#timer3 .timer seconds="1140" starton="interaction"}
 :::
 
 # 5. Being Honest About a Model
@@ -629,7 +629,7 @@ Write, in a text cell under your model, a paragraph of **five sentences at most*
 4. How wrong a typical prediction is
 5. One reason to distrust the model
 
-::: {#timer4 .timer seconds="600" starton="interaction"}
+::: {#timer4 .timer seconds="540" starton="interaction"}
 :::
 
 # Where To Go Next

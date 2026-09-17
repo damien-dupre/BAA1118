@@ -128,7 +128,7 @@ Today covers all three. Job 3 is what feeds next week's regression.
 
 ## Your Turn: Choose the Form {background="#43464B"}
 
-No code. For each question, write down **which chart** you would draw and **why**. Two minutes each, then we compare.
+No code. For each question, write down **which chart** you would draw and **why**. A minute or two each, then we compare.
 
 1. Are salaries in our company spread evenly, or clustered at the bottom?
 2. Which of our five regions sells the most?
@@ -136,7 +136,7 @@ No code. For each question, write down **which chart** you would draw and **why*
 4. Do customers who spend more also visit more often?
 5. Is the median order value different for app users and web users?
 
-::: {#timer1 .timer seconds="600" starton="interaction"}
+::: {#timer1 .timer seconds="540" starton="interaction"}
 :::
 
 ## One Answer
@@ -434,7 +434,7 @@ Using gapminder, or your own project data:
 
 Label every axis with units. No exceptions.
 
-::: {#timer2 .timer seconds="900" starton="interaction"}
+::: {#timer2 .timer seconds="840" starton="interaction"}
 :::
 
 ## Solution: 1 and 2
@@ -605,7 +605,7 @@ plt.show()
 - Is a mean the right summary here?
 :::
 
-::: {#timer3 .timer seconds="720" starton="interaction"}
+::: {#timer3 .timer seconds="660" starton="interaction"}
 :::
 
 ## One Fixed Version
@@ -639,7 +639,7 @@ Make **one** chart from your own project dataset, ready to appear in your report
 
 Then show it to your neighbour and ask them what it says. If they get it wrong, the chart is wrong.
 
-::: {#timer4 .timer seconds="900" starton="interaction"}
+::: {#timer4 .timer seconds="840" starton="interaction"}
 :::
 
 ## What We Have Seen

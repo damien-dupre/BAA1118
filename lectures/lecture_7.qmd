@@ -274,7 +274,7 @@ Load gapminder in your own notebook, then answer:
 4. How many distinct countries are there?
 5. Which years are covered, and how many rows per year?
 
-::: {#timer1 .timer seconds="480" starton="interaction"}
+::: {#timer1 .timer seconds="420" starton="interaction"}
 :::
 
 ## Solution
@@ -355,7 +355,7 @@ gapminder.iloc[0:3, 1]
 
 Then: select the first 3 rows and the columns `country` and `pop`, first with `loc`, then with `iloc`. Which is more readable?
 
-::: {#timer4 .timer seconds="600" starton="interaction"}
+::: {#timer4 .timer seconds="540" starton="interaction"}
 :::
 
 ## Solution
@@ -475,7 +475,7 @@ gapminder.sort_values(["year", "lifeExp"], ascending=[False, False]).head(3)
 4. Find the five countries with the **lowest** GDP per capita in 2007
 5. How many rows have a population above 100 million?
 
-::: {#timer2 .timer seconds="720" starton="interaction"}
+::: {#timer2 .timer seconds="660" starton="interaction"}
 :::
 
 ## Solution
@@ -688,7 +688,7 @@ Starting from a fresh read of gapminder:
 4. Keep only 2007, sort by `life_exp` descending, and show the top 10 countries
 5. Save the 2007 subset to `data/clean/gapminder_2007.csv`
 
-::: {#timer3 .timer seconds="720" starton="interaction"}
+::: {#timer3 .timer seconds="660" starton="interaction"}
 :::
 
 ## Solution

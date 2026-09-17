@@ -178,7 +178,7 @@ c
 _internal
 ```
 
-::: {#timer1 .timer seconds="240" starton="interaction"}
+::: {#timer1 .timer seconds="180" starton="interaction"}
 :::
 
 # 2. Types
@@ -309,7 +309,7 @@ An invoice has a net amount of €1,847.35. Irish standard VAT is 23%.
 4. Print the three values on three lines
 5. Check: does `net + vat == gross` return `True`? Why might it not?
 
-::: {#timer2 .timer seconds="420" starton="interaction"}
+::: {#timer2 .timer seconds="360" starton="interaction"}
 :::
 
 ## Solution
@@ -476,20 +476,31 @@ print(word[0:3])  # from 0 up to, not including, 3
 Zero-indexing and "up to but not including" apply everywhere in Python: strings, lists, DataFrames. Learn it once, this week.
 :::
 
-## Your Turn: Cleaning a Name {background="#43464B"}
+## Your Turn: Cleaning a Name {.smaller background="#43464B"}
 
-A form returned this value:
+Somebody typed their university into a web form. This is what came back:
 
 ```{.python}
 raw = "   dublin city UNIVERSITY  "
 ```
 
-1. Store it, then produce a clean version: no surrounding spaces, in title case
-2. Print the number of characters before and after cleaning
-3. Using an f-string, print: `Cleaned 'X' into 'Y'`
-4. Check whether the cleaned value contains the word `City`
+Tidy it up, in four steps:
 
-::: {#timer3 .timer seconds="420" starton="interaction"}
+1. Copy that line into a cell, so `raw` holds the messy value
+2. Make a tidy version called `clean`: **no spaces at the start or end**, and **each word
+   starting with a capital**. Two methods, one after the other.
+3. Print how many characters are in `raw`, then how many are in `clean`
+4. Print two more lines, exactly like the ones below
+
+```{.default}
+27 22
+Cleaned '   dublin city UNIVERSITY  ' into 'Dublin City University'
+True
+```
+
+The last line answers: is `"City"` inside `clean`?
+
+::: {#timer3 .timer seconds="360" starton="interaction"}
 :::
 
 ## Solution
@@ -657,7 +668,7 @@ spend_text = "128.75"
 4. Print, with an f-string and 2 decimals: `R_0042 (34) spends 3.79 per year of age`
 5. Print `True` if the respondent spent more than 100 **and** is under 40
 
-::: {#timer4 .timer seconds="600" starton="interaction"}
+::: {#timer4 .timer seconds="540" starton="interaction"}
 :::
 
 ## Solution

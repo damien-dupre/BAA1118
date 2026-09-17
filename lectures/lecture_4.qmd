@@ -233,7 +233,7 @@ Write code that turns a mark out of 100 into a DCU grade:
 2. Print it with an f-string: `A mark of 64 is a 2H1`
 3. Test it with 70, 39, 100 and 60
 
-::: {#timer1 .timer seconds="480" starton="interaction"}
+::: {#timer1 .timer seconds="420" starton="interaction"}
 :::
 
 ## Solution
@@ -462,7 +462,7 @@ months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec
 3. Print the name of every month above 170 units, using `zip()`
 4. Count how many months were above the mean
 
-::: {#timer2 .timer seconds="720" starton="interaction"}
+::: {#timer2 .timer seconds="660" starton="interaction"}
 :::
 
 ## Solution
@@ -567,7 +567,7 @@ Loop over it with `continue` to compute the mean of the values that exist, witho
 
 4. Using `break`, print the **first** reading above 15 and stop.
 
-::: {#timer4 .timer seconds="600" starton="interaction"}
+::: {#timer4 .timer seconds="540" starton="interaction"}
 :::
 
 ## Solution
@@ -707,7 +707,7 @@ temps_c = [12.5, 15.0, 9.8, 21.3, 18.7, 4.2]
 3. Build a list of labels: `"warm"` if above 15, `"cold"` otherwise
 4. Rewrite question 1 as a normal `for` loop, and check the two give the same result
 
-::: {#timer3 .timer seconds="480" starton="interaction"}
+::: {#timer3 .timer seconds="420" starton="interaction"}
 :::
 
 ## Solution

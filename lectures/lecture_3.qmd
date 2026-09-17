@@ -160,7 +160,7 @@ print(result)          # None!
 4. Print how many items are in the basket, the total, and the most expensive item
 5. Print the basket sorted from cheapest to most expensive, **without changing** `basket`
 
-::: {#timer1 .timer seconds="420" starton="interaction"}
+::: {#timer1 .timer seconds="360" starton="interaction"}
 :::
 
 ## Solution
@@ -315,7 +315,7 @@ monthly = [120, 135, 148, 160, 155, 149, 171, 168, 180, 190, 205, 240]
 4. Print the list in reverse
 5. Replace the value for June (index 5) with `152` and print the new annual total
 
-::: {#timer2 .timer seconds="480" starton="interaction"}
+::: {#timer2 .timer seconds="420" starton="interaction"}
 :::
 
 ## Solution
@@ -538,7 +538,7 @@ In practice: **list** for a column of values, **dict** for a labelled record, **
 4. Print the average order value, rounded to 2 decimals, using an f-string
 5. Safely print the value of a key `email` that does not exist
 
-::: {#timer3 .timer seconds="600" starton="interaction"}
+::: {#timer3 .timer seconds="540" starton="interaction"}
 :::
 
 ## Solution
@@ -656,7 +656,7 @@ sales = [
 4. Add a fifth record for March, North, 150 units
 5. Print the total units of the **first two** records only
 
-::: {#timer4 .timer seconds="480" starton="interaction"}
+::: {#timer4 .timer seconds="420" starton="interaction"}
 :::
 
 ## Solution

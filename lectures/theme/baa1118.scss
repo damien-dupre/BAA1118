@@ -28,3 +28,17 @@
 	background-color: #f0f0f0;
 	border-left: 4px solid #eb811b;
 }
+
+// No ligatures in code.
+// JetBrains Mono and Fira Code both render == as a single glyph and -> as an arrow,
+// which hides the characters beginners have to type. Same fonts, ligatures switched off.
+.reveal code,
+.reveal pre code,
+.reveal pre.sourceCode code,
+.reveal div.sourceCode pre code,
+.reveal pre:not(.sourceCode) code,
+.reveal .cell-output pre code,
+code, kbd, samp, pre {
+	font-variant-ligatures: none;
+	font-feature-settings: "liga" 0, "clig" 0, "calt" 0, "dlig" 0;
+}

@@ -32,12 +32,9 @@ filters:
 
 1. Lists
 2. Indexing and slicing
-3. Dictionaries
-4. Tuples and sets
-5. Nested structures
-6. How data is stored on disk
-
-### Any questions?
+3. Dictionaries, tuples and sets
+4. Nested structures
+5. How data is stored on disk
 
 ## The Problem With One Value Per Name
 
@@ -70,41 +67,21 @@ Square brackets, values separated by commas.
 ```{python}
 sales = [1200, 1450, 1310]
 print(sales)
-print(type(sales))
-print(len(sales))
-```
-
-. . .
-
-A list can hold anything, including a mix of types:
-
-```{python}
-mixed = ["Ireland", 5.1, True, None]
-print(mixed)
-```
-
-. . .
-
-In practice, a useful list holds **one kind of thing**.
-
-## Basic List Operations
-
-```{python}
-countries = ["Ireland", "France", "Spain"]
-
-print(countries[0])          # first element
-print(len(countries))        # how many
-print("France" in countries) # membership
-print(countries + ["Italy"]) # concatenation
+print(len(sales))       # how many
 ```
 
 . . .
 
 ```{python}
-print(sorted([3, 1, 2]))
-print(sum([1200, 1450, 1310]))
-print(max([1200, 1450, 1310]))
+print(sum(sales))       # total
+print(max(sales))       # largest
+print(sorted(sales))    # a new, sorted list
+print(1450 in sales)    # membership
 ```
+
+. . .
+
+A list can hold anything, even a mix of types, but a useful list holds **one kind of thing**.
 
 ## Adding and Removing
 
@@ -160,7 +137,7 @@ print(result)          # None!
 4. Print how many items are in the basket, the total, and the most expensive item
 5. Print the basket sorted from cheapest to most expensive, **without changing** `basket`
 
-::: {#timer1 .timer seconds="360" starton="interaction"}
+::: {#timer1 .timer seconds="300" starton="interaction"}
 :::
 
 ## Solution
@@ -179,7 +156,7 @@ print(basket)      # unchanged
 
 # 2. Indexing and Slicing
 
-## Indexing From the Left
+## Indexing
 
 ```{python}
 countries = ["Ireland", "France", "Spain", "Italy", "Portugal"]
@@ -188,10 +165,11 @@ countries = ["Ireland", "France", "Spain", "Italy", "Portugal"]
 | Value | Ireland | France | Spain | Italy | Portugal |
 |:--|:--|:--|:--|:--|:--|
 | Index | 0 | 1 | 2 | 3 | 4 |
+| From the end | -5 | -4 | -3 | -2 | -1 |
 
 ```{python}
 print(countries[0])
-print(countries[3])
+print(countries[-1])    # the last, without knowing the length
 ```
 
 . . .
@@ -201,89 +179,36 @@ print(countries[3])
 print(countries[5])
 ```
 
-## Indexing From the Right
-
-Negative indices count backwards, starting at `-1`.
-
-| Value | Ireland | France | Spain | Italy | Portugal |
-|:--|:--|:--|:--|:--|:--|
-| Index | 0 | 1 | 2 | 3 | 4 |
-| | -5 | -4 | -3 | -2 | -1 |
-
-```{python}
-print(countries[-1])
-print(countries[-2])
-```
-
-. . .
-
-`countries[-1]` is how you get the last element without knowing the length.
-
 ## Slicing
 
-`list[start:stop]` returns a **new list**, from `start` **up to but not including** `stop`.
+`list[start:stop:step]` returns a **new list**, from `start` **up to but not including** `stop`.
 
 ```{python}
-print(countries[0:2])
 print(countries[1:4])
+print(countries[:2])     # from the start
+print(countries[-2:])    # the last two, to the end
 ```
 
 . . .
 
-Leaving a side empty means "all the way":
-
 ```{python}
-print(countries[:2])    # from the start
-print(countries[2:])    # to the end
-print(countries[:])     # a full copy
-```
-
-## Slicing With a Step
-
-`list[start:stop:step]`
-
-```{python}
-numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-print(numbers[::2])     # every second element
-print(numbers[1::2])    # every second, starting at 1
-print(numbers[::-1])    # reversed
+print(countries[::2])    # every second element
+print(countries[::-1])   # reversed
 ```
 
 . . .
 
-`[::-1]` reversing a sequence is a Python classic. It works on strings too:
+Leaving a side empty means "all the way". `[::-1]` works on strings too.
 
-```{python}
-print("Python"[::-1])
-```
+## Mutability and the Copy Trap
 
-## Changing Elements
-
-Lists are **mutable**: elements can be replaced.
-
-```{python}
-countries = ["Ireland", "France", "Spain"]
-countries[1] = "Germany"
-print(countries)
-```
-
-. . .
-
-A whole slice can be replaced:
-
-```{python}
-countries[0:2] = ["Belgium", "Austria"]
-print(countries)
-```
-
-## The Copy Trap
+Lists are **mutable**: an element can be replaced in place.
 
 ```{python}
 a = [1, 2, 3]
 b = a          # b is not a copy!
-b.append(4)
-print(a)
+b[0] = 99      # replace the first element of b
+print(a)       # a has changed too
 ```
 
 . . .
@@ -293,7 +218,7 @@ print(a)
 ```{python}
 a = [1, 2, 3]
 b = a.copy()   # or list(a), or a[:]
-b.append(4)
+b[0] = 99
 print(a, b)
 ```
 
@@ -315,7 +240,7 @@ monthly = [120, 135, 148, 160, 155, 149, 171, 168, 180, 190, 205, 240]
 4. Print the list in reverse
 5. Replace the value for June (index 5) with `152` and print the new annual total
 
-::: {#timer2 .timer seconds="420" starton="interaction"}
+::: {#timer2 .timer seconds="300" starton="interaction"}
 :::
 
 ## Solution
@@ -334,7 +259,7 @@ monthly[5] = 152
 print(sum(monthly))
 ```
 
-# 3. Dictionaries
+# 3. Dictionaries, Tuples and Sets
 
 ## The Problem With Positions
 
@@ -360,23 +285,9 @@ customer = {
 print(customer["city"])
 ```
 
-## Anatomy of a Dictionary
-
-```{python}
-#| eval: false
-{key: value, key: value}
-```
-
-::: incremental
-- Curly braces `{}`
-- Each entry is a **key**, a colon, and a **value**
-- Keys are usually strings, and must be unique
-- Values can be anything, including lists and other dictionaries
-:::
-
 . . .
 
-Think of it as a two-column lookup table, or a single row of a spreadsheet with its column headers.
+Curly braces, unique keys, and values of any type, even lists. Think of it as a single row of a spreadsheet with its column headers.
 
 ## Reading and Writing
 
@@ -386,7 +297,7 @@ customer = {"name": "Damien", "city": "Dublin", "spend": 1250.50}
 print(customer["name"])       # read
 customer["spend"] = 1400.00   # update
 customer["country"] = "IE"    # add a new key
-print(customer)
+del customer["country"]       # remove a key
 ```
 
 . . .
@@ -396,16 +307,13 @@ print(customer)
 print(customer["email"])
 ```
 
-## get(): Reading Safely
-
-```{python}
-print(customer.get("email"))                     # None instead of an error
-print(customer.get("email", "not provided"))     # with a default
-```
-
 . . .
 
-This matters when the data comes from somewhere you do not control, which is always.
+`get()` reads safely, returning `None` or a default instead of an error:
+
+```{python}
+print(customer.get("email", "not provided"))
+```
 
 ## Exploring a Dictionary
 
@@ -429,22 +337,6 @@ for key, value in customer.items():
 ```
 
 We will unpack that `for` line properly next week.
-
-## Removing
-
-```{python}
-customer.pop("country")
-print(customer)
-```
-
-. . .
-
-```{python}
-del customer["spend"]
-print(customer)
-```
-
-# 4. Tuples and Sets
 
 ## Tuples: Lists That Cannot Change
 
@@ -492,16 +384,13 @@ You will see it in week 9 as `fig, ax = plt.subplots()`.
 
 ```{python}
 regions = ["North", "South", "North", "East", "South", "North"]
-unique_regions = set(regions)
-print(unique_regions)
-print(len(unique_regions))
+print(set(regions))
+print(len(set(regions)))
 ```
 
 . . .
 
-Sets are unordered and cannot be indexed. Their job is answering *"which distinct values are in this column?"*, which is the first question you ask of any dataset.
-
-## Set Operations
+Sets answer *"which distinct values are in this column?"*, and compare groups with no library at all:
 
 ```{python}
 customers_2023 = {"A", "B", "C", "D"}
@@ -510,12 +399,7 @@ customers_2024 = {"C", "D", "E"}
 print(customers_2023 & customers_2024)   # retained
 print(customers_2023 - customers_2024)   # churned
 print(customers_2024 - customers_2023)   # new
-print(customers_2023 | customers_2024)   # all
 ```
-
-. . .
-
-Four lines of business analytics with no library at all.
 
 ## The Four Collections
 
@@ -538,7 +422,7 @@ In practice: **list** for a column of values, **dict** for a labelled record, **
 4. Print the average order value, rounded to 2 decimals, using an f-string
 5. Safely print the value of a key `email` that does not exist
 
-::: {#timer3 .timer seconds="540" starton="interaction"}
+::: {#timer3 .timer seconds="300" starton="interaction"}
 :::
 
 ## Solution
@@ -561,7 +445,7 @@ print(f"Average order: {total / n:.2f}")
 print(customer.get("email", "no email on file"))
 ```
 
-# 5. Nested Structures
+# 4. Nested Structures
 
 ## A List of Dictionaries
 
@@ -573,28 +457,17 @@ customers = [
     {"name": "Aoife",  "city": "Cork",   "spend": 890.00},
     {"name": "Liam",   "city": "Dublin", "spend": 2100.75}
 ]
-
-print(len(customers))
-print(customers[1])
-print(customers[1]["city"])
-```
-
-## Reading Nested Data
-
-Read the brackets **left to right**:
-
-```{python}
-#| eval: false
-customers[1]["city"]
-# customers        -> the list
-# customers[1]     -> the second dictionary
-# ["city"]         -> the value under "city" in that dictionary
 ```
 
 . . .
 
+Read the brackets **left to right**:
+
 ```{python}
-print(customers[2]["spend"])
+# customers        -> the list
+# customers[1]     -> the second dictionary
+# ["city"]         -> the value under "city" in that dictionary
+print(customers[1]["city"])
 print(customers[-1]["name"])
 ```
 
@@ -608,7 +481,18 @@ customers
 
 Turn your head sideways: **names across the top, one record per row**. This is a table.
 
-## A Table Has Two Directions
+. . .
+
+```{python}
+import pandas as pd
+pd.DataFrame(customers)    # week 7: one line converts it
+```
+
+## A Table Has Two Directions {.two-directions}
+
+```{=html}
+<style>.two-directions img {max-height: 330px; width: auto;}</style>
+```
 
 :::: {layout="[1,1]"}
 ::: {#first-column}
@@ -628,17 +512,6 @@ Each **column** is one variable: one thing measured about every observation.
 Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
 :::
 
-. . .
-
-In week 7, one line converts it:
-
-```{python}
-import pandas as pd
-pd.DataFrame(customers)
-```
-
-That is where we are going.
-
 ## Your Turn: Nested Data {background="#43464B"}
 
 ```{.python}
@@ -651,12 +524,11 @@ sales = [
 ```
 
 1. Print the number of records
-2. Print the region of the third record
-3. Print the units of the last record
-4. Add a fifth record for March, North, 150 units
-5. Print the total units of the **first two** records only
+2. Print the region of the third record and the units of the last
+3. Add a fifth record for March, North, 150 units
+4. Print the total units of the **first two** records only
 
-::: {#timer4 .timer seconds="420" starton="interaction"}
+::: {#timer4 .timer seconds="300" starton="interaction"}
 :::
 
 ## Solution
@@ -682,7 +554,7 @@ print(sales[0]["units"] + sales[1]["units"])
 
 Adding up the whole column still needs a loop. That is next week.
 
-# 6. Data on Disk
+# 5. Data on Disk
 
 ## Where Data Actually Lives
 
@@ -690,11 +562,11 @@ Everything so far has been typed into the notebook. Real data arrives as a **fil
 will meet four formats over and over.
 
 | Format | Looks like | Holds |
-|:--|:--|:--|
-| `.csv` | plain text, one row per line | one table |
-| `.json` | plain text, nested brackets | anything, including nested records |
-| `.xlsx` | a binary Excel document | several sheets, plus formatting and formulas |
-| `.parquet` | a binary data file | one table, with its types and compressed |
+|:---|:-------|:----------|
+| `.csv` | text, one row per line | one table |
+| `.json` | text, nested brackets | anything, even nested records |
+| `.xlsx` | an Excel document | sheets, formatting, formulas |
+| `.parquet` | a binary data file | one table, typed and compressed |
 
 . . .
 
@@ -762,7 +634,7 @@ brackets for a list, curly braces for a dictionary, colons for keys.
 
 ## JSON: Python, Written Down
 
-The `json` module turns one into the other. Imports are next week's topic, so read this
+The `json` module turns one into the other. Imports come in week 5, so read this
 rather than worrying about the first line:
 
 ```{python}
@@ -780,24 +652,6 @@ print(customers[1]["spend"])
 
 Almost every website and app sends its data as JSON, precisely because it can hold nested
 structures that a table cannot: a customer with a **list** of orders inside them.
-
-## JSON Can Nest, CSV Cannot
-
-```{.default filename="orders.json"}
-{
-  "customer": "C0148",
-  "orders": [
-    {"date": "2025-03-04", "drinks": ["Latte", "Flat White"], "total": 8.20},
-    {"date": "2025-03-11", "drinks": ["Cortado"],             "total": 3.40}
-  ]
-}
-```
-
-::: incremental
-- A dictionary, containing a list, containing dictionaries, containing a list
-- There is no way to write that in a CSV without flattening it
-- Which is why the first job with JSON data is usually deciding **what one row should be**
-:::
 
 ## Excel: A Document, Not a Data File
 
@@ -836,61 +690,27 @@ PAR1 ... (binary, unreadable in a text editor) ... PAR1
 It is the standard for data that is passed between systems rather than emailed to a person.
 You will meet it in any serious data job, and almost never in an inbox.
 
-## Which Format, When
-
-| You are... | Use |
-|:--|:--|
-| Sending a table to a colleague | `.csv` |
-| Given a spreadsheet by a colleague | `.xlsx`, and expect to clean it |
-| Reading from a website or an API | `.json` |
-| Saving a cleaned table for your own next step | `.parquet` |
-| Told "the data is in the warehouse" | `.parquet`, whether you see it or not |
-
-. . .
-
-Same four functions read all of them, and you meet them next week. **The format is a
-container. What comes out is always the same table.**
-
-## What We Have Seen
-
-::: incremental
-- **list**: ordered, changeable, indexed from 0
-- Slicing `[start:stop:step]`, stop excluded
-- Mutability, and why `b = a` is not a copy
-- **dict**: values retrieved by key, `get()` for safety
-- **tuple**: fixed, unpackable
-- **set**: unique values, and set arithmetic
-- Nesting: a list of dictionaries is a table waiting to happen
-- CSV, JSON, Excel and Parquet, and which Python structure each one maps onto
-:::
-
-## Before Next Week
-
-::: incremental
-1. **Assessment 1 is open**, covering weeks 1 to 3, due at the start of week 5
-2. Take the `sales` list from the last exercise and write down, in a text cell, how you would total the units if there were 5,000 records
-3. Next week gives you the answer: loops
-:::
-
-## References
-
-- Charles Severance, [Python for Everybody](https://www.py4e.com/), chapters 8, 9 and 10
-- [Real Python: Lists and Tuples](https://realpython.com/python-lists-tuples/)
-- [Real Python: Dictionaries](https://realpython.com/python-dicts/)
-- UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/), for the diagrams and animations
-
 ## {background="#43464B"}
 
 ```{=html}
 <style>img.circle {border-radius:50%;}</style>
 ```
 
-::: {layout-ncol="2"}
+:::: {layout="[1,1]"}
+::: {#first-column}
 <img class="circle" src="https://github.com/damien-dupre.png" />
 
+
+:::
+::: {#second-column}
 **Thanks for your attention and don't hesitate to ask if you have any questions!**
+
 [{{< fa brands mastodon >}} @damien_dupre](https://datasci.social/@damien_dupre)
+
 [{{< fa brands github >}} @damien-dupre](https://github.com/damien-dupre)
+
 [{{< fa link >}} https://damien-dupre.github.io](https://damien-dupre.github.io)
+
 [{{< fa paper-plane >}} damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)
 :::
+::::

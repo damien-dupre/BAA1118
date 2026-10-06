@@ -82,13 +82,9 @@ g2007["log_gdp"] = np.log(g2007["gdp_per_cap"])
 
 ## The Three Questions
 
-::: incremental
 1. **Description**: what is the mean life expectancy in Europe? *Weeks 7 and 8.*
 2. **Explanation**: is income associated with life expectancy, and how strongly? *Today, part 1.*
 3. **Prediction**: given a country's income, what life expectancy would we expect? *Today, part 2.*
-:::
-
-. . .
 
 The same model answers 2 and 3. The difference is what you do with it, and how you check it.
 
@@ -121,8 +117,6 @@ A model finds **association**, not causation. Nothing today proves that raising 
 Richer countries also have better healthcare, sanitation, education and food security. The model cannot separate them, and it does not try to.
 :::
 
-. . .
-
 You may say: *"in 2007, countries with higher income had higher life expectancy"*.
 
 You may not say: *"income causes life expectancy"*.
@@ -137,8 +131,6 @@ The correlation coefficient `r` measures the strength of a **linear** relationsh
 print(g2007["gdp_per_cap"].corr(g2007["life_exp"]).round(3))
 ```
 
-. . .
-
 ```{python}
 print(g2007[["life_exp", "gdp_per_cap", "pop"]].corr().round(2))
 ```
@@ -150,11 +142,7 @@ print("raw GDP: ", g2007["gdp_per_cap"].corr(g2007["life_exp"]).round(3))
 print("log GDP: ", g2007["log_gdp"].corr(g2007["life_exp"]).round(3))
 ```
 
-. . .
-
 The relationship did not change. Only its **shape** did, and correlation only understands one shape.
-
-. . .
 
 ::: {.callout-tip}
 This is why lecture 9 insisted on plotting first. A correlation of 0.68 with a curved cloud and a correlation of 0.81 with a straight one are different situations.
@@ -162,14 +150,10 @@ This is why lecture 9 insisted on plotting first. A correlation of 0.68 with a c
 
 ## Why the Log
 
-::: incremental
 - Going from \$500 to \$1,000 a year transforms a country's healthcare
 - Going from \$40,000 to \$40,500 changes nothing
 - What matters is the **proportional** change, not the absolute one
 - `log()` turns proportional changes into equal steps
-:::
-
-. . .
 
 This is not a trick to improve the number. It is a claim about how the world works, and the plot supports it.
 
@@ -210,8 +194,6 @@ print("pop vs life_exp, 2007: ", round(g2007["pop"].corr(g2007["life_exp"]), 3))
 print("log_gdp vs life_exp, 1952:", round(g1952_["log_gdp"].corr(g1952_["life_exp"]), 3))
 ```
 
-. . .
-
 Population is essentially unrelated to life expectancy, and the plot agrees: a formless cloud. **A correlation near zero and a correlation you have not plotted are not the same thing.**
 
 ## The Line of Best Fit
@@ -232,13 +214,9 @@ The model is a straight line:
 
 $$\text{life\_exp} = \beta_0 + \beta_1 \times \text{log\_gdp} + \varepsilon$$
 
-::: incremental
 - $\beta_0$ the **intercept**: the predicted value when `log_gdp` is 0
 - $\beta_1$ the **slope**: the change in life expectancy for a one-unit change in `log_gdp`
 - $\varepsilon$ the **residual**: what the line fails to explain, for each country
-:::
-
-. . .
 
 "Best" means the line that makes the **sum of squared residuals** as small as possible. Hence *ordinary least squares*, OLS.
 
@@ -274,11 +252,9 @@ model = smf.ols("life_exp ~ log_gdp", data=g2007)
 results = model.fit()
 ```
 
-::: incremental
 - `smf.ols` builds the model, `.fit()` estimates it
 - The **formula** `"y ~ x"` reads *"life expectancy explained by log GDP"*
 - The syntax is borrowed from R, and is far more readable than the alternatives
-:::
 
 ## The Summary
 
@@ -286,11 +262,9 @@ results = model.fit()
 print(results.summary().tables[1])
 ```
 
-::: incremental
 - `coef`: the estimates. Intercept 4.95, slope 7.20
 - `P>|t|`: the p-value. Below 0.05 by convention, here effectively zero
 - `[0.025 0.975]`: the 95% confidence interval for the slope
-:::
 
 ## Reading the Coefficients
 
@@ -298,11 +272,7 @@ print(results.summary().tables[1])
 print(results.params.round(3))
 ```
 
-. . .
-
 > Each **one-unit increase in log GDP per capita** is associated with **7.2 more years** of life expectancy.
-
-. . .
 
 One unit of log is a multiplication by $e \approx 2.72$. In plain English:
 
@@ -317,13 +287,9 @@ print("R-squared:", round(results.rsquared, 3))
 print("Residual std error:", round(np.sqrt(results.scale), 2), "years")
 ```
 
-::: incremental
 - $R^2$ is the share of the variation in life expectancy the model accounts for: 65%
 - The other 35% is everything else: conflict, epidemics, geography, policy
 - The typical miss is about 7 years, which is a lot
-:::
-
-. . .
 
 ::: {.callout-warning}
 A high $R^2$ does not mean the model is right, and a low one does not mean it is useless. Judge a model by what it is for.
@@ -350,10 +316,8 @@ plt.tight_layout()
 plt.show()
 ```
 
-::: incremental
 - **Left**: a shapeless cloud around zero is good. A curve means the relationship is not linear.
 - **Right**: points on the line mean the residuals are roughly normal.
-:::
 
 ## Adding a Second Predictor
 
@@ -362,11 +326,9 @@ multi = smf.ols("life_exp ~ log_gdp + C(continent)", data=g2007).fit()
 print(multi.params.round(2))
 ```
 
-::: incremental
 - `+` adds a predictor
 - `C()` marks a column as **categorical**: pandas creates the indicator columns for you
 - Africa is missing because it is the **reference**: every other coefficient is relative to it
-:::
 
 ## Interpreting the Multiple Model
 
@@ -374,11 +336,7 @@ print(multi.params.round(2))
 print("R-squared:", round(multi.rsquared, 3), "  (simple model:", round(results.rsquared, 3), ")")
 ```
 
-. . .
-
 > **Holding income constant**, a European country has on average 5.9 more years of life expectancy than an African country.
-
-. . .
 
 "Holding constant" is the entire value of multiple regression. It is also where honesty is required: the model holds constant only what you put in it.
 
@@ -407,20 +365,14 @@ print("with pop  R2:", round(with_pop.rsquared, 3),
       " p-value for pop:", round(with_pop.pvalues['np.log(pop)'], 3))
 ```
 
-. . .
-
 Population adds nothing: the p-value is far above 0.05 and $R^2$ barely moves.
 
 # 4. Prediction
 
 ## Explanation vs Prediction
 
-::: incremental
 - **Explanation** asks: is this coefficient real, and what does it mean? Use statsmodels.
 - **Prediction** asks: how close will my guess be for a country I have never seen? Use scikit-learn.
-:::
-
-. . .
 
 The second question cannot be answered on the data used to fit the model. That would be marking your own homework.
 
@@ -438,11 +390,9 @@ X_train, X_test, y_train, y_test = train_test_split(
 print(X_train.shape, X_test.shape)
 ```
 
-::: incremental
 - `X` the predictors, `y` the outcome. This naming is universal.
 - 75% to train, 25% held back and never looked at until the end
 - `random_state` makes the split reproducible
-:::
 
 ## Fit and Predict
 
@@ -456,8 +406,6 @@ print("intercept:", round(model.intercept_, 2))
 print("slope:    ", round(model.coef_[0], 2))
 ```
 
-. . .
-
 The same numbers as statsmodels, from a different interface. scikit-learn gives no p-values and no summary: it is built for prediction, not inference.
 
 ## The scikit-learn Pattern
@@ -468,8 +416,6 @@ model = SomeModel()          # 1. choose
 model.fit(X_train, y_train)  # 2. learn
 model.predict(X_new)         # 3. predict
 ```
-
-. . .
 
 Those three lines are identical for linear regression, decision trees, random forests, gradient boosting and neural networks. **Learn the pattern once and every model in the library is available to you.**
 
@@ -482,8 +428,6 @@ predictions = model.predict(new_countries)
 for gdp, pred in zip([2000, 10000, 45000], predictions):
     print(f"GDP per capita {gdp:>6,}: predicted life expectancy {pred:.1f} years")
 ```
-
-. . .
 
 ::: {.callout-warning}
 Never predict outside the range of the data you fitted on. The model would happily give you a life expectancy of 130 for an income of ten million. It has never seen such a country and neither have you.
@@ -501,11 +445,9 @@ print("RMSE:", round(np.sqrt(mean_squared_error(y_test, y_pred)), 2), "years")
 print("MAE: ", round(mean_absolute_error(y_test, y_pred), 2), "years")
 ```
 
-::: incremental
 - **RMSE**: typical error, in the units of the outcome, punishing large misses
 - **MAE**: the average miss, easier to explain to a non-technical audience
 - Both computed on the **test** set, which the model never saw
-:::
 
 ## Predicted vs Actual
 
@@ -534,8 +476,6 @@ print("simple  RMSE:", round(np.sqrt(mean_squared_error(y_test, y_pred)), 2))
 print("with continent RMSE:", round(np.sqrt(mean_squared_error(y_test2, pred2)), 2))
 ```
 
-. . .
-
 `get_dummies` is scikit-learn's equivalent of `C()`: it turns a text column into indicator columns. `drop_first=True` avoids the redundancy the reference category handles in statsmodels.
 
 ## Your Turn: Predict {background="#43464B"}
@@ -555,13 +495,9 @@ Using **your own project dataset**:
 
 ## Overfitting
 
-::: incremental
 - A model with enough parameters can fit **any** training data perfectly
 - It will then perform terribly on anything new
 - This is why the test set exists, and why you only use it once
-:::
-
-. . .
 
 ```{python}
 #| echo: false
@@ -590,32 +526,24 @@ Too simple: the model misses the pattern everywhere (bias). Too complex: the mod
 
 ## What a Linear Model Assumes
 
-::: incremental
 - The relationship is **linear**, after any transformation you applied
 - Observations are **independent**: one country does not determine another
 - Residuals have roughly **constant spread** across the range
 - Residuals are roughly **normal**, which matters for p-values, not for prediction
-:::
-
-. . .
 
 Our gapminder model violates independence: neighbouring countries share history, climate and trade. The coefficients remain useful; the p-values are optimistic.
 
 ## Things That Will Catch You Out
 
-::: incremental
 - **Extrapolation**: predicting outside the observed range
 - **Data leakage**: a predictor that secretly contains the answer
 - **Simpson's paradox**: a relationship that reverses within groups
 - **Correlated predictors**: two columns measuring the same thing make both coefficients unstable
 - **Fishing**: trying 40 models and reporting the one with a p-value below 0.05
-:::
 
 ## The Sentence You Are Allowed to Write
 
 > In 2007, across 142 countries, log GDP per capita accounted for 65% of the variation in life expectancy. A doubling of income was associated with about 5 additional years, and this association held after accounting for continent. Predictions on held-out countries missed by about 7 years on average, so income alone is a weak basis for predicting any individual country.
-
-. . .
 
 Numbers, uncertainty, scope, and no causal claim. That is what a competent analyst writes.
 
@@ -638,13 +566,11 @@ Write, in a text cell under your model, a paragraph of **five sentences at most*
 
 Everything below uses the same three lines you learned today:
 
-::: incremental
 - **Logistic regression**: when the outcome is yes/no. Will this customer churn?
 - **Decision trees and random forests**: non-linear, no transformation needed
 - **Gradient boosting** (XGBoost, LightGBM): what wins most competitions on tabular data
 - **Time series** (ARIMA, Prophet): when the order of rows matters
 - **Clustering** (k-means): when there is no outcome to predict
-:::
 
 ## And a Better Way to Evaluate
 
@@ -656,15 +582,11 @@ Everything below uses the same three lines you learned today:
 
 ## What You Have Learned in 10 Weeks
 
-::: incremental
 - Week 1-5: the Python language, from `print()` to your own functions
 - Week 6: a professional working environment on your own machine
 - Week 7-8: importing, cleaning, grouping, joining and reshaping real data
 - Week 9: making it visible, and honest
 - Week 10: fitting a model, predicting, and knowing what the prediction is worth
-:::
-
-. . .
 
 That is the full pipeline. Everything else in analytics is a variation on it.
 
@@ -674,14 +596,12 @@ That is the full pipeline. Everything else in analytics is a variation on it.
 
 One notebook, containing:
 
-::: incremental
 1. The question, and where the data comes from
 2. Import and cleaning, with your decisions explained
 3. Description: a grouped summary table
 4. Two or three charts, labelled and interpreted
 5. One linear model, with an evaluation on held-out data
 6. A conclusion of one paragraph, including what you would not claim
-:::
 
 ## Marking
 
@@ -694,18 +614,14 @@ One notebook, containing:
 | Model: fitted, evaluated, honestly discussed | 20% |
 | Notebook is readable by a human | 5% |
 
-. . .
-
 An excellent notebook with a weak $R^2$ beats a great $R^2$ nobody can follow.
 
 ## Final Advice
 
-::: incremental
 - Keep a personal notebook of snippets you know work
 - Redo one analysis you have done in Excel, in Python. That is when it becomes yours.
 - Use AI assistants as a colleague who is fast, confident and sometimes wrong
 - Put your project on GitHub: it is the only portfolio an employer can actually check
-:::
 
 ## References
 

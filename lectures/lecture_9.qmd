@@ -70,8 +70,6 @@ gapminder = pd.read_csv(url).rename(columns={"lifeExp": "life_exp", "gdpPercap":
 g2007 = gapminder.query("year == 2007")
 ```
 
-. . .
-
 `sns.set_theme()` on one line replaces about 30 lines of matplotlib styling, and `palette="colorblind"` is not optional in a professional context.
 
 # 1. Why Visualise
@@ -97,8 +95,6 @@ anscombe = pd.DataFrame(
 print(anscombe.groupby("dataset")[["x", "y"]].agg(["mean", "std"]).round(2))
 ```
 
-. . .
-
 Four datasets. Same means, same standard deviations, same correlation, same regression line.
 
 ## Summary Statistics Lie
@@ -110,19 +106,13 @@ g = sns.lmplot(data=anscombe, x="x", y="y", col="dataset", col_wrap=4,
 plt.show()
 ```
 
-. . .
-
 **Anscombe's quartet**, 1973. Always plot the data.
 
 ## The Three Jobs of a Chart
 
-::: incremental
 1. **Exploration**: for you, fast, ugly, thrown away. Ten per hour.
 2. **Explanation**: for an audience, one message, polished. One per report.
 3. **Verification**: does the model fit? Are there outliers? Is the relationship linear?
-:::
-
-. . .
 
 Today covers all three. Job 3 is what feeds next week's regression.
 
@@ -149,8 +139,6 @@ No code. For each question, write down **which chart** you would draw and **why*
 | Spend vs visits | scatter plot | two numerics, looking for a relationship |
 | App vs web orders | boxplot, or two histograms | a distribution compared across groups |
 
-. . .
-
 **The question picks the chart.** Choosing the chart first, then hunting for something to put in it, is how bad dashboards are born.
 
 # 2. matplotlib
@@ -159,11 +147,9 @@ No code. For each question, write down **which chart** you would draw and **why*
 
 matplotlib is the plotting engine underneath almost everything in Python, including seaborn and pandas plots.
 
-::: incremental
 - Very powerful, and quite verbose
 - You will use seaborn for the chart, and matplotlib to **fix the details**
 - Knowing both is not optional: the labels, titles and limits come from matplotlib
-:::
 
 ## Figure and Axes
 
@@ -197,8 +183,6 @@ One set of axes: the plotting area with its ticks, labels and marks.
 fig, ax = plt.subplots(figsize=(8, 4))
 ```
 
-. . .
-
 Remember tuple unpacking from lecture 3? That is what this line is.
 
 ## Several Panels
@@ -225,8 +209,6 @@ gapminder.groupby("year")["life_exp"].mean().plot(
 plt.show()
 ```
 
-. . .
-
 Convenient for a quick look during exploration. Not for anything you will show to another person.
 
 # 3. seaborn
@@ -240,12 +222,10 @@ seaborn is a layer on top of matplotlib that knows about **DataFrames and statis
 sns.scatterplot(data=df, x="col_a", y="col_b", hue="col_c")
 ```
 
-::: incremental
 - `data=` takes the DataFrame
 - `x=`, `y=`, `hue=`, `size=`, `style=` take **column names as strings**
 - It computes means, confidence intervals and regressions for you
 - The legend is built automatically
-:::
 
 ## The Same Grammar Every Time
 
@@ -257,8 +237,6 @@ sns.scatterplot(data=df, x="col_a", y="col_b", hue="col_c")
 | `sns.scatterplot` | relationship between two numerics |
 | `sns.lineplot` | change over time |
 | `sns.heatmap` | a matrix of values |
-
-. . .
 
 Learn the arguments once; they are the same for all of them.
 
@@ -274,8 +252,6 @@ ax.set_ylabel("Number of countries")
 plt.show()
 ```
 
-. . .
-
 Two clusters, not one. A mean of 67 describes neither of them.
 
 ## Distribution, Split by Group
@@ -286,8 +262,6 @@ sns.kdeplot(data=g2007, x="life_exp", hue="continent", fill=True, alpha=0.35, ax
 ax.set_xlabel("Life expectancy in 2007 (years)")
 plt.show()
 ```
-
-. . .
 
 The two clusters are now explained: Africa, and everywhere else.
 
@@ -303,14 +277,10 @@ plt.show()
 
 ## Reading a Boxplot
 
-::: incremental
 - The box: the middle 50% of countries, from the 25th to the 75th percentile
 - The line inside: the **median**, not the mean
 - The whiskers: 1.5 times the box height, at most
 - The dots: points beyond that, conventionally called outliers
-:::
-
-. . .
 
 A boxplot hides how many observations there are. With small groups, show the points:
 
@@ -369,8 +339,6 @@ sns.move_legend(ax, "lower right", fontsize=8, title=None)
 plt.show()
 ```
 
-. . .
-
 The curve has become a **line**. Remember this slide next week.
 
 ## Adding Size: The Fourth Variable
@@ -386,8 +354,6 @@ ax.legend().remove()
 plt.show()
 ```
 
-. . .
-
 Four variables in one chart. This is the famous Hans Rosling plot, and it is 12 lines of Python.
 
 ## Question 4: How Does It Change Over Time?
@@ -401,8 +367,6 @@ ax.set_ylabel("Mean life expectancy (years)")
 sns.move_legend(ax, "lower right", fontsize=8, title=None)
 plt.show()
 ```
-
-. . .
 
 seaborn averaged the countries within each continent and year automatically.
 
@@ -418,8 +382,6 @@ g.set_axis_labels("", "Life expectancy")
 g.set_titles("{col_name}")
 plt.show()
 ```
-
-. . .
 
 One panel per group beats five overlapping lines whenever the lines cross.
 
@@ -477,14 +439,12 @@ plt.show()
 
 ## The Checklist Before Showing Anyone
 
-::: incremental
 - Does every axis have a **label with units**?
 - Does the title say the **finding**, not the variables?
 - Is the legend needed, and is it out of the way?
 - Are the categories in a meaningful **order**?
 - Would it survive being printed in black and white?
 - Is anything smaller than 8pt?
-:::
 
 ## Title as Finding
 
@@ -497,8 +457,6 @@ ax.set_ylabel("Life expectancy (years)")
 ax.set_title("Each doubling of income adds about 6 years of life", loc="left", fontsize=13)
 plt.show()
 ```
-
-. . .
 
 "Life expectancy vs GDP" tells the reader what the axes already told them.
 
@@ -518,21 +476,15 @@ ax.set_ylabel("Life expectancy (years)")
 plt.show()
 ```
 
-. . .
-
 Grey everything, colour the one thing that matters.
 
 ## Colour, Seriously
 
-::: incremental
 - About 8% of men have some form of colour vision deficiency
 - `palette="colorblind"` costs nothing and solves most of it
 - **Categories**: distinct hues, never a gradient
 - **Magnitude**: one hue, light to dark, never a rainbow
 - **Above/below a reference**: two hues with a neutral middle
-:::
-
-. . .
 
 Never encode a category by colour **alone** if the reader must identify it: add a direct label.
 
@@ -545,22 +497,18 @@ sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", ax=ax)
 fig.savefig("output/figures/life_gdp.png", dpi=300, bbox_inches="tight")
 ```
 
-::: incremental
 - `dpi=300` for print, 150 for screen
 - `bbox_inches="tight"` stops the labels being cut off
 - `.png` for reports, `.svg` or `.pdf` for anything that will be resized
 - Save with **code**, never by right-clicking. Right-clicking is not reproducible.
-:::
 
 ## What Not To Do
 
-::: incremental
 - **Two y-axes.** Any two series can be made to look correlated by choosing the scales. Use two charts.
 - **A truncated y-axis on bars.** Bar length *is* the value. Bars start at zero.
 - **Pie charts with more than three slices.** People compare angles badly. Use a sorted bar chart.
 - **3D anything.** The perspective distorts the values it is supposed to show.
 - **A number printed on every point.** If you need all the numbers, make a table.
-:::
 
 ## What Not To Do
 
@@ -597,13 +545,11 @@ plt.title("gdp_per_cap vs continent")
 plt.show()
 ```
 
-::: incremental
 - What does the y-axis start at, and why does that matter for bars?
 - What order are the categories in?
 - What are the units?
 - What does the title tell a reader that the axes do not?
 - Is a mean the right summary here?
-:::
 
 ::: {#timer3 .timer seconds="660" starton="interaction"}
 :::
@@ -644,7 +590,6 @@ Then show it to your neighbour and ask them what it says. If they get it wrong, 
 
 ## What We Have Seen
 
-::: incremental
 - Always plot the data: Anscombe
 - `fig, ax = plt.subplots()`, and axes methods for the details
 - seaborn: `data=`, `x=`, `y=`, `hue=`, column names as strings
@@ -652,15 +597,12 @@ Then show it to your neighbour and ask them what it says. If they get it wrong, 
 - Log scales for skewed variables
 - Labels, findings as titles, annotation, colourblind palettes
 - `savefig(dpi=300, bbox_inches="tight")`
-:::
 
 ## Before Next Week
 
-::: incremental
 1. **Assessment 4 opens**: three charts with a written interpretation of each
 2. Reread the log-scale scatter slide. Next week we fit a line to it.
 3. Bring your cleaned dataset and your best chart to the final lecture.
-:::
 
 ## References
 

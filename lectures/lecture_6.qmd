@@ -41,13 +41,9 @@ filters:
 
 ## Today Is Different
 
-::: incremental
 - Very little new Python
 - A lot of installing, clicking and troubleshooting
 - Things will go wrong on some machines, and that is the point of doing it together
-:::
-
-. . .
 
 By the end of this lecture, everyone runs Python on their own laptop, in an environment they built themselves. Weeks 7 to 10 assume it.
 
@@ -55,24 +51,18 @@ By the end of this lecture, everyone runs Python on their own laptop, in an envi
 
 ## What Colab Gave Us
 
-::: incremental
 - Zero installation
 - Identical environment for everyone
 - Free computing power
-:::
-
-. . .
 
 ## What Colab Costs
 
-::: incremental
 - Your files are not really yours: they live in Google Drive, in Google's format
 - The runtime disconnects, and everything is lost
 - Reading a file from your own computer is awkward
 - No project structure: everything is one notebook
 - You cannot run a script on a schedule, or hand it to a colleague
 - You never learn where packages come from
-:::
 
 ## The Professional Setup
 
@@ -85,8 +75,6 @@ By the end of this lecture, everyone runs Python on their own laptop, in an envi
 | Opening your own file | mount, upload or a URL | `pd.read_csv("data/x.csv")` |
 | Package versions | Google decides | you decide |
 | Employability | "I used a website" | "I have an environment" |
-
-. . .
 
 Colab remains excellent for teaching, quick tests, and sharing. It is not where analysis lives.
 
@@ -102,12 +90,10 @@ drive.mount("/content/drive")          # and authorise in a pop-up. Every sessio
 sales = pd.read_csv("/content/drive/MyDrive/BAA1118/data/roasted_daily.csv")
 ```
 
-::: incremental
 - Three lines, one of them interactive
 - A path that describes Google's filesystem, not yours
 - Your data has to be in Drive
 - And it breaks the moment somebody else runs your notebook
-:::
 
 ## The Reason, In Two Slides
 
@@ -118,15 +104,11 @@ Here is the same thing once Python is on the machine where the file already is:
 sales = pd.read_csv("data/roasted_daily.csv")
 ```
 
-. . .
-
 ::: {.callout-important}
 That is the entire argument for today. Everything else, the environment, the folder
 structure, the version control, follows from putting Python **next to your data** instead of
 in somebody else's data centre.
 :::
-
-. . .
 
 Two hours of installation buys you that one line, for every file, for the rest of your career.
 
@@ -134,12 +116,8 @@ Two hours of installation buys you that one line, for every file, for the rest o
 
 ## The Two Things to Install
 
-::: incremental
 1. **Python** itself, from [python.org](https://www.python.org/downloads/): the language, and `pip` to install packages
 2. **VS Code**, from [code.visualstudio.com](https://code.visualstudio.com/): the editor where you will write
-:::
-
-. . .
 
 That is the whole stack. Two downloads, no bundle, nothing hidden.
 
@@ -147,16 +125,12 @@ That is the whole stack. Two downloads, no bundle, nothing hidden.
 
 Anaconda is a legitimate and very common choice. It installs Python, `conda`, Spyder, JupyterLab and 1,500 packages in one go.
 
-. . .
-
 We are not using it, for four reasons:
 
-::: incremental
 - You learn nothing about where your packages come from
 - 1 GB of packages you will never open, and a slow `conda` resolver
 - Its commercial licence now restricts use in larger organisations, so your employer may not allow it
 - `pip` and `venv` are what every Python project on GitHub actually uses
-:::
 
 ## If You Already Have Anaconda
 
@@ -168,8 +142,6 @@ Keep it. You do not have to uninstall anything. Everything today has a `conda` e
 | `source .venv/bin/activate` | `conda activate baa1118` |
 | `pip install pandas` | `conda install pandas` |
 | `pip freeze > requirements.txt` | `conda env export > environment.yml` |
-
-. . .
 
 Mixing the two in one environment causes strange breakages. **Pick one per project and stay with it.**
 
@@ -194,15 +166,11 @@ python --version        # Windows
 python3 --version       # macOS and Linux
 ```
 
-. . .
-
 You should see `Python 3.12.x` or `3.13.x`.
 
-::: incremental
 - On Windows the command is `python`, and `py` also works
 - On macOS and Linux it is `python3`: plain `python` may not exist at all
 - These slides write `python`. Type `python3` if that is your machine.
-:::
 
 ## macOS: Do Not Use the System Python
 
@@ -212,11 +180,7 @@ macOS ships with its own Python at `/usr/bin/python3`. It belongs to Apple, and 
 which python3
 ```
 
-. . .
-
 If that prints `/usr/bin/python3`, you are using Apple's. Installing packages into it can break system tools and will be wiped by the next macOS update.
-
-. . .
 
 The virtual environment we build in the next section makes this problem disappear, which is one more reason to build one.
 
@@ -255,8 +219,6 @@ Open VS Code, click the **Extensions** icon in the left bar (four squares), and 
 - **Python** (Microsoft): interpreter selection, linting, running files
 - **Jupyter** (Microsoft): notebooks inside VS Code
 - **Ruff** (Astral): fast formatting and error checking as you type
-
-. . .
 
 Restart VS Code once they are installed.
 
@@ -297,8 +259,6 @@ Source: Danilo Freire, [DATASCI 151 course tutorials](https://github.com/danilof
 | `pip: command not found` | use `python -m pip` instead |
 | Installer will not run | not an administrator, or a locked work machine |
 
-. . .
-
 The last one is not solvable in a lecture. If your machine is locked down, stay on Colab and see me afterwards.
 
 # 3. Virtual Environments
@@ -307,14 +267,10 @@ The last one is not solvable in a lecture. If your machine is locked down, stay 
 
 You install `pandas` for this module. In March you install an older `pandas` for a group project. Now this module's notebooks break.
 
-. . .
-
-::: incremental
 - One Python installation has **one** set of packages
 - Two projects needing different versions cannot both work
 - Installing something for a tutorial can silently break work from last month
 - And you have no record of what any project actually needs
-:::
 
 ## The Solution
 
@@ -341,11 +297,9 @@ BAA1118/
             └── site-packages/   <- your packages live here
 ```
 
-::: incremental
 - Created in seconds, deleted by deleting the folder
 - Nothing else on your machine is touched
 - If it ever gets confusing: delete it, make a new one, reinstall. That is a normal thing to do.
-:::
 
 ## Creating One
 
@@ -356,13 +310,9 @@ cd path/to/BAA1118
 python -m venv .venv
 ```
 
-::: incremental
 - `python -m venv` runs the `venv` module of the Python you just named
 - `.venv` is the folder name, and it is a **strong convention**: VS Code looks for it, and everyone recognises it
 - The leading dot hides it from your file browser
-:::
-
-. . .
 
 Do this **once per project**, not once per machine.
 
@@ -381,8 +331,6 @@ source .venv/bin/activate
 ```{.bash filename="Windows CMD"}
 .venv\Scripts\activate.bat
 ```
-
-. . .
 
 Your prompt changes:
 
@@ -403,15 +351,11 @@ Your prompt changes:
 # ... cannot be loaded because running scripts is disabled on this system
 ```
 
-. . .
-
 Run this once, then activate again:
 
 ```{.bash filename="PowerShell"}
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
-
-. . .
 
 To leave an environment, from anywhere:
 
@@ -428,10 +372,8 @@ python -m pip install --upgrade pip
 python -m pip install pandas matplotlib seaborn statsmodels scikit-learn jupyter ipykernel
 ```
 
-::: incremental
 - `python -m pip` rather than bare `pip`: it installs into **the interpreter you just named**, never into some other one you forgot about
 - `ipykernel` is what lets a notebook use this environment. Forget it and your notebook silently runs the wrong Python.
-:::
 
 ## Where Did That Actually Go?
 
@@ -441,15 +383,11 @@ The single most useful debugging command in Python:
 python -c "import sys; print(sys.executable)"
 ```
 
-. . .
-
 ```{.bash}
 /Users/damien/BAA1118/.venv/bin/python      <- correct
 /usr/bin/python3                            <- system Python, wrong
 /opt/anaconda3/bin/python                   <- Anaconda, wrong for this project
 ```
-
-. . .
 
 ```{.bash filename="Terminal"}
 python -m pip list          # what is installed here
@@ -480,19 +418,13 @@ In a notebook, top right: **Select Kernel**, then the same `.venv`.
 Source: Danilo Freire, [DATASCI 151 course tutorials](https://github.com/danilofreire/datasci151)
 :::
 
-. . .
-
 The interpreter and the kernel are **two separate settings**. This surprises everyone once.
 
 ## The Three Symptoms of a Wrong Environment
 
-::: incremental
 1. **`ModuleNotFoundError` for something you just installed.** You installed into a different Python than the one running your code.
 2. **It works in the terminal but not in the notebook.** The kernel is not your `.venv`, or `ipykernel` is missing from it.
 3. **`pip` puts things somewhere unexpected.** Bare `pip` may belong to another installation.
-:::
-
-. . .
 
 All three have the same diagnosis, and it takes five seconds:
 
@@ -509,8 +441,6 @@ Run it in the notebook. If that path does not contain `.venv`, you have found yo
 python -m pip freeze > requirements.txt
 ```
 
-. . .
-
 ```{.bash filename="requirements.txt"}
 matplotlib==3.9.2
 pandas==2.2.3
@@ -518,8 +448,6 @@ scikit-learn==1.5.2
 seaborn==0.13.2
 statsmodels==0.14.4
 ```
-
-. . .
 
 Anyone, on any machine, can now rebuild your environment exactly:
 
@@ -541,31 +469,21 @@ pandas==2.2.3         # exactly this: what an analysis should use
 An analysis whose results depend on the package version and does not record it is not reproducible. `pip freeze` is one command, and it is the difference between "it worked in September" and "here is exactly what I ran".
 :::
 
-. . .
-
 Commit `requirements.txt`. Never commit `.venv/`.
 
 ## One Project, One Environment
 
-::: incremental
 - One folder per project
 - One `.venv` inside it
 - One `requirements.txt` beside it
 - Activate when you start work, `deactivate` when you finish
-:::
-
-. . .
 
 If you only remember one slide from today, this is it.
 
 ## Two Alternatives Worth Knowing By Name
 
-::: incremental
 - **conda / miniforge**: manages non-Python dependencies too (GDAL, CUDA, R). Worth it for geospatial work or deep learning, overkill here.
 - **uv**: a much faster drop-in replacement for `pip` and `venv`, written in Rust, spreading quickly through industry. `uv venv`, `uv pip install`. Same concepts, ten times the speed.
-:::
-
-. . .
 
 The **ideas** you learn today transfer to all of them: an isolated set of packages, a record of what is in it, and knowing which Python is running.
 
@@ -592,8 +510,6 @@ python -c "import sys; print(sys.executable)"
 python -m pip freeze > requirements.txt
 ```
 
-. . .
-
 If step 5 gives `ModuleNotFoundError: pandas` while the terminal install clearly worked, VS Code is running a different interpreter. Reselect it, and check `sys.executable` from inside the file.
 
 # 4. Scripts, Notebooks and Projects
@@ -618,8 +534,6 @@ Good for: exploration, analysis, teaching, reports.
 :::
 ::::
 
-. . .
-
 For this module: **notebooks for analysis, scripts for functions you reuse**.
 
 ## Running a Script
@@ -629,8 +543,6 @@ For this module: **notebooks for analysis, scripts for functions you reuse**.
 ::: {.small-font}
 Source: Danilo Freire, [DATASCI 151 course tutorials](https://github.com/danilofreire/datasci151)
 :::
-
-. . .
 
 From a terminal, which is what a server or a colleague will do. Open one inside VS Code with
 `View -> Terminal`, or <kbd>Ctrl</kbd>+<kbd>`</kbd> on **both** Windows and Mac:
@@ -664,8 +576,6 @@ unless your `.venv` is active, in which case `python` is correct on both.
 | Turn cell into text | <kbd>Esc</kbd> then <kbd>M</kbd> | <kbd>Esc</kbd> then <kbd>M</kbd> |
 | Delete cell | <kbd>Esc</kbd> then <kbd>D</kbd> <kbd>D</kbd> | <kbd>Esc</kbd> then <kbd>D</kbd> <kbd>D</kbd> |
 
-. . .
-
 ::: {.callout-note}
 **Not quite the same as Colab.** Running cells is identical, but Colab puts its cell
 commands behind <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>M</kbd>, while VS Code uses
@@ -683,12 +593,8 @@ commands behind <kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+<kbd>M</kbd>, while VS Code uses
 | Comment / uncomment | <kbd>Ctrl</kbd>+<kbd>/</kbd> | <kbd>Cmd</kbd>+<kbd>/</kbd> |
 | Find in all files | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> | <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> |
 
-. . .
-
 The terminal one is the one to learn today. <kbd>Ctrl</kbd>+<kbd>`</kbd> is the same key on
 both, it opens **inside your project folder**, and it is already using your `.venv`.
-
-. . .
 
 ::: {.small-font}
 The full list, with your own bindings, is `File -> Preferences -> Keyboard Shortcuts` on
@@ -715,8 +621,6 @@ BAA1118/
 ├── requirements.txt
 └── README.md
 ```
-
-. . .
 
 This is not bureaucracy. It is what makes an analysis findable in a year.
 
@@ -762,12 +666,8 @@ if __name__ == "__main__":
     print(margin(1000, 620))
 ```
 
-::: incremental
 - Run the file directly: the guard is true, the test prints
 - Import it from a notebook: the guard is false, only the function arrives
-:::
-
-. . .
 
 You will see `if __name__ == "__main__":` in every Python repository you ever open. That is what it is for.
 
@@ -783,12 +683,10 @@ You will see `if __name__ == "__main__":` in every Python repository you ever op
 C:\Users\damien\Documents\BAA1118\data\raw\roasted_daily.csv
 ```
 
-::: incremental
 - **Root**: `/` on macOS and Linux, `C:\` on Windows. Windows has one root per drive.
 - **Folders**, separated by `/` or `\`
 - **File name**, and its **extension**, which is part of the name
 - Absolute paths start at the root. Relative paths start wherever Python is standing.
-:::
 
 ## Where Am I Standing?
 
@@ -799,13 +697,9 @@ print(os.getcwd())      # the current working directory
 print(os.listdir())     # what is in it
 ```
 
-. . .
-
 Every relative path is resolved **from that directory**. It is not where the file you are
 editing lives, and it is not where you opened VS Code from last week: it is one specific
 folder, and Python will tell you which.
-
-. . .
 
 ::: {.callout-important}
 When a path fails, print `os.getcwd()` before you change anything else. Nine times out of
@@ -822,8 +716,6 @@ BAA1118/
 └── notebooks/analysis.ipynb        <- you are working here
 ```
 
-. . .
-
 In VS Code, a notebook's working directory is **its own folder**, so from
 `notebooks/analysis.ipynb`:
 
@@ -832,8 +724,6 @@ In VS Code, a notebook's working directory is **its own folder**, so from
 pd.read_csv("data/raw/roasted_daily.csv")      # FileNotFoundError
 pd.read_csv("../data/raw/roasted_daily.csv")   # works
 ```
-
-. . .
 
 `..` means "the folder above this one". `.` means "this one". Every project with a
 `notebooks/` folder runs into this in its first hour.
@@ -851,8 +741,6 @@ pd.read_csv("../data/raw/roasted_daily.csv")   # works
 "../data/raw/sales.csv"
 ```
 
-. . .
-
 ::: {.callout-warning}
 An absolute path in submitted code is an automatic problem: it cannot run on my machine, so
 it cannot be marked. **Always use relative paths**, and open the project folder rather than
@@ -868,12 +756,8 @@ the file so that "relative to what" has an answer.
 r"data\raw\sales.csv"     # fine, r means "raw string"
 ```
 
-. . .
-
 Python reads `\r` as a carriage return and `\t` as a tab, so the folder names disappear
 before pandas ever sees them.
-
-. . .
 
 Forward slashes work on Windows too. Use them everywhere and the problem stops existing.
 
@@ -888,8 +772,6 @@ which is the one you want.
 | macOS Finder | right-click, hold <kbd>Option</kbd> → **Copy … as Pathname** |
 | Windows Explorer | <kbd>Shift</kbd> + right-click → **Copy as path** |
 
-. . .
-
 ::: {.callout-tip}
 Windows wraps its copied path in quotes and uses backslashes, so you will still have to
 tidy it. VS Code's "Copy Relative Path" needs no tidying at all, which is why it is the one
@@ -901,21 +783,13 @@ to learn.
 You save `sales.csv` from Excel. Your folder shows `sales`. Python cannot find `sales.csv`,
 and `sales` is not a file it can read either.
 
-. . .
-
 The file is really called `sales.csv.txt`, or the extension is simply not being displayed.
-
-. . .
 
 **Fix it once, permanently:** in File Explorer, `View` → `Show` → tick **File name
 extensions**.
 
-. . .
-
 Every Windows user in this room should do that now. It prevents an entire category of
 wasted afternoon.
-
-. . .
 
 **macOS hides them too**, just more quietly: Finder, `Settings...` -> `Advanced` -> tick
 **Show all filename extensions**. Do it for the same reason.
@@ -933,11 +807,9 @@ print(Path("data/raw/sales.csv").exists())  # 3. a straight yes or no
 print(Path("data/raw/sales.csv").resolve()) # 4. what did that actually mean?
 ```
 
-::: incremental
 - Step 2 catches the missing extension and the wrong capitalisation
 - Step 3 is the fastest question you can ask
 - Step 4 turns your relative path into the absolute one, so you can see where Python looked
-:::
 
 ## pathlib, The Modern Way
 
@@ -950,8 +822,6 @@ print(data_path.suffix)
 print(data_path.stem)
 print(data_path.parent)
 ```
-
-. . .
 
 `Path` joins with `/` regardless of the operating system, and gives you useful methods:
 
@@ -982,8 +852,6 @@ daily.to_parquet(CLEAN / "daily.parquet", index=False)
 fig.savefig(OUTPUT / "figures" / "revenue.png", dpi=300)
 ```
 
-. . .
-
 Three names at the top of the notebook, and the folder structure appears in exactly one
 place. Move the project, or restructure it, and you edit three lines rather than thirty.
 
@@ -994,13 +862,9 @@ place. Move the project, or restructure it, and you edit three lines rather than
 os.chdir("/Users/damien/Documents/BAA1118")     # no
 ```
 
-::: incremental
 - It hard-codes your machine into the notebook
 - It changes the meaning of every relative path **after** the line it appears on
 - So the notebook works on the second run and fails on the first, or the reverse
-:::
-
-. . .
 
 If your paths need `os.chdir()` to work, the real fix is to open the project folder in VS
 Code and use relative paths from there.
@@ -1019,12 +883,8 @@ with open("output/report.txt") as f:
 print(content)
 ```
 
-::: incremental
 - `with` closes the file automatically, even if an error occurs
 - `"w"` overwrites, `"a"` appends, no letter means read
-:::
-
-. . .
 
 For CSV files, do **not** do this. `pd.read_csv()` does it properly, and that is next.
 
@@ -1040,12 +900,10 @@ orders = pd.read_json("data/raw/orders.json")
 report = pd.read_excel("data/raw/quarterly.xlsx", sheet_name="Q1")
 ```
 
-::: incremental
 - Same four functions as last week
 - **Relative paths**, from the project folder you opened
 - No mounting, no uploading, no pop-up, no `/content/drive/MyDrive/`
 - And it works identically on my machine when I mark it
-:::
 
 ## Two Packages You Now Have to Install
 
@@ -1056,16 +914,12 @@ python -m pip install openpyxl pyarrow
 python -m pip freeze > requirements.txt
 ```
 
-. . .
-
 ```{python}
 #| eval: false
 pd.read_excel("report.xlsx")
 # ImportError: Missing optional dependency 'openpyxl'.
 #              Use pip or conda to install openpyxl.
 ```
-
-. . .
 
 Read that error properly: pandas is telling you the exact package name to install. This is
 what "install once per environment, import once per session" looks like when you get it wrong.
@@ -1085,8 +939,6 @@ for ext, kb in sizes.items():
     print(f"{ext:10s} {kb:8.1f} KB   {kb / sizes['csv']:6.0%}")
 ```
 
-. . .
-
 1,086 rows of Roasted daily sales, saved four times. Parquet is a third of the CSV, and the
 JSON is three times bigger because it repeats every column name on every row.
 
@@ -1104,13 +956,9 @@ print("read from parquet:")
 print(from_parquet[["date", "store"]].dtypes.to_string())
 ```
 
-. . .
-
-::: incremental
 - The CSV gives you **text**, because a CSV has no types to give
 - The parquet file remembers that `date` was a date and `store` was a category
 - Which means no `pd.to_datetime()`, no `astype("category")`, and no chance of forgetting
-:::
 
 ## Writing Files Out
 
@@ -1139,8 +987,6 @@ Save and reload three times and you have three of them.
 | A table for a colleague who uses Excel | `.xlsx` |
 | A table for anyone, anywhere, forever | `.csv` |
 | Something with nested records | `.json` |
-
-. . .
 
 For this module: read whatever arrives, save your cleaned data as **parquet**, and export
 **csv or xlsx** only when a human is going to open it.
@@ -1174,42 +1020,30 @@ print(os.getcwd())
 print(list(Path("data/raw").glob("*")))
 ```
 
-. . .
-
 If the notebook is in `notebooks/`, the working directory may be the project root or the notebook folder depending on your settings. Check with `os.getcwd()` before blaming the path.
 
 # 6. Reproducibility and Version Control
 
 ## What Makes Work Reproducible
 
-::: incremental
 - The **data**, unedited, in `data/raw/`
 - The **code**, in scripts and notebooks that run top to bottom
 - The **environment**, in `requirements.txt`
 - A **README** saying what to run, and in what order
-:::
-
-. . .
 
 Three of those four you built today. That is what separates an analysis from a folder of files.
 
 ## Version Control in One Slide
 
-::: incremental
 - **Git** records the state of your project at every point you choose
 - **GitHub** stores those records online, and shares them
 - Together they replace `analysis_final_v2_REALLY_FINAL.ipynb`
-:::
-
-. . .
 
 ```{.bash filename="Terminal"}
 git init
 git add .
 git commit -m "First working analysis"
 ```
-
-. . .
 
 Full treatment belongs to another module. For BAA1118, know the word and, if you can, put your project on GitHub: it is a portfolio.
 
@@ -1234,7 +1068,6 @@ Never put data with personal information on GitHub. A public repository is publi
 
 ## What We Have Seen
 
-::: incremental
 - Python from python.org, VS Code as the editor, nothing bundled
 - Which Python is running: `sys.executable`, and why it matters
 - `python -m venv .venv`, activate, `python -m pip install`
@@ -1247,7 +1080,6 @@ Never put data with personal information on GitHub. A public repository is publi
 - The four-step path debug, `pathlib`, and folder constants defined once
 - `read_csv`, `read_parquet`, `read_json`, `read_excel` on a relative path, and the writers
   that match them
-:::
 
 ## Before Next Week
 
@@ -1255,12 +1087,10 @@ Never put data with personal information on GitHub. A public repository is publi
 Everything must be working before week 7. If your machine defeated you today, email me **this week**, not in November.
 :::
 
-::: incremental
 1. Put `gapminder.csv` in `data/raw/`
 2. Activate your environment, open a notebook, run `import pandas as pd`, and confirm no error
 3. Check `sys.executable` points at your `.venv`
 4. **Assessment 2 opens**, covering weeks 4 to 5
-:::
 
 ## References
 

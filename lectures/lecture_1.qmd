@@ -86,15 +86,11 @@ Available on the module's loop page and, more importantly, online at:
 
 ## What About You?
 
-::: incremental
 - Who is convinced they are "not a maths person"?
 - Who uses Microsoft Windows, macOS, or Linux?
 - Who already has a GitHub account?
 - Who has already written a line of code in any language?
 - Who has used ChatGPT, Claude, or Copilot to write code?
-:::
-
-. . .
 
 **No previous experience is assumed. We start from zero.**
 
@@ -115,13 +111,9 @@ Available on the module's loop page and, more importantly, online at:
 
 ## The Only Rule That Matters
 
-::: incremental
 - You cannot learn to code by watching someone else code
 - You cannot learn to code by reading about code
 - You learn to code by **typing code, getting an error, and fixing it**
-:::
-
-. . .
 
 Every lecture has "Your Turn" slides. Those are the lecture. The rest is context.
 
@@ -131,14 +123,10 @@ Every lecture has "Your Turn" slides. Those are the lecture. The rest is context
 
 Modern data analytics uses free and open-source languages:
 
-::: incremental
 - Proprietary software (SPSS, Stata, SAS, Matlab) is expensive, closed, and increasingly rare in industry
 - Python and R are the two dominant open-source languages
 - R is mostly used in academic research and public institutions
 - Python is, by far, the most used language in organisations
-:::
-
-. . .
 
 Python is also a **general purpose** language: the same skill writes a data analysis, a web scraper, an automation script, or a machine learning model.
 
@@ -161,13 +149,9 @@ Python is:
 
 ## What Python Is Not
 
-::: incremental
 - Python is **not** a spreadsheet. There is no grid, and nothing recalculates by itself.
 - Python is **not** intelligent. It does exactly what you write, including the mistakes.
 - Python is **not** fast to write at the beginning. It becomes fast when a task has to be done twice.
-:::
-
-. . .
 
 The value of code is **reproducibility**: the same script run on new data gives you the new answer in one second.
 
@@ -181,8 +165,6 @@ The value of code is **reproducibility**: the same script run on new data gives 
 | Show what you did | Click history lost | The script *is* the record |
 | Fix a mistake in step 2 | Redo everything | Change one line, rerun |
 
-. . .
-
 They are not competitors. Most analysts use both.
 
 # 2. Python and its Interfaces
@@ -191,12 +173,8 @@ They are not competitors. Most analysts use both.
 
 There are two key concepts to keep separate:
 
-::: incremental
 - **Python** is the name of the language
 - Python code is written in an interface called an **IDE** (Integrated Development Environment)
-:::
-
-. . .
 
 At its simplest, **Python is like a car's engine**, while **an IDE is like a car's dashboard**.
 
@@ -220,8 +198,6 @@ Where you type, where you see results, where errors are highlighted.
 :::
 ::::
 
-. . .
-
 #### In a default installation, the two are installed **separately**. This is the single most common source of week-1 frustration.
 
 ## Popular Python IDEs
@@ -232,11 +208,7 @@ Where you type, where you see results, where errors are highlighted.
 - [**JupyterLab**](https://jupyter.org/): notebook-first, runs in your browser
 - [**Positron**](https://positron.posit.co/): newer, from the RStudio team, handles Python and R
 
-. . .
-
 [**Anaconda**](https://www.anaconda.com/download) is a fifth option: it bundles Python, an IDE and 1,500 packages in one 1 GB installer. Convenient, and it hides a lot.
-
-. . .
 
 **From week 6 this module uses VS Code with Python installed from [python.org](https://www.python.org/), and we install each package ourselves.** You will understand every piece of your own setup, and it is what you will meet in a job.
 
@@ -244,18 +216,12 @@ Where you type, where you see results, where errors are highlighted.
 
 Installing software on 60 different laptops in a 2-hour lecture is a guaranteed way to teach nothing.
 
-. . .
-
 For weeks 1 to 5 we use **Google Colab**:
 
-::: incremental
 - Nothing to install
 - Runs in the browser, on any machine
 - Free with a Google account
 - The Python is running on Google's computer, not yours
-:::
-
-. . .
 
 In week 6 you will install Python and VS Code on your own laptop, build a virtual environment for this module, and we will never look back.
 
@@ -268,8 +234,6 @@ In your web browser (Chrome, Firefox, Edge, Safari):
 1. Go to [https://colab.research.google.com](https://colab.research.google.com)
 2. Sign in with a Google account (your DCU one works)
 3. Click **New Notebook**
-
-. . .
 
 You now have a `.ipynb` file saved in your Google Drive, in a folder called `Colab Notebooks`.
 
@@ -299,8 +263,6 @@ Contain text written in Markdown. Used for titles, explanations, and comments to
 :::
 ::::
 
-. . .
-
 A notebook is therefore a **report and a program at the same time**. That is why it is the standard tool in data analytics.
 
 ## Colab Keyboard Shortcuts
@@ -322,8 +284,6 @@ key is where Windows and Mac differ.
 The full list is under `Tools -> Keyboard shortcuts`, and Colab lets you rebind any of them.
 :::
 
-. . .
-
 **The rule for the rest of the module:** wherever these slides write <kbd>Ctrl</kbd>, a Mac
 uses <kbd>Cmd</kbd>. The only exceptions are called out where they happen.
 
@@ -339,14 +299,10 @@ Source: Danilo Freire, [DATASCI 151 course tutorials](https://github.com/danilof
 
 When you run your first cell, Colab connects to a **runtime**: a small virtual computer that holds your Python session.
 
-::: incremental
 - Everything you create lives in that runtime's memory
 - If the runtime disconnects (90 minutes idle), everything created is lost
 - Your *code* is safe, your *results* are not
 - `Runtime -> Restart session` gives you a clean slate
-:::
-
-. . .
 
 **This is not a bug.** Restarting and rerunning from the top is how you check that your notebook actually works.
 
@@ -375,8 +331,6 @@ print("Hello, my name is <your name>")
 print("Hello, world!")
 ```
 
-. . .
-
 Everything between the quotes is text, called a **string**. The brackets belong to `print`, which is a **function**.
 
 ```{python}
@@ -391,13 +345,9 @@ A code cell also shows the value of its **last line** without `print()`.
 2 + 2
 ```
 
-. . .
-
 ```{python}
 (17 * 3) / 2
 ```
-
-. . .
 
 But only the last one:
 
@@ -414,8 +364,6 @@ Anything after a `#` is ignored by Python.
 # This line explains what the next one does
 print("Data analytics")  # this also works at the end of a line
 ```
-
-. . .
 
 Comments are written for **the person reading the code in six months**, who is almost always you.
 
@@ -434,20 +382,14 @@ total = price * (1 + vat)
 print(total)
 ```
 
-. . .
-
 `price`, `vat` and `total` are **variables**. The `=` sign does not mean equality: it means *"take what is on the right, and give it this name"*.
 
 We will spend all of next week on this.
 
 ## Order Matters, Twice
 
-::: incremental
 1. Python reads a cell **top to bottom**
 2. Colab runs cells **in the order you click them**, not top to bottom
-:::
-
-. . .
 
 This is the number one cause of "but it worked five minutes ago".
 
@@ -459,8 +401,6 @@ print(revenue)     # NameError: name 'revenue' is not defined
 # Cell 1, run second
 revenue = 1000
 ```
-
-. . .
 
 The small number in `[ ]` to the left of each cell tells you the order in which cells were actually run.
 
@@ -493,21 +433,15 @@ profit = revenue - total_cost
 print("The profit is", profit, "euros")
 ```
 
-. . .
-
 Yours does not have to look like this. It has to give the same number.
 
 # 5. Errors
 
 ## Errors Are Normal
 
-::: incremental
 - Beginners think an error means they failed
 - Professionals see 30 errors before lunch
 - An error is Python **telling you exactly where it stopped**
-:::
-
-. . .
 
 The one skill that separates people who learn to code from people who give up is **reading the error message**.
 
@@ -517,8 +451,6 @@ The one skill that separates people who learn to code from people who give up is
 #| error: true
 print("The total is: " + 42)
 ```
-
-. . .
 
 Read it **bottom up**:
 
@@ -564,15 +496,11 @@ Print("hello")
 
 ## How to Solve an Error
 
-::: incremental
 1. Read the last line of the message
 2. Look at the line number it gives you, and the one above
 3. Check the obvious: capital letters, quotes, brackets, commas
 4. Copy the error message into a search engine or an AI assistant
 5. Ask a neighbour, then ask me
-:::
-
-. . .
 
 Steps 1 to 3 solve about 80% of errors in this module, and they take 20 seconds.
 
@@ -603,8 +531,6 @@ Then fix all five so that each prints something sensible.
 | `print("hello world)` | `SyntaxError` | closing quote missing |
 | `print(Price * 2)` | `NameError` | `Price` was never assigned |
 
-. . .
-
 Two error types cover almost everything you will meet in week 1: you used a name that does not exist, or you combined types that do not go together.
 
 # 6. Coding with AI Assistants
@@ -612,8 +538,6 @@ Two error types cover almost everything you will meet in week 1: you used a name
 ## The Elephant in the Room
 
 You all have access to ChatGPT, Claude, Copilot and Gemini. Colab has Gemini built in.
-
-. . .
 
 Pretending otherwise would be silly. **Using them well is now part of the skill.**
 
@@ -623,23 +547,17 @@ Using an AI assistant is allowed in this module, including in the assessment, **
 
 ## What AI Is Good At
 
-::: incremental
 - Explaining an error message in plain English
 - Writing the boring 10 lines you have written 50 times before
 - Translating "I want the average sales per region" into pandas code
 - Suggesting a function name you have forgotten
-:::
 
 ## What AI Is Bad At
 
-::: incremental
 - Knowing what your data actually looks like
 - Knowing what question is worth asking
 - Admitting when it does not know: it invents functions that do not exist
 - Producing code you can defend in an exam
-:::
-
-. . .
 
 **The assistant writes a plausible answer. Only you can check it is the right one.**
 
@@ -649,25 +567,17 @@ Weak prompt:
 
 > make a chart of my data
 
-. . .
-
 Strong prompt:
 
 > I have a pandas DataFrame called `sales` with columns `region` (text), `month` (text) and `revenue` (float). Write Python using seaborn to plot mean revenue per region as a bar chart, with axis labels in euros. Explain each line.
-
-. . .
 
 The difference is **context, names, types, and the request to explain**.
 
 ## The Rule for This Module
 
-::: incremental
 - Type the code yourself for the first four weeks. Muscle memory is real.
 - If an assistant gives you code with a function we have not seen, ask it what that function does before using it
 - Never paste code you cannot read into an assessment
-:::
-
-. . .
 
 You are not being trained to produce code. You are being trained to **judge** code.
 
@@ -698,8 +608,6 @@ total = units * price   # was Price
 print("Total:", total)  # was "Total: " + total
 ```
 
-. . .
-
 Three errors, three different lessons: case sensitivity, consistency, and text vs numbers.
 
 # 7. Saving Your Work
@@ -712,24 +620,18 @@ Colab autosaves to Google Drive, but you should know the three exports:
 - `File -> Download -> .ipynb`: the notebook file, what you submit
 - `File -> Download -> .py`: the code only, no output
 
-. . .
-
 ::: {.callout-warning}
 `Runtime -> Run all` before submitting anything. A notebook that only works in the order you happened to click is a notebook that does not work.
 :::
 
 ## Getting Better at Python
 
-::: incremental
 - **Type, do not copy.** Copy-paste teaches nothing.
 - **Break things on purpose.** Change a number, remove a bracket, see what happens.
 - **Read other people's code.** Kaggle notebooks are free and endless.
 - **Have a question of your own.** The people who learn fastest are the ones with a dataset they actually care about.
-:::
 
-. . .
-
-![](https://c.tenor.com/0heitU7-tg4AAAAC/copy-paste-paste.gif){width="30%" fig-align="center"}
+![](https://c.tenor.com/0heitU7-tg4AAAAC/copy-paste-paste.gif){.nostretch width="30%" fig-align="center"}
 
 ## Resources
 
@@ -738,17 +640,13 @@ Colab autosaves to Google Drive, but you should know the three exports:
 - [Automate the Boring Stuff](https://automatetheboringstuff.com/), free online, Al Sweigart
 - [Kaggle Learn: Python](https://www.kaggle.com/learn/python), 5 hours, interactive
 
-. . .
-
 For this module, none of these are required. The lecture and the exercises are enough.
 
 ## Before Next Week
 
-::: incremental
 1. Make sure you can open Colab and create a notebook
 2. Redo the two exercises from today from scratch, without looking at the solutions
 3. Write, in a text cell, one sentence describing a dataset you would like to analyse for your project
-:::
 
 ## References
 

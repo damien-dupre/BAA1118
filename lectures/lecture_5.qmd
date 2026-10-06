@@ -43,13 +43,9 @@ filters:
 
 You can now:
 
-::: incremental
 - Store data in lists and dictionaries
 - Decide with `if`
 - Repeat with `for`
-:::
-
-. . .
 
 That is a complete programming language. Everything from here is about **not writing the same thing twice**.
 
@@ -72,8 +68,6 @@ for p in prices_b:
 print(round(total_a, 2), round(total_b, 2))
 ```
 
-. . .
-
 Two nearly identical blocks. Now the VAT rate changes to 24%. How many places do you edit? How many do you forget?
 
 ## Functions You Already Use
@@ -84,23 +78,17 @@ print(round(3.14159, 2))
 print(sum([1, 2, 3]))
 ```
 
-::: incremental
 - You give **inputs** in the brackets: the *arguments*
 - You get an **output** back: the *return value*
 - You have no idea how `sum()` is written internally, and you do not need to
-:::
-
-. . .
 
 Writing your own is the same idea, applied to your problem.
 
 ## The Three Reasons
 
-::: incremental
 1. **Do not repeat yourself.** One definition, one place to fix.
 2. **Name your intention.** `compute_gross(net)` says what the four lines inside actually mean.
 3. **Test once.** If the function is right, every use of it is right.
-:::
 
 # 2. Defining a Function
 
@@ -112,15 +100,11 @@ def add_vat(net):
     return gross
 ```
 
-::: incremental
 - `def` starts the definition
 - `add_vat` is the name, in `snake_case`
 - `net` is the **parameter**: a name that exists inside the function
 - Colon, then an indented block
 - `return` sends a value back to the caller
-:::
-
-. . .
 
 Defining a function **runs nothing**. It only creates the tool.
 
@@ -138,8 +122,6 @@ Source: UBC Master of Data Science, [Programming in Python for Data Science](htt
 print(add_vat(100))
 print(add_vat(1847.35))
 ```
-
-. . .
 
 The value in the brackets is the **argument**. It is copied into the parameter `net` for the duration of the call.
 
@@ -160,21 +142,15 @@ def add_vat_return(net):
     return net * 1.23
 ```
 
-. . .
-
 ```{python}
 a = add_vat_print(100)
 print(a)
 ```
 
-. . .
-
 ```{python}
 b = add_vat_return(100)
 print(b * 2)
 ```
-
-. . .
 
 **`print` shows a human. `return` gives a value back to the program.** Analysis functions return.
 
@@ -189,8 +165,6 @@ def check_spend(spend):
 print(check_spend(1500))
 print(check_spend(200))
 ```
-
-. . .
 
 The moment a `return` runs, the function stops. No `else` is needed here.
 
@@ -209,8 +183,6 @@ def add_vat(net, rate=0.23):
 
 help(add_vat)
 ```
-
-. . .
 
 Three lines of docstring now save you an hour in March.
 
@@ -262,8 +234,6 @@ def net_profit(revenue, cost, tax_rate):
 print(net_profit(10000, 6000, 0.125))
 ```
 
-. . .
-
 Arguments are matched **by position**, in order. Get the order wrong and you get a wrong answer with no error:
 
 ```{python}
@@ -278,8 +248,6 @@ Name the arguments and position stops mattering:
 print(net_profit(revenue=10000, cost=6000, tax_rate=0.125))
 print(net_profit(tax_rate=0.125, revenue=10000, cost=6000))
 ```
-
-. . .
 
 ::: {.callout-tip}
 Use keywords whenever a function takes more than two arguments. Your future self reading `net_profit(10000, 6000, 0.125)` will not remember which is which.
@@ -296,11 +264,9 @@ print(add_vat(100, 0.135))     # overrides it
 print(add_vat(100, rate=0.09))
 ```
 
-::: incremental
 - Parameters with defaults are **optional**
 - They must come after the parameters without defaults
 - This is how `round(x)` and `round(x, 2)` can both work
-:::
 
 ## Scope
 
@@ -316,8 +282,6 @@ print(compute())
 print(hidden)
 ```
 
-. . .
-
 This is a feature: a function cannot silently break the rest of your notebook.
 
 ## Scope, The Other Direction
@@ -332,8 +296,6 @@ def add_vat_global(net):
 
 print(add_vat_global(100))
 ```
-
-. . .
 
 ::: {.callout-warning}
 This works, and it is a trap. The function now depends on something invisible in its own definition. Change `vat_rate` elsewhere and the function quietly changes behaviour. **Pass what you need as a parameter.**
@@ -356,8 +318,6 @@ print(invoice_total([10.0, 25.0, 8.5]))
 print(invoice_total([10.0, 25.0, 8.5], rate=0.09))
 ```
 
-. . .
-
 Small functions combined beat one large one, every time.
 
 ## Returning Several Values
@@ -372,8 +332,6 @@ def describe(values):
 count, total, mean = describe([120, 135, 148, 160])
 print(count, total, round(mean, 1))
 ```
-
-. . .
 
 Python returns a **tuple**, which you unpack exactly as in lecture 3.
 
@@ -421,8 +379,6 @@ print(math.pi)
 print(math.log(100, 10))
 ```
 
-. . .
-
 `math.sqrt` reads as *"the sqrt function from the math module"*. The dot means "inside".
 
 ## Useful Standard Modules
@@ -434,15 +390,11 @@ print(random.randint(1, 6))
 print(random.choice(["A", "B", "C"]))
 ```
 
-. . .
-
 ```{python}
 import statistics
 values = [120, 135, 148, 160, 240]
 print(statistics.mean(values), statistics.median(values))
 ```
-
-. . .
 
 ```{python}
 from datetime import date
@@ -458,13 +410,9 @@ import pandas as pd         # pd.read_csv(...)
 from math import sqrt       # sqrt(16)
 ```
 
-::: incremental
 - `import x`: safest, always clear where a function comes from
 - `import x as y`: the standard for the big data libraries, and the alias is conventional, not arbitrary
 - `from x import y`: convenient, but hides the origin
-:::
-
-. . .
 
 ```{python}
 #| eval: false
@@ -482,8 +430,6 @@ import seaborn as sns
 import statsmodels.formula.api as smf
 ```
 
-. . .
-
 These five lines open almost every data analysis notebook in the world. **Use exactly these aliases**: any code you find online assumes them.
 
 ## The Python Ecosystem
@@ -498,14 +444,10 @@ You will use six of these. The rest exist, and they all install the same way.
 
 ## Packages Are Not Modules
 
-::: incremental
 - A **module** is one `.py` file of code
 - A **package** is a collection of modules, distributed together
 - The standard library is included with Python
 - Everything else has to be **installed**
-:::
-
-. . .
 
 ```{python}
 #| eval: false
@@ -514,20 +456,14 @@ pip install seaborn                  # in a terminal
 python -m pip install seaborn        # in a terminal, the safe form
 ```
 
-. . .
-
 `pip` is Python's package installer. `python -m pip` runs it through a **named** interpreter, which removes all doubt about where the package lands. More on that in week 6.
 
 ## Installing vs Importing
 
 Two separate steps, and confusing them is a rite of passage:
 
-::: incremental
 - **Install** once per machine or environment: downloads the code
 - **Import** once per session: makes it available in this notebook
-:::
-
-. . .
 
 ```{python}
 #| error: true
@@ -535,8 +471,6 @@ import definitely_not_a_real_package
 ```
 
 `ModuleNotFoundError` means it is not installed, or the name is misspelt.
-
-. . .
 
 Colab has pandas, numpy, matplotlib, seaborn, scikit-learn and statsmodels pre-installed. From week 6 you will install them yourself.
 
@@ -557,8 +491,6 @@ orders  = pd.read_json("orders.json")
 daily   = pd.read_parquet("roasted_daily.parquet")
 ```
 
-. . .
-
 Four different files on disk, four one-line calls, and **the same DataFrame out of each**.
 That is the whole reason the formats do not matter much once the file is in reach.
 
@@ -566,17 +498,13 @@ That is the whole reason the formats do not matter much once the file is in reac
 
 `read_csv` and `read_json` are built in. The other two are not:
 
-::: incremental
 - `read_excel` needs **openpyxl**
 - `read_parquet` needs **pyarrow**
-:::
 
 ```{python}
 #| eval: false
 !pip install openpyxl pyarrow
 ```
-
-. . .
 
 Colab has both pre-installed, so today it just works. On your own machine next week it will
 not, and you will install them yourself. Remember the distinction from twenty minutes ago:
@@ -586,12 +514,8 @@ not, and you will install them yourself. Remember the distinction from twenty mi
 
 `pd.read_csv("roasted_stores.csv")` looks for that file **on the machine running Python**.
 
-. . .
-
 In Colab, that machine is a virtual computer in a Google data centre. Your file is on your
 laptop. They have never met.
-
-. . .
 
 Before we bridge that gap, we need to be able to say **where a file is**. That is a path.
 
@@ -605,13 +529,11 @@ A path is a file's address: the folders you pass through, then the file name.
  root   user    folder    folder  folder      file name
 ```
 
-::: incremental
 - **Absolute**: starts at the root and works on no other machine but this one
 - **Relative**: starts from wherever Python currently is, and travels with the project
 - The **separator** is `/` on macOS and Linux, and `\` on Windows, although Windows accepts
   `/` too and you should always give it one
 - `~` is a shortcut for your home folder
-:::
 
 ## Roots Look Different
 
@@ -628,8 +550,6 @@ A path is a file's address: the folders you pass through, then the file name.
 "/content/stores.csv"
 ```
 
-. . .
-
 Notice the last one. In Colab you are not on your own computer at all, and the path reflects
 that: `/content` is a folder on a machine you will never see again after today.
 
@@ -644,14 +564,10 @@ Colab's runtime has a disk of its own. Ask it where you are:
 !ls /content
 ```
 
-::: incremental
 - You start in `/content`
 - Anything you upload lands in `/content`
 - The **folder icon** in the left sidebar is a file browser for exactly this
 - All of it is deleted when the runtime stops
-:::
-
-. . .
 
 `!` at the start of a line means "run this as a terminal command, not as Python". It is a
 Colab and Jupyter convenience, not part of the language.
@@ -660,21 +576,15 @@ Colab and Jupyter convenience, not part of the language.
 
 Once a file is in Colab:
 
-::: incremental
 1. Click the **folder icon** in the left sidebar
 2. Find your file
 3. Right-click it, choose **Copy path**
 4. Paste it between the quotes of `pd.read_csv("")`
-:::
-
-. . .
 
 ```{python}
 #| eval: false
 df = pd.read_csv("/content/roasted_stores.csv")
 ```
-
-. . .
 
 Typing a path by hand is how you spend ten minutes on a typo. **Copy it, every time.**
 
@@ -692,8 +602,6 @@ pd.read_csv("C:/Users/damien/data/file")
 pd.read_csv("C:\Users\damien\data\file.csv")
 ```
 
-. . .
-
 The third one is the cruel one. `\t` means tab and `\f` means form feed, so Python never
 even sees the folder names. Use forward slashes, or put an `r` before the quote:
 `r"C:\Users\damien\data\file.csv"`.
@@ -709,17 +617,13 @@ pd.read_csv("stores.csv")
 FileNotFoundError: [Errno 2] No such file or directory: 'stores.csv'
 ```
 
-. . .
-
 Ignore the twenty lines of traceback above it and read that last line. It means exactly
 what it says. Four checks, in order, and they take twenty seconds:
 
-::: incremental
 1. `!pwd` and `!ls`: am I where I think I am, and is the file there?
 2. Is the **extension** in the name? Windows and macOS both hide them by default.
 3. Is the **spelling and the capitalisation** right? `Stores.csv` is a different file.
 4. Did I copy the path, or type it?
-:::
 
 ## Capitals Matter Here, But Not At Home
 
@@ -736,12 +640,8 @@ pd.read_csv("Stores.csv")   # works on your Mac or PC
 pd.read_csv("stores.csv")   # the same file, also works there
 ```
 
-. . .
-
 Colab runs on Linux, where those are **two different files** and one of them does not exist.
 The same is true of every server your code will ever run on, including the one marking it.
-
-. . .
 
 **Type the name exactly as it appears**, capitals and all, or copy it. Lower case
 everywhere, always, is the habit that makes this a non-issue.
@@ -761,11 +661,9 @@ url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gap
 gapminder = pd.read_csv(url)
 ```
 
-::: incremental
 - One line, no uploading, works every time the runtime restarts
 - Which is why every dataset in this module is hosted this way
 - **But**: only for files that are public. Your employer's sales data is not.
-:::
 
 ## Option 2: Upload By Hand
 
@@ -777,12 +675,10 @@ uploaded = files.upload()          # opens a file picker
 sales = pd.read_csv("my_sales.csv")
 ```
 
-::: incremental
 - A button appears, you choose the file, it copies to the runtime
 - Works for anything, including private data
 - **But**: the file lives in the runtime, so it disappears when the runtime does
 - Which means you re-upload it. Every session. By hand.
-:::
 
 ## Option 3: Mount Google Drive
 
@@ -794,12 +690,10 @@ drive.mount("/content/drive")
 sales = pd.read_csv("/content/drive/MyDrive/BAA1118/data/my_sales.csv")
 ```
 
-::: incremental
 - The file persists between sessions, because it is in Drive rather than the runtime
 - **But**: you authorise it in a pop-up every session
 - **But**: your data now has to live in Google Drive
 - **But**: look at that path. `/content/drive/MyDrive/...` is not where your file is.
-:::
 
 ## The Pattern You Should Notice
 
@@ -813,8 +707,6 @@ from google.colab import drive
 drive.mount("/content/drive")
 sales = pd.read_csv("/content/drive/MyDrive/BAA1118/data/my_sales.csv")
 ```
-
-. . .
 
 ::: {.callout-important}
 All three options are workarounds for one fact: **the file is not on the machine running
@@ -844,8 +736,6 @@ pd.read_excel("report.xlsx", sheet_name="Q1 Sales", skiprows=2)
 pd.read_excel("report.xlsx", sheet_name=None)
 ```
 
-. . .
-
 `sheet_name=None` giving you a **dictionary of DataFrames** is the reason lecture 3 spent
 time on dictionaries.
 
@@ -858,8 +748,6 @@ time on dictionaries.
 help(round)
 ```
 
-. . .
-
 In Colab and Jupyter, `round?` in a cell shows the same thing in a panel, and <kbd>Shift</kbd>+<kbd>Tab</kbd> inside the brackets shows the arguments as you type.
 
 ## Reading a Function Signature
@@ -870,26 +758,20 @@ pandas.read_csv(filepath_or_buffer, sep=',', header='infer', names=None,
                 index_col=None, usecols=None, ...)
 ```
 
-::: incremental
 - The **first** parameter has no default: it is required
 - Everything with an `=` is optional
 - The order of optional arguments does not matter if you name them
 - `...` means there are 40 more you will never need
-:::
-
-. . .
 
 You are not expected to memorise these. You are expected to **find them**.
 
 ## Where to Look, In Order
 
-::: incremental
 1. `help(function)` or <kbd>Shift</kbd>+<kbd>Tab</kbd> in the notebook
 2. The official documentation: [docs.python.org](https://docs.python.org), [pandas.pydata.org](https://pandas.pydata.org/docs/)
 3. A search engine, with the library name in the query
 4. An AI assistant, asking it to **explain** rather than just produce
 5. Stack Overflow, reading the accepted answer *and* the comments below it
-:::
 
 ## Asking an Assistant Well
 
@@ -897,13 +779,9 @@ Weak:
 
 > write a function for vat
 
-. . .
-
 Strong:
 
 > Write a Python function `add_vat(net, rate=0.23)` that returns the gross amount rounded to 2 decimals. Include a docstring. Then show me three calls that test it, including one edge case.
-
-. . .
 
 Notice: the **signature is yours**. You decide what the function should look like; the assistant fills it in.
 
@@ -940,8 +818,6 @@ print(clean("  Dublin  "))
 print(clean("  Dublin  ", lower=False))
 ```
 
-. . .
-
 `round(x)` with no second argument returns an integer; `round(x, 0)` returns a float. Small difference, occasionally annoying.
 
 ## Your Turn: Modules {background="#43464B"}
@@ -971,8 +847,6 @@ print(rolls)
 print(len([r for r in rolls if r >= 5]))
 ```
 
-. . .
-
 ```{python}
 import pandas as pd
 
@@ -980,13 +854,10 @@ url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gap
 print(pd.read_csv(url).shape)
 ```
 
-. . .
-
 `_` is the conventional name for a loop variable you do not use.
 
 ## What We Have Seen
 
-::: incremental
 - `def name(parameters):` and `return`
 - `return` gives a value back, `print` only shows it
 - Positional, keyword and default arguments
@@ -998,18 +869,15 @@ print(pd.read_csv(url).shape)
 - The three paths that never work, and the four checks for `FileNotFoundError`
 - `read_csv`, `read_excel`, `read_json`, `read_parquet`, and the three awkward ways to put a
   file where Colab can see it
-:::
 
 ## Half Time
 
-::: incremental
 - You have the whole language: values, collections, conditions, loops, functions
 - You know what the four file formats are, which function reads each one, and how to write
   the path to a file
 - Everything from now on is **libraries**: other people's functions, applied to data
 - Week 6 moves you off Colab and onto your own machine
 - Weeks 7 to 10 are one continuous analysis: import, clean, aggregate, visualise, predict
-:::
 
 ## Before Next Week
 

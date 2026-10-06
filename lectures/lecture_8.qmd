@@ -63,12 +63,8 @@ gapminder.head(3)
 
 ## The Question Behind Everything Today
 
-::: incremental
 - Week 7 answered: *what is in this table?*
 - Week 8 answers: **what is the answer per group?**
-:::
-
-. . .
 
 Almost every business question is a grouped one:
 
@@ -85,8 +81,6 @@ print(gapminder["life_exp"].std())
 print(gapminder["life_exp"].min(), gapminder["life_exp"].max())
 ```
 
-. . .
-
 ```{python}
 gapminder["life_exp"].describe()
 ```
@@ -97,13 +91,9 @@ gapminder["life_exp"].describe()
 gapminder[["life_exp", "gdp_per_cap", "pop"]].mean()
 ```
 
-. . .
-
 ```{python}
 gapminder[["life_exp", "gdp_per_cap"]].agg(["mean", "median", "std"]).round(2)
 ```
-
-. . .
 
 `agg()` takes a list of functions and applies each one to each column.
 
@@ -113,13 +103,9 @@ gapminder[["life_exp", "gdp_per_cap"]].agg(["mean", "median", "std"]).round(2)
 gapminder["continent"].value_counts()
 ```
 
-. . .
-
 ```{python}
 gapminder["continent"].value_counts(normalize=True).round(3)
 ```
-
-. . .
 
 `normalize=True` gives proportions, which is almost always what you actually want to report.
 
@@ -144,21 +130,15 @@ print(gapminder[["life_exp", "gdp_per_cap"]].agg(["mean", "median", "std"]).roun
 print(gapminder.nlargest(1, "gdp_per_cap")[["country", "year", "gdp_per_cap"]])
 ```
 
-. . .
-
 The mean sits below the median because the long tail of low life expectancies pulls it down. Kuwait in 1957 is the outlier that will distort every model you fit until you notice it.
 
 # 2. groupby
 
 ## Split, Apply, Combine
 
-::: incremental
 1. **Split** the table into groups, by the values of a column
 2. **Apply** a function to each group
 3. **Combine** the results into a new table
-:::
-
-. . .
 
 Three words that describe `GROUP BY` in SQL, `dplyr::group_by()` in R, and pivot tables in Excel. They are the same idea.
 
@@ -178,15 +158,11 @@ Source: UBC Master of Data Science, [Programming in Python for Data Science](htt
 gapminder.groupby("continent")["life_exp"].mean()
 ```
 
-. . .
-
 Read it in three parts:
 
-::: incremental
 - `.groupby("continent")`: split by continent
 - `["life_exp"]`: on this column
 - `.mean()`: compute this
-:::
 
 ## The Result Is a Series
 
@@ -195,8 +171,6 @@ result = gapminder.groupby("continent")["life_exp"].mean()
 print(type(result))
 print(result.index)
 ```
-
-. . .
 
 The grouping column has become the **index**. To get an ordinary table back:
 
@@ -210,11 +184,7 @@ gapminder.groupby("continent")["life_exp"].mean().reset_index()
 gapminder.groupby(["continent", "year"])["life_exp"].mean().head(6)
 ```
 
-. . .
-
 One row per combination. With 5 continents and 12 years, 60 rows.
-
-. . .
 
 ```{python}
 gapminder.groupby(["continent", "year"])["life_exp"].mean().reset_index().head(3)
@@ -235,8 +205,6 @@ gapminder.query("year == 2007").groupby("continent").agg({
     "pop": "sum"
 }).round(1)
 ```
-
-. . .
 
 A dictionary: column name to function name. This is how a real summary table is built.
 
@@ -273,8 +241,6 @@ summary
 )
 ```
 
-. . .
-
 The output of a `groupby` is an ordinary Series or DataFrame. Everything from week 7 still applies to it.
 
 ## transform: A Group Value on Every Row
@@ -287,8 +253,6 @@ gapminder.query("year == 2007 and continent == 'Europe'")[
     ["country", "life_exp", "continent_mean", "vs_continent"]
 ].head(4)
 ```
-
-. . .
 
 `agg` reduces to one row per group. `transform` keeps every row and broadcasts the group value back. This is how you compute "above or below the segment average".
 
@@ -339,13 +303,9 @@ gapminder["rel_to_continent"] = (
 
 Real data lives in several tables:
 
-::: incremental
 - One table of transactions, one of customers
 - One table of measurements, one of country metadata
 - One table per year, exported separately
-:::
-
-. . .
 
 A **join** (or merge) combines them using a shared **key** column.
 
@@ -375,11 +335,9 @@ merged = gapminder.query("year == 2007").merge(region_info, on="continent")
 merged[["country", "continent", "hemisphere", "n_un_members"]].head(4)
 ```
 
-::: incremental
 - `on=` names the key column, which must exist in both tables
 - Every row of the left table finds its matching row on the right
 - The right table's other columns are added
-:::
 
 ## The Four Kinds of Join
 
@@ -389,8 +347,6 @@ merged[["country", "continent", "hemisphere", "n_un_members"]].head(4)
 | `"left"` | all rows of the left table |
 | `"right"` | all rows of the right table |
 | `"outer"` | all keys from both |
-
-. . .
 
 ::: {.callout-tip}
 In analysis, `how="left"` is usually right: keep all your observations, add information where it exists. `inner` silently deletes rows, which is how row counts mysteriously drop.
@@ -433,8 +389,6 @@ print("left: ", left.shape[0], "rows")
 print("missing hemisphere:", left["hemisphere"].isna().sum())
 ```
 
-. . .
-
 **Always compare the row count before and after a join.** It is the cheapest bug-catcher in data analysis.
 
 ## Different Key Names
@@ -461,8 +415,6 @@ y2007 = gapminder.query("year == 2007")
 stacked = pd.concat([y1952, y2007], ignore_index=True)
 print(y1952.shape, y2007.shape, stacked.shape)
 ```
-
-. . .
 
 This is how you combine twelve monthly export files into one table.
 
@@ -496,8 +448,6 @@ What humans want to read, and what Excel exports.
 :::
 ::::
 
-. . .
-
 You will spend a surprising amount of your career converting between the two.
 
 ## Wide and Long
@@ -519,11 +469,9 @@ wide = (
 wide.iloc[:, :6]
 ```
 
-::: incremental
 - `index`: what stays as rows
 - `columns`: what becomes new columns
 - `values`: what fills the cells
-:::
 
 ## pivot, Animated
 
@@ -546,8 +494,6 @@ Source: UBC Master of Data Science, [Programming in Python for Data Science](htt
 )
 ```
 
-. . .
-
 This is precisely an Excel pivot table, written in one line and reproducible.
 
 ## Wide to Long: melt
@@ -561,12 +507,8 @@ long = wide.reset_index().melt(
 long.head(4)
 ```
 
-::: incremental
 - `id_vars`: the columns to keep as they are
 - everything else is unpivoted into two columns: a name and a value
-:::
-
-. . .
 
 `melt` is what you run immediately after opening a spreadsheet a human designed.
 
@@ -632,11 +574,9 @@ report
 
 ## Why Chain
 
-::: incremental
 - No intermediate variables named `df2`, `df3`, `df_final`
 - Each line is one verb, readable top to bottom
 - Nothing is modified in place, so rerunning a cell is always safe
-:::
 
 ## Chaining
 
@@ -645,8 +585,6 @@ report
 ::: {.small-font}
 Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
 :::
-
-. . .
 
 ::: {.callout-tip}
 Build a chain **one line at a time**, running it after each addition. Never write twelve lines and then hunt for the error.
@@ -663,8 +601,6 @@ Build a chain **one line at a time**, running it after each addition. Never writ
     .groupby("continent")["life_exp"].mean()
 )
 ```
-
-. . .
 
 Or simply comment out the lines below the one you suspect and run what remains. The chain is still valid code at every step.
 
@@ -705,28 +641,22 @@ r2007.merge(r1952, on="continent", suffixes=("_2007", "_1952"))[
 ]
 ```
 
-. . .
-
 Note `@y` inside `query()`: it refers to a Python variable rather than a column. And note that the function from week 5 has just saved us writing the chain twice.
 
 ## What We Have Seen
 
-::: incremental
 - Split, apply, combine: `groupby().agg()`
 - Named aggregations for clean output columns
 - `transform` to put a group value back on every row
 - `merge` for columns, `concat` for rows, and always check the row count
 - `pivot` / `pivot_table` and `melt`
 - Chained pipelines, built one line at a time
-:::
 
 ## Before Next Week
 
-::: incremental
 1. Apply today's four operations to **your project dataset**: one groupby, one join if you have a second table, one reshape
 2. Write down the three most interesting numbers you find. They are the start of your report.
 3. Next week we make them visible.
-:::
 
 ## References
 

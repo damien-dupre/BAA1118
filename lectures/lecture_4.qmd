@@ -26,7 +26,6 @@ filters:
 
 - ✅ Lists, dictionaries, indexing and slicing
 - ✅ Comparisons returning `True` or `False`
-- ✅ Assessment 1 submitted or in progress
 
 #### Programme
 
@@ -47,16 +46,10 @@ price = 12.99
 print(units * price)
 ```
 
-. . .
-
 Real analysis needs two more things:
 
-::: incremental
 - Doing something **only sometimes**: conditions
 - Doing something **many times**: loops
-:::
-
-. . .
 
 Together they are called **control flow**: you control the order in which lines run.
 
@@ -71,11 +64,9 @@ if spend > 1000:
     print("Premium customer")
 ```
 
-::: incremental
 - The line starts with `if` and ends with a **colon**
 - The block underneath is **indented**
 - The block runs only when the condition is `True`
-:::
 
 ## Indentation Is Syntax
 
@@ -86,8 +77,6 @@ In most languages, indentation is decoration. In Python, it **is the code**.
 if spend > 1000:
 print("Premium")
 ```
-
-. . .
 
 The convention is **4 spaces**. Colab and VS Code insert them for you when you press <kbd>Enter</kbd> after a colon.
 
@@ -105,8 +94,6 @@ if spend > 1000:
 else:
     print("Standard customer")
 ```
-
-. . .
 
 `else` has no condition. It catches everything the `if` did not.
 
@@ -127,11 +114,9 @@ else:
 print(segment)
 ```
 
-::: incremental
 - Conditions are tested **in order**, top to bottom
 - The **first** true one runs, the rest are skipped
 - Order therefore matters enormously
-:::
 
 ## if / elif / else
 
@@ -153,8 +138,6 @@ elif spend > 1000:
 
 print(segment)
 ```
-
-. . .
 
 The customer spent €1,250 and was labelled Silver, because `> 100` was tested first and won.
 
@@ -178,25 +161,21 @@ if not spend > 1000:
 
 ## Truthiness
 
-Python accepts any value where a condition is expected.
+You can put any value after `if`, not only a comparison. Python decides whether it counts as `True` or `False`:
+
+- **Falsy** values count as `False`: zero, empty or nothing (`0`, `""`, `[]`, `{}`, `None`)
+- **Truthy** values count as `True`: everything else, such as `42` or `"Dublin"`
 
 ```{python}
-print(bool(0), bool(42))
-print(bool(""), bool("text"))
-print(bool([]), bool([1, 2]))
-print(bool(None))
+email = ""
+
+if email:    # reads as "if there is an email"
+    print("Send the newsletter")
+else:
+    print("No email on file")
 ```
 
-. . .
-
-So this is idiomatic Python:
-
-```{python}
-orders = []
-
-if not orders:
-    print("This customer has no orders")
-```
+`""` and `None` are both falsy, so `if email:` catches both.
 
 ## Nested Conditions
 
@@ -213,71 +192,110 @@ else:
     print("International")
 ```
 
-. . .
-
 Each level adds 4 spaces. Beyond two levels, the code is hard to read: combine with `and` instead.
 
 ## Your Turn: Grading {background="#43464B"}
 
-Write code that turns a mark out of 100 into a DCU grade:
+:::: {layout="[1,1]"}
+::: {#first-column}
+
+Write code that turns a mark out of 100 into a grade:
 
 | Mark | Grade |
 |:--|:--|
 | 70 and above | First |
-| 60 to 69 | 2H1 |
-| 50 to 59 | 2H2 |
-| 40 to 49 | Pass |
+| 40 to 69 | Pass |
 | below 40 | Fail |
 
-1. Store a mark in a variable, produce the grade with `if` / `elif` / `else`
-2. Print it with an f-string: `A mark of 64 is a 2H1`
-3. Test it with 70, 39, 100 and 60
-
-::: {#timer1 .timer seconds="420" starton="interaction"}
 :::
 
+::: {#second-column}
+
+1. Store a mark in a variable, produce the grade with `if` / `elif` / `else`
+2. Print it with an f-string:\
+   `A mark of 64 is a Pass`
+3. Test it with 70, 40 and 39
+
+::: {#timer1 .timer seconds="300" starton="interaction"}
+:::
+
+:::
+::::
+
 ## Solution
+
+:::: {.code-columns}
+::: {#first-column}
+
+| Mark | Grade | Branch |
+|:--|:--|:--|
+| 70 and above | First | `if` |
+| 40 to 69 | Pass | `elif` |
+| below 40 | Fail | `else` |
+
+:::
+
+::: {#second-column}
 
 ```{python}
 mark = 64
 
-if mark >= 70:
+if mark >= 70:       # 70 and above
     grade = "First"
-elif mark >= 60:
-    grade = "2H1"
-elif mark >= 50:
-    grade = "2H2"
-elif mark >= 40:
+elif mark >= 40:     # 40 to 69
     grade = "Pass"
-else:
+else:                # below 40
     grade = "Fail"
 
 print(f"A mark of {mark} is a {grade}")
 ```
 
-. . .
+:::
+::::
 
-Note that `>=` is doing the work: with `>` a mark of exactly 70 would be a 2H1.
+- Each row of the table becomes one branch, in the same order
+- The `elif` needs no `mark < 70`: the `if` has already caught 70 and above
+- `>=` matters: with `>`, a mark of exactly 70 would be a Pass
 
 # 2. for Loops
 
 ## Repeating Over a Collection
 
-Last week's problem: totalling a list without `sum()`.
+Two ways to total a list without `sum()`:
+
+:::: {.code-columns}
+::: {#first-column}
+
+**By hand**: one line per element
 
 ```{python}
 sales = [120, 135, 148, 160]
 
 total = 0
-for value in sales:
-    total = total + value
-
+total = total + sales[0]
+total = total + sales[1]
+total = total + sales[2]
+total = total + sales[3]
 print(total)
 ```
 
-. . .
+:::
 
-Read it as English: *"for each value in sales, add it to total"*.
+::: {#second-column}
+
+**With a `for` loop**: one line, repeated
+
+```{python}
+total = 0
+for value in sales:
+    total = total + value
+    print(f"added {value}, total {total}")
+```
+
+:::
+::::
+
+Read the loop as English: *"for each value in sales, add it to total"*. The `print()` inside the loop shows each step.
 
 ## Anatomy of a for Loop
 
@@ -287,12 +305,10 @@ for item in collection:
     do_something_with(item)
 ```
 
-::: incremental
 - `item` is a **new variable you name**, holding one element at a time
 - `collection` is a list, string, dictionary, or anything iterable
 - The colon and the indented block, exactly as with `if`
 - The block runs once per element
-:::
 
 ## Watching It Run
 
@@ -309,8 +325,6 @@ for country in ["Ireland", "France", "Spain"]:
     print("Now processing:", country)
 ```
 
-. . .
-
 The loop variable survives after the loop, holding the last value:
 
 ```{python}
@@ -326,8 +340,6 @@ for i in range(5):
     print(i)
 ```
 
-. . .
-
 `range(5)` gives 0, 1, 2, 3, 4: **five numbers, starting at zero, stopping before 5**. The same rule as slicing.
 
 ```{python}
@@ -337,12 +349,15 @@ print(list(range(0, 10, 2)))
 
 ## The Accumulator Pattern
 
-Three lines you will write for the rest of your life:
+Three steps you will write for the rest of your life:
+
+:::: {.code-columns}
+::: {#first-column}
 
 ```{python}
 sales = [120, 135, 148, 160]
 
-# 1. start empty
+# 1. start at zero
 total = 0
 count = 0
 
@@ -351,9 +366,32 @@ for value in sales:
     total += value
     count += 1
 
-# 3. use the result
-print(total, count, total / count)
+# 3. use the results
+print("Total:", total)
+print("Count:", count)
+print("Mean:", total / count)
 ```
+
+:::
+
+::: {#second-column}
+
+**What `+=` means**
+
+```{.python}
+total += value
+# is short for
+total = total + value
+```
+
+Add `value` to `total`, then store the result back in `total`.
+
+`count += 1` adds 1 each time round, so `count` ends up as the number of sales.
+
+`-=`, `*=` and `/=` work the same way.
+
+:::
+::::
 
 ## Building a New List
 
@@ -367,9 +405,21 @@ for price in prices:
 print(prices_with_vat)
 ```
 
-. . .
-
 Start with an empty list, `append()` inside the loop. This is the second most common loop pattern.
+
+## Why Not Start at 0?
+
+A total starts at `0`, so why does this list start at `[]`? Try it with `0`:
+
+```{python}
+#| error: true
+prices_with_vat = 0
+prices_with_vat.append(12.3)
+```
+
+- `append()` only exists for lists
+- `0` is an `int`, and an `int` has no `append()`: that is what the error says
+- Start with the empty version of what you are building: `0` for a total, `[]` for a list
 
 ## Filtering Inside a Loop
 
@@ -396,14 +446,10 @@ for key in customer:
     print(key)
 ```
 
-. . .
-
 ```{python}
 for key, value in customer.items():
     print(f"{key}: {value}")
 ```
-
-. . .
 
 `.items()` gives both at once, and the two loop variables are unpacked exactly as with tuples.
 
@@ -424,8 +470,6 @@ for record in sales:
 print(total_north)
 ```
 
-. . .
-
 Eight lines. In week 8, pandas does this in one: `df.groupby("region")["units"].sum()`.
 
 ## enumerate() and zip()
@@ -439,8 +483,6 @@ for i, country in enumerate(countries):
     print(i, country)
 ```
 
-. . .
-
 When you need to walk two lists together:
 
 ```{python}
@@ -453,45 +495,62 @@ for country, unit in zip(countries, units):
 ## Your Turn: Loop Practice {background="#43464B"}
 
 ```{.python}
-monthly = [120, 135, 148, 160, 155, 149, 171, 168, 180, 190, 205, 240]
-months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+monthly = [130, 120, 165, 185]
+months = ["Jan", "Feb", "Mar", "Apr"]
 ```
 
-1. Loop to compute the total and the mean, without `sum()`
-2. Build a list `growth` holding each month's value **minus the previous one** (11 values)
-3. Print the name of every month above 170 units, using `zip()`
-4. Count how many months were above the mean
+Each task reuses one pattern from the previous slides:
 
-::: {#timer2 .timer seconds="660" starton="interaction"}
+1. The total and the mean of `monthly`, without `sum()`
+2. A new list `target`: each value plus 10, using `append()`
+3. Print only the values above 150
+4. Use `zip()` to print each month with its value: `Jan: 130`
+
+::: {#timer2 .timer seconds="300" starton="interaction"}
 :::
 
 ## Solution
 
+:::: {.code-columns}
+::: {#first-column}
+
 ```{python}
-monthly = [120, 135, 148, 160, 155, 149, 171, 168, 180, 190, 205, 240]
-months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+monthly = [130, 120, 165, 185]
+months = ["Jan", "Feb", "Mar", "Apr"]
 
 total = 0
+count = 0
 for value in monthly:
     total += value
-mean = total / len(monthly)
-print(total, round(mean, 1))
-
-growth = []
-for i in range(1, len(monthly)):
-    growth.append(monthly[i] - monthly[i - 1])
-print(growth)
-
-for month, value in zip(months, monthly):
-    if value > 170:
-        print(month)
-
-above = 0
-for value in monthly:
-    if value > mean:
-        above += 1
-print(above, "months above average")
+    count += 1
+print("Total:", total)
+print("Mean:", total / count)
 ```
+
+```{python}
+target = []
+for value in monthly:
+    target.append(value + 10)
+print(target)
+```
+
+:::
+
+::: {#second-column}
+
+```{python}
+for value in monthly:
+    if value > 150:
+        print(value)
+```
+
+```{python}
+for month, value in zip(months, monthly):
+    print(f"{month}: {value}")
+```
+
+:::
+::::
 
 # 3. while Loops
 
@@ -510,8 +569,6 @@ while balance < 2000:
 print(years, round(balance, 2))
 ```
 
-. . .
-
 We did not know in advance that it would take 15 years. That is exactly when `while` is the right tool.
 
 ## The Infinite Loop
@@ -527,8 +584,6 @@ while count < 10:
 Every `while` loop must contain a line that eventually makes the condition false. If Colab hangs, press the stop button, or `Runtime -> Interrupt execution`.
 :::
 
-. . .
-
 In practice, 95% of the loops you write in analytics are `for` loops.
 
 ## break and continue
@@ -540,8 +595,6 @@ for value in [45, 1200, 380, 2500, 90]:
         break            # stop the loop entirely
 ```
 
-. . .
-
 ```{python}
 for value in [45, None, 380, None, 90]:
     if value is None:
@@ -549,59 +602,77 @@ for value in [45, None, 380, None, 90]:
     print(value * 2)
 ```
 
-. . .
-
 `continue` is how you skip missing values without crashing.
 
 ## Your Turn: Until and Skip {background="#43464B"}
 
-1. A savings account holds €5,000 and grows 3% a year. Using a `while` loop, find how many years until it passes €10,000.
-2. Change the rate to 6% and rerun. Does the answer halve?
-3. This list contains missing readings:
+:::: {layout="[1,1]"}
+::: {#first-column}
 
-```{.python}
-readings = [12.5, None, 15.0, None, 9.8, 21.3]
-```
+**Until**: `while`
 
-Loop over it with `continue` to compute the mean of the values that exist, without crashing.
+1. €5,000 grows by 3% a year. Adapt the €1,000 example: how many years until it passes €10,000?
+2. Rerun at 6%. Does the answer halve?
 
-4. Using `break`, print the **first** reading above 15 and stop.
-
-::: {#timer4 .timer seconds="540" starton="interaction"}
+::: {#timer4 .timer seconds="300" starton="interaction"}
 :::
 
+:::
+
+::: {#second-column}
+
+**Skip and stop**: `continue`, `break`
+
+```{.python}
+readings = [12.5, None, 15.0, None, 9.8]
+```
+
+3. Print each reading, using `continue` to skip the `None` values
+4. Replace `continue` with `break` and rerun. What changes?
+
+:::
+::::
+
 ## Solution
+
+:::: {.code-columns}
+::: {#first-column}
 
 ```{python}
 balance = 5000
 years = 0
 while balance < 10000:
-    balance *= 1.03
+    balance = balance * 1.03
     years += 1
 print(years, "years at 3%")
 ```
 
+24 years at 3%, 12 at 6%: the "rule of 72" (72 ÷ the rate) predicts both.
+
+`continue` skips each `None` and carries on. `break` stops the loop at the first `None`, so only 12.5 is printed.
+
+:::
+
+::: {#second-column}
+
 ```{python}
-readings = [12.5, None, 15.0, None, 9.8, 21.3]
+readings = [12.5, None, 15.0, None, 9.8]
 
-total = 0
-count = 0
-for r in readings:
-    if r is None:
+for reading in readings:
+    if reading is None:
         continue
-    total += r
-    count += 1
-print(round(total / count, 2))
-
-for r in readings:
-    if r is not None and r > 15:
-        print("First above 15:", r)
-        break
+    print(reading)
 ```
 
-. . .
+```{python}
+for reading in readings:
+    if reading is None:
+        break
+    print(reading)
+```
 
-24 years at 3%, 12 years at 6%. Here doubling the rate does halve the time, which is the "rule of 72" in action. Try 1% and 2% and the pattern holds; try 40% and it does not.
+:::
+::::
 
 # 4. Comprehensions
 
@@ -617,8 +688,6 @@ for price in prices:
     with_vat.append(price * 1.23)
 print(with_vat)
 ```
-
-. . .
 
 The same thing, in one line:
 
@@ -637,8 +706,6 @@ print(with_vat)
 #   store      and where it comes from
 ```
 
-. . .
-
 Read it backwards: *"for each price in prices, store price times 1.23"*.
 
 ```{python}
@@ -655,8 +722,6 @@ big = [s for s in spends if s > 1000]
 print(big)
 ```
 
-. . .
-
 And a condition on the value stored:
 
 ```{python}
@@ -664,19 +729,15 @@ labels = ["big" if s > 1000 else "small" for s in spends]
 print(labels)
 ```
 
-. . .
-
 ::: {.callout-tip}
 If a comprehension no longer fits comfortably on one line, write it as a normal loop. Clever is not a goal.
 :::
 
 ## Why Bother?
 
-::: incremental
 - Shorter, and once you are used to it, clearer
 - It is everywhere in real Python code, so you must be able to **read** it
 - It hints at the next idea: **vectorisation**
-:::
 
 ## Loops Are Not the Destination
 
@@ -687,14 +748,10 @@ prices = pd.Series([10.0, 25.0, 8.5])
 prices * 1.23
 ```
 
-. . .
-
 No loop. The operation applies to the whole column at once, and it is roughly 100 times faster on real data.
 
-::: incremental
 - You still need loops: for files, for models, for anything not column-shaped
 - But from week 7, **if you are writing a loop over rows of a table, there is usually a better way**
-:::
 
 ## Your Turn: Comprehensions {background="#43464B"}
 
@@ -707,7 +764,7 @@ temps_c = [12.5, 15.0, 9.8, 21.3, 18.7, 4.2]
 3. Build a list of labels: `"warm"` if above 15, `"cold"` otherwise
 4. Rewrite question 1 as a normal `for` loop, and check the two give the same result
 
-::: {#timer3 .timer seconds="420" starton="interaction"}
+::: {#timer3 .timer seconds="300" starton="interaction"}
 :::
 
 ## Solution
@@ -729,7 +786,6 @@ print(loop_version == temps_f)
 
 ## What We Have Seen
 
-::: incremental
 - `if` / `elif` / `else`, tested in order, first match wins
 - Indentation is part of the language
 - `for item in collection:` and the accumulator pattern
@@ -737,15 +793,6 @@ print(loop_version == temps_f)
 - `while` for "until", with the infinite loop risk
 - `break` and `continue`
 - List comprehensions as a compact loop
-:::
-
-## Before Next Week
-
-::: incremental
-1. **Assessment 1 is due at the start of week 5**
-2. Rewrite the grading exercise so it works on a **list** of marks and prints one line per student
-3. Next week: packaging all of this into functions you can reuse
-:::
 
 ## References
 

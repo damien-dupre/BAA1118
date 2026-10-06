@@ -44,17 +44,11 @@ sales_feb = 1450
 sales_mar = 1310
 ```
 
-. . .
-
 This works for 3 months. It does not work for 3,000 customers.
 
-::: incremental
 - You cannot loop over separate names
 - You cannot ask "how many are there?"
 - You cannot sort them
-:::
-
-. . .
 
 **Collections** solve this: one name, many values.
 
@@ -70,16 +64,12 @@ print(sales)
 print(len(sales))       # how many
 ```
 
-. . .
-
 ```{python}
 print(sum(sales))       # total
 print(max(sales))       # largest
 print(sorted(sales))    # a new, sorted list
 print(1450 in sales)    # membership
 ```
-
-. . .
 
 A list can hold anything, even a mix of types, but a useful list holds **one kind of thing**.
 
@@ -94,8 +84,6 @@ print(countries)
 countries.insert(1, "Germany")   # add at position 1
 print(countries)
 ```
-
-. . .
 
 ```{python}
 countries.remove("France")       # remove by value
@@ -115,15 +103,11 @@ scores.sort()          # changes scores, returns nothing
 print(scores)
 ```
 
-. . .
-
 ```{python}
 scores = [5, 3, 9]
 result = scores.sort()
 print(result)          # None!
 ```
-
-. . .
 
 ::: {.callout-important}
 `list.sort()` sorts in place and returns `None`. `sorted(list)` returns a new sorted list. Writing `scores = scores.sort()` destroys your data.
@@ -172,8 +156,6 @@ print(countries[0])
 print(countries[-1])    # the last, without knowing the length
 ```
 
-. . .
-
 ```{python}
 #| error: true
 print(countries[5])
@@ -189,14 +171,10 @@ print(countries[:2])     # from the start
 print(countries[-2:])    # the last two, to the end
 ```
 
-. . .
-
 ```{python}
 print(countries[::2])    # every second element
 print(countries[::-1])   # reversed
 ```
-
-. . .
 
 Leaving a side empty means "all the way". `[::-1]` works on strings too.
 
@@ -211,8 +189,6 @@ b[0] = 99      # replace the first element of b
 print(a)       # a has changed too
 ```
 
-. . .
-
 `b = a` gives the **same list** a second name. To copy:
 
 ```{python}
@@ -221,8 +197,6 @@ b = a.copy()   # or list(a), or a[:]
 b[0] = 99
 print(a, b)
 ```
-
-. . .
 
 ::: {.callout-warning}
 This trap reappears in week 7 with DataFrames, where pandas warns you about it explicitly.
@@ -267,11 +241,7 @@ print(sum(monthly))
 customer = ["Damien", 42, "Dublin", 1250.50]
 ```
 
-. . .
-
 What is `customer[2]`? You have to remember. In six months, you will not.
-
-. . .
 
 A **dictionary** stores values by **name** instead of by position.
 
@@ -284,8 +254,6 @@ customer = {
 }
 print(customer["city"])
 ```
-
-. . .
 
 Curly braces, unique keys, and values of any type, even lists. Think of it as a single row of a spreadsheet with its column headers.
 
@@ -300,14 +268,10 @@ customer["country"] = "IE"    # add a new key
 del customer["country"]       # remove a key
 ```
 
-. . .
-
 ```{python}
 #| error: true
 print(customer["email"])
 ```
-
-. . .
 
 `get()` reads safely, returning `None` or a default instead of an error:
 
@@ -322,14 +286,10 @@ print(customer.keys())
 print(customer.values())
 ```
 
-. . .
-
 ```{python}
 print("city" in customer)     # tests the keys
 print(len(customer))
 ```
-
-. . .
 
 ```{python}
 for key, value in customer.items():
@@ -348,14 +308,10 @@ print(coordinates[0])
 print(len(coordinates))
 ```
 
-. . .
-
 ```{python}
 #| error: true
 coordinates[0] = 0
 ```
-
-. . .
 
 Use a tuple when the collection is **not supposed to change**: a coordinate, a date, a pair of values returned by a function.
 
@@ -367,16 +323,12 @@ print(latitude)
 print(longitude)
 ```
 
-. . .
-
 This works for lists too, and is used constantly:
 
 ```{python}
 first, second, third = ["a", "b", "c"]
 print(second)
 ```
-
-. . .
 
 You will see it in week 9 as `fig, ax = plt.subplots()`.
 
@@ -387,8 +339,6 @@ regions = ["North", "South", "North", "East", "South", "North"]
 print(set(regions))
 print(len(set(regions)))
 ```
-
-. . .
 
 Sets answer *"which distinct values are in this column?"*, and compare groups with no library at all:
 
@@ -409,8 +359,6 @@ print(customers_2024 - customers_2023)   # new
 | tuple | `(1, 2, 3)` | yes | no | yes |
 | dict | `{"a": 1}` | yes | yes | keys: no |
 | set | `{1, 2, 3}` | no | yes | no |
-
-. . .
 
 In practice: **list** for a column of values, **dict** for a labelled record, **set** for uniqueness, **tuple** for fixed pairs.
 
@@ -459,8 +407,6 @@ customers = [
 ]
 ```
 
-. . .
-
 Read the brackets **left to right**:
 
 ```{python}
@@ -477,11 +423,7 @@ print(customers[-1]["name"])
 customers
 ```
 
-. . .
-
 Turn your head sideways: **names across the top, one record per row**. This is a table.
-
-. . .
 
 ```{python}
 import pandas as pd
@@ -550,8 +492,6 @@ sales.append({"month": "Mar", "region": "North", "units": 150})
 print(sales[0]["units"] + sales[1]["units"])
 ```
 
-. . .
-
 Adding up the whole column still needs a loop. That is next week.
 
 # 5. Data on Disk
@@ -568,8 +508,6 @@ will meet four formats over and over.
 | `.xlsx` | an Excel document | sheets, formatting, formulas |
 | `.parquet` | a binary data file | one table, typed and compressed |
 
-. . .
-
 Today you only need to **recognise** them and know what shape of Python each one maps onto.
 Reading them comes in week 5.
 
@@ -584,14 +522,10 @@ Camden Street,Dublin,Dublin,28,64
 Blanchardstown,Dublin,Dublin,60,140
 ```
 
-::: incremental
 - First line: the column names
 - One line per row, values separated by commas
 - **No types.** `42` is the text "42" until something decides otherwise
 - Nothing else: no formulas, no colours, no second sheet
-:::
-
-. . .
 
 That is a **list of dictionaries** written down. It is the format you should ask for.
 
@@ -603,14 +537,10 @@ name,city,note
 Ó Súilleabháin,Baile Átha Cliath,
 ```
 
-::: incremental
 - A comma **inside** a value, so the value is quoted
 - A quote inside a quoted value, so it is doubled
 - An empty value at the end of the line
 - Accented characters, which need the file to be saved as UTF-8
-:::
-
-. . .
 
 This is why you never split a CSV by hand with `.split(",")`. A proper reader handles all of
 it, and you will use one from week 5.
@@ -626,8 +556,6 @@ it, and you will use one from week 5.
   {"id": "C0377", "name": "Saoirse", "store": "Grafton Street", "spend": 9.80}
 ]
 ```
-
-. . .
 
 You wrote that ten minutes ago. **JSON is a list of dictionaries, saved as text.** Square
 brackets for a list, curly braces for a dictionary, colons for keys.
@@ -648,8 +576,6 @@ print(type(customers[0]))
 print(customers[1]["spend"])
 ```
 
-. . .
-
 Almost every website and app sends its data as JSON, precisely because it can hold nested
 structures that a table cannot: a customer with a **list** of orders inside them.
 
@@ -657,14 +583,10 @@ structures that a table cannot: a customer with a **list** of orders inside them
 
 An `.xlsx` file is a zipped folder of XML. It can hold:
 
-::: incremental
 - Several sheets
 - Formulas that recalculate
 - Merged cells, colours, comments, charts, pivot tables
 - Three different date formats in the same column
-:::
-
-. . .
 
 ::: {.callout-warning}
 Excel is excellent for people and awkward for code. When you are given one, expect a title
@@ -678,14 +600,10 @@ of the data. Half of week 7 is dealing with exactly that.
 PAR1 ... (binary, unreadable in a text editor) ... PAR1
 ```
 
-::: incremental
 - **Typed**: a date column comes back as a date, not as text
 - **Columnar**: reading one column of a hundred does not read the other ninety-nine
 - **Compressed**: usually a third the size of the same CSV
 - **Unreadable by humans**, and that is the whole trade
-:::
-
-. . .
 
 It is the standard for data that is passed between systems rather than emailed to a person.
 You will meet it in any serious data job, and almost never in an inbox.

@@ -40,11 +40,7 @@ filters:
 
 Everything in this module is built on one idea:
 
-. . .
-
 > **Data is stored in objects. Objects have a type. The type decides what you are allowed to do.**
-
-. . .
 
 A DataFrame in week 7 is just a very large object with a very particular type. Today is the foundation for all of it.
 
@@ -56,13 +52,9 @@ A DataFrame in week 7 is just a very large object with a very particular type. T
 revenue = 1500
 ```
 
-::: incremental
 - `revenue` is the **name**
 - `1500` is the **value**
 - `=` is the **assignment operator**
-:::
-
-. . .
 
 Read it right to left: *"take 1500, and label it revenue"*.
 
@@ -79,8 +71,6 @@ costs = 900
 profit = revenue - costs
 print(profit)
 ```
-
-. . .
 
 The value is looked up **at the moment the line runs**:
 
@@ -103,11 +93,7 @@ counter = counter + 1
 print(counter)
 ```
 
-. . .
-
 `counter = counter + 1` looks like nonsense in maths and is completely normal in code. The right-hand side is computed first, then stored under the same name.
-
-. . .
 
 There is a shortcut:
 
@@ -120,13 +106,11 @@ print(counter)
 
 Python **requires**:
 
-::: incremental
 - Letters, digits and underscores only
 - Cannot start with a digit: `2024_sales` is invalid, `sales_2024` is fine
 - No spaces, no dashes, no accents
 - Case sensitive: `Sales`, `sales` and `SALES` are three names
 - Cannot be a reserved word
-:::
 
 ## Reserved Words
 
@@ -138,21 +122,15 @@ import keyword
 print(" ".join(keyword.kwlist))
 ```
 
-. . .
-
 The dangerous ones in analytics are `sum`, `list`, `type`, `max`, `min`, `id` and `str`. They are not reserved, but they are **existing function names**, and overwriting them breaks things quietly.
 
 ## Naming Conventions
 
 Python **convention** (not enforced, but universal):
 
-::: incremental
 - `snake_case` for variables and functions: `total_revenue`, `mean_price`
 - Short but descriptive: `df` is fine for a working DataFrame, `x1` is not fine for revenue
 - Nouns for data, verbs for functions: `sales_2024`, `compute_margin()`
-:::
-
-. . .
 
 ```{python}
 #| eval: false
@@ -205,8 +183,6 @@ print(type(None))
 | `bool` | boolean | `True` | yes/no, filters |
 | `NoneType` | nothing | `None` | missing, not set yet |
 
-. . .
-
 Next week adds `list`, `dict`, `tuple` and `set`. Week 7 adds `Series` and `DataFrame`.
 
 ## Type Decides What Works
@@ -215,20 +191,14 @@ Next week adds `list`, `dict`, `tuple` and `set`. Week 7 adds `Series` and `Data
 2 + 3
 ```
 
-. . .
-
 ```{python}
 "2" + "3"
 ```
-
-. . .
 
 ```{python}
 #| error: true
 2 + "3"
 ```
-
-. . .
 
 Same operator `+`, three different behaviours. **Read the type before blaming the operator.**
 
@@ -242,8 +212,6 @@ print(7 - 2)    # subtraction
 print(7 * 2)    # multiplication
 print(7 / 2)    # division, always returns a float
 ```
-
-. . .
 
 ```{python}
 print(7 // 2)   # floor division: how many whole 2s in 7
@@ -260,8 +228,6 @@ print(2 + 3 * 4)
 print((2 + 3) * 4)
 ```
 
-. . .
-
 ::: {.callout-tip}
 Use brackets even when they are unnecessary. `(revenue - costs) / revenue` costs nothing and removes all doubt.
 :::
@@ -273,8 +239,6 @@ print(type(10))
 print(type(10.0))
 print(type(10 / 2))
 ```
-
-. . .
 
 Division **always** produces a float, even when it divides evenly. This surprises everyone once.
 
@@ -290,8 +254,6 @@ print(round(price))       # to the nearest whole number
 print(round(price, 2))    # to 2 decimals
 print(round(price, 1))
 ```
-
-. . .
 
 ```{python}
 print(abs(-15))     # absolute value
@@ -340,16 +302,12 @@ module = 'BAA1118'
 print(name, module)
 ```
 
-. . .
-
 Use the other kind of quote when your text contains one:
 
 ```{python}
 print("It's a string")
 print('She said "hello"')
 ```
-
-. . .
 
 Triple quotes span multiple lines:
 
@@ -365,14 +323,10 @@ year_text = "2024"
 print(type(year_text))
 ```
 
-. . .
-
 ```{python}
 #| error: true
 year_text + 1
 ```
-
-. . .
 
 This is the single most common error when reading data from a file: the column looks numeric, and is stored as text. We will meet it again in week 7.
 
@@ -383,8 +337,6 @@ first = "Damien"
 last = "Dupré"
 print(first + " " + last)
 ```
-
-. . .
 
 Repetition works too:
 
@@ -404,10 +356,8 @@ revenue = units * price
 print(f"Selling {units} units at {price} euros gives {revenue} euros")
 ```
 
-::: incremental
 - The `f` before the quote turns on the feature
 - Anything inside `{}` is Python code, evaluated and inserted
-:::
 
 ## Formatting Inside f-strings
 
@@ -419,8 +369,6 @@ print(f"Revenue: {revenue:,.2f}")     # thousands separator
 print(f"Revenue: {revenue:10.2f}|")   # padded to width 10
 print(f"Share: {0.2534:.1%}")         # as a percentage
 ```
-
-. . .
 
 This is how every number in a report should be printed.
 
@@ -436,8 +384,6 @@ print(country.strip().title())  # and capitalise
 print(country.upper())
 print(country.replace("ireland", "Éire"))
 ```
-
-. . .
 
 Methods **return a new string**. The original is unchanged:
 
@@ -455,8 +401,6 @@ print(sentence.startswith("rev"))
 print("costs" in sentence)          # membership test
 print(len(sentence))                # number of characters
 ```
-
-. . .
 
 Data cleaning in week 7 is mostly these five methods applied to a whole column at once.
 
@@ -523,8 +467,6 @@ print(type(True))
 print(True, False)
 ```
 
-. . .
-
 Booleans are produced by **comparisons**:
 
 ```{python}
@@ -543,8 +485,6 @@ print(10 != 5)
 | `<=` `>=` | less or equal, greater or equal |
 | `in` | is contained in |
 
-. . .
-
 ::: {.callout-warning}
 `=` assigns, `==` compares. Writing `if x = 5` is a `SyntaxError`, and it happens to everyone.
 :::
@@ -556,8 +496,6 @@ print("dublin" == "Dublin")
 print("dublin".lower() == "Dublin".lower())
 print("a" < "b")
 ```
-
-. . .
 
 String comparison is alphabetical, and **case matters**. Lowercase everything before comparing text from real data.
 
@@ -572,13 +510,9 @@ print(age > 65 or income > 30000)
 print(not age > 65)
 ```
 
-::: incremental
 - `and`: both must be true
 - `or`: at least one must be true
 - `not`: flips the answer
-:::
-
-. . .
 
 Python uses the English words, not `&&` and `||`. Week 7 will use `&` and `|` for columns, which is a different thing.
 
@@ -588,8 +522,6 @@ Python uses the English words, not `&&` and `||`. Week 7 will use `&` and `|` fo
 print(True + True)
 print(sum([True, False, True, True]))
 ```
-
-. . .
 
 This looks like a curiosity. It is actually how you count things in data analysis:
 
@@ -610,8 +542,6 @@ print(str(42))
 print(bool(0), bool(1), bool(""))
 ```
 
-. . .
-
 ```{python}
 print(int(9.99))    # truncates, does not round
 print(round(9.99))
@@ -624,14 +554,10 @@ print(round(9.99))
 int("forty two")
 ```
 
-. . .
-
 ```{python}
 #| error: true
 int("42.5")
 ```
-
-. . .
 
 The second one is a classic: `int()` will not go via float. Use `int(float("42.5"))`.
 
@@ -647,8 +573,6 @@ print(type(age))        # str, even if they typed 25
 age = int(input("How old are you? "))
 print(age + 1)
 ```
-
-. . .
 
 We will not use `input()` much: notebooks and data files replace it. But knowing it returns text explains a lot of beginner bugs.
 

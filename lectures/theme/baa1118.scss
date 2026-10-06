@@ -42,3 +42,17 @@ code, kbd, samp, pre {
 	font-variant-ligatures: none;
 	font-feature-settings: "liga" 0, "clig" 0, "calt" 0, "dlig" 0;
 }
+
+// Two columns that keep live code next to its output.
+// Quarto's layout="[1,1]" lifts the code of python chunks out of the columns,
+// so slides with python chunks in columns use :::: {.code-columns} instead.
+.reveal .code-columns {
+	display: flex;
+	gap: 1rem;
+	align-items: flex-start;
+}
+
+.reveal .code-columns > div {
+	flex: 1 1 0;
+	min-width: 0;
+}

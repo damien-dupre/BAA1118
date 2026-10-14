@@ -20,22 +20,6 @@ filters:
   - timer
 ---
 
-## For Today
-
-#### Requirements
-
-- ✅ Lists, dictionaries, indexing and slicing
-- ✅ Comparisons returning `True` or `False`
-
-#### Programme
-
-1. Conditions: `if`, `elif`, `else`
-2. `for` loops
-3. `while` loops
-4. `break`, `continue` and comprehensions
-
-### Any questions?
-
 ## Straight Line Code
 
 Everything so far has run **top to bottom, once**.
@@ -158,24 +142,6 @@ if age > 65 or spend > 2000:
 if not spend > 1000:
     print("Not a big spender")
 ```
-
-## Truthiness
-
-You can put any value after `if`, not only a comparison. Python decides whether it counts as `True` or `False`:
-
-- **Falsy** values count as `False`: zero, empty or nothing (`0`, `""`, `[]`, `{}`, `None`)
-- **Truthy** values count as `True`: everything else, such as `42` or `"Dublin"`
-
-```{python}
-email = ""
-
-if email:    # reads as "if there is an email"
-    print("Send the newsletter")
-else:
-    print("No email on file")
-```
-
-`""` and `None` are both falsy, so `if email:` catches both.
 
 ## Nested Conditions
 
@@ -421,6 +387,42 @@ prices_with_vat.append(12.3)
 - `0` is an `int`, and an `int` has no `append()`: that is what the error says
 - Start with the empty version of what you are building: `0` for a total, `[]` for a list
 
+## Your Turn: Loop Practice {background="#43464B"}
+
+```{.python}
+monthly = [130, 120, 165, 185]
+months = ["Jan", "Feb", "Mar", "Apr"]
+```
+
+
+1. Print the total and the mean of `monthly`, without `sum()`
+2. Create a new list `target`: each value plus 10, using `append()`
+
+::: {#timer2 .timer seconds="300" starton="interaction"}
+:::
+
+## Solution
+
+```{python}
+monthly = [130, 120, 165, 185]
+months = ["Jan", "Feb", "Mar", "Apr"]
+
+total = 0
+count = 0
+for value in monthly:
+    total += value
+    count += 1
+print("Total:", total)
+print("Mean:", total / count)
+```
+
+```{python}
+target = []
+for value in monthly:
+    target.append(value + 10)
+print(target)
+```
+
 ## Filtering Inside a Loop
 
 Conditions and loops combine naturally:
@@ -499,44 +501,13 @@ monthly = [130, 120, 165, 185]
 months = ["Jan", "Feb", "Mar", "Apr"]
 ```
 
-Each task reuses one pattern from the previous slides:
-
-1. The total and the mean of `monthly`, without `sum()`
-2. A new list `target`: each value plus 10, using `append()`
-3. Print only the values above 150
-4. Use `zip()` to print each month with its value: `Jan: 130`
+1. Print only the values above 150
+2. Use `zip()` to print each month with its value: `Jan: 130`
 
 ::: {#timer2 .timer seconds="300" starton="interaction"}
 :::
 
 ## Solution
-
-:::: {.code-columns}
-::: {#first-column}
-
-```{python}
-monthly = [130, 120, 165, 185]
-months = ["Jan", "Feb", "Mar", "Apr"]
-
-total = 0
-count = 0
-for value in monthly:
-    total += value
-    count += 1
-print("Total:", total)
-print("Mean:", total / count)
-```
-
-```{python}
-target = []
-for value in monthly:
-    target.append(value + 10)
-print(target)
-```
-
-:::
-
-::: {#second-column}
 
 ```{python}
 for value in monthly:
@@ -548,9 +519,6 @@ for value in monthly:
 for month, value in zip(months, monthly):
     print(f"{month}: {value}")
 ```
-
-:::
-::::
 
 # 3. while Loops
 

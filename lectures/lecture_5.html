@@ -215,61 +215,27 @@ Damien Dupré
 <ul>
 <li>✅ Conditions and loops</li>
 <li>✅ Building a list inside a loop</li>
-<li>✅ Assessment 1 submitted</li>
 </ul>
 <h4 id="programme">Programme</h4>
 <ol type="1">
-<li>Why functions</li>
-<li>Defining a function</li>
+<li>Writing functions</li>
 <li>Arguments and scope</li>
 <li>Modules and packages</li>
 <li>Paths, and getting data into Colab</li>
-<li>Reading documentation</li>
+<li>Getting help</li>
 </ol>
-<h3 id="any-questions">Any questions?</h3>
-</section>
-<section id="where-we-are" class="slide level2">
-<h2>Where We Are</h2>
-<p>You can now:</p>
-<ul>
-<li>Store data in lists and dictionaries</li>
-<li>Decide with <code>if</code></li>
-<li>Repeat with <code>for</code></li>
-</ul>
-<p>That is a complete programming language. Everything from here is about <strong>not writing the same thing twice</strong>.</p>
 </section>
 <section>
-<section id="why-functions" class="title-slide slide level1 center">
-<h1>1. Why Functions</h1>
+<section id="writing-functions" class="title-slide slide level1 center">
+<h1>1. Writing Functions</h1>
 
-</section>
-<section id="the-copy-paste-problem" class="slide level2">
-<h2>The Copy-Paste Problem</h2>
-<div id="42a3f685" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>prices_a <span class="op">=</span> [<span class="fl">10.0</span>, <span class="fl">25.0</span>, <span class="fl">8.5</span>]</span>
-<span id="cb1-2"><a href=""></a>prices_b <span class="op">=</span> [<span class="fl">4.0</span>, <span class="fl">19.5</span>]</span>
-<span id="cb1-3"><a href=""></a></span>
-<span id="cb1-4"><a href=""></a>total_a <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb1-5"><a href=""></a><span class="cf">for</span> p <span class="kw">in</span> prices_a:</span>
-<span id="cb1-6"><a href=""></a>    total_a <span class="op">+=</span> p <span class="op">*</span> <span class="fl">1.23</span></span>
-<span id="cb1-7"><a href=""></a></span>
-<span id="cb1-8"><a href=""></a>total_b <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb1-9"><a href=""></a><span class="cf">for</span> p <span class="kw">in</span> prices_b:</span>
-<span id="cb1-10"><a href=""></a>    total_b <span class="op">+=</span> p <span class="op">*</span> <span class="fl">1.23</span></span>
-<span id="cb1-11"><a href=""></a></span>
-<span id="cb1-12"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(total_a, <span class="dv">2</span>), <span class="bu">round</span>(total_b, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>53.5 28.91</code></pre>
-</div>
-</div>
-<p>Two nearly identical blocks. Now the VAT rate changes to 24%. How many places do you edit? How many do you forget?</p>
 </section>
 <section id="functions-you-already-use" class="slide level2">
 <h2>Functions You Already Use</h2>
-<div id="ac756999" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]))</span>
-<span id="cb3-2"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(<span class="fl">3.14159</span>, <span class="dv">2</span>))</span>
-<span id="cb3-3"><a href=""></a><span class="bu">print</span>(<span class="bu">sum</span>([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="73e40654" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]))</span>
+<span id="cb1-2"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(<span class="fl">3.14159</span>, <span class="dv">2</span>))</span>
+<span id="cb1-3"><a href=""></a><span class="bu">print</span>(<span class="bu">sum</span>([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3
 3.14
@@ -281,58 +247,39 @@ Damien Dupré
 <li>You get an <strong>output</strong> back: the <em>return value</em></li>
 <li>You have no idea how <code>sum()</code> is written internally, and you do not need to</li>
 </ul>
-<p>Writing your own is the same idea, applied to your problem.</p>
-</section>
-<section id="the-three-reasons" class="slide level2">
-<h2>The Three Reasons</h2>
-<ol type="1">
-<li><strong>Do not repeat yourself.</strong> One definition, one place to fix.</li>
-<li><strong>Name your intention.</strong> <code>compute_gross(net)</code> says what the four lines inside actually mean.</li>
-<li><strong>Test once.</strong> If the function is right, every use of it is right.</li>
-</ol>
-</section></section>
-<section>
-<section id="defining-a-function" class="title-slide slide level1 center">
-<h1>2. Defining a Function</h1>
-
+<p>Writing your own is the same idea, applied to your problem: <strong>one definition</strong> to fix, a <strong>name</strong> that says what the code means, and code you <strong>test once</strong> and trust everywhere.</p>
 </section>
 <section id="def" class="slide level2">
 <h2>def</h2>
-<div id="d91e6212" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="kw">def</span> add_vat(net):</span>
-<span id="cb5-2"><a href=""></a>    gross <span class="op">=</span> net <span class="op">*</span> <span class="fl">1.23</span></span>
-<span id="cb5-3"><a href=""></a>    <span class="cf">return</span> gross</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="03389f1b" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="kw">def</span> add_vat(net):</span>
+<span id="cb3-2"><a href=""></a>    gross <span class="op">=</span> net <span class="op">*</span> <span class="fl">1.23</span></span>
+<span id="cb3-3"><a href=""></a>    <span class="cf">return</span> gross</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+<img data-src="images/function_def.png" class="quarto-figure quarto-figure-center r-stretch" style="width:65.0%"><div class="small-font">
+<p>Source: UBC Master of Data Science, <a href="https://prog-learn.mds.ubc.ca/">Programming in Python for Data Science</a></p>
 </div>
 <ul>
-<li><code>def</code> starts the definition</li>
-<li><code>add_vat</code> is the name, in <code>snake_case</code></li>
 <li><code>net</code> is the <strong>parameter</strong>: a name that exists inside the function</li>
-<li>Colon, then an indented block</li>
-<li><code>return</code> sends a value back to the caller</li>
+<li>Colon, then an indented block. <code>return</code> sends a value back to the caller.</li>
 </ul>
 <p>Defining a function <strong>runs nothing</strong>. It only creates the tool.</p>
 </section>
-<section id="the-def-line" class="slide level2">
-<h2>The def Line</h2>
-
-<img data-src="images/function_def.png" class="quarto-figure quarto-figure-center r-stretch" style="width:85.0%"><div class="small-font">
-<p>Source: UBC Master of Data Science, <a href="https://prog-learn.mds.ubc.ca/">Programming in Python for Data Science</a></p>
-</div>
-</section>
 <section id="calling-a-function" class="slide level2">
 <h2>Calling a Function</h2>
-<div id="c1993c58" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="bu">print</span>(add_vat(<span class="dv">100</span>))</span>
-<span id="cb6-2"><a href=""></a><span class="bu">print</span>(add_vat(<span class="fl">1847.35</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="464d7731" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="bu">print</span>(add_vat(<span class="dv">100</span>))</span>
+<span id="cb4-2"><a href=""></a><span class="bu">print</span>(add_vat(<span class="fl">1847.35</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>123.0
 2272.2405</code></pre>
 </div>
 </div>
 <p>The value in the brackets is the <strong>argument</strong>. It is copied into the parameter <code>net</code> for the duration of the call.</p>
-<div id="1846fa26" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>invoice <span class="op">=</span> <span class="dv">250</span></span>
-<span id="cb8-2"><a href=""></a><span class="bu">print</span>(add_vat(invoice))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d78d9abe" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>invoice <span class="op">=</span> <span class="dv">250</span></span>
+<span id="cb6-2"><a href=""></a><span class="bu">print</span>(add_vat(invoice))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>307.5</code></pre>
 </div>
@@ -340,61 +287,51 @@ Damien Dupré
 </section>
 <section id="return-vs-print" class="slide level2">
 <h2>return vs print</h2>
-<p>This is the most common beginner confusion.</p>
-<div id="f79b205b" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="kw">def</span> add_vat_print(net):</span>
-<span id="cb10-2"><a href=""></a>    <span class="bu">print</span>(net <span class="op">*</span> <span class="fl">1.23</span>)</span>
-<span id="cb10-3"><a href=""></a></span>
-<span id="cb10-4"><a href=""></a><span class="kw">def</span> add_vat_return(net):</span>
-<span id="cb10-5"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> <span class="fl">1.23</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="33c139ae" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>a <span class="op">=</span> add_vat_print(<span class="dv">100</span>)</span>
-<span id="cb11-2"><a href=""></a><span class="bu">print</span>(a)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The most common beginner confusion: two functions that differ only in their last line.</p>
+<div class="code-columns">
+<div id="first-column">
+<div id="cbf7a74c" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="kw">def</span> add_vat_print(net):</span>
+<span id="cb8-2"><a href=""></a>    <span class="bu">print</span>(net <span class="op">*</span> <span class="fl">1.23</span>)</span>
+<span id="cb8-3"><a href=""></a></span>
+<span id="cb8-4"><a href=""></a>a <span class="op">=</span> add_vat_print(<span class="dv">100</span>)</span>
+<span id="cb8-5"><a href=""></a><span class="bu">print</span>(<span class="st">"a is"</span>, a)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>123.0
-None</code></pre>
+a is None</code></pre>
 </div>
 </div>
-<div id="69ee5214" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a>b <span class="op">=</span> add_vat_return(<span class="dv">100</span>)</span>
-<span id="cb13-2"><a href=""></a><span class="bu">print</span>(b <span class="op">*</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>123.0</code> is printed <strong>inside</strong> the function, but nothing comes back: <code>a</code> is <code>None</code>.</p>
+</div>
+<div id="second-column">
+<div id="2a473ee6" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="kw">def</span> add_vat_return(net):</span>
+<span id="cb10-2"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> <span class="fl">1.23</span></span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a>b <span class="op">=</span> add_vat_return(<span class="dv">100</span>)</span>
+<span id="cb10-5"><a href=""></a><span class="bu">print</span>(<span class="st">"b is"</span>, b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>246.0</code></pre>
+<pre><code>b is 123.0</code></pre>
+</div>
+</div>
+<p>The value comes <strong>back</strong>: <code>b</code> is <code>123.0</code>, ready to use, as in <code>b * 2</code>.</p>
 </div>
 </div>
 <p><strong><code>print</code> shows a human. <code>return</code> gives a value back to the program.</strong> Analysis functions return.</p>
 </section>
-<section id="return-ends-the-function" class="slide level2">
-<h2>return Ends the Function</h2>
-<div id="a9fbd522" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a><span class="kw">def</span> check_spend(spend):</span>
-<span id="cb15-2"><a href=""></a>    <span class="cf">if</span> spend <span class="op">&gt;</span> <span class="dv">1000</span>:</span>
-<span id="cb15-3"><a href=""></a>        <span class="cf">return</span> <span class="st">"Premium"</span></span>
-<span id="cb15-4"><a href=""></a>    <span class="cf">return</span> <span class="st">"Standard"</span></span>
-<span id="cb15-5"><a href=""></a></span>
-<span id="cb15-6"><a href=""></a><span class="bu">print</span>(check_spend(<span class="dv">1500</span>))</span>
-<span id="cb15-7"><a href=""></a><span class="bu">print</span>(check_spend(<span class="dv">200</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Premium
-Standard</code></pre>
-</div>
-</div>
-<p>The moment a <code>return</code> runs, the function stops. No <code>else</code> is needed here.</p>
-</section>
 <section id="docstrings" class="slide level2">
 <h2>Docstrings</h2>
 <p>The first string inside a function documents it.</p>
-<div id="4017a30e" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a><span class="kw">def</span> add_vat(net, rate<span class="op">=</span><span class="fl">0.23</span>):</span>
-<span id="cb17-2"><a href=""></a>    <span class="co">"""Return the gross amount for a net amount and a VAT rate.</span></span>
-<span id="cb17-3"><a href=""></a></span>
-<span id="cb17-4"><a href=""></a><span class="co">    net:  the amount before VAT, in euros</span></span>
-<span id="cb17-5"><a href=""></a><span class="co">    rate: the VAT rate as a decimal, 0.23 by default</span></span>
-<span id="cb17-6"><a href=""></a><span class="co">    """</span></span>
-<span id="cb17-7"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> rate)</span>
-<span id="cb17-8"><a href=""></a></span>
-<span id="cb17-9"><a href=""></a><span class="bu">help</span>(add_vat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="f33694bc" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a><span class="kw">def</span> add_vat(net, rate<span class="op">=</span><span class="fl">0.23</span>):</span>
+<span id="cb12-2"><a href=""></a>    <span class="co">"""Return the gross amount for a net amount and a VAT rate.</span></span>
+<span id="cb12-3"><a href=""></a></span>
+<span id="cb12-4"><a href=""></a><span class="co">    net:  the amount before VAT, in euros</span></span>
+<span id="cb12-5"><a href=""></a><span class="co">    rate: the VAT rate as a decimal, 0.23 by default</span></span>
+<span id="cb12-6"><a href=""></a><span class="co">    """</span></span>
+<span id="cb12-7"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> rate)</span>
+<span id="cb12-8"><a href=""></a></span>
+<span id="cb12-9"><a href=""></a><span class="bu">help</span>(add_vat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Help on function add_vat in module __main__:
 
@@ -410,108 +347,99 @@ add_vat(net, rate=0.23)
 </section>
 <section id="your-turn-your-first-functions" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Your First Functions</h2>
+<p>Write each function, with a one-line docstring:</p>
 <ol type="1">
-<li>Write <code>celsius_to_fahrenheit(c)</code> returning <code>c * 9/5 + 32</code>. Test it on 0 and 100.</li>
-<li>Write <code>margin(revenue, cost)</code> returning the profit margin as a <strong>percentage</strong>, rounded to 1 decimal.</li>
-<li>Write <code>grade(mark)</code> returning the DCU grade from lecture 4, as a function this time.</li>
-<li>Give each one a one-line docstring.</li>
+<li><code>celsius_to_fahrenheit(c)</code> returns <code>c * 9/5 + 32</code></li>
+<li><code>margin(revenue, cost)</code> returns <code>(revenue - cost) / revenue * 100</code>, rounded to 1 decimal</li>
+<li><code>grade(mark)</code> returns <code>"First"</code> from 70, <code>"Pass"</code> from 40, <code>"Fail"</code> below 40</li>
 </ol>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p>Then check them:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a>celsius_to_fahrenheit(<span class="dv">100</span>)  <span class="co"># 212.0</span></span>
+<span id="cb14-2"><a href=""></a>margin(<span class="dv">1000</span>, <span class="dv">620</span>)           <span class="co"># 38.0</span></span>
+<span id="cb14-3"><a href=""></a>grade(<span class="dv">64</span>)                   <span class="co"># 'Pass'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
                     <div id="timer1"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer1", 540, "interaction");
+                            initializeTimer("timer1", 360, "interaction");
                         });
                     </script>
                 
+</div>
+</div>
+</div>
 </section>
 <section id="solution" class="slide level2">
 <h2>Solution</h2>
-<div id="3128ce02" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a><span class="kw">def</span> celsius_to_fahrenheit(c):</span>
-<span id="cb19-2"><a href=""></a>    <span class="co">"""Convert a temperature from Celsius to Fahrenheit."""</span></span>
-<span id="cb19-3"><a href=""></a>    <span class="cf">return</span> c <span class="op">*</span> <span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">+</span> <span class="dv">32</span></span>
-<span id="cb19-4"><a href=""></a></span>
-<span id="cb19-5"><a href=""></a><span class="kw">def</span> margin(revenue, cost):</span>
-<span id="cb19-6"><a href=""></a>    <span class="co">"""Return the profit margin as a percentage, to 1 decimal."""</span></span>
-<span id="cb19-7"><a href=""></a>    <span class="cf">return</span> <span class="bu">round</span>((revenue <span class="op">-</span> cost) <span class="op">/</span> revenue <span class="op">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
-<span id="cb19-8"><a href=""></a></span>
-<span id="cb19-9"><a href=""></a><span class="kw">def</span> grade(mark):</span>
-<span id="cb19-10"><a href=""></a>    <span class="co">"""Return the DCU grade band for a mark out of 100."""</span></span>
-<span id="cb19-11"><a href=""></a>    <span class="cf">if</span> mark <span class="op">&gt;=</span> <span class="dv">70</span>:</span>
-<span id="cb19-12"><a href=""></a>        <span class="cf">return</span> <span class="st">"First"</span></span>
-<span id="cb19-13"><a href=""></a>    <span class="cf">elif</span> mark <span class="op">&gt;=</span> <span class="dv">60</span>:</span>
-<span id="cb19-14"><a href=""></a>        <span class="cf">return</span> <span class="st">"2H1"</span></span>
-<span id="cb19-15"><a href=""></a>    <span class="cf">elif</span> mark <span class="op">&gt;=</span> <span class="dv">50</span>:</span>
-<span id="cb19-16"><a href=""></a>        <span class="cf">return</span> <span class="st">"2H2"</span></span>
-<span id="cb19-17"><a href=""></a>    <span class="cf">elif</span> mark <span class="op">&gt;=</span> <span class="dv">40</span>:</span>
-<span id="cb19-18"><a href=""></a>        <span class="cf">return</span> <span class="st">"Pass"</span></span>
-<span id="cb19-19"><a href=""></a>    <span class="cf">return</span> <span class="st">"Fail"</span></span>
-<span id="cb19-20"><a href=""></a></span>
-<span id="cb19-21"><a href=""></a><span class="bu">print</span>(celsius_to_fahrenheit(<span class="dv">100</span>), margin(<span class="dv">1000</span>, <span class="dv">620</span>), grade(<span class="dv">64</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="30f5a29b" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a><span class="kw">def</span> celsius_to_fahrenheit(c):</span>
+<span id="cb15-2"><a href=""></a>    <span class="co">"""Convert a temperature from Celsius to Fahrenheit."""</span></span>
+<span id="cb15-3"><a href=""></a>    <span class="cf">return</span> c <span class="op">*</span> <span class="dv">9</span><span class="op">/</span><span class="dv">5</span> <span class="op">+</span> <span class="dv">32</span></span>
+<span id="cb15-4"><a href=""></a></span>
+<span id="cb15-5"><a href=""></a><span class="kw">def</span> margin(revenue, cost):</span>
+<span id="cb15-6"><a href=""></a>    <span class="co">"""Return the profit margin as a percentage, to 1 decimal."""</span></span>
+<span id="cb15-7"><a href=""></a>    <span class="cf">return</span> <span class="bu">round</span>((revenue <span class="op">-</span> cost) <span class="op">/</span> revenue <span class="op">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb15-8"><a href=""></a></span>
+<span id="cb15-9"><a href=""></a><span class="kw">def</span> grade(mark):</span>
+<span id="cb15-10"><a href=""></a>    <span class="co">"""Return First, Pass or Fail for a mark out of 100."""</span></span>
+<span id="cb15-11"><a href=""></a>    <span class="cf">if</span> mark <span class="op">&gt;=</span> <span class="dv">70</span>:</span>
+<span id="cb15-12"><a href=""></a>        <span class="cf">return</span> <span class="st">"First"</span></span>
+<span id="cb15-13"><a href=""></a>    <span class="cf">elif</span> mark <span class="op">&gt;=</span> <span class="dv">40</span>:</span>
+<span id="cb15-14"><a href=""></a>        <span class="cf">return</span> <span class="st">"Pass"</span></span>
+<span id="cb15-15"><a href=""></a>    <span class="cf">return</span> <span class="st">"Fail"</span></span>
+<span id="cb15-16"><a href=""></a></span>
+<span id="cb15-17"><a href=""></a><span class="bu">print</span>(celsius_to_fahrenheit(<span class="dv">100</span>), margin(<span class="dv">1000</span>, <span class="dv">620</span>), grade(<span class="dv">64</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>212.0 38.0 2H1</code></pre>
+<pre><code>212.0 38.0 Pass</code></pre>
 </div>
 </div>
+<p><code>return</code> ends the function on the spot, so <code>grade()</code> needs no <code>else</code>.</p>
 </section></section>
 <section>
 <section id="arguments-and-scope" class="title-slide slide level1 center">
-<h1>3. Arguments and Scope</h1>
+<h1>2. Arguments and Scope</h1>
 
 </section>
-<section id="several-parameters" class="slide level2">
-<h2>Several Parameters</h2>
-<div id="b135964a" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a><span class="kw">def</span> net_profit(revenue, cost, tax_rate):</span>
-<span id="cb21-2"><a href=""></a>    gross <span class="op">=</span> revenue <span class="op">-</span> cost</span>
-<span id="cb21-3"><a href=""></a>    <span class="cf">return</span> gross <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> tax_rate)</span>
-<span id="cb21-4"><a href=""></a></span>
-<span id="cb21-5"><a href=""></a><span class="bu">print</span>(net_profit(<span class="dv">10000</span>, <span class="dv">6000</span>, <span class="fl">0.125</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="positional-and-keyword-arguments" class="slide level2">
+<h2>Positional and Keyword Arguments</h2>
+<p>Values given <strong>by position</strong> fill the parameters from left to right:</p>
+<div id="a89dceba" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a><span class="kw">def</span> net_profit(revenue, cost, tax_rate):</span>
+<span id="cb17-2"><a href=""></a>    gross <span class="op">=</span> revenue <span class="op">-</span> cost</span>
+<span id="cb17-3"><a href=""></a>    <span class="cf">return</span> gross <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> tax_rate)</span>
+<span id="cb17-4"><a href=""></a></span>
+<span id="cb17-5"><a href=""></a><span class="bu">print</span>(net_profit(<span class="dv">10000</span>, <span class="dv">6000</span>, <span class="fl">0.125</span>))</span>
+<span id="cb17-6"><a href=""></a><span class="co"># revenue=10000, cost=6000, tax_rate=0.125: right</span></span>
+<span id="cb17-7"><a href=""></a></span>
+<span id="cb17-8"><a href=""></a><span class="bu">print</span>(net_profit(<span class="fl">0.125</span>, <span class="dv">6000</span>, <span class="dv">10000</span>))</span>
+<span id="cb17-9"><a href=""></a><span class="co"># revenue=0.125, cost=6000, tax_rate=10000: wrong, and no error</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>3500.0
+59992750.125</code></pre>
+</div>
+</div>
+<p>Write the names yourself (<strong>keywords</strong>) and the order stops mattering:</p>
+<div id="58b35599" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a><span class="bu">print</span>(net_profit(tax_rate<span class="op">=</span><span class="fl">0.125</span>, revenue<span class="op">=</span><span class="dv">10000</span>, cost<span class="op">=</span><span class="dv">6000</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3500.0</code></pre>
 </div>
 </div>
-<p>Arguments are matched <strong>by position</strong>, in order. Get the order wrong and you get a wrong answer with no error:</p>
-<div id="52550ebe" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a><span class="bu">print</span>(net_profit(<span class="fl">0.125</span>, <span class="dv">6000</span>, <span class="dv">10000</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>59992750.125</code></pre>
-</div>
-</div>
-</section>
-<section id="keyword-arguments" class="slide level2">
-<h2>Keyword Arguments</h2>
-<p>Name the arguments and position stops mattering:</p>
-<div id="f0a2b1a1" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a><span class="bu">print</span>(net_profit(revenue<span class="op">=</span><span class="dv">10000</span>, cost<span class="op">=</span><span class="dv">6000</span>, tax_rate<span class="op">=</span><span class="fl">0.125</span>))</span>
-<span id="cb25-2"><a href=""></a><span class="bu">print</span>(net_profit(tax_rate<span class="op">=</span><span class="fl">0.125</span>, revenue<span class="op">=</span><span class="dv">10000</span>, cost<span class="op">=</span><span class="dv">6000</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>3500.0
-3500.0</code></pre>
-</div>
-</div>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Tip</strong></p>
-</div>
-<div class="callout-content">
-<p>Use keywords whenever a function takes more than two arguments. Your future self reading <code>net_profit(10000, 6000, 0.125)</code> will not remember which is which.</p>
-</div>
-</div>
-</div>
+<p>Use keywords whenever a function takes more than two arguments.</p>
 </section>
 <section id="default-values" class="slide level2">
 <h2>Default Values</h2>
-<div id="dec5a9e4" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a><span class="kw">def</span> add_vat(net, rate<span class="op">=</span><span class="fl">0.23</span>):</span>
-<span id="cb27-2"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> rate)</span>
-<span id="cb27-3"><a href=""></a></span>
-<span id="cb27-4"><a href=""></a><span class="bu">print</span>(add_vat(<span class="dv">100</span>))            <span class="co"># uses the default</span></span>
-<span id="cb27-5"><a href=""></a><span class="bu">print</span>(add_vat(<span class="dv">100</span>, <span class="fl">0.135</span>))     <span class="co"># overrides it</span></span>
-<span id="cb27-6"><a href=""></a><span class="bu">print</span>(add_vat(<span class="dv">100</span>, rate<span class="op">=</span><span class="fl">0.09</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="44c6c4b0" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a><span class="kw">def</span> add_vat(net, rate<span class="op">=</span><span class="fl">0.23</span>):</span>
+<span id="cb21-2"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> rate)</span>
+<span id="cb21-3"><a href=""></a></span>
+<span id="cb21-4"><a href=""></a><span class="bu">print</span>(add_vat(<span class="dv">100</span>))            <span class="co"># uses the default</span></span>
+<span id="cb21-5"><a href=""></a><span class="bu">print</span>(add_vat(<span class="dv">100</span>, <span class="fl">0.135</span>))     <span class="co"># overrides it</span></span>
+<span id="cb21-6"><a href=""></a><span class="bu">print</span>(add_vat(<span class="dv">100</span>, rate<span class="op">=</span><span class="fl">0.09</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>123.0
 113.5
@@ -527,13 +455,13 @@ add_vat(net, rate=0.23)
 <section id="scope" class="slide level2">
 <h2>Scope</h2>
 <p>Names created inside a function only exist inside it.</p>
-<div id="14edf13c" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a><span class="kw">def</span> compute():</span>
-<span id="cb29-2"><a href=""></a>    hidden <span class="op">=</span> <span class="dv">42</span></span>
-<span id="cb29-3"><a href=""></a>    <span class="cf">return</span> hidden <span class="op">*</span> <span class="dv">2</span></span>
-<span id="cb29-4"><a href=""></a></span>
-<span id="cb29-5"><a href=""></a><span class="bu">print</span>(compute())</span>
-<span id="cb29-6"><a href=""></a><span class="bu">print</span>(hidden)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="58c0a8d9" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a><span class="kw">def</span> compute():</span>
+<span id="cb23-2"><a href=""></a>    hidden <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb23-3"><a href=""></a>    <span class="cf">return</span> hidden <span class="op">*</span> <span class="dv">2</span></span>
+<span id="cb23-4"><a href=""></a></span>
+<span id="cb23-5"><a href=""></a><span class="bu">print</span>(compute())</span>
+<span id="cb23-6"><a href=""></a><span class="bu">print</span>(hidden)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>84</code></pre>
 </div>
@@ -541,7 +469,7 @@ add_vat(net, rate=0.23)
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[16], line 6</span>
+Cell <span class="ansi-green-fg">In[12], line 6</span>
 <span class="ansi-green-fg ansi-bold">      3</span>     <span style="font-weight:bold;color:rgb(0,135,0)">return</span> hidden <span style="color:rgb(98,98,98)">*</span> <span style="color:rgb(98,98,98)">2</span>
 <span class="ansi-green-fg ansi-bold">      5</span> <span style="color:rgb(0,135,0)">print</span>(compute())
 <span class="ansi-green-fg">----&gt; 6</span> <span style="color:rgb(0,135,0)">print</span>(hidden)
@@ -555,13 +483,13 @@ Cell <span class="ansi-green-fg">In[16], line 6</span>
 <section id="scope-the-other-direction" class="slide level2">
 <h2>Scope, The Other Direction</h2>
 <p>A function <strong>can</strong> read names from outside:</p>
-<div id="6022c475" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href=""></a>vat_rate <span class="op">=</span> <span class="fl">0.23</span></span>
-<span id="cb31-2"><a href=""></a></span>
-<span id="cb31-3"><a href=""></a><span class="kw">def</span> add_vat_global(net):</span>
-<span id="cb31-4"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> vat_rate)   <span class="co"># reads the outside name</span></span>
-<span id="cb31-5"><a href=""></a></span>
-<span id="cb31-6"><a href=""></a><span class="bu">print</span>(add_vat_global(<span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="f9262764" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a>vat_rate <span class="op">=</span> <span class="fl">0.23</span></span>
+<span id="cb25-2"><a href=""></a></span>
+<span id="cb25-3"><a href=""></a><span class="kw">def</span> add_vat_global(net):</span>
+<span id="cb25-4"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> vat_rate)   <span class="co"># reads the outside name</span></span>
+<span id="cb25-5"><a href=""></a></span>
+<span id="cb25-6"><a href=""></a><span class="bu">print</span>(add_vat_global(<span class="dv">100</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>123.0</code></pre>
 </div>
@@ -582,19 +510,19 @@ Cell <span class="ansi-green-fg">In[16], line 6</span>
 </section>
 <section id="functions-calling-functions" class="slide level2">
 <h2>Functions Calling Functions</h2>
-<div id="f9a52246" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href=""></a><span class="kw">def</span> add_vat(net, rate<span class="op">=</span><span class="fl">0.23</span>):</span>
-<span id="cb33-2"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> rate)</span>
-<span id="cb33-3"><a href=""></a></span>
-<span id="cb33-4"><a href=""></a><span class="kw">def</span> invoice_total(prices, rate<span class="op">=</span><span class="fl">0.23</span>):</span>
-<span id="cb33-5"><a href=""></a>    <span class="co">"""Return the gross total of a list of net prices."""</span></span>
-<span id="cb33-6"><a href=""></a>    total <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb33-7"><a href=""></a>    <span class="cf">for</span> price <span class="kw">in</span> prices:</span>
-<span id="cb33-8"><a href=""></a>        total <span class="op">+=</span> add_vat(price, rate)</span>
-<span id="cb33-9"><a href=""></a>    <span class="cf">return</span> <span class="bu">round</span>(total, <span class="dv">2</span>)</span>
-<span id="cb33-10"><a href=""></a></span>
-<span id="cb33-11"><a href=""></a><span class="bu">print</span>(invoice_total([<span class="fl">10.0</span>, <span class="fl">25.0</span>, <span class="fl">8.5</span>]))</span>
-<span id="cb33-12"><a href=""></a><span class="bu">print</span>(invoice_total([<span class="fl">10.0</span>, <span class="fl">25.0</span>, <span class="fl">8.5</span>], rate<span class="op">=</span><span class="fl">0.09</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="2f839ceb" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a><span class="kw">def</span> add_vat(net, rate<span class="op">=</span><span class="fl">0.23</span>):</span>
+<span id="cb27-2"><a href=""></a>    <span class="cf">return</span> net <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> rate)</span>
+<span id="cb27-3"><a href=""></a></span>
+<span id="cb27-4"><a href=""></a><span class="kw">def</span> invoice_total(prices, rate<span class="op">=</span><span class="fl">0.23</span>):</span>
+<span id="cb27-5"><a href=""></a>    <span class="co">"""Return the gross total of a list of net prices."""</span></span>
+<span id="cb27-6"><a href=""></a>    total <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb27-7"><a href=""></a>    <span class="cf">for</span> price <span class="kw">in</span> prices:</span>
+<span id="cb27-8"><a href=""></a>        total <span class="op">+=</span> add_vat(price, rate)</span>
+<span id="cb27-9"><a href=""></a>    <span class="cf">return</span> <span class="bu">round</span>(total, <span class="dv">2</span>)</span>
+<span id="cb27-10"><a href=""></a></span>
+<span id="cb27-11"><a href=""></a><span class="bu">print</span>(invoice_total([<span class="fl">10.0</span>, <span class="fl">25.0</span>, <span class="fl">8.5</span>]))</span>
+<span id="cb27-12"><a href=""></a><span class="bu">print</span>(invoice_total([<span class="fl">10.0</span>, <span class="fl">25.0</span>, <span class="fl">8.5</span>], rate<span class="op">=</span><span class="fl">0.09</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>53.5
 47.42</code></pre>
@@ -604,15 +532,15 @@ Cell <span class="ansi-green-fg">In[16], line 6</span>
 </section>
 <section id="returning-several-values" class="slide level2">
 <h2>Returning Several Values</h2>
-<div id="3e48c861" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href=""></a><span class="kw">def</span> describe(values):</span>
-<span id="cb35-2"><a href=""></a>    <span class="co">"""Return the count, total and mean of a list of numbers."""</span></span>
-<span id="cb35-3"><a href=""></a>    n <span class="op">=</span> <span class="bu">len</span>(values)</span>
-<span id="cb35-4"><a href=""></a>    total <span class="op">=</span> <span class="bu">sum</span>(values)</span>
-<span id="cb35-5"><a href=""></a>    <span class="cf">return</span> n, total, total <span class="op">/</span> n</span>
-<span id="cb35-6"><a href=""></a></span>
-<span id="cb35-7"><a href=""></a>count, total, mean <span class="op">=</span> describe([<span class="dv">120</span>, <span class="dv">135</span>, <span class="dv">148</span>, <span class="dv">160</span>])</span>
-<span id="cb35-8"><a href=""></a><span class="bu">print</span>(count, total, <span class="bu">round</span>(mean, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="377699bf" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a><span class="kw">def</span> describe(values):</span>
+<span id="cb29-2"><a href=""></a>    <span class="co">"""Return the count, total and mean of a list of numbers."""</span></span>
+<span id="cb29-3"><a href=""></a>    n <span class="op">=</span> <span class="bu">len</span>(values)</span>
+<span id="cb29-4"><a href=""></a>    total <span class="op">=</span> <span class="bu">sum</span>(values)</span>
+<span id="cb29-5"><a href=""></a>    <span class="cf">return</span> n, total, total <span class="op">/</span> n</span>
+<span id="cb29-6"><a href=""></a></span>
+<span id="cb29-7"><a href=""></a>count, total, mean <span class="op">=</span> describe([<span class="dv">120</span>, <span class="dv">135</span>, <span class="dv">148</span>, <span class="dv">160</span>])</span>
+<span id="cb29-8"><a href=""></a><span class="bu">print</span>(count, total, <span class="bu">round</span>(mean, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4 563 140.8</code></pre>
 </div>
@@ -621,370 +549,274 @@ Cell <span class="ansi-green-fg">In[16], line 6</span>
 </section>
 <section id="your-turn-a-reusable-summary" class="slide level2" data-background="#43464B">
 <h2>Your Turn: A Reusable Summary</h2>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Several return values</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href=""></a>sales <span class="op">=</span> [<span class="dv">120</span>, <span class="dv">135</span>, <span class="dv">148</span>, <span class="dv">160</span>, <span class="dv">240</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol type="1">
-<li>Write <code>summarise(values)</code> returning the minimum, maximum, mean and range of a list. Do not use <code>statistics</code>.</li>
-<li>Unpack the four values and print them with an f-string, mean to 2 decimals.</li>
-<li>Write <code>clean_text(text)</code> that strips spaces, lowercases, and replaces any <code>"-"</code> with a space.</li>
-<li>Test <code>clean_text</code> on <code>"  Dublin-City  "</code>.</li>
+<li>Write <code>summarise(values)</code> returning the min, max, mean and range (max minus min)</li>
+<li>Unpack <code>summarise(sales)</code> into four names and print them</li>
 </ol>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>A default value</strong></p>
+<ol start="3" type="1">
+<li>Write <code>clean(text, lower=True)</code>: it always strips the spaces, and lowercases only if <code>lower</code> is <code>True</code></li>
+<li>Check it:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href=""></a>clean(<span class="st">" DCU "</span>)               <span class="co"># 'dcu'</span></span>
+<span id="cb32-2"><a href=""></a>clean(<span class="st">" DCU "</span>, lower<span class="op">=</span><span class="va">False</span>)  <span class="co"># 'DCU'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
                     <div id="timer2"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer2", 540, "interaction");
+                            initializeTimer("timer2", 360, "interaction");
                         });
                     </script>
                 
+</div>
+</div>
+</div>
 </section>
 <section id="solution-1" class="slide level2">
 <h2>Solution</h2>
-<div id="eaef866a" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href=""></a><span class="kw">def</span> summarise(values):</span>
-<span id="cb37-2"><a href=""></a>    <span class="co">"""Return min, max, mean and range of a list of numbers."""</span></span>
-<span id="cb37-3"><a href=""></a>    lo <span class="op">=</span> <span class="bu">min</span>(values)</span>
-<span id="cb37-4"><a href=""></a>    hi <span class="op">=</span> <span class="bu">max</span>(values)</span>
-<span id="cb37-5"><a href=""></a>    mean <span class="op">=</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
-<span id="cb37-6"><a href=""></a>    <span class="cf">return</span> lo, hi, mean, hi <span class="op">-</span> lo</span>
-<span id="cb37-7"><a href=""></a></span>
-<span id="cb37-8"><a href=""></a>lo, hi, mean, spread <span class="op">=</span> summarise([<span class="dv">120</span>, <span class="dv">135</span>, <span class="dv">148</span>, <span class="dv">160</span>, <span class="dv">240</span>])</span>
-<span id="cb37-9"><a href=""></a><span class="bu">print</span>(<span class="ss">f"min </span><span class="sc">{</span>lo<span class="sc">}</span><span class="ss">, max </span><span class="sc">{</span>hi<span class="sc">}</span><span class="ss">, mean </span><span class="sc">{</span>mean<span class="sc">:.2f}</span><span class="ss">, range </span><span class="sc">{</span>spread<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb37-10"><a href=""></a></span>
-<span id="cb37-11"><a href=""></a><span class="kw">def</span> clean_text(text):</span>
-<span id="cb37-12"><a href=""></a>    <span class="co">"""Strip, lowercase and replace dashes with spaces."""</span></span>
-<span id="cb37-13"><a href=""></a>    <span class="cf">return</span> text.strip().lower().replace(<span class="st">"-"</span>, <span class="st">" "</span>)</span>
-<span id="cb37-14"><a href=""></a></span>
-<span id="cb37-15"><a href=""></a><span class="bu">print</span>(clean_text(<span class="st">"  Dublin-City  "</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="50869417" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href=""></a>sales <span class="op">=</span> [<span class="dv">120</span>, <span class="dv">135</span>, <span class="dv">148</span>, <span class="dv">160</span>, <span class="dv">240</span>]</span>
+<span id="cb33-2"><a href=""></a><span class="kw">def</span> summarise(values):</span>
+<span id="cb33-3"><a href=""></a>    <span class="co">"""Return the min, max, mean and range of a list of numbers."""</span></span>
+<span id="cb33-4"><a href=""></a>    lo <span class="op">=</span> <span class="bu">min</span>(values)</span>
+<span id="cb33-5"><a href=""></a>    hi <span class="op">=</span> <span class="bu">max</span>(values)</span>
+<span id="cb33-6"><a href=""></a>    mean <span class="op">=</span> <span class="bu">sum</span>(values) <span class="op">/</span> <span class="bu">len</span>(values)</span>
+<span id="cb33-7"><a href=""></a>    <span class="cf">return</span> lo, hi, mean, hi <span class="op">-</span> lo</span>
+<span id="cb33-8"><a href=""></a></span>
+<span id="cb33-9"><a href=""></a>lo, hi, mean, spread <span class="op">=</span> summarise(sales)</span>
+<span id="cb33-10"><a href=""></a><span class="bu">print</span>(<span class="ss">f"min </span><span class="sc">{</span>lo<span class="sc">}</span><span class="ss">, max </span><span class="sc">{</span>hi<span class="sc">}</span><span class="ss">, mean </span><span class="sc">{</span>mean<span class="sc">:.2f}</span><span class="ss">, range </span><span class="sc">{</span>spread<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>min 120, max 240, mean 160.60, range 120
-dublin city</code></pre>
+<pre><code>min 120, max 240, mean 160.60, range 120</code></pre>
+</div>
+</div>
+<div id="6b8f5116" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href=""></a><span class="kw">def</span> clean(text, lower<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb35-2"><a href=""></a>    <span class="co">"""Strip a string, and lowercase it unless lower is False."""</span></span>
+<span id="cb35-3"><a href=""></a>    text <span class="op">=</span> text.strip()</span>
+<span id="cb35-4"><a href=""></a>    <span class="cf">if</span> lower:</span>
+<span id="cb35-5"><a href=""></a>        text <span class="op">=</span> text.lower()</span>
+<span id="cb35-6"><a href=""></a>    <span class="cf">return</span> text</span>
+<span id="cb35-7"><a href=""></a></span>
+<span id="cb35-8"><a href=""></a><span class="bu">print</span>(clean(<span class="st">" DCU "</span>), clean(<span class="st">" DCU "</span>, lower<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>dcu DCU</code></pre>
 </div>
 </div>
 </section></section>
 <section>
 <section id="modules-and-packages" class="title-slide slide level1 center">
-<h1>4. Modules and Packages</h1>
+<h1>3. Modules and Packages</h1>
 
 </section>
 <section id="python-comes-with-batteries" class="slide level2">
 <h2>Python Comes With Batteries</h2>
 <p>The <strong>standard library</strong> is installed with Python. You just have to <code>import</code> it.</p>
-<div id="9d6e946e" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href=""></a><span class="im">import</span> math</span>
-<span id="cb39-2"><a href=""></a></span>
-<span id="cb39-3"><a href=""></a><span class="bu">print</span>(math.sqrt(<span class="dv">144</span>))</span>
-<span id="cb39-4"><a href=""></a><span class="bu">print</span>(math.pi)</span>
-<span id="cb39-5"><a href=""></a><span class="bu">print</span>(math.log(<span class="dv">100</span>, <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-columns">
+<div id="first-column">
+<div id="53773931" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href=""></a><span class="im">import</span> math</span>
+<span id="cb37-2"><a href=""></a></span>
+<span id="cb37-3"><a href=""></a><span class="bu">print</span>(math.sqrt(<span class="dv">144</span>))</span>
+<span id="cb37-4"><a href=""></a><span class="bu">print</span>(math.pi)</span>
+<span id="cb37-5"><a href=""></a><span class="bu">print</span>(math.log(<span class="dv">100</span>, <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>12.0
 3.141592653589793
 2.0</code></pre>
 </div>
 </div>
-<p><code>math.sqrt</code> reads as <em>“the sqrt function from the math module”</em>. The dot means “inside”.</p>
-</section>
-<section id="useful-standard-modules" class="slide level2">
-<h2>Useful Standard Modules</h2>
-<div id="90d57429" class="cell" data-execution_count="22">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href=""></a><span class="im">import</span> random</span>
-<span id="cb41-2"><a href=""></a>random.seed(<span class="dv">42</span>)                     <span class="co"># makes randomness reproducible</span></span>
-<span id="cb41-3"><a href=""></a><span class="bu">print</span>(random.randint(<span class="dv">1</span>, <span class="dv">6</span>))</span>
-<span id="cb41-4"><a href=""></a><span class="bu">print</span>(random.choice([<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="second-column">
+<div id="d976ea8c" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href=""></a><span class="im">import</span> random</span>
+<span id="cb39-2"><a href=""></a><span class="im">import</span> statistics</span>
+<span id="cb39-3"><a href=""></a></span>
+<span id="cb39-4"><a href=""></a>random.seed(<span class="dv">42</span>)    <span class="co"># reproducible</span></span>
+<span id="cb39-5"><a href=""></a><span class="bu">print</span>(random.randint(<span class="dv">1</span>, <span class="dv">6</span>))</span>
+<span id="cb39-6"><a href=""></a><span class="bu">print</span>(random.choice([<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>]))</span>
+<span id="cb39-7"><a href=""></a></span>
+<span id="cb39-8"><a href=""></a>values <span class="op">=</span> [<span class="dv">120</span>, <span class="dv">135</span>, <span class="dv">148</span>, <span class="dv">160</span>, <span class="dv">240</span>]</span>
+<span id="cb39-9"><a href=""></a><span class="bu">print</span>(statistics.mean(values))</span>
+<span id="cb39-10"><a href=""></a><span class="bu">print</span>(statistics.median(values))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>6
-A</code></pre>
+A
+160.6
+148</code></pre>
 </div>
 </div>
-<div id="2683801c" class="cell" data-execution_count="23">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href=""></a><span class="im">import</span> statistics</span>
-<span id="cb43-2"><a href=""></a>values <span class="op">=</span> [<span class="dv">120</span>, <span class="dv">135</span>, <span class="dv">148</span>, <span class="dv">160</span>, <span class="dv">240</span>]</span>
-<span id="cb43-3"><a href=""></a><span class="bu">print</span>(statistics.mean(values), statistics.median(values))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>160.6 148</code></pre>
 </div>
 </div>
-<div id="6a1b02a3" class="cell" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href=""></a><span class="im">from</span> datetime <span class="im">import</span> date</span>
-<span id="cb45-2"><a href=""></a><span class="bu">print</span>(date.today().year)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>2026</code></pre>
-</div>
-</div>
+<p><code>math.sqrt</code> reads as <em>“the sqrt function from the math module”</em>. The dot means “inside”.</p>
 </section>
 <section id="three-ways-to-import" class="slide level2">
 <h2>Three Ways to Import</h2>
-<div id="ecd7cfa6" class="cell" data-execution_count="25">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href=""></a><span class="im">import</span> math                 <span class="co"># math.sqrt(16)</span></span>
-<span id="cb47-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd         <span class="co"># pd.read_csv(...)</span></span>
-<span id="cb47-3"><a href=""></a><span class="im">from</span> math <span class="im">import</span> sqrt       <span class="co"># sqrt(16)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-columns">
+<div id="first-column">
+<div id="72e6fee6" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href=""></a><span class="im">import</span> math            <span class="co"># math.sqrt(16)</span></span>
+<span id="cb41-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd    <span class="co"># pd.read_csv()</span></span>
+<span id="cb41-3"><a href=""></a><span class="im">from</span> math <span class="im">import</span> sqrt  <span class="co"># sqrt(16)</span></span>
+<span id="cb41-4"><a href=""></a><span class="im">from</span> math <span class="im">import</span> <span class="op">*</span>     <span class="co"># never do this</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>import x</code>: safest, always clear where a function comes from</li>
-<li><code>import x as y</code>: the standard for the big data libraries, and the alias is conventional, not arbitrary</li>
+<li><code>import x as y</code>: the standard for the big data libraries</li>
 <li><code>from x import y</code>: convenient, but hides the origin</li>
 </ul>
-<div id="e9b99484" class="cell" data-execution_count="26">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href=""></a><span class="im">from</span> math <span class="im">import</span> <span class="op">*</span>          <span class="co"># never do this</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
-<section id="the-conventional-aliases" class="slide level2">
-<h2>The Conventional Aliases</h2>
-<div id="e0bf1775" class="cell" data-execution_count="27">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb49-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb49-3"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb49-4"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb49-5"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="second-column">
+<div id="29aec860" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb42-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb42-3"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb42-4"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb42-5"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>These five lines open almost every data analysis notebook in the world. <strong>Use exactly these aliases</strong>: any code you find online assumes them.</p>
-</section>
-<section id="the-python-ecosystem" class="slide level2">
-<h2>The Python Ecosystem</h2>
-
-<img data-src="images/python_ecosystem.png" class="r-stretch"><div class="small-font">
-<p>Source: Neuroinformatics Unit, UCL, <a href="https://neuroinformatics.dev/course-intro-python">Introduction to Python</a></p>
 </div>
-<p>You will use six of these. The rest exist, and they all install the same way.</p>
-</section>
-<section id="packages-are-not-modules" class="slide level2">
-<h2>Packages Are Not Modules</h2>
-<ul>
-<li>A <strong>module</strong> is one <code>.py</code> file of code</li>
-<li>A <strong>package</strong> is a collection of modules, distributed together</li>
-<li>The standard library is included with Python</li>
-<li>Everything else has to be <strong>installed</strong></li>
-</ul>
-<div id="7974633b" class="cell" data-execution_count="28">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href=""></a><span class="op">!</span>pip install seaborn                 <span class="co"># in Colab, or any notebook cell</span></span>
-<span id="cb50-2"><a href=""></a>pip install seaborn                  <span class="co"># in a terminal</span></span>
-<span id="cb50-3"><a href=""></a>python <span class="op">-</span>m pip install seaborn        <span class="co"># in a terminal, the safe form</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><code>pip</code> is Python’s package installer. <code>python -m pip</code> runs it through a <strong>named</strong> interpreter, which removes all doubt about where the package lands. More on that in week 6.</p>
 </section>
 <section id="installing-vs-importing" class="slide level2">
 <h2>Installing vs Importing</h2>
-<p>Two separate steps, and confusing them is a rite of passage:</p>
+<p>A <strong>package</strong> is a collection of modules (<code>.py</code> files). Apart from the standard library, every package has to be <strong>installed</strong> before it can be imported:</p>
 <ul>
-<li><strong>Install</strong> once per machine or environment: downloads the code</li>
-<li><strong>Import</strong> once per session: makes it available in this notebook</li>
+<li><strong>Install</strong> once per machine or environment: <code>!pip install seaborn</code> in Colab</li>
+<li><strong>Import</strong> once per session: <code>import seaborn as sns</code> in each notebook</li>
 </ul>
-<div id="85a24c79" class="cell" data-execution_count="29">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href=""></a><span class="im">import</span> definitely_not_a_real_package</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="4864c8be" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href=""></a><span class="im">import</span> definitely_not_a_real_package</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[25], line 1</span>
+Cell <span class="ansi-green-fg">In[20], line 1</span>
 <span class="ansi-green-fg">----&gt; 1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">definitely_not_a_real_package</span>
 
 <span class="ansi-red-fg">ModuleNotFoundError</span>: No module named 'definitely_not_a_real_package'</pre>
 </div>
 </div>
 </div>
-<p><code>ModuleNotFoundError</code> means it is not installed, or the name is misspelt.</p>
-<p>Colab has pandas, numpy, matplotlib, seaborn, scikit-learn and statsmodels pre-installed. From week 6 you will install them yourself.</p>
+<p><code>ModuleNotFoundError</code> means it is not installed, or the name is misspelt. In Colab, every library we use this semester is already installed.</p>
 </section></section>
 <section>
 <section id="paths-and-getting-data-into-colab" class="title-slide slide level1 center">
-<h1>5. Paths and Getting Data Into Colab</h1>
+<h1>4. Paths and Getting Data Into Colab</h1>
 
 </section>
 <section id="four-formats-four-readers" class="slide level2">
 <h2>Four Formats, Four Readers</h2>
 <p>Week 3 introduced CSV, JSON, Excel and Parquet. pandas reads all four, and the pattern is always the same: <code>pd.read_something(where_it_is)</code>.</p>
-<div id="44499795" class="cell" data-execution_count="30">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb52-2"><a href=""></a></span>
-<span id="cb52-3"><a href=""></a>stores  <span class="op">=</span> pd.read_csv(<span class="st">"roasted_stores.csv"</span>)</span>
-<span id="cb52-4"><a href=""></a>sales   <span class="op">=</span> pd.read_excel(<span class="st">"quarterly_report.xlsx"</span>, sheet_name<span class="op">=</span><span class="st">"Q1"</span>)</span>
-<span id="cb52-5"><a href=""></a>orders  <span class="op">=</span> pd.read_json(<span class="st">"orders.json"</span>)</span>
-<span id="cb52-6"><a href=""></a>daily   <span class="op">=</span> pd.read_parquet(<span class="st">"roasted_daily.parquet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ae55fb52" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb44-2"><a href=""></a></span>
+<span id="cb44-3"><a href=""></a>stores  <span class="op">=</span> pd.read_csv(<span class="st">"roasted_stores.csv"</span>)</span>
+<span id="cb44-4"><a href=""></a>sales   <span class="op">=</span> pd.read_excel(<span class="st">"quarterly_report.xlsx"</span>, sheet_name<span class="op">=</span><span class="st">"Q1"</span>)</span>
+<span id="cb44-5"><a href=""></a>orders  <span class="op">=</span> pd.read_json(<span class="st">"orders.json"</span>)</span>
+<span id="cb44-6"><a href=""></a>daily   <span class="op">=</span> pd.read_parquet(<span class="st">"roasted_daily.parquet"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Four different files on disk, four one-line calls, and <strong>the same DataFrame out of each</strong>. That is the whole reason the formats do not matter much once the file is in reach.</p>
-</section>
-<section id="two-of-them-need-a-helper" class="slide level2">
-<h2>Two of Them Need a Helper</h2>
-<p><code>read_csv</code> and <code>read_json</code> are built in. The other two are not:</p>
-<ul>
-<li><code>read_excel</code> needs <strong>openpyxl</strong></li>
-<li><code>read_parquet</code> needs <strong>pyarrow</strong></li>
-</ul>
-<div id="67877fc7" class="cell" data-execution_count="31">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href=""></a><span class="op">!</span>pip install openpyxl pyarrow</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Colab has both pre-installed, so today it just works. On your own machine next week it will not, and you will install them yourself. Remember the distinction from twenty minutes ago: <strong>installed once per environment, imported once per session.</strong></p>
+<p>Four different files on disk, four one-line calls, and <strong>the same DataFrame out of each</strong>. <code>read_excel</code> needs the <strong>openpyxl</strong> package and <code>read_parquet</code> needs <strong>pyarrow</strong>: Colab has both, and next week you install them yourself.</p>
 </section>
 <section id="but-where-is-the-file" class="slide level2">
 <h2>But Where Is the File?</h2>
-<p><code>pd.read_csv("roasted_stores.csv")</code> looks for that file <strong>on the machine running Python</strong>.</p>
-<p>In Colab, that machine is a virtual computer in a Google data centre. Your file is on your laptop. They have never met.</p>
-<p>Before we bridge that gap, we need to be able to say <strong>where a file is</strong>. That is a path.</p>
-</section>
-<section id="what-a-path-actually-is" class="slide level2">
-<h2>What a Path Actually Is</h2>
-<p>A path is a file’s address: the folders you pass through, then the file name.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb54-1"><a href=""></a>/Users/damien/Documents/BAA1118/data/roasted_stores.csv</span>
-<span id="cb54-2"><a href=""></a>└─┬──┘ └──┬─┘ └───┬────┘ └──┬───┘ └─┬─┘ └────────┬─────────┘</span>
-<span id="cb54-3"><a href=""></a> root   user    folder    folder  folder      file name</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>pd.read_csv("roasted_stores.csv")</code> looks for that file <strong>on the machine running Python</strong>. In Colab, that machine is in a Google data centre, and your file is on your laptop. To bridge the gap, you need to say <strong>where a file is</strong>: its path.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb45-1"><a href=""></a>/Users/damien/Documents/BAA1118/data/roasted_stores.csv</span>
+<span id="cb45-2"><a href=""></a>└─┬──┘ └──┬─┘ └───┬────┘ └──┬───┘ └─┬─┘ └────────┬─────────┘</span>
+<span id="cb45-3"><a href=""></a> root   user    folder    folder  folder      file name</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><strong>Absolute</strong>: starts at the root and works on no other machine but this one</li>
+<li><strong>Absolute</strong>: starts at the root, <code>/Users/...</code> on a Mac, <code>C:/Users/...</code> on Windows, <code>/content/...</code> in Colab, and works on no other machine</li>
 <li><strong>Relative</strong>: starts from wherever Python currently is, and travels with the project</li>
-<li>The <strong>separator</strong> is <code>/</code> on macOS and Linux, and <code>\</code> on Windows, although Windows accepts <code>/</code> too and you should always give it one</li>
-<li><code>~</code> is a shortcut for your home folder</li>
+<li>Folders are separated by <code>/</code>. Windows writes <code>\</code> but accepts <code>/</code>: always give it <code>/</code></li>
 </ul>
-</section>
-<section id="roots-look-different" class="slide level2">
-<h2>Roots Look Different</h2>
-<div id="1e69b8f0" class="cell" data-execution_count="32">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href=""></a><span class="co"># macOS and Linux: one root, called /</span></span>
-<span id="cb55-2"><a href=""></a><span class="co">"/Users/damien/Documents/BAA1118/data/stores.csv"</span></span>
-<span id="cb55-3"><a href=""></a><span class="co">"~/Documents/BAA1118/data/stores.csv"</span></span>
-<span id="cb55-4"><a href=""></a></span>
-<span id="cb55-5"><a href=""></a><span class="co"># Windows: one root per drive</span></span>
-<span id="cb55-6"><a href=""></a><span class="co">"C:/Users/damien/Documents/BAA1118/data/stores.csv"</span></span>
-<span id="cb55-7"><a href=""></a></span>
-<span id="cb55-8"><a href=""></a><span class="co"># Google Colab: a Linux machine, and you start in /content</span></span>
-<span id="cb55-9"><a href=""></a><span class="co">"/content/stores.csv"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Notice the last one. In Colab you are not on your own computer at all, and the path reflects that: <code>/content</code> is a folder on a machine you will never see again after today.</p>
 </section>
 <section id="the-colab-filesystem" class="slide level2">
 <h2>The Colab Filesystem</h2>
-<p>Colab’s runtime has a disk of its own. Ask it where you are:</p>
-<div id="60b48bd1" class="cell" data-execution_count="33">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href=""></a><span class="op">!</span>pwd            <span class="co"># print working directory  -&gt;  /content</span></span>
-<span id="cb56-2"><a href=""></a><span class="op">!</span>ls             <span class="co"># what is in it</span></span>
-<span id="cb56-3"><a href=""></a><span class="op">!</span>ls <span class="op">/</span>content</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Colab’s computer has its own disk. You start in its <code>/content</code> folder:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb46-1"><a href=""></a>/content               ← you start here</span>
+<span id="cb46-2"><a href=""></a>├── sample_data/       ← put there by Google</span>
+<span id="cb46-3"><a href=""></a>└── sales.csv          ← a file you uploaded</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Look around</strong>: <code>!</code> runs a line in the terminal, not in Python</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href=""></a><span class="op">!</span>pwd</span>
+<span id="cb47-2"><a href=""></a><span class="op">!</span>ls</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>/content
+sales.csv  sample_data</code></pre>
+<p>Everything in <code>/content</code> is <strong>deleted</strong> when the runtime stops.</p>
 </div>
-<ul>
-<li>You start in <code>/content</code></li>
-<li>Anything you upload lands in <code>/content</code></li>
-<li>The <strong>folder icon</strong> in the left sidebar is a file browser for exactly this</li>
-<li>All of it is deleted when the runtime stops</li>
-</ul>
-<p><code>!</code> at the start of a line means “run this as a terminal command, not as Python”. It is a Colab and Jupyter convenience, not part of the language.</p>
-</section>
-<section id="do-not-type-the-path.-copy-it." class="slide level2">
-<h2>Do Not Type the Path. Copy It.</h2>
-<p>Once a file is in Colab:</p>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Copy the path, never type it</strong></p>
 <ol type="1">
 <li>Click the <strong>folder icon</strong> in the left sidebar</li>
-<li>Find your file</li>
-<li>Right-click it, choose <strong>Copy path</strong></li>
-<li>Paste it between the quotes of <code>pd.read_csv("")</code></li>
+<li>Right-click your file, choose <strong>Copy path</strong></li>
+<li>Paste it between the quotes:</li>
 </ol>
-<div id="a4a64e4e" class="cell" data-execution_count="34">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href=""></a>df <span class="op">=</span> pd.read_csv(<span class="st">"/content/roasted_stores.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>pd.read_csv("/content/sales.csv")</code></p>
 </div>
-<p>Typing a path by hand is how you spend ten minutes on a typo. <strong>Copy it, every time.</strong></p>
+</div>
+</div>
 </section>
 <section id="three-paths-that-will-not-work" class="slide level2">
 <h2>Three Paths That Will Not Work</h2>
-<div id="2694fcb3" class="cell" data-execution_count="35">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href=""></a><span class="co"># 1. Incomplete: where does /path start? Nowhere on this machine.</span></span>
-<span id="cb58-2"><a href=""></a>pd.read_csv(<span class="st">"/path/to/my/file.csv"</span>)</span>
-<span id="cb58-3"><a href=""></a></span>
-<span id="cb58-4"><a href=""></a><span class="co"># 2. Missing the extension: "file" and "file.csv" are different names</span></span>
-<span id="cb58-5"><a href=""></a>pd.read_csv(<span class="st">"C:/Users/damien/data/file"</span>)</span>
-<span id="cb58-6"><a href=""></a></span>
-<span id="cb58-7"><a href=""></a><span class="co"># 3. Backslashes in a normal string: \t and \f are not folders</span></span>
-<span id="cb58-8"><a href=""></a>pd.read_csv(<span class="st">"C:</span><span class="er">\</span><span class="st">Users</span><span class="er">\</span><span class="st">damien</span><span class="er">\</span><span class="st">data</span><span class="ch">\f</span><span class="st">ile.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cc85aeff" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href=""></a><span class="co"># 1. Incomplete: where does /path start? Nowhere on this machine.</span></span>
+<span id="cb49-2"><a href=""></a>pd.read_csv(<span class="st">"/path/to/my/file.csv"</span>)</span>
+<span id="cb49-3"><a href=""></a></span>
+<span id="cb49-4"><a href=""></a><span class="co"># 2. Missing the extension: "file" and "file.csv" are different names</span></span>
+<span id="cb49-5"><a href=""></a>pd.read_csv(<span class="st">"C:/Users/damien/data/file"</span>)</span>
+<span id="cb49-6"><a href=""></a></span>
+<span id="cb49-7"><a href=""></a><span class="co"># 3. Backslashes in a normal string: \t and \f are not folders</span></span>
+<span id="cb49-8"><a href=""></a>pd.read_csv(<span class="st">"C:</span><span class="er">\</span><span class="st">Users</span><span class="er">\</span><span class="st">damien</span><span class="er">\</span><span class="st">data</span><span class="ch">\f</span><span class="st">ile.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The third one is the cruel one. <code>\t</code> means tab and <code>\f</code> means form feed, so Python never even sees the folder names. Use forward slashes, or put an <code>r</code> before the quote: <code>r"C:\Users\damien\data\file.csv"</code>.</p>
 </section>
 <section id="filenotfounderror-is-not-mysterious" class="slide level2">
 <h2>FileNotFoundError Is Not Mysterious</h2>
-<div id="f0665f62" class="cell" data-execution_count="36">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href=""></a>pd.read_csv(<span class="st">"stores.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb60-1"><a href=""></a>FileNotFoundError: [Errno 2] No such file or directory: 'stores.csv'</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Ignore the twenty lines of traceback above it and read that last line. It means exactly what it says. Four checks, in order, and they take twenty seconds:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb50-1"><a href=""></a>FileNotFoundError: [Errno 2] No such file or directory: 'stores.csv'</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ignore the twenty lines of traceback above it and read that last line: it means exactly what it says. Then four checks, in order:</p>
 <ol type="1">
 <li><code>!pwd</code> and <code>!ls</code>: am I where I think I am, and is the file there?</li>
 <li>Is the <strong>extension</strong> in the name? Windows and macOS both hide them by default.</li>
-<li>Is the <strong>spelling and the capitalisation</strong> right? <code>Stores.csv</code> is a different file.</li>
+<li>Is the <strong>spelling and the capitalisation</strong> right? Windows and macOS ignore capitals, but Colab runs on Linux, where <code>Stores.csv</code> and <code>stores.csv</code> are <strong>two different files</strong>.</li>
 <li>Did I copy the path, or type it?</li>
 </ol>
 </section>
-<section id="capitals-matter-here-but-not-at-home" class="slide level2">
-<h2>Capitals Matter Here, But Not At Home</h2>
-<div class="callout callout-warning callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="options-1-and-2-a-url-or-an-upload" class="slide level2">
+<h2>Options 1 and 2: A URL or an Upload</h2>
+<p>Three ways to put a file where Colab can see it, and what each one costs.</p>
+<p><strong>1. Read straight from a URL</strong>, if the file is on the public internet:</p>
+<div id="58b6d372" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb51-2"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><strong>Warning</strong></p>
+<p>One line, it survives a restart, and every dataset in this module is hosted this way. <strong>But</strong> only for public files: your employer’s sales data is not.</p>
+<p><strong>2. Upload by hand</strong>, which works for anything, including private data:</p>
+<div id="40d93bb5" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href=""></a><span class="im">from</span> google.colab <span class="im">import</span> files</span>
+<span id="cb52-2"><a href=""></a>uploaded <span class="op">=</span> files.upload()          <span class="co"># opens a file picker</span></span>
+<span id="cb52-3"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"my_sales.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="callout-content">
-<p><strong>Windows and macOS do not care about capitals. Colab does.</strong></p>
-</div>
-</div>
-</div>
-<p>Your own laptop will happily open <code>Stores.csv</code> when you asked for <code>stores.csv</code>, so the bug stays invisible until the code runs somewhere else.</p>
-<div id="0fc9c804" class="cell" data-execution_count="37">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href=""></a>pd.read_csv(<span class="st">"Stores.csv"</span>)   <span class="co"># works on your Mac or PC</span></span>
-<span id="cb61-2"><a href=""></a>pd.read_csv(<span class="st">"stores.csv"</span>)   <span class="co"># the same file, also works there</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Colab runs on Linux, where those are <strong>two different files</strong> and one of them does not exist. The same is true of every server your code will ever run on, including the one marking it.</p>
-<p><strong>Type the name exactly as it appears</strong>, capitals and all, or copy it. Lower case everywhere, always, is the habit that makes this a non-issue.</p>
-</section>
-<section id="three-ways-to-bridge-the-gap" class="slide level2">
-<h2>Three Ways to Bridge the Gap</h2>
-<p>Now that we can name a file, the three ways to put one where Colab can see it, and what each one costs.</p>
-</section>
-<section id="option-1-read-straight-from-a-url" class="slide level2">
-<h2>Option 1: Read Straight From a URL</h2>
-<p>If the file is on the public internet, pandas will fetch it:</p>
-<div id="0e0c3f49" class="cell" data-execution_count="38">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb62-2"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ul>
-<li>One line, no uploading, works every time the runtime restarts</li>
-<li>Which is why every dataset in this module is hosted this way</li>
-<li><strong>But</strong>: only for files that are public. Your employer’s sales data is not.</li>
-</ul>
-</section>
-<section id="option-2-upload-by-hand" class="slide level2">
-<h2>Option 2: Upload By Hand</h2>
-<div id="3e5cf7bd" class="cell" data-execution_count="39">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href=""></a><span class="im">from</span> google.colab <span class="im">import</span> files</span>
-<span id="cb63-2"><a href=""></a>uploaded <span class="op">=</span> files.upload()          <span class="co"># opens a file picker</span></span>
-<span id="cb63-3"><a href=""></a></span>
-<span id="cb63-4"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"my_sales.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ul>
-<li>A button appears, you choose the file, it copies to the runtime</li>
-<li>Works for anything, including private data</li>
-<li><strong>But</strong>: the file lives in the runtime, so it disappears when the runtime does</li>
-<li>Which means you re-upload it. Every session. By hand.</li>
-</ul>
+<p><strong>But</strong> the file lives in the runtime and disappears with it, so you upload it again every session.</p>
 </section>
 <section id="option-3-mount-google-drive" class="slide level2">
 <h2>Option 3: Mount Google Drive</h2>
-<div id="784be53b" class="cell" data-execution_count="40">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href=""></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
-<span id="cb64-2"><a href=""></a>drive.mount(<span class="st">"/content/drive"</span>)</span>
-<span id="cb64-3"><a href=""></a></span>
-<span id="cb64-4"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"/content/drive/MyDrive/BAA1118/data/my_sales.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d02e818b" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href=""></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
+<span id="cb53-2"><a href=""></a>drive.mount(<span class="st">"/content/drive"</span>)</span>
+<span id="cb53-3"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"/content/drive/MyDrive/BAA1118/data/my_sales.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>The file persists between sessions, because it is in Drive rather than the runtime</li>
-<li><strong>But</strong>: you authorise it in a pop-up every session</li>
-<li><strong>But</strong>: your data now has to live in Google Drive</li>
+<li>The file persists between sessions, because it is in Drive</li>
+<li><strong>But</strong>: you authorise it in a pop-up every session, and your data has to live in Drive</li>
 <li><strong>But</strong>: look at that path. <code>/content/drive/MyDrive/...</code> is not where your file is.</li>
 </ul>
-</section>
-<section id="the-pattern-you-should-notice" class="slide level2">
-<h2>The Pattern You Should Notice</h2>
-<div id="aaaac590" class="cell" data-execution_count="41">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href=""></a><span class="co"># What you want to write:</span></span>
-<span id="cb65-2"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"data/my_sales.csv"</span>)</span>
-<span id="cb65-3"><a href=""></a></span>
-<span id="cb65-4"><a href=""></a><span class="co"># What Colab makes you write:</span></span>
-<span id="cb65-5"><a href=""></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
-<span id="cb65-6"><a href=""></a>drive.mount(<span class="st">"/content/drive"</span>)</span>
-<span id="cb65-7"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"/content/drive/MyDrive/BAA1118/data/my_sales.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -994,41 +826,58 @@ Cell <span class="ansi-green-fg">In[25], line 1</span>
 <p><strong>Important</strong></p>
 </div>
 <div class="callout-content">
-<p>All three options are workarounds for one fact: <strong>the file is not on the machine running your code.</strong> Nothing you do in Colab fixes that. Next week we move Python onto the machine where your files already are, and the first line becomes the only line.</p>
+<p>All three options are workarounds for one fact: <strong>the file is not on the machine running your code.</strong> Next week we move Python onto the machine where your files already are, and <code>pd.read_csv("data/my_sales.csv")</code> becomes the only line.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="reading-from-an-excel-file" class="slide level2">
-<h2>Reading From an Excel File</h2>
-<p>Since a colleague will send you one within a month:</p>
-<div id="06758f29" class="cell" data-execution_count="42">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href=""></a><span class="co"># Every sheet name in the workbook</span></span>
-<span id="cb66-2"><a href=""></a>pd.ExcelFile(<span class="st">"report.xlsx"</span>).sheet_names</span>
-<span id="cb66-3"><a href=""></a></span>
-<span id="cb66-4"><a href=""></a><span class="co"># One named sheet</span></span>
-<span id="cb66-5"><a href=""></a>pd.read_excel(<span class="st">"report.xlsx"</span>, sheet_name<span class="op">=</span><span class="st">"Q1 Sales"</span>)</span>
-<span id="cb66-6"><a href=""></a></span>
-<span id="cb66-7"><a href=""></a><span class="co"># The third sheet, whatever it is called</span></span>
-<span id="cb66-8"><a href=""></a>pd.read_excel(<span class="st">"report.xlsx"</span>, sheet_name<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb66-9"><a href=""></a></span>
-<span id="cb66-10"><a href=""></a><span class="co"># Skip a title row above the headers</span></span>
-<span id="cb66-11"><a href=""></a>pd.read_excel(<span class="st">"report.xlsx"</span>, sheet_name<span class="op">=</span><span class="st">"Q1 Sales"</span>, skiprows<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb66-12"><a href=""></a></span>
-<span id="cb66-13"><a href=""></a><span class="co"># Everything, as a dictionary of DataFrames</span></span>
-<span id="cb66-14"><a href=""></a>pd.read_excel(<span class="st">"report.xlsx"</span>, sheet_name<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="your-turn-modules-and-data" class="slide level2" data-background="#43464B">
+<h2>Your Turn: Modules and Data</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol type="1">
+<li><code>pandas</code>: read <code>url</code> with <code>pd.read_csv()</code>, then print its <code>.shape</code> (rows, columns)</li>
+</ol>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p>You should see:</p>
+<pre><code>13.17 13.5 6.18
+[2, 5, 1, 3, 1, 4, 4, 4, 6, 4]
+(1704, 6)</code></pre>
 </div>
-<p><code>sheet_name=None</code> giving you a <strong>dictionary of DataFrames</strong> is the reason lecture 3 spent time on dictionaries.</p>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+                    <div id="timer3"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            initializeTimer("timer3", 300, "interaction");
+                        });
+                    </script>
+                
+</div>
+</div>
+</div>
+</section>
+<section id="solution-2" class="slide level2">
+<h2>Solution</h2>
+<div id="7721060c" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb56-2"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb56-3"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb56-4"><a href=""></a><span class="bu">print</span>(gapminder.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(1704, 6)</code></pre>
+</div>
+</div>
 </section></section>
 <section>
 <section id="getting-help" class="title-slide slide level1 center">
-<h1>6. Getting Help</h1>
+<h1>5. Getting Help</h1>
 
 </section>
-<section id="help-and" class="slide level2">
-<h2>help() and ?</h2>
-<div id="f8e2e657" class="cell" data-execution_count="43">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href=""></a><span class="bu">help</span>(<span class="bu">round</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="help-and-signatures" class="slide level2">
+<h2>help() and Signatures</h2>
+<div id="3758ea2d" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href=""></a><span class="bu">help</span>(<span class="bu">round</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Help on built-in function round in module builtins:
 
@@ -1040,21 +889,8 @@ round(number, ndigits=None)
 </code></pre>
 </div>
 </div>
-<p>In Colab and Jupyter, <code>round?</code> in a cell shows the same thing in a panel, and <kbd>Shift</kbd>+<kbd>Tab</kbd> inside the brackets shows the arguments as you type.</p>
-</section>
-<section id="reading-a-function-signature" class="slide level2">
-<h2>Reading a Function Signature</h2>
-<div id="467bc573" class="cell" data-execution_count="44">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href=""></a>pandas.read_csv(filepath_or_buffer, sep<span class="op">=</span><span class="st">','</span>, header<span class="op">=</span><span class="st">'infer'</span>, names<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb69-2"><a href=""></a>                index_col<span class="op">=</span><span class="va">None</span>, usecols<span class="op">=</span><span class="va">None</span>, ...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ul>
-<li>The <strong>first</strong> parameter has no default: it is required</li>
-<li>Everything with an <code>=</code> is optional</li>
-<li>The order of optional arguments does not matter if you name them</li>
-<li><code>...</code> means there are 40 more you will never need</li>
-</ul>
-<p>You are not expected to memorise these. You are expected to <strong>find them</strong>.</p>
+<p>The first line is the <strong>signature</strong>. A parameter with no default, like <code>number</code>, is <strong>required</strong>; anything with an <code>=</code> is optional. <code>pd.read_csv()</code> has dozens of parameters, and only the first, the file, is required.</p>
+<p>In Colab, <code>round?</code> shows the same help in a panel, and <kbd>Shift</kbd>+<kbd>Tab</kbd> inside the brackets shows the arguments as you type. You are not expected to memorise these. You are expected to <strong>find them</strong>.</p>
 </section>
 <section id="where-to-look-in-order" class="slide level2">
 <h2>Where to Look, In Order</h2>
@@ -1065,142 +901,10 @@ round(number, ndigits=None)
 <li>An AI assistant, asking it to <strong>explain</strong> rather than just produce</li>
 <li>Stack Overflow, reading the accepted answer <em>and</em> the comments below it</li>
 </ol>
+<p>Ask an assistant for <em>“a Python function <code>add_vat(net, rate=0.23)</code> that returns the gross amount rounded to 2 decimals, with a docstring and three test calls”</em>, not for <em>“a function for vat”</em>. The <strong>signature is yours</strong>: you decide what the function looks like, and the assistant fills it in.</p>
 </section>
-<section id="asking-an-assistant-well" class="slide level2">
-<h2>Asking an Assistant Well</h2>
-<p>Weak:</p>
-<blockquote>
-<p>write a function for vat</p>
-</blockquote>
-<p>Strong:</p>
-<blockquote>
-<p>Write a Python function <code>add_vat(net, rate=0.23)</code> that returns the gross amount rounded to 2 decimals. Include a docstring. Then show me three calls that test it, including one edge case.</p>
-</blockquote>
-<p>Notice: the <strong>signature is yours</strong>. You decide what the function should look like; the assistant fills it in.</p>
-</section>
-<section id="your-turn-read-the-documentation" class="slide level2" data-background="#43464B">
-<h2>Your Turn: Read the Documentation</h2>
-<p>Without searching the web, use <code>help()</code> in Colab to answer:</p>
-<ol type="1">
-<li>What does the second argument of <code>round()</code> do, and what happens if you leave it out?</li>
-<li><code>sorted()</code> has an argument that reverses the order. What is it called?</li>
-<li><code>enumerate()</code> has an argument that changes the starting number. Find it, then print your list of countries numbered from 1 instead of 0.</li>
-<li>Write <code>clean(text, lower=True)</code>: it strips spaces always, and lowercases only when <code>lower</code> is <code>True</code>. Test both.</li>
-</ol>
-                    <div id="timer4"></div>
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer4", 540, "interaction");
-                        });
-                    </script>
-                
-</section>
-<section id="solution-2" class="slide level2">
-<h2>Solution</h2>
-<div id="3f0593fa" class="cell" data-execution_count="45">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href=""></a>countries <span class="op">=</span> [<span class="st">"Ireland"</span>, <span class="st">"France"</span>, <span class="st">"Spain"</span>]</span>
-<span id="cb70-2"><a href=""></a></span>
-<span id="cb70-3"><a href=""></a><span class="bu">print</span>(<span class="bu">sorted</span>([<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>], reverse<span class="op">=</span><span class="va">True</span>))</span>
-<span id="cb70-4"><a href=""></a></span>
-<span id="cb70-5"><a href=""></a><span class="cf">for</span> i, country <span class="kw">in</span> <span class="bu">enumerate</span>(countries, start<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb70-6"><a href=""></a>    <span class="bu">print</span>(i, country)</span>
-<span id="cb70-7"><a href=""></a></span>
-<span id="cb70-8"><a href=""></a><span class="kw">def</span> clean(text, lower<span class="op">=</span><span class="va">True</span>):</span>
-<span id="cb70-9"><a href=""></a>    <span class="co">"""Strip a string, and lowercase it unless lower is False."""</span></span>
-<span id="cb70-10"><a href=""></a>    text <span class="op">=</span> text.strip()</span>
-<span id="cb70-11"><a href=""></a>    <span class="cf">if</span> lower:</span>
-<span id="cb70-12"><a href=""></a>        text <span class="op">=</span> text.lower()</span>
-<span id="cb70-13"><a href=""></a>    <span class="cf">return</span> text</span>
-<span id="cb70-14"><a href=""></a></span>
-<span id="cb70-15"><a href=""></a><span class="bu">print</span>(clean(<span class="st">"  Dublin  "</span>))</span>
-<span id="cb70-16"><a href=""></a><span class="bu">print</span>(clean(<span class="st">"  Dublin  "</span>, lower<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[3, 2, 1]
-1 Ireland
-2 France
-3 Spain
-dublin
-Dublin</code></pre>
-</div>
-</div>
-<p><code>round(x)</code> with no second argument returns an integer; <code>round(x, 0)</code> returns a float. Small difference, occasionally annoying.</p>
-</section>
-<section id="your-turn-modules" class="slide level2" data-background="#43464B">
-<h2>Your Turn: Modules</h2>
-<ol type="1">
-<li>Import <code>statistics</code> and compute the mean, median and standard deviation of <code>[12, 15, 9, 21, 18, 4]</code></li>
-<li>Import <code>random</code>, set the seed to <code>1</code>, and simulate 10 dice rolls in a list comprehension</li>
-<li>Count how many of your rolls were 5 or more</li>
-<li>Use <code>help()</code> on <code>random.randint</code> and say what its two arguments are</li>
-<li>Read the gapminder CSV straight from its URL with <code>pd.read_csv()</code>, and print its shape</li>
-</ol>
-                    <div id="timer3"></div>
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer3", 540, "interaction");
-                        });
-                    </script>
-                
-</section>
-<section id="solution-3" class="slide level2">
-<h2>Solution</h2>
-<div id="11bb79b4" class="cell" data-execution_count="46">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href=""></a><span class="im">import</span> statistics</span>
-<span id="cb72-2"><a href=""></a><span class="im">import</span> random</span>
-<span id="cb72-3"><a href=""></a></span>
-<span id="cb72-4"><a href=""></a>values <span class="op">=</span> [<span class="dv">12</span>, <span class="dv">15</span>, <span class="dv">9</span>, <span class="dv">21</span>, <span class="dv">18</span>, <span class="dv">4</span>]</span>
-<span id="cb72-5"><a href=""></a><span class="bu">print</span>(statistics.mean(values), statistics.median(values))</span>
-<span id="cb72-6"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(statistics.stdev(values), <span class="dv">2</span>))</span>
-<span id="cb72-7"><a href=""></a></span>
-<span id="cb72-8"><a href=""></a>random.seed(<span class="dv">1</span>)</span>
-<span id="cb72-9"><a href=""></a>rolls <span class="op">=</span> [random.randint(<span class="dv">1</span>, <span class="dv">6</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>)]</span>
-<span id="cb72-10"><a href=""></a><span class="bu">print</span>(rolls)</span>
-<span id="cb72-11"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>([r <span class="cf">for</span> r <span class="kw">in</span> rolls <span class="cf">if</span> r <span class="op">&gt;=</span> <span class="dv">5</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>13.166666666666666 13.5
-6.18
-[2, 5, 1, 3, 1, 4, 4, 4, 6, 4]
-2</code></pre>
-</div>
-</div>
-<div id="53842329" class="cell" data-execution_count="47">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb74-2"><a href=""></a></span>
-<span id="cb74-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb74-4"><a href=""></a><span class="bu">print</span>(pd.read_csv(url).shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>(1704, 6)</code></pre>
-</div>
-</div>
-<p><code>_</code> is the conventional name for a loop variable you do not use.</p>
-</section>
-<section id="what-we-have-seen" class="slide level2">
-<h2>What We Have Seen</h2>
-<ul>
-<li><code>def name(parameters):</code> and <code>return</code></li>
-<li><code>return</code> gives a value back, <code>print</code> only shows it</li>
-<li>Positional, keyword and default arguments</li>
-<li>Scope: inside stays inside, and passing beats reading globals</li>
-<li>Docstrings and <code>help()</code></li>
-<li><code>import</code>, the conventional aliases, install vs import</li>
-<li>What a path is: absolute vs relative, roots, separators, <code>~</code></li>
-<li><code>/content</code> in Colab, the sidebar file browser, and <strong>Copy path</strong></li>
-<li>The three paths that never work, and the four checks for <code>FileNotFoundError</code></li>
-<li><code>read_csv</code>, <code>read_excel</code>, <code>read_json</code>, <code>read_parquet</code>, and the three awkward ways to put a file where Colab can see it</li>
-</ul>
-</section>
-<section id="half-time" class="slide level2">
-<h2>Half Time</h2>
-<ul>
-<li>You have the whole language: values, collections, conditions, loops, functions</li>
-<li>You know what the four file formats are, which function reads each one, and how to write the path to a file</li>
-<li>Everything from now on is <strong>libraries</strong>: other people’s functions, applied to data</li>
-<li>Week 6 moves you off Colab and onto your own machine</li>
-<li>Weeks 7 to 10 are one continuous analysis: import, clean, aggregate, visualise, predict</li>
-</ul>
-</section>
-<section id="before-next-week" class="slide level2">
-<h2>Before Next Week</h2>
+<section id="before-next-lecture" class="slide level2">
+<h2>Before Next Lecture</h2>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1210,7 +914,7 @@ Dublin</code></pre>
 <p><strong>Important</strong></p>
 </div>
 <div class="callout-content">
-<p>Next week is a <strong>practical setup lecture</strong>. Bring your laptop, charged, with administrator rights if it is a work machine.</p>
+<p>Next week is a <strong>practical setup lecture</strong>: Python moves off Colab and onto your own laptop. Bring it, charged, with administrator rights if it is a work machine.</p>
 </div>
 </div>
 </div>
@@ -1219,40 +923,22 @@ Dublin</code></pre>
 <li>Python 3.12 or 3.13: <a href="https://www.python.org/downloads/">python.org/downloads</a></li>
 <li>VS Code: <a href="https://code.visualstudio.com/">code.visualstudio.com</a></li>
 </ul>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Tip</strong></p>
-</div>
-<div class="callout-content">
-<p>Do not run them yet. We do it together, in order: on Windows there is a checkbox on the first screen that must be ticked, and on macOS there is a step to run <strong>after</strong> the installer finishes. Both are easy to miss on your own.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="references" class="slide level2">
-<h2>References</h2>
-<ul>
-<li>Charles Severance, <a href="https://www.py4e.com/">Python for Everybody</a>, chapter 4</li>
-<li><a href="https://realpython.com/defining-your-own-python-function/">Real Python: Defining Your Own Python Function</a></li>
-<li><a href="https://docs.python.org/3/library/">The Python Standard Library</a></li>
-<li>UBC Master of Data Science, <a href="https://prog-learn.mds.ubc.ca/">Programming in Python for Data Science</a>, for the diagrams and animations</li>
-<li>The Neuroinformatics Unit, <a href="https://neuroinformatics.dev/course-intro-python">Introduction to Python</a></li>
-</ul>
+<p><strong>Do not run them yet.</strong> We do it together, in order: on Windows there is a checkbox on the first screen that must be ticked, and on macOS there is a step to run <strong>after</strong> the installer finishes.</p>
 </section>
 <section id="section" class="slide level2" data-background="#43464B">
 <h2></h2>
 <style>img.circle {border-radius:50%;}</style>
-<div class="quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-panel" data-layout="[1,1]">
 <div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
 <p><img class="circle" src="https://github.com/damien-dupre.png"></p>
 </div>
-<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><strong>Thanks for your attention and don’t hesitate to ask if you have any questions!</strong> <a href="https://datasci.social/@damien_dupre"><i class="fa-brands fa-mastodon" aria-label="mastodon"></i> <span class="citation" data-cites="damien_dupre">@damien_dupre</span></a> <a href="https://github.com/damien-dupre"><i class="fa-brands fa-github" aria-label="github"></i> <span class="citation" data-cites="damien-dupre">@damien-dupre</span></a> <a href="https://damien-dupre.github.io"><i class="fa-solid fa-link" aria-label="link"></i> https://damien-dupre.github.io</a> <a href="mailto:damien.dupre@dcu.ie"><i class="fa-solid fa-paper-plane" aria-label="paper-plane"></i> damien.dupre@dcu.ie</a></p>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Thanks for your attention and don’t hesitate to ask if you have any questions!</strong></p>
+<p><a href="https://datasci.social/@damien_dupre"><i class="fa-brands fa-mastodon" aria-label="mastodon"></i> <span class="citation" data-cites="damien_dupre">@damien_dupre</span></a></p>
+<p><a href="https://github.com/damien-dupre"><i class="fa-brands fa-github" aria-label="github"></i> <span class="citation" data-cites="damien-dupre">@damien-dupre</span></a></p>
+<p><a href="https://damien-dupre.github.io"><i class="fa-solid fa-link" aria-label="link"></i> https://damien-dupre.github.io</a></p>
+<p><a href="mailto:damien.dupre@dcu.ie"><i class="fa-solid fa-paper-plane" aria-label="paper-plane"></i> damien.dupre@dcu.ie</a></p>
 </div>
 </div>
 </div>

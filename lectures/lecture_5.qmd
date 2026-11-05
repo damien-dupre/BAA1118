@@ -468,6 +468,24 @@ gap, you need to say **where a file is**: its path.
 - **Relative**: starts from wherever Python currently is, and travels with the project
 - Folders are separated by `/`. Windows writes `\` but accepts `/`: always give it `/`
 
+## Three Paths That Will Not Work
+
+```{python}
+#| eval: false
+# 1. Incomplete: where does /path start? Nowhere on this machine.
+pd.read_csv("/path/to/my/file.csv")
+
+# 2. Missing the extension: "file" and "file.csv" are different names
+pd.read_csv("C:/Users/damien/data/file")
+
+# 3. Backslashes in a normal string: \t and \f are not folders
+pd.read_csv("C:\Users\damien\data\file.csv")
+```
+
+The third one is the cruel one. `\t` means tab and `\f` means form feed, so Python never
+even sees the folder names. Use forward slashes, or put an `r` before the quote:
+`r"C:\Users\damien\data\file.csv"`.
+
 ## The Colab Filesystem
 
 Colab's computer has its own disk. You start in its `/content` folder:
@@ -505,24 +523,6 @@ Everything in `/content` is **deleted** when the runtime stops.
 `pd.read_csv("/content/sales.csv")`
 :::
 ::::
-
-## Three Paths That Will Not Work
-
-```{python}
-#| eval: false
-# 1. Incomplete: where does /path start? Nowhere on this machine.
-pd.read_csv("/path/to/my/file.csv")
-
-# 2. Missing the extension: "file" and "file.csv" are different names
-pd.read_csv("C:/Users/damien/data/file")
-
-# 3. Backslashes in a normal string: \t and \f are not folders
-pd.read_csv("C:\Users\damien\data\file.csv")
-```
-
-The third one is the cruel one. `\t` means tab and `\f` means form feed, so Python never
-even sees the folder names. Use forward slashes, or put an `r` before the quote:
-`r"C:\Users\damien\data\file.csv"`.
 
 ## FileNotFoundError Is Not Mysterious
 

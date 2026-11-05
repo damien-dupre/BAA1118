@@ -1,5 +1,5 @@
 ---
-title: "Lecture 8: Aggregating, Joining and Reshaping"
+title: "Lecture 8: Statistics, Regression and Prediction"
 subtitle: BAA1118 - Foundations of Programming for Analytics & AI
 author: Damien Dupré
 format:
@@ -16,654 +16,621 @@ jupyter: python3
 execute:
   echo: true
   warning: false
+  fig-align: center
 filters:
   - timer
 ---
 
 ```{python}
 #| echo: false
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
+
 pd.set_option("display.max_rows", 8)
 pd.set_option("display.width", 100)
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url).rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
+plt.rcParams["figure.figsize"] = (8, 2.4)
+plt.rcParams["figure.dpi"] = 110
+plt.rcParams["font.size"] = 11
+plt.style.use("petroff10")
+
 ```
-
-## For Today
-
-#### Requirements
-
-- ✅ Reading a CSV, filtering, creating columns
-- ✅ A project dataset chosen
-- ✅ Assessment 3 in progress
-
-#### Programme
-
-1. Summarising a column
-2. `groupby()` and `agg()`
-3. Joining tables with `merge()`
-4. Reshaping: wide and long
-5. Writing a chained pipeline
-
-### Any questions?
 
 ## Setup
 
 ```{python}
-#| eval: true
+import numpy as np
 import pandas as pd
-
+import matplotlib.pyplot as plt
+plt.style.use("petroff10")
 url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = (
-    pd.read_csv(url)
-    .rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
-)
-gapminder.head(3)
+gapminder = pd.read_csv(url)
+gapminder = gapminder.rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
+g2007 = gapminder[gapminder["year"] == 2007]
 ```
 
-## The Question Behind Everything Today
+The table from lecture 6, with the same two names changed. Most of this lecture uses
+`g2007`, the 142 countries of 2007.
 
-- Week 7 answered: *what is in this table?*
-- Week 8 answers: **what is the answer per group?**
+# 1. Describing One Variable
 
-Almost every business question is a grouped one:
-
-> Revenue **per region**. Churn **per segment**. Life expectancy **per continent, per year**.
-
-# 1. Summarising
-
-## Summarising One Column
+## The Centre: Mean and Median
 
 ```{python}
-print(gapminder["life_exp"].mean())
-print(gapminder["life_exp"].median())
-print(gapminder["life_exp"].std())
-print(gapminder["life_exp"].min(), gapminder["life_exp"].max())
+gdp = g2007["gdp_per_cap"]
+life = g2007["life_exp"]
+print("GDP per capita:  mean", round(gdp.mean()), "  median", round(gdp.median()))
+print("Life expectancy: mean", round(life.mean(), 1), "  median", round(life.median(), 1))
 ```
+
+- **Mean**: add everything up, divide by the count. A few very rich countries pull it up
+- **Median**: the middle value once sorted. Half the countries are above it, half below
+- A mean above the median usually signals a tail of high values, **right skew**; below it,
+  **left skew**. For a skewed variable, report the median, or both
+
+## Spread: Standard Deviation
 
 ```{python}
-gapminder["life_exp"].describe()
+sales = pd.Series([2, 4, 4, 4, 5, 5, 7, 9])
+deviations = sales - sales.mean()
+print(deviations.tolist())
+print(round((deviations ** 2).sum() / (len(sales) - 1), 2))   # the variance
+print(round(sales.var(), 2), round(sales.std(), 2))
 ```
 
-## Summarising the Whole Table
+- **Variance**: the average squared distance from the mean, dividing by n − 1 for a
+  sample. **Standard deviation**: its square root, in the original units
+- pandas divides by n − 1; numpy's `np.std()` divides by n, and gives 2.0
+- **IQR**, `quantile(0.75) - quantile(0.25)`: the spread of the middle half
+
+## Shape: Skew and the Normal Curve
 
 ```{python}
-gapminder[["life_exp", "gdp_per_cap", "pop"]].mean()
+#| echo: false
+fig, axes = plt.subplots(1, 2, figsize=(9, 2.4))
+axes[0].hist(gdp, bins=25, color="#bbbbbb")
+axes[0].axvline(gdp.mean(), color="#C44E52", label=f"mean {gdp.mean():,.0f}")
+axes[0].axvline(gdp.median(), color="#23373b", linestyle="--",
+                label=f"median {gdp.median():,.0f}")
+axes[0].legend(fontsize=9)
+axes[0].set_title("GDP per capita in 2007: right skew", fontsize=10)
+x = np.linspace(-3.5, 3.5, 300)
+y = np.exp(-x ** 2 / 2) / np.sqrt(2 * np.pi)
+axes[1].plot(x, y, color="#23373b")
+axes[1].fill_between(x, y, where=np.abs(x) <= 2, color="#3f90da", alpha=0.25)
+axes[1].fill_between(x, y, where=np.abs(x) <= 1, color="#3f90da", alpha=0.45)
+axes[1].text(0, 0.15, "68%", ha="center", fontsize=11)
+axes[1].text(-1.55, 0.03, "95%", ha="center", fontsize=10)
+axes[1].set_xticks([-2, -1, 0, 1, 2], ["-2 sd", "-1 sd", "mean", "+1 sd", "+2 sd"])
+axes[1].set_yticks([])
+axes[1].set_title("Normal: about 68% within 1 sd, 95% within 2", fontsize=10)
+fig.tight_layout()
+plt.show()
 ```
 
-```{python}
-gapminder[["life_exp", "gdp_per_cap"]].agg(["mean", "median", "std"]).round(2)
+- In a right-skewed variable, the tail pulls the **mean** past the median
+- In a **normal**, bell-shaped variable, about 68% of values lie within 1 standard deviation
+  of the mean, and **about 95% within 2**. Section 2 relies on that 95%
+
+## Your Turn: Describe a Variable {background="#43464B"}
+
+On the 2007 countries. Replace each `____`, then run the cell:
+
+```{.python}
+pop_m = g2007["pop"] / 1_000_000
+print(round(pop_m.mean(), 1), round(pop_m.____(), 1))   # mean, median
+europe = g2007[g2007["continent"] == "Europe"]
+africa = g2007[g2007["continent"] == ____]
+print(round(europe["life_exp"].____(), 1))      # standard deviation
+print(round(africa["life_exp"].____(), 1))      # standard deviation
 ```
 
-`agg()` takes a list of functions and applies each one to each column.
-
-## Counting Categories
-
-```{python}
-gapminder["continent"].value_counts()
-```
-
-```{python}
-gapminder["continent"].value_counts(normalize=True).round(3)
-```
-
-`normalize=True` gives proportions, which is almost always what you actually want to report.
-
-## Your Turn: Summarising {background="#43464B"}
-
-Using the whole gapminder table:
-
-1. What are the mean and the median life expectancy? Why are they different?
-2. What proportion of the rows are African countries?
-3. Produce one table giving the mean, median and standard deviation of `life_exp` and `gdp_per_cap` together
-4. What is the highest GDP per capita ever recorded in this dataset, and which country and year was it?
-
-::: {#timer4 .timer seconds="420" starton="interaction"}
-:::
-
-## Solution
-
-```{python}
-print(gapminder["life_exp"].mean().round(2), gapminder["life_exp"].median())
-print(gapminder["continent"].value_counts(normalize=True).round(3)["Africa"])
-print(gapminder[["life_exp", "gdp_per_cap"]].agg(["mean", "median", "std"]).round(2))
-print(gapminder.nlargest(1, "gdp_per_cap")[["country", "year", "gdp_per_cap"]])
-```
-
-The mean sits below the median because the long tail of low life expectancies pulls it down. Kuwait in 1957 is the outlier that will distort every model you fit until you notice it.
-
-# 2. groupby
-
-## Split, Apply, Combine
-
-1. **Split** the table into groups, by the values of a column
-2. **Apply** a function to each group
-3. **Combine** the results into a new table
-
-Three words that describe `GROUP BY` in SQL, `dplyr::group_by()` in R, and pivot tables in Excel. They are the same idea.
-
-## Split, Apply, Combine
-
-![](images/groupby.png){width="80%" fig-align="center"}
-
-::: {.small-font}
-Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
-:::
-
-`.groupby("mfr")` does the splitting. It computes nothing on its own.
-
-## Your First groupby
-
-```{python}
-gapminder.groupby("continent")["life_exp"].mean()
-```
-
-Read it in three parts:
-
-- `.groupby("continent")`: split by continent
-- `["life_exp"]`: on this column
-- `.mean()`: compute this
-
-## The Result Is a Series
-
-```{python}
-result = gapminder.groupby("continent")["life_exp"].mean()
-print(type(result))
-print(result.index)
-```
-
-The grouping column has become the **index**. To get an ordinary table back:
-
-```{python}
-gapminder.groupby("continent")["life_exp"].mean().reset_index()
-```
-
-## Grouping by Several Columns
-
-```{python}
-gapminder.groupby(["continent", "year"])["life_exp"].mean().head(6)
-```
-
-One row per combination. With 5 continents and 12 years, 60 rows.
-
-```{python}
-gapminder.groupby(["continent", "year"])["life_exp"].mean().reset_index().head(3)
-```
-
-## Several Statistics at Once
-
-```{python}
-gapminder.groupby("continent")["life_exp"].agg(["count", "mean", "std", "max"]).round(2)
-```
-
-## Different Statistics per Column
-
-```{python}
-gapminder.query("year == 2007").groupby("continent").agg({
-    "life_exp": "mean",
-    "gdp_per_cap": "median",
-    "pop": "sum"
-}).round(1)
-```
-
-A dictionary: column name to function name. This is how a real summary table is built.
-
-## Named Aggregations
-
-The cleanest form, because you control the output column names:
-
-```{python}
-summary = (
-    gapminder
-    .query("year == 2007")
-    .groupby("continent")
-    .agg(
-        n_countries = ("country", "nunique"),
-        mean_life = ("life_exp", "mean"),
-        total_pop = ("pop", "sum")
-    )
-    .round(1)
-    .reset_index()
-)
-summary
-```
-
-## Sorting and Filtering Results
-
-```{python}
-(
-    gapminder
-    .query("year == 2007")
-    .groupby("continent")["gdp_per_cap"]
-    .mean()
-    .sort_values(ascending=False)
-    .round(0)
-)
-```
-
-The output of a `groupby` is an ordinary Series or DataFrame. Everything from week 7 still applies to it.
-
-## transform: A Group Value on Every Row
-
-```{python}
-gapminder["continent_mean"] = gapminder.groupby("continent")["life_exp"].transform("mean")
-gapminder["vs_continent"] = (gapminder["life_exp"] - gapminder["continent_mean"]).round(2)
-
-gapminder.query("year == 2007 and continent == 'Europe'")[
-    ["country", "life_exp", "continent_mean", "vs_continent"]
-].head(4)
-```
-
-`agg` reduces to one row per group. `transform` keeps every row and broadcasts the group value back. This is how you compute "above or below the segment average".
-
-## Your Turn: Grouping {background="#43464B"}
-
-1. Mean life expectancy per continent in 1952, and in 2007. Which continent improved most?
-2. For 2007, produce a table with, per continent: number of countries, mean GDP per capita, and total population
-3. Which **country** had the largest increase in life expectancy between 1952 and 2007?
-4. Add a column giving each country's life expectancy relative to its continent's mean in that year
-
-::: {#timer1 .timer seconds="840" starton="interaction"}
-:::
-
-## Solution: 1 and 2
-
-```{python}
-both = (
-    gapminder.query("year in [1952, 2007]")
-    .groupby(["continent", "year"])["life_exp"].mean()
-    .unstack()
-    .round(1)
-)
-both["gain"] = (both[2007] - both[1952]).round(1)
-print(both)
-```
-
-## Solution: 3 and 4
-
-```{python}
-change = (
-    gapminder.query("year in [1952, 2007]")
-    .pivot(index="country", columns="year", values="life_exp")
-    .assign(gain = lambda d: d[2007] - d[1952])
-    .sort_values("gain", ascending=False)
-)
-print(change.head(3).round(1))
-```
-
-```{python}
-gapminder["rel_to_continent"] = (
-    gapminder["life_exp"] - gapminder.groupby(["continent", "year"])["life_exp"].transform("mean")
-).round(2)
-```
-
-# 3. Joining Tables
-
-## Why Join
-
-Real data lives in several tables:
-
-- One table of transactions, one of customers
-- One table of measurements, one of country metadata
-- One table per year, exported separately
-
-A **join** (or merge) combines them using a shared **key** column.
-
-## Joining, Animated
-
-![](images/merge.gif){width="75%" fig-align="center"}
-
-::: {.small-font}
-Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
-:::
-
-## A Second Table
-
-```{python}
-region_info = pd.DataFrame({
-    "continent": ["Africa", "Americas", "Asia", "Europe", "Oceania"],
-    "hemisphere": ["Both", "Both", "North", "North", "South"],
-    "n_un_members": [54, 35, 49, 44, 14]
-})
-region_info
-```
-
-## merge()
-
-```{python}
-merged = gapminder.query("year == 2007").merge(region_info, on="continent")
-merged[["country", "continent", "hemisphere", "n_un_members"]].head(4)
-```
-
-- `on=` names the key column, which must exist in both tables
-- Every row of the left table finds its matching row on the right
-- The right table's other columns are added
-
-## The Four Kinds of Join
-
-| `how=` | Keeps |
-|:--|:--|
-| `"inner"` (default) | only keys present in **both** |
-| `"left"` | all rows of the left table |
-| `"right"` | all rows of the right table |
-| `"outer"` | all keys from both |
-
-::: {.callout-tip}
-In analysis, `how="left"` is usually right: keep all your observations, add information where it exists. `inner` silently deletes rows, which is how row counts mysteriously drop.
-:::
-
-## how="inner"
-
-![](images/join_inner.png)
-
-::: {.small-font}
-Only the keys present in both tables survive. Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
-:::
-
-## how="left"
-
-![](images/join_left.png)
-
-::: {.small-font}
-Every row of the left table is kept; the missing right-hand values become `NaN`. Source: UBC MDS.
-:::
-
-## how="outer"
-
-![](images/join_outer.png)
-
-::: {.small-font}
-Everything from both tables, with `NaN` wherever a key was missing on one side. Source: UBC MDS.
-:::
-
-## Watching a Join Lose Rows
-
-```{python}
-partial = region_info[region_info["continent"] != "Africa"]
-
-inner = gapminder.query("year == 2007").merge(partial, on="continent", how="inner")
-left = gapminder.query("year == 2007").merge(partial, on="continent", how="left")
-
-print("inner:", inner.shape[0], "rows")
-print("left: ", left.shape[0], "rows")
-print("missing hemisphere:", left["hemisphere"].isna().sum())
-```
-
-**Always compare the row count before and after a join.** It is the cheapest bug-catcher in data analysis.
-
-## Different Key Names
-
-```{python}
-lookup = region_info.rename(columns={"continent": "region_name"})
-
-gapminder.query("year == 2007").merge(
-    lookup,
-    left_on="continent",
-    right_on="region_name",
-    how="left"
-).head(2)
-```
-
-## Stacking Instead of Joining
-
-`merge` adds **columns**. `concat` adds **rows**.
-
-```{python}
-y1952 = gapminder.query("year == 1952")
-y2007 = gapminder.query("year == 2007")
-
-stacked = pd.concat([y1952, y2007], ignore_index=True)
-print(y1952.shape, y2007.shape, stacked.shape)
-```
-
-This is how you combine twelve monthly export files into one table.
-
-## concat, Animated
-
-![](images/concat.gif){width="75%" fig-align="center"}
-
-::: {.small-font}
-Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
-:::
-
-# 4. Reshaping
-
-## Wide and Long
-
-:::: {layout="[1,1]"}
+:::: {layout="[3,2]"}
 ::: {#first-column}
-### Long
-
-One row per observation. `country`, `year`, `life_exp`.
-
-What pandas, seaborn and statistical models want.
+1. Mean and median population: why so far apart?
+2. Which continent's life expectancy is more spread out?
 :::
 
 ::: {#second-column}
-### Wide
+You should see:
 
-One row per unit, one column per year.
+```
+44.0 10.5
+3.0
+9.6
+```
 
-What humans want to read, and what Excel exports.
+::: {#timer1 .timer seconds="300" starton="interaction"}
+:::
 :::
 ::::
 
-You will spend a surprising amount of your career converting between the two.
-
-## Wide and Long
-
-![](images/wide_long.png){width="80%" fig-align="center"}
-
-::: {.small-font}
-Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
-:::
-
-## Long to Wide: pivot
+## Solution
 
 ```{python}
-wide = (
-    gapminder
-    .query("continent == 'Oceania'")
-    .pivot(index="country", columns="year", values="life_exp")
-)
-wide.iloc[:, :6]
+pop_m = g2007["pop"] / 1_000_000
+print(round(pop_m.mean(), 1), round(pop_m.median(), 1))
+
+europe = g2007[g2007["continent"] == "Europe"]
+africa = g2007[g2007["continent"] == "Africa"]
+print(round(europe["life_exp"].std(), 1))
+print(round(africa["life_exp"].std(), 1))
 ```
 
-- `index`: what stays as rows
-- `columns`: what becomes new columns
-- `values`: what fills the cells
+- China and India, over a billion people each, pull the mean of `pop` far above the median
+- Africa's life expectancies are three times as spread out as Europe's
 
-## pivot, Animated
+# 2. Samples and Uncertainty
 
-![](images/pivot.gif){width="75%" fig-align="center"}
+## Every Sample Gives a Different Answer
 
-::: {.small-font}
-Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
-:::
-
-## pivot_table: Pivot With Aggregation
-
-`pivot` fails if there is more than one value per cell. `pivot_table` aggregates instead.
+Treat the 1,704 rows of gapminder as everything there is. Their mean life expectancy is
+59.5 years. Now pretend you can only afford to collect 30 rows:
 
 ```{python}
-(
-    gapminder
-    .pivot_table(index="continent", columns="year", values="life_exp", aggfunc="mean")
-    .iloc[:, :5]
-    .round(1)
-)
+for seed in [1, 2, 3, 4, 5]:
+    sample = gapminder.sample(30, random_state=seed)
+    print(round(sample["life_exp"].mean(), 1))
 ```
 
-This is precisely an Excel pivot table, written in one line and reproducible.
+Five samples, five answers, and none is 59.5. None is wrong either: each one is
+**uncertain**. `random_state` makes a random sample repeatable.
 
-## Wide to Long: melt
+## The Standard Error
 
 ```{python}
-long = wide.reset_index().melt(
-    id_vars="country",
-    var_name="year",
-    value_name="life_exp"
-)
-long.head(4)
+#| echo: false
+many = [gapminder.sample(30, random_state=s)["life_exp"].mean() for s in range(1000)]
+fig, ax = plt.subplots(figsize=(8, 1.6))
+ax.hist(many, bins=30, color="#bbbbbb")
+ax.axvline(gapminder["life_exp"].mean(), color="#C44E52")
+ax.set_xlabel("Mean life expectancy in a sample of 30 rows (years)")
+ax.set_title(f"1,000 samples: their means have a standard deviation of {np.std(many, ddof=1):.1f}",
+             fontsize=10)
+plt.show()
 ```
 
-- `id_vars`: the columns to keep as they are
-- everything else is unpivoted into two columns: a name and a value
+The spread of all possible sample means is the **standard error**. From one sample,
+estimate it as the standard deviation divided by √n:
 
-`melt` is what you run immediately after opening a spreadsheet a human designed.
+```{python}
+one = gapminder.sample(30, random_state=1)["life_exp"]
+se = one.std() / np.sqrt(len(one))
+print(round(one.mean(), 1), round(se, 1))
+```
 
-## melt, Animated
+Four times as much data halves the standard error.
 
-![](images/melt.gif){width="75%" fig-align="center"}
+## Confidence Intervals and p-values
 
-::: {.small-font}
-Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
+```{python}
+low = one.mean() - 1.96 * se
+high = one.mean() + 1.96 * se
+print(round(low, 1), "to", round(high, 1))
+```
+
+- **95% confidence interval**: the estimate ± 1.96 standard errors. Of all intervals built
+  this way, 95% contain the true value. This one does: 59.5
+- **p-value**: if the true value were 0, how often would chance alone give an estimate at
+  least this far from 0? Below 0.05, by convention, it is called *statistically significant*
+- A p-value is **not** the probability that a result is true, and *significant* does not
+  mean large or important
+
+# 3. Correlation
+
+## Correlation
+
+```{python}
+#| echo: false
+rng = np.random.default_rng(1118)
+fig, axes = plt.subplots(1, 4, figsize=(9, 1.5))
+for ax, r in zip(axes, [-0.8, 0, 0.5, 0.95]):
+    x = rng.normal(size=150)
+    y = r * x + np.sqrt(1 - r ** 2) * rng.normal(size=150)
+    ax.scatter(x, y, s=6)
+    ax.set_title(f"r = {np.corrcoef(x, y)[0, 1]:.2f}", fontsize=10)
+    ax.set_xticks([])
+    ax.set_yticks([])
+fig.tight_layout()
+plt.show()
+```
+
+```{python}
+g2007[["life_exp", "gdp_per_cap", "pop"]].corr().round(2)
+```
+
+`r` runs from −1 to +1 and measures how close the points are to **a straight line**. It has
+no units, and is the same in both directions; each column with itself gives 1.
+
+## Correlation Only Sees Straight Lines
+
+```{python}
+g2007["log_gdp"] = np.log(g2007["gdp_per_cap"])
+print(round(g2007["gdp_per_cap"].corr(g2007["life_exp"]), 2),
+      round(g2007["log_gdp"].corr(g2007["life_exp"]), 2))
+```
+
+```{python}
+#| echo: false
+fig, axes = plt.subplots(1, 2, figsize=(9, 2.0))
+axes[0].scatter(g2007["gdp_per_cap"], g2007["life_exp"], s=12)
+axes[0].set_xlabel("gdp_per_cap")
+axes[1].scatter(g2007["log_gdp"], g2007["life_exp"], s=12)
+axes[1].set_xlabel("log_gdp")
+axes[0].set_ylabel("life_exp")
+fig.tight_layout()
+plt.show()
+```
+
+`np.log()` turns doublings into equal steps, as the log axis did in lecture 7. Same
+countries, same relationship, only its shape changed: r went from 0.68 to 0.81.
+
+## Correlation Is Not Causation
+
+::: {.callout-important}
+A correlation, or a regression, finds an **association**. Richer countries also have more
+doctors, cleaner water and more schooling: income stands in for all of them.
 :::
 
-## Your Turn: Join and Reshape {background="#43464B"}
+- You may write: *"in 2007, countries with higher incomes had longer life expectancies"*
+- You may not write: *"raising income raises life expectancy"*
+- r near 0 does not mean no relationship, only no **straight-line** one: a U-shape can give
+  r = 0. Plot first, as Anscombe showed in lecture 7
 
-1. Build a small DataFrame with a `continent` column and a `region_lead` column of your invention
-2. Left-join it onto the 2007 gapminder data, and check the row count is unchanged
-3. Pivot the European data to get countries as rows and years as columns for `gdp_per_cap`
-4. Melt it back to long format and confirm you recover the original number of rows
+## Your Turn: Correlation and Shape {background="#43464B"}
 
-::: {#timer2 .timer seconds="660" starton="interaction"}
+On the 1952 countries. Replace each `____`, then run the cell:
+
+```{.python}
+g1952 = gapminder[gapminder["year"] == 1952]
+gdp52 = g1952["gdp_per_cap"]
+life52 = g1952["life_exp"]
+print(round(gdp52.corr(____), 2))              # income as it is
+print(round(np.log(____).corr(life52), 2))     # the log of income
+```
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+In 1952, how strongly was income related to life expectancy? Is it a straight line, or a
+curve?
 :::
+
+::: {#second-column}
+You should see:
+
+```
+0.28
+0.75
+```
+
+::: {#timer2 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
 
 ## Solution
 
 ```{python}
-leads = pd.DataFrame({
-    "continent": ["Africa", "Americas", "Asia", "Europe", "Oceania"],
-    "region_lead": ["Ama", "Ben", "Chen", "Dana", "Eli"]
-})
-
-d2007 = gapminder.query("year == 2007")
-joined = d2007.merge(leads, on="continent", how="left")
-print(d2007.shape[0], "->", joined.shape[0])
-
-eu_wide = gapminder.query("continent == 'Europe'").pivot(
-    index="country", columns="year", values="gdp_per_cap"
-)
-eu_long = eu_wide.reset_index().melt(id_vars="country", var_name="year", value_name="gdp_per_cap")
-print(eu_wide.shape, eu_long.shape)
+g1952 = gapminder[gapminder["year"] == 1952]
+gdp52 = g1952["gdp_per_cap"]
+life52 = g1952["life_exp"]
+print(round(gdp52.corr(life52), 2))
+print(round(np.log(gdp52).corr(life52), 2))
 ```
 
-# 5. Chaining
+0.28 as it is, but 0.75 after the log: a strong relationship, but a curved one, as in 2007.
+Log first, then correlate.
 
-## The Full Pipeline
+# 4. Linear Regression
+
+## The Line of Best Fit
+
+**life_exp = intercept + slope × log_gdp + residual**
 
 ```{python}
-report = (
-    pd.read_csv(url)
-    .rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
-    .query("year == 2007")
-    .assign(gdp_bn = lambda d: d["gdp_per_cap"] * d["pop"] / 1e9)
-    .groupby("continent")
-    .agg(
-        n = ("country", "nunique"),
-        life_exp = ("life_exp", "mean"),
-        gdp_bn = ("gdp_bn", "sum")
-    )
-    .round(1)
-    .sort_values("life_exp", ascending=False)
-    .reset_index()
-)
-report
+#| echo: false
+mini = g2007.sample(25, random_state=7)
+fit_mini = smf.ols("life_exp ~ log_gdp", data=mini).fit()
+line_x = np.array([mini["log_gdp"].min(), mini["log_gdp"].max()])
+fig, ax = plt.subplots(figsize=(8, 1.8))
+ax.vlines(mini["log_gdp"], mini["life_exp"], fit_mini.fittedvalues, color="#999999", linewidth=1)
+ax.scatter(mini["log_gdp"], mini["life_exp"], zorder=3)
+ax.plot(line_x, fit_mini.params["Intercept"] + fit_mini.params["log_gdp"] * line_x,
+        color="#C44E52")
+ax.set(xlabel="log_gdp", ylabel="life_exp")
+ax.set_title("25 countries: each grey line is one residual", loc="left", fontsize=10)
+plt.show()
 ```
 
-## Why Chain
+- **Slope**: the change in life expectancy per unit of `log_gdp`. **Intercept**: the
+  prediction when `log_gdp` is 0. **Residual**: actual minus predicted
+- **Ordinary least squares (OLS)** picks the line with the smallest sum of squared residuals
 
-- No intermediate variables named `df2`, `df3`, `df_final`
-- Each line is one verb, readable top to bottom
-- Nothing is modified in place, so rerunning a cell is always safe
-
-## Chaining
-
-![](images/chaining.png){width="75%" fig-align="center"}
-
-::: {.small-font}
-Source: UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/)
-:::
-
-::: {.callout-tip}
-Build a chain **one line at a time**, running it after each addition. Never write twelve lines and then hunt for the error.
-:::
-
-## Debugging a Chain
+## Fitting a Model
 
 ```{python}
-#| eval: false
-(
-    gapminder
-    .query("year == 2007")
-    .pipe(lambda d: print(d.shape) or d)     # peek at the shape mid-chain
-    .groupby("continent")["life_exp"].mean()
-)
+import statsmodels.formula.api as smf
+
+model = smf.ols("life_exp ~ log_gdp", data=g2007).fit()
+model.params
 ```
 
-Or simply comment out the lines below the one you suspect and run what remains. The chain is still valid code at every step.
+- `"life_exp ~ log_gdp"` reads *"life_exp explained by log_gdp"*: the outcome goes on the
+  left of `~`, the predictors on the right
+- `smf.ols()` sets the model up, `.fit()` estimates it, and `.params` holds the intercept
+  and the slope
+- More predictors are added with `+`: `"life_exp ~ log_gdp + pop"`
 
-## Your Turn: A Full Report {background="#43464B"}
+## Reading the Coefficients
 
-Write **one chain** that produces a table answering:
+```{python}
+print(round(model.params["log_gdp"] * np.log(2), 1), "years per doubling of income")
+```
 
-> For each continent, in 2007: how many countries, mean life expectancy, median GDP per capita, and total population in millions, sorted by mean life expectancy.
+- **Slope, 7.2**: one more unit of log GDP goes with 7.2 more years of life expectancy.
+  One unit of log means income × 2.7, so more usefully: **each doubling of income goes with
+  5.0 more years**
+- **Intercept, 4.9**: the prediction for log GDP of 0, an income of \$1 a year. That is far
+  outside the data: do not interpret it
+- Write *"is associated with"*, never *"causes"*
 
-Then write a second chain for the same table but for **1952**, and join the two so you can compare.
+## Reading the Rest of the Table
 
-::: {#timer3 .timer seconds="840" starton="interaction"}
+```{python}
+print(model.summary().tables[1])
+```
+
+- `std err`: each estimate's standard error, as in section 2
+- `[0.025  0.975]`: the 95% confidence interval. Slopes from 6.3 to 8.1 are compatible
+  with the data
+- `P>|t|`: the p-value against a true value of 0. The slope's `0.000`, below 0.0005: if the
+  true slope were 0, chance would almost never give one this far from it. The intercept's
+  0.202: compatible with 0
+
+## How Well Does It Fit?
+
+```{python}
+print(round(model.rsquared, 2))
+print(round(np.sqrt(model.scale), 1))
+```
+
+- **R² = 0.65**: the model accounts for 65% of the variation in life expectancy between
+  countries. The other 35% is how far countries sit above or below what their income predicts
+- **Residual standard error, 7.1 years**: most countries are within about 7 years of the
+  line, a few much further
+
+::: {.callout-warning}
+A high R² does not make a model right, nor a low one useless: judge it by what it is for.
 :::
+
+## A Categorical Predictor
+
+```{python}
+model2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=g2007).fit()
+print(model2.params.round(2))
+print(round(model2.rsquared, 2))
+```
+
+- `C()` adds a 0/1 column per continent but the first alphabetically, Africa: the
+  **reference**. Each coefficient is a difference from Africa
+- **At the same income**, life expectancy is 11.3 years higher in Europe than in Africa, on
+  average; the income slope falls from 7.2 to 4.6
+
+## Your Turn: Fit a Model {background="#43464B"}
+
+On the 1952 countries. Replace each `____`, then run the cell:
+
+```{.python}
+g1952 = gapminder[gapminder["year"] == 1952]
+g1952["log_gdp"] = np.log(g1952["gdp_per_cap"])
+fit52 = smf.ols("life_exp ~ ____", data=g1952).fit()
+print(round(fit52.params["log_gdp"], 2))              # the slope
+print(round(fit52.params["log_gdp"] * np.log(2), 1))  # years per doubling
+print(round(fit52.____, 2))                           # R²
+```
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+Then add `+ C(continent)` to the formula: how much does R² rise?
+:::
+
+::: {#second-column}
+You should see `8.83`, `6.1` and `0.56`; with the continent, an R² of `0.74`.
+
+::: {#timer3 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
 
 ## Solution
 
 ```{python}
-def continent_report(df, y):
-    return (
-        df.query("year == @y")
-        .groupby("continent")
-        .agg(
-            n = ("country", "nunique"),
-            life_exp = ("life_exp", "mean"),
-            gdp_med = ("gdp_per_cap", "median"),
-            pop_m = ("pop", lambda s: s.sum() / 1e6)
-        )
-        .round(1)
-        .sort_values("life_exp", ascending=False)
-        .reset_index()
-    )
+g1952 = gapminder[gapminder["year"] == 1952]
+g1952["log_gdp"] = np.log(g1952["gdp_per_cap"])
+fit52 = smf.ols("life_exp ~ log_gdp", data=g1952).fit()
+print(round(fit52.params["log_gdp"], 2))
+print(round(fit52.params["log_gdp"] * np.log(2), 1))
+print(round(fit52.rsquared, 2))
 
-r2007 = continent_report(gapminder, 2007)
-r1952 = continent_report(gapminder, 1952)
-
-r2007.merge(r1952, on="continent", suffixes=("_2007", "_1952"))[
-    ["continent", "life_exp_1952", "life_exp_2007"]
-]
+fit52c = smf.ols("life_exp ~ log_gdp + C(continent)", data=g1952).fit()
+print(round(fit52c.rsquared, 2))
 ```
 
-Note `@y` inside `query()`: it refers to a Python variable rather than a column. And note that the function from week 5 has just saved us writing the chain twice.
+- In 1952 a doubling of income went with 6.1 more years, against 5.0 in 2007: a steeper
+  slope, but a looser fit (R² 0.56 against 0.65)
+- Continent lifts R² from 0.56 to 0.74, more than in 2007 (0.65 to 0.77)
 
-## What We Have Seen
+# 5. Prediction
 
-- Split, apply, combine: `groupby().agg()`
-- Named aggregations for clean output columns
-- `transform` to put a group value back on every row
-- `merge` for columns, `concat` for rows, and always check the row count
-- `pivot` / `pivot_table` and `melt`
-- Chained pipelines, built one line at a time
+## Explanation vs Prediction
 
-## Before Next Week
+- **Explanation**: what is the slope, and how sure are we? Fitted on all the data, judged by
+  its standard errors. That was section 4
+- **Prediction**: for a country the model has never seen, how wrong will the guess be?
+- On average, a model fits its own data better than new data: judging it there is
+  **marking your own homework**
+- So: fit on some countries, **test** on the others, and look at the test set once
 
-1. Apply today's four operations to **your project dataset**: one groupby, one join if you have a second table, one reshape
-2. Write down the three most interesting numbers you find. They are the start of your report.
-3. Next week we make them visible.
+This is the idea every machine learning model, from a regression to a neural network, is
+evaluated on.
+
+## Train and Test
+
+```{python}
+train = g2007.sample(frac=0.75, random_state=1118)
+test = g2007.drop(train.index)
+print(len(train), "countries to fit the model,", len(test), "to test it")
+```
+
+- `sample(frac=0.75)` draws 75% of the rows at random; `drop(train.index)` keeps the rest
+- `random_state` makes the split repeatable: the same countries every time
+- The test countries take no part in fitting: for the model, they are new
+
+## Predict and Measure the Error
+
+```{python}
+fit = smf.ols("life_exp ~ log_gdp", data=train).fit()
+predicted = fit.predict(test)
+errors = test["life_exp"] - predicted
+rmse = np.sqrt((errors ** 2).mean())
+mae = errors.abs().mean()
+print("RMSE", round(rmse, 1), "years; MAE", round(mae, 1), "years")
+```
+
+- **RMSE**: square the errors, average them, take the root: the **r**oot **m**ean
+  **s**quared **e**rror. Big misses weigh more
+- **MAE**: the mean absolute error, the average miss. The easiest to explain
+- Both in **years**, on 36 countries the model never saw. On its own 106 training countries
+  the RMSE is 6.7: on average, a model looks better on the data it was fitted on
+
+## Predicting for New Data
+
+```{python}
+new = pd.DataFrame({"gdp_per_cap": [2000, 10000, 45000]})
+new["log_gdp"] = np.log(new["gdp_per_cap"])
+new["predicted_life_exp"] = fit.predict(new).round(1)
+new
+```
+
+::: {.callout-warning}
+Never predict outside the range of the data. Incomes in 2007 run from \$278 to \$49,357: for
+\$500,000, the same line predicts 100.5 years. It has never seen such a country, and neither
+have you.
+:::
+
+## Overfitting
+
+```{python}
+#| echo: false
+tr = g2007.sample(12, random_state=7)
+te = g2007.drop(tr.index)
+grid = np.linspace(tr["log_gdp"].min(), tr["log_gdp"].max(), 300)
+fig, axes = plt.subplots(1, 2, figsize=(9, 2.3), sharey=True)
+for ax, degree, name in zip(axes, [1, 8], ["Straight line", "Degree-8 curve"]):
+    coef = np.polyfit(tr["log_gdp"], tr["life_exp"], degree)
+    err_tr = np.sqrt(((tr["life_exp"] - np.polyval(coef, tr["log_gdp"])) ** 2).mean())
+    err_te = np.sqrt(((te["life_exp"] - np.polyval(coef, te["log_gdp"])) ** 2).mean())
+    ax.scatter(te["log_gdp"], te["life_exp"], s=10, color="#cccccc", label="test countries")
+    ax.scatter(tr["log_gdp"], tr["life_exp"], s=28, color="#23373b", label="12 training countries")
+    ax.plot(grid, np.polyval(coef, grid), color="#C44E52")
+    ax.set_ylim(30, 90)
+    ax.set_xlabel("log_gdp")
+    ax.set_title(f"{name}: training RMSE {err_tr:.1f}, test RMSE {err_te:.1f}", fontsize=10)
+axes[0].legend(fontsize=8, loc="lower right")
+fig.tight_layout()
+plt.show()
+```
+
+A straight line has two numbers to estimate and barely overfits. The degree-8 curve has nine:
+it learns the **noise** of its 12 points, so its training error falls while its test error
+more than doubles. Use the test set once, at the end, or you start fitting to it too.
+
+## The Same Pattern in scikit-learn
+
+```{python}
+from sklearn.linear_model import LinearRegression
+model_sk = LinearRegression()
+model_sk.fit(train[["log_gdp"]], train["life_exp"])
+print(round(model_sk.intercept_, 2), model_sk.coef_.round(2))
+print(fit.params.round(2).tolist())
+```
+
+- Same split, same line. `X` is a DataFrame, hence two brackets; `y` is a Series
+- Choose a model, `.fit()`, `.predict()`: the same three steps for decision trees, random
+  forests and neural networks
+- scikit-learn has no summary table: it is built for prediction, not explanation
+
+## What You Can and Cannot Write
+
+> In 2007, across 142 countries, each doubling of GDP per capita was associated with about
+> 5 more years of life expectancy (95% CI 4.4 to 5.6), and income accounted for 65% of the
+> variation. On 36 countries held out from fitting, predictions missed by 5.7 years on
+> average.
+
+- Numbers in real units, with their uncertainty and their scope
+- No cause: "associated with", not "raises"
+- No extrapolation: nothing about incomes outside \$278 to \$49,357
+
+## Your Turn: Predict {background="#43464B"}
+
+The same `train` and `test`, now with the continent. Replace each `____`:
+
+```{.python}
+fit2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=____).fit()
+errors2 = test["life_exp"] - fit2.predict(____)
+rmse2 = np.sqrt((errors2 ** 2).mean())
+mae2 = errors2.____().mean()
+print(round(rmse2, 1), round(mae2, 1))
+```
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+Without the continent, the test RMSE was 8.0 years and the MAE 5.7. Does knowing the
+continent improve the predictions?
+:::
+
+::: {#second-column}
+You should see `6.0 4.0`.
+
+::: {#timer4 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
+
+## Solution
+
+```{python}
+fit2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=train).fit()
+errors2 = test["life_exp"] - fit2.predict(test)
+rmse2 = np.sqrt((errors2 ** 2).mean())
+mae2 = errors2.abs().mean()
+print(round(rmse2, 1), round(mae2, 1))
+```
+
+Yes: the continent cuts the typical miss from 8.0 to 6.0 years (RMSE), and the average miss
+from 5.7 to 4.0. A test country's continent must also appear in `train`, or `predict()`
+stops with an error.
 
 ## References
 
-- [pandas: Group by, split-apply-combine](https://pandas.pydata.org/docs/user_guide/groupby.html)
-- [pandas: Merge, join and concatenate](https://pandas.pydata.org/docs/user_guide/merging.html)
-- Hadley Wickham, [Tidy Data](https://vita.had.co.nz/papers/tidy-data.pdf), the paper behind long format
-- UBC Master of Data Science, [Programming in Python for Data Science](https://prog-learn.mds.ubc.ca/), for the diagrams and animations
+- [OpenIntro Statistics](https://www.openintro.org/book/os/): a free textbook, from
+  summaries to regression
+- [Seeing Theory](https://seeing-theory.brown.edu/): probability and statistics, drawn and
+  animated
+- [Fitting models using R-style formulas](https://www.statsmodels.org/stable/example_formulas.html):
+  statsmodels' guide to the formulas of `smf.ols()`
+- [An Introduction to Statistical Learning, with Applications in Python](https://www.statlearning.com/):
+  free online; chapters 2 and 3 cover this lecture
+
+## Test 2: Thursday 26 November
+
+- In class, **one hour**, multiple choice, like Test 1
+- It covers the **pandas, matplotlib, statistics and regression** of lectures 6, 7 and 8
+- The best revision: redo every Your Turn from lectures 6 to 8 without the solution, then
+  check
+- On the answer sheet, **cross** the boxes of your student number, do not only write the
+  digits, and **cross** your answers rather than shading them
 
 ## {background="#43464B"}
 
@@ -671,12 +638,21 @@ Note `@y` inside `query()`: it refers to a Python variable rather than a column.
 <style>img.circle {border-radius:50%;}</style>
 ```
 
-::: {layout-ncol="2"}
+:::: {layout="[1,1]"}
+::: {#first-column}
 <img class="circle" src="https://github.com/damien-dupre.png" />
 
+
+:::
+::: {#second-column}
 **Thanks for your attention and don't hesitate to ask if you have any questions!**
+
 [{{< fa brands mastodon >}} @damien_dupre](https://datasci.social/@damien_dupre)
+
 [{{< fa brands github >}} @damien-dupre](https://github.com/damien-dupre)
+
 [{{< fa link >}} https://damien-dupre.github.io](https://damien-dupre.github.io)
+
 [{{< fa paper-plane >}} damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)
 :::
+::::

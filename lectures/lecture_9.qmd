@@ -1,5 +1,5 @@
 ---
-title: "Lecture 9: Data Visualisation"
+title: "Lecture 9: Statistics, Regression and Prediction"
 subtitle: BAA1118 - Foundations of Programming for Analytics & AI
 author: Damien Dupré
 format:
@@ -23,593 +23,623 @@ filters:
 
 ```{python}
 #| echo: false
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+import statsmodels.formula.api as smf
 
-plt.rcParams["figure.figsize"] = (9, 4.2)
+pd.set_option("display.max_rows", 8)
+pd.set_option("display.width", 100)
+plt.rcParams["figure.figsize"] = (8, 2.4)
 plt.rcParams["figure.dpi"] = 110
 plt.rcParams["font.size"] = 11
-sns.set_theme(style="whitegrid", palette="colorblind")
+plt.style.use("petroff10")
 
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url).rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
-g2007 = gapminder.query("year == 2007")
 ```
 
 ## For Today
 
 #### Requirements
 
-- ✅ pandas: filtering, grouping, reshaping
-- ✅ Your project dataset, cleaned
-- ✅ Three interesting numbers from it
+- ✅ pandas: filtering and `groupby`, from lecture 7
+- ✅ matplotlib: scatter plots and the log scale, from lecture 8
 
 #### Programme
 
-1. Why visualise
-2. matplotlib: the foundation
-3. seaborn: statistical graphics
-4. Distributions, relationships, comparisons
-5. Polishing, saving, and what not to do
+1. Describing one variable
+2. Samples and uncertainty
+3. Correlation
+4. Linear regression
+5. Prediction
 
-### Any questions?
+## From Description to Prediction
 
-## Setup
+1. **Description**: the mean life expectancy in Europe? *Lectures 7 and 8*
+2. **Explanation**: how strongly is income associated with it? *Sections 1 to 4*
+3. **Prediction**: for a given income, what life expectancy, and how wrong? *Section 5*
 
 ```{python}
-#| eval: false
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
-
-sns.set_theme(style="whitegrid", palette="colorblind")
-
+plt.style.use("petroff10")
 url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url).rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
-g2007 = gapminder.query("year == 2007")
+gapminder = pd.read_csv(url)
+gapminder = gapminder.rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
+g2007 = gapminder[gapminder["year"] == 2007]
 ```
 
-`sns.set_theme()` on one line replaces about 30 lines of matplotlib styling, and `palette="colorblind"` is not optional in a professional context.
+Most of today uses `g2007`, the 142 countries of 2007.
 
-# 1. Why Visualise
+# 1. Describing One Variable
 
-## Summary Statistics Lie
+## The Centre: Mean and Median
+
+```{python}
+gdp = g2007["gdp_per_cap"]
+life = g2007["life_exp"]
+print("GDP per capita:  mean", round(gdp.mean()), "  median", round(gdp.median()))
+print("Life expectancy: mean", round(life.mean(), 1), "  median", round(life.median(), 1))
+```
+
+- **Mean**: add everything up, divide by the count. A few very rich countries pull it up
+- **Median**: the middle value once sorted. Half the countries are above it, half below
+- A mean above the median usually signals a tail of high values, **right skew**; below it,
+  **left skew**. For a skewed variable, report the median, or both
+
+## Spread: Standard Deviation
+
+```{python}
+sales = pd.Series([2, 4, 4, 4, 5, 5, 7, 9])
+deviations = sales - sales.mean()
+print(deviations.tolist())
+print(round((deviations ** 2).sum() / (len(sales) - 1), 2))   # the variance
+print(round(sales.var(), 2), round(sales.std(), 2))
+```
+
+- **Variance**: the average squared distance from the mean, dividing by n − 1 for a
+  sample. **Standard deviation**: its square root, in the original units
+- pandas divides by n − 1; numpy's `np.std()` divides by n, and gives 2.0
+- **IQR**, `quantile(0.75) - quantile(0.25)`: the spread of the middle half
+
+## Shape: Skew and the Normal Curve
 
 ```{python}
 #| echo: false
-anscombe_raw = {
-    "I":   [(10.0, 8.04), (8.0, 6.95), (13.0, 7.58), (9.0, 8.81), (11.0, 8.33), (14.0, 9.96),
-            (6.0, 7.24), (4.0, 4.26), (12.0, 10.84), (7.0, 4.82), (5.0, 5.68)],
-    "II":  [(10.0, 9.14), (8.0, 8.14), (13.0, 8.74), (9.0, 8.77), (11.0, 9.26), (14.0, 8.10),
-            (6.0, 6.13), (4.0, 3.10), (12.0, 9.13), (7.0, 7.26), (5.0, 4.74)],
-    "III": [(10.0, 7.46), (8.0, 6.77), (13.0, 12.74), (9.0, 7.11), (11.0, 7.81), (14.0, 8.84),
-            (6.0, 6.08), (4.0, 5.39), (12.0, 8.15), (7.0, 6.42), (5.0, 5.73)],
-    "IV":  [(8.0, 6.58), (8.0, 5.76), (8.0, 7.71), (8.0, 8.84), (8.0, 8.47), (8.0, 7.04),
-            (8.0, 5.25), (19.0, 12.50), (8.0, 5.56), (8.0, 7.91), (8.0, 6.89)]
-}
-anscombe = pd.DataFrame(
-    [(name, x, y) for name, pairs in anscombe_raw.items() for x, y in pairs],
-    columns=["dataset", "x", "y"]
-)
-print(anscombe.groupby("dataset")[["x", "y"]].agg(["mean", "std"]).round(2))
-```
-
-Four datasets. Same means, same standard deviations, same correlation, same regression line.
-
-## Summary Statistics Lie
-
-```{python}
-#| echo: false
-g = sns.lmplot(data=anscombe, x="x", y="y", col="dataset", col_wrap=4,
-               height=2.6, ci=None, scatter_kws={"s": 40})
+fig, axes = plt.subplots(1, 2, figsize=(9, 2.4))
+axes[0].hist(gdp, bins=25, color="#bbbbbb")
+axes[0].axvline(gdp.mean(), color="#C44E52", label=f"mean {gdp.mean():,.0f}")
+axes[0].axvline(gdp.median(), color="#23373b", linestyle="--",
+                label=f"median {gdp.median():,.0f}")
+axes[0].legend(fontsize=9)
+axes[0].set_title("GDP per capita in 2007: right skew", fontsize=10)
+x = np.linspace(-3.5, 3.5, 300)
+y = np.exp(-x ** 2 / 2) / np.sqrt(2 * np.pi)
+axes[1].plot(x, y, color="#23373b")
+axes[1].fill_between(x, y, where=np.abs(x) <= 2, color="#3f90da", alpha=0.25)
+axes[1].fill_between(x, y, where=np.abs(x) <= 1, color="#3f90da", alpha=0.45)
+axes[1].text(0, 0.15, "68%", ha="center", fontsize=11)
+axes[1].text(-1.55, 0.03, "95%", ha="center", fontsize=10)
+axes[1].set_xticks([-2, -1, 0, 1, 2], ["-2 sd", "-1 sd", "mean", "+1 sd", "+2 sd"])
+axes[1].set_yticks([])
+axes[1].set_title("Normal: about 68% within 1 sd, 95% within 2", fontsize=10)
+fig.tight_layout()
 plt.show()
 ```
 
-**Anscombe's quartet**, 1973. Always plot the data.
+- In a right-skewed variable, the tail pulls the **mean** past the median
+- In a **normal**, bell-shaped variable, about 68% of values lie within 1 standard deviation
+  of the mean, and **about 95% within 2**. Section 2 relies on that 95%
 
-## The Three Jobs of a Chart
+## Your Turn: Describe a Variable {background="#43464B"}
 
-1. **Exploration**: for you, fast, ugly, thrown away. Ten per hour.
-2. **Explanation**: for an audience, one message, polished. One per report.
-3. **Verification**: does the model fit? Are there outliers? Is the relationship linear?
-
-Today covers all three. Job 3 is what feeds next week's regression.
-
-## Your Turn: Choose the Form {background="#43464B"}
-
-No code. For each question, write down **which chart** you would draw and **why**. A minute or two each, then we compare.
-
-1. Are salaries in our company spread evenly, or clustered at the bottom?
-2. Which of our five regions sells the most?
-3. Has customer churn risen since January?
-4. Do customers who spend more also visit more often?
-5. Is the median order value different for app users and web users?
-
-::: {#timer1 .timer seconds="540" starton="interaction"}
-:::
-
-## One Answer
-
-| Question | Form | Why |
-|:--|:--|:--|
-| Salary spread | histogram | one numeric variable, shape matters |
-| Sales per region | sorted bar chart | magnitude across few categories |
-| Churn since January | line chart | one variable over time |
-| Spend vs visits | scatter plot | two numerics, looking for a relationship |
-| App vs web orders | boxplot, or two histograms | a distribution compared across groups |
-
-**The question picks the chart.** Choosing the chart first, then hunting for something to put in it, is how bad dashboards are born.
-
-# 2. matplotlib
-
-## The Foundation
-
-matplotlib is the plotting engine underneath almost everything in Python, including seaborn and pandas plots.
-
-- Very powerful, and quite verbose
-- You will use seaborn for the chart, and matplotlib to **fix the details**
-- Knowing both is not optional: the labels, titles and limits come from matplotlib
-
-## Figure and Axes
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.2))
-ax.plot([1, 2, 3, 4], [10, 14, 12, 18], marker="o")
-ax.set_xlabel("Quarter")
-ax.set_ylabel("Revenue (€m)")
-ax.set_title("Revenue by quarter")
-plt.show()
-```
-
-## Figure and Axes
-
-:::: {layout="[1,1]"}
+:::: {layout="[3,2]"}
 ::: {#first-column}
-### `fig`
-
-The canvas. Holds everything, controls the size and the saving.
+1. Mean and median of `pop` in 2007, in millions. Why are they so far apart?
+2. Standard deviation and IQR of `life_exp` in 2007, for Europe and for Africa. Which is
+   more spread out?
+3. By hand, then with `.std()`: the standard deviation of `[3, 5, 7]`
 :::
 
 ::: {#second-column}
-### `ax`
+You should see:
 
-One set of axes: the plotting area with its ticks, labels and marks.
+```
+44.0 10.5
+Europe 3.0 4.8
+Africa 9.6 11.6
+2.0
+```
+
+::: {#timer1 .timer seconds="420" starton="interaction"}
+:::
 :::
 ::::
 
-```{python}
-#| eval: false
-fig, ax = plt.subplots(figsize=(8, 4))
-```
-
-Remember tuple unpacking from lecture 3? That is what this line is.
-
-## Several Panels
+## Solution
 
 ```{python}
-fig, axes = plt.subplots(1, 2, figsize=(9, 3.2))
+pop_m = g2007["pop"] / 1_000_000
+print(round(pop_m.mean(), 1), round(pop_m.median(), 1))
 
-axes[0].hist(g2007["life_exp"], bins=15, color="#4C72B0")
-axes[0].set_title("Life expectancy, 2007")
+for continent in ["Europe", "Africa"]:
+    life_c = g2007[g2007["continent"] == continent]["life_exp"]
+    iqr = life_c.quantile(0.75) - life_c.quantile(0.25)
+    print(continent, round(life_c.std(), 1), round(iqr, 1))
 
-axes[1].hist(g2007["gdp_per_cap"], bins=15, color="#DD8452")
-axes[1].set_title("GDP per capita, 2007")
-
-plt.tight_layout()
-plt.show()
+print(pd.Series([3, 5, 7]).std())
 ```
 
-## pandas Can Plot Directly
+China and India, over a billion people each, drag the mean of `pop` far above the median.
+By hand: deviations −2, 0, 2; squares 4, 0, 4; 8 / 2 = 4; √4 = 2.
+
+# 2. Samples and Uncertainty
+
+## Every Sample Gives a Different Answer
+
+Treat the 1,704 rows of gapminder as everything there is. Their mean life expectancy is
+59.5 years. Now pretend you can only afford to collect 30 rows:
 
 ```{python}
-gapminder.groupby("year")["life_exp"].mean().plot(
-    kind="line", marker="o", figsize=(8, 3), ylabel="Mean life expectancy"
-)
-plt.show()
+for seed in [1, 2, 3, 4, 5]:
+    sample = gapminder.sample(30, random_state=seed)
+    print(round(sample["life_exp"].mean(), 1))
 ```
 
-Convenient for a quick look during exploration. Not for anything you will show to another person.
+Five samples, five answers, and none is 59.5. None is wrong either: each one is
+**uncertain**. `random_state` makes a random sample repeatable.
 
-# 3. seaborn
-
-## Why seaborn
-
-seaborn is a layer on top of matplotlib that knows about **DataFrames and statistics**.
-
-```{python}
-#| eval: false
-sns.scatterplot(data=df, x="col_a", y="col_b", hue="col_c")
-```
-
-- `data=` takes the DataFrame
-- `x=`, `y=`, `hue=`, `size=`, `style=` take **column names as strings**
-- It computes means, confidence intervals and regressions for you
-- The legend is built automatically
-
-## The Same Grammar Every Time
-
-| Function | Shows |
-|:--|:--|
-| `sns.histplot` | distribution of one numeric variable |
-| `sns.boxplot`, `sns.violinplot` | distribution across categories |
-| `sns.barplot`, `sns.countplot` | magnitude across categories |
-| `sns.scatterplot` | relationship between two numerics |
-| `sns.lineplot` | change over time |
-| `sns.heatmap` | a matrix of values |
-
-Learn the arguments once; they are the same for all of them.
-
-# 4. The Four Questions
-
-## Question 1: How Is One Variable Distributed?
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.2))
-sns.histplot(data=g2007, x="life_exp", bins=20, ax=ax)
-ax.set_xlabel("Life expectancy in 2007 (years)")
-ax.set_ylabel("Number of countries")
-plt.show()
-```
-
-Two clusters, not one. A mean of 67 describes neither of them.
-
-## Distribution, Split by Group
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.4))
-sns.kdeplot(data=g2007, x="life_exp", hue="continent", fill=True, alpha=0.35, ax=ax)
-ax.set_xlabel("Life expectancy in 2007 (years)")
-plt.show()
-```
-
-The two clusters are now explained: Africa, and everywhere else.
-
-## Question 2: How Do Groups Compare?
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.4))
-sns.boxplot(data=g2007, x="continent", y="life_exp", ax=ax)
-ax.set_xlabel("")
-ax.set_ylabel("Life expectancy (years)")
-plt.show()
-```
-
-## Reading a Boxplot
-
-- The box: the middle 50% of countries, from the 25th to the 75th percentile
-- The line inside: the **median**, not the mean
-- The whiskers: 1.5 times the box height, at most
-- The dots: points beyond that, conventionally called outliers
-
-A boxplot hides how many observations there are. With small groups, show the points:
-
-```{python}
-#| eval: false
-sns.stripplot(data=g2007, x="continent", y="life_exp", color="black", alpha=0.5, ax=ax)
-```
-
-## Boxplot Plus Points
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.4))
-sns.boxplot(data=g2007, x="continent", y="life_exp", ax=ax, whis=(0, 100), fliersize=0)
-sns.stripplot(data=g2007, x="continent", y="life_exp", ax=ax,
-              color="black", alpha=0.45, size=3.5, jitter=0.25)
-ax.set_xlabel("")
-ax.set_ylabel("Life expectancy (years)")
-plt.show()
-```
-
-## Bars: Magnitude, Not Distribution
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.2))
-means = g2007.groupby("continent")["life_exp"].mean().sort_values(ascending=False)
-sns.barplot(x=means.values, y=means.index, ax=ax)
-ax.set_xlabel("Mean life expectancy in 2007 (years)")
-ax.set_ylabel("")
-plt.show()
-```
-
-::: {.callout-tip}
-Sort the bars by value, and put the labels horizontally. Category order is a choice, and alphabetical is almost never the useful one.
-:::
-
-## Question 3: Are Two Variables Related?
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.4))
-sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", hue="continent", ax=ax)
-ax.set_xlabel("GDP per capita (US$)")
-ax.set_ylabel("Life expectancy (years)")
-sns.move_legend(ax, "lower right", fontsize=8, title=None)
-plt.show()
-```
-
-## The Log Transformation
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.4))
-sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", hue="continent", ax=ax)
-ax.set_xscale("log")
-ax.set_xlabel("GDP per capita (US$, log scale)")
-ax.set_ylabel("Life expectancy (years)")
-sns.move_legend(ax, "lower right", fontsize=8, title=None)
-plt.show()
-```
-
-The curve has become a **line**. Remember this slide next week.
-
-## Adding Size: The Fourth Variable
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.6))
-sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp",
-                hue="continent", size="pop", sizes=(20, 600), alpha=0.7, ax=ax)
-ax.set_xscale("log")
-ax.set_xlabel("GDP per capita (US$, log scale)")
-ax.set_ylabel("Life expectancy (years)")
-ax.legend().remove()
-plt.show()
-```
-
-Four variables in one chart. This is the famous Hans Rosling plot, and it is 12 lines of Python.
-
-## Question 4: How Does It Change Over Time?
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.4))
-sns.lineplot(data=gapminder, x="year", y="life_exp", hue="continent",
-             errorbar=None, marker="o", ax=ax)
-ax.set_xlabel("")
-ax.set_ylabel("Mean life expectancy (years)")
-sns.move_legend(ax, "lower right", fontsize=8, title=None)
-plt.show()
-```
-
-seaborn averaged the countries within each continent and year automatically.
-
-## Small Multiples
-
-```{python}
-g = sns.relplot(
-    data=gapminder, x="year", y="life_exp",
-    col="continent", col_wrap=3, kind="line",
-    errorbar=None, height=1.9, aspect=1.35
-)
-g.set_axis_labels("", "Life expectancy")
-g.set_titles("{col_name}")
-plt.show()
-```
-
-One panel per group beats five overlapping lines whenever the lines cross.
-
-## Your Turn: Four Charts {background="#43464B"}
-
-Using gapminder, or your own project data:
-
-1. A histogram of `gdp_per_cap` in 2007. Then redo it on a log x-axis.
-2. A boxplot of `life_exp` per continent for **1952**, and one for 2007, side by side
-3. A scatter of `gdp_per_cap` against `life_exp` for Europe only, log x-axis
-4. A line chart of Ireland's life expectancy over time
-
-Label every axis with units. No exceptions.
-
-::: {#timer2 .timer seconds="840" starton="interaction"}
-:::
-
-## Solution: 1 and 2
-
-```{python}
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.9))
-
-sns.histplot(data=g2007, x="gdp_per_cap", bins=20, ax=axes[0])
-axes[0].set_xlabel("GDP per capita (US$)")
-
-sns.histplot(data=g2007, x="gdp_per_cap", bins=20, log_scale=True, ax=axes[1])
-axes[1].set_xlabel("GDP per capita (US$, log)")
-
-plt.tight_layout()
-plt.show()
-```
-
-## Solution: 3 and 4
-
-```{python}
-fig, axes = plt.subplots(1, 2, figsize=(9, 3))
-
-europe = g2007.query("continent == 'Europe'")
-sns.scatterplot(data=europe, x="gdp_per_cap", y="life_exp", ax=axes[0])
-axes[0].set_xscale("log")
-axes[0].set_xlabel("GDP per capita (US$, log)")
-axes[0].set_ylabel("Life expectancy")
-
-ireland = gapminder.query("country == 'Ireland'")
-sns.lineplot(data=ireland, x="year", y="life_exp", marker="o", ax=axes[1])
-axes[1].set_xlabel("")
-axes[1].set_ylabel("Life expectancy")
-axes[1].set_title("Ireland")
-
-plt.tight_layout()
-plt.show()
-```
-
-# 5. Polishing
-
-## The Checklist Before Showing Anyone
-
-- Does every axis have a **label with units**?
-- Does the title say the **finding**, not the variables?
-- Is the legend needed, and is it out of the way?
-- Are the categories in a meaningful **order**?
-- Would it survive being printed in black and white?
-- Is anything smaller than 8pt?
-
-## Title as Finding
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.2))
-sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", ax=ax, color="#4C72B0", alpha=0.75)
-ax.set_xscale("log")
-ax.set_xlabel("GDP per capita in 2007 (US$, log scale)")
-ax.set_ylabel("Life expectancy (years)")
-ax.set_title("Each doubling of income adds about 6 years of life", loc="left", fontsize=13)
-plt.show()
-```
-
-"Life expectancy vs GDP" tells the reader what the axes already told them.
-
-## Annotating
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 3.2))
-sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", ax=ax, color="#bbbbbb")
-
-ie = g2007.query("country == 'Ireland'")
-ax.scatter(ie["gdp_per_cap"], ie["life_exp"], color="#C44E52", s=90, zorder=5)
-ax.annotate("Ireland", (ie["gdp_per_cap"].iloc[0], ie["life_exp"].iloc[0]),
-            xytext=(10, -14), textcoords="offset points", fontsize=11, color="#C44E52")
-ax.set_xscale("log")
-ax.set_xlabel("GDP per capita (US$, log)")
-ax.set_ylabel("Life expectancy (years)")
-plt.show()
-```
-
-Grey everything, colour the one thing that matters.
-
-## Colour, Seriously
-
-- About 8% of men have some form of colour vision deficiency
-- `palette="colorblind"` costs nothing and solves most of it
-- **Categories**: distinct hues, never a gradient
-- **Magnitude**: one hue, light to dark, never a rainbow
-- **Above/below a reference**: two hues with a neutral middle
-
-Never encode a category by colour **alone** if the reader must identify it: add a direct label.
-
-## Saving a Figure
-
-```{python}
-#| eval: false
-fig, ax = plt.subplots(figsize=(8, 4.5))
-sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", ax=ax)
-fig.savefig("output/figures/life_gdp.png", dpi=300, bbox_inches="tight")
-```
-
-- `dpi=300` for print, 150 for screen
-- `bbox_inches="tight"` stops the labels being cut off
-- `.png` for reports, `.svg` or `.pdf` for anything that will be resized
-- Save with **code**, never by right-clicking. Right-clicking is not reproducible.
-
-## What Not To Do
-
-- **Two y-axes.** Any two series can be made to look correlated by choosing the scales. Use two charts.
-- **A truncated y-axis on bars.** Bar length *is* the value. Bars start at zero.
-- **Pie charts with more than three slices.** People compare angles badly. Use a sorted bar chart.
-- **3D anything.** The perspective distorts the values it is supposed to show.
-- **A number printed on every point.** If you need all the numbers, make a table.
-
-## What Not To Do
+## The Standard Error
 
 ```{python}
 #| echo: false
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.9))
-means = g2007.groupby("continent")["life_exp"].mean().sort_values(ascending=False)
-
-sns.barplot(x=means.index, y=means.values, ax=axes[0])
-axes[0].set_ylim(50, 82)
-axes[0].set_title("Truncated axis: Oceania looks 8x Africa", fontsize=10)
-axes[0].set_ylabel("Life exp.")
-axes[0].tick_params(axis="x", labelrotation=30, labelsize=8)
-
-sns.barplot(x=means.index, y=means.values, ax=axes[1])
-axes[1].set_title("From zero: the real difference", fontsize=10)
-axes[1].set_ylabel("Life exp.")
-axes[1].tick_params(axis="x", labelrotation=30, labelsize=8)
-
-plt.tight_layout()
+many = [gapminder.sample(30, random_state=s)["life_exp"].mean() for s in range(1000)]
+fig, ax = plt.subplots(figsize=(8, 1.6))
+ax.hist(many, bins=30, color="#bbbbbb")
+ax.axvline(gapminder["life_exp"].mean(), color="#C44E52")
+ax.set_xlabel("Mean life expectancy in a sample of 30 rows (years)")
+ax.set_title(f"1,000 samples: their means have a standard deviation of {np.std(many, ddof=1):.1f}",
+             fontsize=10)
 plt.show()
 ```
 
-Same data, same code, one changed line.
+The spread of all possible sample means is the **standard error**. From one sample,
+estimate it as the standard deviation divided by √n:
 
-## Your Turn: Fix This Chart {background="#43464B"}
-
-This runs, and it is bad in five ways. Find them and fix them.
-
-```{.python}
-sns.barplot(data=g2007, x="continent", y="gdp_per_cap", errorbar=None)
-plt.ylim(2000, 30000)
-plt.title("gdp_per_cap vs continent")
-plt.show()
+```{python}
+one = gapminder.sample(30, random_state=1)["life_exp"]
+se = one.std() / np.sqrt(len(one))
+print(round(one.mean(), 1), round(se, 1))
 ```
 
-- What does the y-axis start at, and why does that matter for bars?
-- What order are the categories in?
-- What are the units?
-- What does the title tell a reader that the axes do not?
-- Is a mean the right summary here?
+Four times as much data halves the standard error.
 
-::: {#timer3 .timer seconds="660" starton="interaction"}
-:::
+## Confidence Intervals and p-values
 
-## One Fixed Version
+```{python}
+low = one.mean() - 1.96 * se
+high = one.mean() + 1.96 * se
+print(round(low, 1), "to", round(high, 1))
+```
+
+- **95% confidence interval**: the estimate ± 1.96 standard errors. Of all intervals built
+  this way, 95% contain the true value. This one does: 59.5
+- **p-value**: if the true value were 0, how often would chance alone give an estimate at
+  least this far from 0? Below 0.05, by convention, it is called *statistically significant*
+- A p-value is **not** the probability that a result is true, and *significant* does not
+  mean large or important
+
+# 3. Correlation
+
+## Correlation
 
 ```{python}
 #| echo: false
-med = g2007.groupby("continent")["gdp_per_cap"].median().sort_values(ascending=False)
-
-fig, ax = plt.subplots(figsize=(8, 3.2))
-sns.barplot(x=med.values, y=med.index, ax=ax)
-ax.set_xlabel("Median GDP per capita in 2007 (US$)")
-ax.set_ylabel("")
-ax.set_title("Europe's median country is 19 times richer than Africa's",
-             loc="left", fontsize=12)
+rng = np.random.default_rng(1118)
+fig, axes = plt.subplots(1, 4, figsize=(9, 1.5))
+for ax, r in zip(axes, [-0.8, 0, 0.5, 0.95]):
+    x = rng.normal(size=150)
+    y = r * x + np.sqrt(1 - r ** 2) * rng.normal(size=150)
+    ax.scatter(x, y, s=6)
+    ax.set_title(f"r = {np.corrcoef(x, y)[0, 1]:.2f}", fontsize=10)
+    ax.set_xticks([])
+    ax.set_yticks([])
+fig.tight_layout()
 plt.show()
 ```
 
-::: {.small-font}
-Bars from zero, sorted by value, horizontal labels, units on the axis, a title that states the finding, and the median rather than the mean because Kuwait and Norway drag their continents' means upward.
+```{python}
+g2007[["life_exp", "gdp_per_cap", "pop"]].corr().round(2)
+```
+
+`r` runs from −1 to +1 and measures how close the points are to **a straight line**. It has
+no units, and is the same in both directions; each column with itself gives 1.
+
+## Correlation Only Sees Straight Lines
+
+```{python}
+g2007["log_gdp"] = np.log(g2007["gdp_per_cap"])
+print(round(g2007["gdp_per_cap"].corr(g2007["life_exp"]), 2),
+      round(g2007["log_gdp"].corr(g2007["life_exp"]), 2))
+```
+
+```{python}
+#| echo: false
+fig, axes = plt.subplots(1, 2, figsize=(9, 2.0))
+axes[0].scatter(g2007["gdp_per_cap"], g2007["life_exp"], s=12)
+axes[0].set_xlabel("gdp_per_cap")
+axes[1].scatter(g2007["log_gdp"], g2007["life_exp"], s=12)
+axes[1].set_xlabel("log_gdp")
+axes[0].set_ylabel("life_exp")
+fig.tight_layout()
+plt.show()
+```
+
+`np.log()` turns doublings into equal steps, as the log axis did in lecture 8. Same
+countries, same relationship, only its shape changed: r went from 0.68 to 0.81.
+
+## Correlation Is Not Causation
+
+::: {.callout-important}
+A correlation, or a regression, finds an **association**. Richer countries also have more
+doctors, cleaner water and more schooling: income stands in for all of them.
 :::
 
-## Your Turn: One Good Chart {background="#43464B"}
+- You may write: *"in 2007, countries with higher incomes had longer life expectancies"*
+- You may not write: *"raising income raises life expectancy"*
+- r near 0 does not mean no relationship, only no **straight-line** one: a U-shape can give
+  r = 0. Plot first, as Anscombe showed in lecture 8
 
-Make **one** chart from your own project dataset, ready to appear in your report:
+## Your Turn: Correlation and Shape {background="#43464B"}
 
-1. Choose the question it answers before you write any code
-2. Label both axes with units
-3. Give it a title that states the finding
-4. Highlight or annotate the one thing you want noticed
-5. Save it to `output/figures/` at 300 dpi
-
-Then show it to your neighbour and ask them what it says. If they get it wrong, the chart is wrong.
-
-::: {#timer4 .timer seconds="840" starton="interaction"}
+:::: {layout="[3,2]"}
+::: {#first-column}
+1. In 2007, the correlation between `life_exp` and `pop`. Then plot it, `pop` on a log
+   x-axis: does the picture agree with the number?
+2. In **1952**, the correlation of `life_exp` with `gdp_per_cap`, then with its log
+   (`np.log`). Was income as strongly related then?
 :::
 
-## What We Have Seen
+::: {#second-column}
+You should see:
 
-- Always plot the data: Anscombe
-- `fig, ax = plt.subplots()`, and axes methods for the details
-- seaborn: `data=`, `x=`, `y=`, `hue=`, column names as strings
-- Histogram, KDE, box, bar, scatter, line, small multiples
-- Log scales for skewed variables
-- Labels, findings as titles, annotation, colourblind palettes
-- `savefig(dpi=300, bbox_inches="tight")`
+```
+0.05
+0.28
+0.75
+```
 
-## Before Next Week
+::: {#timer2 .timer seconds="420" starton="interaction"}
+:::
+:::
+::::
 
-1. **Assessment 4 opens**: three charts with a written interpretation of each
-2. Reread the log-scale scatter slide. Next week we fit a line to it.
-3. Bring your cleaned dataset and your best chart to the final lecture.
+## Solution
 
-## References
+:::: {.code-columns}
+::: {#first-column}
+```{python}
+life = g2007["life_exp"]
+pop = g2007["pop"]
+print(round(pop.corr(life), 2))
+fig, ax = plt.subplots(figsize=(4, 1.7))
+ax.scatter(pop, life, s=12)
+ax.set(xscale="log", xlabel="pop")
+plt.show()
+```
+:::
 
-- [seaborn: official tutorial](https://seaborn.pydata.org/tutorial.html) and [example gallery](https://seaborn.pydata.org/examples/)
-- Claus Wilke, [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/), free online
-- Cole Nussbaumer Knaflic, *Storytelling with Data*
-- [From Data to Viz](https://www.data-to-viz.com/), choosing the right chart
+::: {#second-column}
+```{python}
+is_1952 = gapminder["year"] == 1952
+g1952 = gapminder[is_1952]
+gdp52 = g1952["gdp_per_cap"]
+life52 = g1952["life_exp"]
+log52 = np.log(gdp52)
+print(round(gdp52.corr(life52), 2))
+print(round(log52.corr(life52), 2))
+```
+:::
+::::
+
+`pop`: a shapeless cloud. 1952: curved, so 0.28 raw but 0.75 log.
+
+# 4. Linear Regression
+
+## The Line of Best Fit
+
+**life_exp = intercept + slope × log_gdp + residual**
+
+```{python}
+#| echo: false
+mini = g2007.sample(25, random_state=7)
+fit_mini = smf.ols("life_exp ~ log_gdp", data=mini).fit()
+line_x = np.array([mini["log_gdp"].min(), mini["log_gdp"].max()])
+fig, ax = plt.subplots(figsize=(8, 1.8))
+ax.vlines(mini["log_gdp"], mini["life_exp"], fit_mini.fittedvalues, color="#999999", linewidth=1)
+ax.scatter(mini["log_gdp"], mini["life_exp"], zorder=3)
+ax.plot(line_x, fit_mini.params["Intercept"] + fit_mini.params["log_gdp"] * line_x,
+        color="#C44E52")
+ax.set(xlabel="log_gdp", ylabel="life_exp")
+ax.set_title("25 countries: each grey line is one residual", loc="left", fontsize=10)
+plt.show()
+```
+
+- **Slope**: the change in life expectancy per unit of `log_gdp`. **Intercept**: the
+  prediction when `log_gdp` is 0. **Residual**: actual minus predicted
+- **Ordinary least squares (OLS)** picks the line with the smallest sum of squared residuals
+
+## Fitting a Model
+
+```{python}
+import statsmodels.formula.api as smf
+
+model = smf.ols("life_exp ~ log_gdp", data=g2007).fit()
+model.params
+```
+
+- `"life_exp ~ log_gdp"` reads *"life_exp explained by log_gdp"*: the outcome goes on the
+  left of `~`, the predictors on the right
+- `smf.ols()` sets the model up, `.fit()` estimates it, and `.params` holds the intercept
+  and the slope
+- More predictors are added with `+`: `"life_exp ~ log_gdp + pop"`
+
+## Reading the Coefficients
+
+```{python}
+print(round(model.params["log_gdp"] * np.log(2), 1), "years per doubling of income")
+```
+
+- **Slope, 7.2**: one more unit of log GDP goes with 7.2 more years of life expectancy.
+  One unit of log means income × 2.7, so more usefully: **each doubling of income goes with
+  5.0 more years**
+- **Intercept, 4.9**: the prediction for log GDP of 0, an income of \$1 a year. That is far
+  outside the data: do not interpret it
+- Write *"is associated with"*, never *"causes"*
+
+## Reading the Rest of the Table
+
+```{python}
+print(model.summary().tables[1])
+```
+
+- `std err`: each estimate's standard error, as in section 2
+- `[0.025  0.975]`: the 95% confidence interval. Slopes from 6.3 to 8.1 are compatible
+  with the data
+- `P>|t|`: the p-value against a true value of 0. The slope's `0.000`, below 0.0005: if the
+  true slope were 0, chance would almost never give one this far from it. The intercept's
+  0.202: compatible with 0
+
+## How Well Does It Fit?
+
+```{python}
+print(round(model.rsquared, 2))
+print(round(np.sqrt(model.scale), 1))
+```
+
+- **R² = 0.65**: the model accounts for 65% of the variation in life expectancy between
+  countries. The other 35% is how far countries sit above or below what their income predicts
+- **Residual standard error, 7.1 years**: most countries are within about 7 years of the
+  line, a few much further
+
+::: {.callout-warning}
+A high R² does not make a model right, nor a low one useless: judge it by what it is for.
+:::
+
+## A Categorical Predictor
+
+```{python}
+model2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=g2007).fit()
+print(model2.params.round(2))
+print(round(model2.rsquared, 2))
+```
+
+- `C()` adds a 0/1 column per continent but the first alphabetically, Africa: the
+  **reference**. Each coefficient is a difference from Africa
+- **At the same income**, life expectancy is 11.3 years higher in Europe than in Africa, on
+  average; the income slope falls from 7.2 to 4.6
+
+## Your Turn: Fit a Model {background="#43464B"}
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+On `g1952`, the 1952 countries, with a `log_gdp` column added:
+
+1. Fit `life_exp ~ log_gdp`. Slope, years per doubling of income, and R²?
+2. Compared with 2007, was a doubling of income associated with more or fewer years?
+3. Add `C(continent)`: how much does R² rise?
+:::
+
+::: {#second-column}
+You should see:
+
+```
+8.83 6.1 0.56
+0.74
+```
+
+::: {#timer3 .timer seconds="480" starton="interaction"}
+:::
+:::
+::::
+
+## Solution
+
+```{python}
+g1952["log_gdp"] = np.log(g1952["gdp_per_cap"])
+fit52 = smf.ols("life_exp ~ log_gdp", data=g1952).fit()
+per_doubling = fit52.params["log_gdp"] * np.log(2)
+print(round(fit52.params["log_gdp"], 2), round(per_doubling, 1), round(fit52.rsquared, 2))
+
+fit52c = smf.ols("life_exp ~ log_gdp + C(continent)", data=g1952).fit()
+print(round(fit52c.rsquared, 2))
+```
+
+- In 1952 a doubling of income went with 6.1 more years, against 5.0 in 2007: a steeper
+  slope, but a looser fit (R² 0.56 against 0.65)
+- Continent lifts R² from 0.56 to 0.74, more than in 2007 (0.65 to 0.77)
+
+# 5. Prediction
+
+## Explanation vs Prediction
+
+- **Explanation**: what is the slope, and how sure are we? Fitted on all the data, judged by
+  its standard errors. That was section 4
+- **Prediction**: for a country the model has never seen, how wrong will the guess be?
+- On average, a model fits its own data better than new data: judging it there is
+  **marking your own homework**
+- So: fit on some countries, **test** on the others, and look at the test set once
+
+This is the idea every machine learning model, from a regression to a neural network, is
+evaluated on.
+
+## Train and Test
+
+```{python}
+train = g2007.sample(frac=0.75, random_state=1118)
+test = g2007.drop(train.index)
+print(len(train), "countries to fit the model,", len(test), "to test it")
+```
+
+- `sample(frac=0.75)` draws 75% of the rows at random; `drop(train.index)` keeps the rest
+- `random_state` makes the split repeatable: the same countries every time
+- The test countries take no part in fitting: for the model, they are new
+
+## Predict and Measure the Error
+
+```{python}
+fit = smf.ols("life_exp ~ log_gdp", data=train).fit()
+predicted = fit.predict(test)
+errors = test["life_exp"] - predicted
+rmse = np.sqrt((errors ** 2).mean())
+mae = errors.abs().mean()
+print("RMSE", round(rmse, 1), "years; MAE", round(mae, 1), "years")
+```
+
+- **RMSE**: square the errors, average them, take the root: the **r**oot **m**ean
+  **s**quared **e**rror. Big misses weigh more
+- **MAE**: the mean absolute error, the average miss. The easiest to explain
+- Both in **years**, on 36 countries the model never saw. On its own 106 training countries
+  the RMSE is 6.7: on average, a model looks better on the data it was fitted on
+
+## Predicting for New Data
+
+```{python}
+new = pd.DataFrame({"gdp_per_cap": [2000, 10000, 45000]})
+new["log_gdp"] = np.log(new["gdp_per_cap"])
+new["predicted_life_exp"] = fit.predict(new).round(1)
+new
+```
+
+::: {.callout-warning}
+Never predict outside the range of the data. Incomes in 2007 run from \$278 to \$49,357: for
+\$500,000, the same line predicts 100.5 years. It has never seen such a country, and neither
+have you.
+:::
+
+## Overfitting
+
+```{python}
+#| echo: false
+tr = g2007.sample(12, random_state=7)
+te = g2007.drop(tr.index)
+grid = np.linspace(tr["log_gdp"].min(), tr["log_gdp"].max(), 300)
+fig, axes = plt.subplots(1, 2, figsize=(9, 2.3), sharey=True)
+for ax, degree, name in zip(axes, [1, 8], ["Straight line", "Degree-8 curve"]):
+    coef = np.polyfit(tr["log_gdp"], tr["life_exp"], degree)
+    err_tr = np.sqrt(((tr["life_exp"] - np.polyval(coef, tr["log_gdp"])) ** 2).mean())
+    err_te = np.sqrt(((te["life_exp"] - np.polyval(coef, te["log_gdp"])) ** 2).mean())
+    ax.scatter(te["log_gdp"], te["life_exp"], s=10, color="#cccccc", label="test countries")
+    ax.scatter(tr["log_gdp"], tr["life_exp"], s=28, color="#23373b", label="12 training countries")
+    ax.plot(grid, np.polyval(coef, grid), color="#C44E52")
+    ax.set_ylim(30, 90)
+    ax.set_xlabel("log_gdp")
+    ax.set_title(f"{name}: training RMSE {err_tr:.1f}, test RMSE {err_te:.1f}", fontsize=10)
+axes[0].legend(fontsize=8, loc="lower right")
+fig.tight_layout()
+plt.show()
+```
+
+A straight line has two numbers to estimate and barely overfits. The degree-8 curve has nine:
+it learns the **noise** of its 12 points, so its training error falls while its test error
+more than doubles. Use the test set once, at the end, or you start fitting to it too.
+
+## The Same Pattern in scikit-learn
+
+```{python}
+from sklearn.linear_model import LinearRegression
+model_sk = LinearRegression()
+model_sk.fit(train[["log_gdp"]], train["life_exp"])
+print(round(model_sk.intercept_, 2), model_sk.coef_.round(2))
+print(fit.params.round(2).tolist())
+```
+
+- Same split, same line. `X` is a DataFrame, hence two brackets; `y` is a Series
+- Choose a model, `.fit()`, `.predict()`: the same three steps for decision trees, random
+  forests and neural networks
+- scikit-learn has no summary table: it is built for prediction, not explanation
+
+## What You Can and Cannot Write
+
+> In 2007, across 142 countries, each doubling of GDP per capita was associated with about
+> 5 more years of life expectancy (95% CI 4.4 to 5.6), and income accounted for 65% of the
+> variation. On 36 countries held out from fitting, predictions missed by 5.7 years on
+> average.
+
+- Numbers in real units, with their uncertainty and their scope
+- No cause: "associated with", not "raises"
+- No extrapolation: nothing about incomes outside \$278 to \$49,357
+
+## Your Turn: Predict {background="#43464B"}
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+With the same `train` and `test`:
+
+1. Fit `life_exp ~ log_gdp + C(continent)` on `train`
+2. Predict `test`: RMSE and MAE?
+3. Does knowing the continent improve the predictions, and by how much?
+4. Predict the life expectancy of an Asian country with a GDP per capita of \$5,000
+:::
+
+::: {#second-column}
+You should see:
+
+```
+RMSE 6.0, MAE 4.0
+69.7
+```
+
+::: {#timer4 .timer seconds="540" starton="interaction"}
+:::
+:::
+::::
+
+## Solution
+
+```{python}
+fit2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=train).fit()
+errors2 = test["life_exp"] - fit2.predict(test)
+rmse2 = np.sqrt((errors2 ** 2).mean())
+mae2 = errors2.abs().mean()
+print(f"RMSE {rmse2:.1f}, MAE {mae2:.1f}")
+
+asia = pd.DataFrame({"log_gdp": [np.log(5000)], "continent": ["Asia"]})
+print(fit2.predict(asia).round(1).tolist())
+```
+
+The continent cuts the typical miss from 8.0 to 6.0 years (RMSE), and the average miss from
+5.7 to 4.0. A test country's continent must also appear in `train`, or `predict()` stops
+with an error.
+
+## Test 2: Thursday 26 November
+
+- In class, **one hour**, multiple choice, like Test 1
+- It covers **lectures 7, 8 and 9**: pandas, matplotlib, statistics and regression
+- The best revision: redo every Your Turn from these three lectures without the solution,
+  then check
+- On the answer sheet, **cross** the boxes of your student number, do not only write the
+  digits, and **cross** your answers rather than shading them
 
 ## {background="#43464B"}
 
@@ -617,12 +647,21 @@ Then show it to your neighbour and ask them what it says. If they get it wrong, 
 <style>img.circle {border-radius:50%;}</style>
 ```
 
-::: {layout-ncol="2"}
+:::: {layout="[1,1]"}
+::: {#first-column}
 <img class="circle" src="https://github.com/damien-dupre.png" />
 
+
+:::
+::: {#second-column}
 **Thanks for your attention and don't hesitate to ask if you have any questions!**
+
 [{{< fa brands mastodon >}} @damien_dupre](https://datasci.social/@damien_dupre)
+
 [{{< fa brands github >}} @damien-dupre](https://github.com/damien-dupre)
+
 [{{< fa link >}} https://damien-dupre.github.io](https://damien-dupre.github.io)
+
 [{{< fa paper-plane >}} damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)
 :::
+::::

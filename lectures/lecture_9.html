@@ -394,7 +394,7 @@ True
 </section>
 <section id="solution-1" class="slide level2 smaller">
 <h2>Solution</h2>
-<div id="2411beea" class="cell" data-execution_count="2">
+<div id="5f1f7a82" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb12-2"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
 <span id="cb12-3"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
@@ -519,7 +519,7 @@ True
 </section>
 <section id="solution-2" class="slide level2 smaller">
 <h2>Solution</h2>
-<div id="b3427beb" class="cell" data-execution_count="4">
+<div id="7a311934" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb15-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb15-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
@@ -604,7 +604,7 @@ True
 </section>
 <section id="solution-3" class="slide level2 smaller">
 <h2>Solution</h2>
-<div id="c442eb5a" class="cell" data-execution_count="5">
+<div id="4c0ea18d" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb18-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb18-3"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -636,7 +636,7 @@ dtype: float64</code></pre>
 </section>
 <section id="one-analysis-three-lectures" class="slide level2">
 <h2>One Analysis, Three Lectures</h2>
-<div id="43999fe3" class="cell" data-execution_count="6">
+<div id="51d017bf" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -703,7 +703,7 @@ dtype: float64</code></pre>
 <section id="one-question-three-lectures-pandas" class="slide level2">
 <h2>One Question, Three Lectures: pandas</h2>
 <p><strong>Did the countries that lived longest in 1952 still live longest in 2007?</strong></p>
-<div id="658a1e61" class="cell" data-execution_count="7">
+<div id="cf276cbe" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
 <span id="cb20-2"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)                                             <span class="co"># read</span></span>
 <span id="cb20-3"><a href=""></a>y1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]                             <span class="co"># filter</span></span>
@@ -723,7 +723,7 @@ dtype: float64</code></pre>
 </section>
 <section id="one-question-three-lectures-matplotlib" class="slide level2">
 <h2>One Question, Three Lectures: matplotlib</h2>
-<div id="4c21f90a" class="cell" data-execution_count="8">
+<div id="08556210" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a>fell <span class="op">=</span> both[both[<span class="st">"gain"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]</span>
 <span id="cb22-2"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.45</span>))</span>
 <span id="cb22-3"><a href=""></a>ax.scatter(both[<span class="st">"life_1952"</span>], both[<span class="st">"life_2007"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
@@ -744,7 +744,7 @@ dtype: float64</code></pre>
 </section>
 <section id="one-question-three-lectures-statsmodels" class="slide level2">
 <h2>One Question, Three Lectures: statsmodels</h2>
-<div id="3a84a4d1" class="cell" data-execution_count="9">
+<div id="dff0c4f8" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"life_2007 ~ life_1952"</span>, data<span class="op">=</span>both).fit()</span>
 <span id="cb23-2"><a href=""></a><span class="bu">print</span>(model.summary().tables[<span class="dv">1</span>])</span>
 <span id="cb23-3"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.rsquared, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -796,7 +796,7 @@ life_1952      0.7668      0.053     14.580      0.000       0.663       0.871
 </section>
 <section id="solution-4" class="slide level2 smaller">
 <h2>Solution</h2>
-<div id="8b2cfaf6" class="cell" data-execution_count="11">
+<div id="1fc8a202" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb26-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb26-3"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -880,8 +880,24 @@ dtype: float64</code></pre>
 <h1>4. What to Do With a Notebook</h1>
 
 </section>
-<section id="a-notebook-is-a-file" class="slide level2">
-<h2>A Notebook Is a File</h2>
+<section id="a-notebooks-life-at-work" class="slide level2">
+<h2>A Notebook’s Life at Work</h2>
+<div id="10ee0056" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lecture_9_files/figure-revealjs/cell-13-output-1.png" width="942" height="242"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>At work, others read your notebook: a colleague, a manager, an auditor, or you in six months</li>
+<li>So analysts take the same three steps every time, before anyone else sees their work</li>
+</ul>
+</section>
+<section id="work-cells-and-the-kernel" class="slide level2">
+<h2>Work: Cells and the Kernel</h2>
 <style>
 .nb-bar {display: flex; gap: 1.1em; align-items: center; background: #1f1f1f; color: #d4d4d4;
   font-size: 0.62em; padding: 0.45em 0.9em; border-radius: 8px; margin: 0.3em 0 0.9em 0;}
@@ -892,59 +908,13 @@ dtype: float64</code></pre>
 <div class="nb-bar"><span>+ Code</span><span>+ Markdown</span><span class="sep"></span>
 <span>▷ Run All</span><span>↻ Restart</span><span>Clear All Outputs</span>
 <span class="kernel">Python 3.14.10</span></div>
-<ul>
-<li>A <code>.ipynb</code> file holds <strong>cells</strong>, code or Markdown text, and the <strong>output</strong> of each code cell, saved with it: it opens in VS Code, Colab or Jupyter</li>
-<li>The toolbar, above the first cell: <code>+ Code</code> and <code>+ Markdown</code> add a cell; <strong>Run All</strong> runs every cell, from the top; <strong>Restart</strong> empties the kernel’s memory</li>
-<li>The <strong>kernel</strong>, at the top right, is the Python that runs the cells: on your laptop, the one you use in the tutorials. Wrong kernel? <code>ModuleNotFoundError</code></li>
-</ul>
-</section>
-<section id="run-the-cells-in-order" class="slide level2">
-<h2>Run the Cells in Order</h2>
-<ul>
-<li>Once run, a code cell shows a number, <code>[1]</code>, <code>[2]</code>: the order in which the cells ran</li>
-<li>The kernel <strong>remembers every name</strong> a cell creates, until it restarts. A cell can only use a name that a cell already run has created:</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href=""></a><span class="co"># the cell above: it creates both, but it has not run yet</span></span>
-<span id="cb28-2"><a href=""></a>both <span class="op">=</span> y1952.merge(y2007, on<span class="op">=</span><span class="st">"country"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a><span class="co"># the cell below, run first</span></span>
-<span id="cb29-2"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(both))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<pre><code>NameError: name 'both' is not defined</code></pre>
-<ul>
-<li>Editing a cell changes nothing until it runs again, with <kbd>Shift</kbd>+<kbd>Enter</kbd></li>
-</ul>
-</section>
-<section id="restart-then-run-all" class="slide level2">
-<h2>Restart, Then Run All</h2>
-<ul>
-<li>The kernel also remembers the names made by cells you have since <strong>changed or deleted</strong>: a notebook can work for you, and fail for anyone who opens it</li>
-<li>The check: <strong>Restart</strong>, which empties the kernel’s memory, then <strong>Run All</strong>, from the top. If a cell stops with an error, fix that one, then check again</li>
-<li>Do it before you hand in or share a notebook, then save it: <kbd>Ctrl</kbd>+<kbd>S</kbd>, or <kbd>Cmd</kbd>+<kbd>S</kbd> on a Mac. A dot on the notebook’s tab means unsaved changes</li>
-</ul>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Note</strong></p>
-</div>
-<div class="callout-content">
-<p>A notebook that runs from top to bottom after a restart is a notebook anyone can run: the marker, a colleague, or you in six months.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="text-cells-and-shortcuts" class="slide level2">
-<h2>Text Cells and Shortcuts</h2>
 <div class="quarto-layout-panel" data-layout="[1,1]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
-<p><strong>Markdown cells</strong> hold text:</p>
 <ul>
-<li><code>+ Markdown</code>, or <kbd>Esc</kbd> then <kbd>M</kbd></li>
-<li>Double-click to edit, <kbd>Shift</kbd>+<kbd>Enter</kbd> to show</li>
-<li><code># A heading</code>, <code>**bold**</code>, <code>- a list</code></li>
-<li>In the tests, written answers go in the cells marked <em>Your answer</em></li>
+<li><strong>Code cells</strong> and <strong>Markdown cells</strong>: each code cell’s <strong>output</strong> is saved in the <code>.ipynb</code></li>
+<li>The <strong>kernel</strong>, at the top right, runs the cells: <strong>Python 3.14</strong>, as in the tutorials</li>
+<li>It <strong>remembers every name</strong> a cell creates, until it restarts. <code>[1]</code>, <code>[2]</code>: the order in which the cells ran</li>
 </ul>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
@@ -993,17 +963,121 @@ dtype: float64</code></pre>
 </div>
 </div>
 </section>
-<section id="from-loop-to-vs-code-and-back" class="slide level2 smaller">
-<h2>From Loop to VS Code, and Back</h2>
+<section id="work-write-for-a-reader" class="slide level2">
+<h2>Work: Write for a Reader</h2>
+<p>At work, the first cell answers the question, for a reader who reads nothing else:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href=""></a><span class="fu"># Life expectancy, 1952 to 2007</span></span>
+<span id="cb28-2"><a href=""></a></span>
+<span id="cb28-3"><a href=""></a><span class="ss">- </span>**Question:** did the countries that lived longest in 1952 still live longest in 2007?</span>
+<span id="cb28-4"><a href=""></a><span class="ss">- </span>**Data:** gapminder, 142 countries, in 1952 and in 2007</span>
+<span id="cb28-5"><a href=""></a><span class="ss">- </span>**Finding:** yes: each extra year in 1952 was associated with 0.77 more years in 2007</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Then a Markdown cell before each step: what it does, and why, in one sentence</li>
+<li>Charts with a title that states the finding, and numbers with their units</li>
+<li><code>+ Markdown</code>, or <kbd>Esc</kbd> then <kbd>M</kbd>; double-click to edit, <kbd>Shift</kbd>+<kbd>Enter</kbd> to show. In the tests, written answers go in the cells marked <em>Your answer</em></li>
+</ul>
+</section>
+<section id="check-restart-then-run-all" class="slide level2">
+<h2>Check: Restart, Then Run All</h2>
+<ul>
+<li>The kernel remembers names from cells you have since changed, deleted or run out of order: a notebook can work for you, and fail for everyone else</li>
+<li><strong>Restart</strong>, which empties the kernel’s memory, then <strong>Run All</strong>: every result now comes from the code above it. A cell stops? Fix it, then check again</li>
+<li><strong>Relative paths</strong> only: <code>data/...</code>, never <code>/Users/aoife/...</code></li>
+<li><strong>Nothing private</strong>: outputs are saved in the file, so the <code>.head()</code> of a customer table travels with it. No passwords, and no personal data you may not share</li>
+<li>Then save: <kbd>Ctrl</kbd>+<kbd>S</kbd>, or <kbd>Cmd</kbd>+<kbd>S</kbd> on a Mac</li>
+</ul>
+</section>
+<section id="share-one-notebook-several-readers" class="slide level2">
+<h2>Share: One Notebook, Several Readers</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Reader</th>
+<th style="text-align: left;">Send them</th>
+<th style="text-align: left;">How</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">a colleague who codes</td>
+<td style="text-align: left;">the notebook and its <code>data</code> folder</td>
+<td style="text-align: left;">a zip, or the team’s Git repository</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a manager or a client</td>
+<td style="text-align: left;">the results, not the code</td>
+<td style="text-align: left;">an HTML report, or a PDF printed from it</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">the same report every week</td>
+<td style="text-align: left;">a scheduled notebook</td>
+<td style="text-align: left;">re-run on new data, as Netflix and Meta do</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">numbers to watch every day</td>
+<td style="text-align: left;">a dashboard</td>
+<td style="text-align: left;">Power BI or Tableau, on the same data</td>
+</tr>
+</tbody>
+</table>
+<p>Ask who will read it before you choose: <strong>the format follows the reader</strong>.</p>
+</section>
+<section id="share-export-to-html" class="slide level2">
+<h2>Share: Export to HTML</h2>
+<ol type="1">
+<li><strong>Once only</strong>: run <code>%pip install nbconvert</code> in a cell, then delete the cell</li>
+<li><strong>Restart</strong>, then <strong>Run All</strong>, then save</li>
+<li>In the toolbar: <code>...</code>, then <strong>Export</strong>, then <strong>HTML</strong>. Save it beside the notebook</li>
+<li><strong>Open the <code>.html</code> in any browser</strong>: text, code, tables and charts in one file, no Python needed</li>
+</ol>
+<ul>
+<li>A PDF? Print the HTML from your browser</li>
+<li>Without the code, as reports for managers often are, in a terminal:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href=""></a><span class="ex">jupyter</span> nbconvert <span class="at">--to</span> html <span class="at">--no-input</span> lecture_9.ipynb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="your-turn-from-notebook-to-report" class="slide level2" data-background="#43464B">
+<h2>Your Turn: From Notebook to Report</h2>
+<ol type="1">
+<li>In <code>lecture_9.ipynb</code>, add a Markdown cell at the very top (<kbd>Esc</kbd>, <kbd>A</kbd>, then <kbd>M</kbd>): a title, then the question, data and finding of one exercise</li>
+<li>Click <strong>Restart</strong>, then <strong>Run All</strong>. A cell stops? Fix it, perhaps a <code>____</code> left blank</li>
+<li>Once only: run <code>%pip install nbconvert</code> in a new cell, then delete that cell and save</li>
+<li><code>...</code>, then <strong>Export</strong>, then <strong>HTML</strong>, and open <code>lecture_9.html</code> in your browser</li>
+</ol>
+<div class="quarto-layout-panel" data-layout="[3,2]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
+<p>You should see your summary first, then the code, tables and charts: a report anyone can open, without Python.</p>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
+                    <div id="timer6"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            initializeTimer("timer6", 300, "interaction");
+                        });
+                    </script>
+                
+</div>
+</div>
+</div>
+</section>
+<section id="hand-in-from-loop-to-vs-code-and-back" class="slide level2 smaller">
+<h2>Hand In: From Loop to VS Code, and Back</h2>
 <p>The mock test and Test 2 each come as a zip: a notebook and its <code>data</code> folder.</p>
 <ol type="1">
 <li><strong>Unzip</strong> it: on Windows, right-click, then <em>Extract All</em>; on a Mac, double-click it. A notebook opened from inside the zip has no <code>data</code> folder beside it</li>
 <li><strong>Move</strong> the unzipped folder into <code>BAA1118</code>, notebook and <code>data</code> together. On a DCU computer, leave it where it is</li>
-<li>In VS Code, open <code>BAA1118</code> (on a DCU computer, the unzipped folder), then the notebook. Select the kernel you use in the tutorials, or on a DCU computer the Python that VS Code offers</li>
+<li>In VS Code, open <code>BAA1118</code> (on a DCU computer, the unzipped folder), then the notebook. Select the kernel that shows <strong>Python 3.14</strong>, or on a DCU computer the Python that VS Code offers</li>
 <li><strong>Run the first cell</strong>: <code>Ready. Data found: True</code>. <code>False</code>? See section 1, on paths</li>
 <li>Work in order: code in the empty cells, sentences in the <em>Your answer</em> cells</li>
 <li><strong>Save</strong>, then <strong>upload the <code>.ipynb</code> file</strong> to Loop: the notebook only, not the data</li>
 </ol>
+<p>Here the reader is the marker, who reads your code: so you hand in the notebook itself.</p>
 </section>
 <section id="your-turn-the-mock-test-drill" class="slide level2" data-background="#43464B">
 <h2>Your Turn: The Mock Test Drill</h2>
@@ -1019,10 +1093,10 @@ dtype: float64</code></pre>
 <p>You should see <code>Ready. Data found: True</code>, then a path that ends with <code>BAA1118_test2_mock</code>.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-                    <div id="timer6"></div>
+                    <div id="timer7"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer6", 300, "interaction");
+                            initializeTimer("timer7", 300, "interaction");
                         });
                     </script>
                 
@@ -1041,11 +1115,12 @@ dtype: float64</code></pre>
 <section id="references" class="slide level2">
 <h2>References</h2>
 <ul>
-<li><a href="https://code.visualstudio.com/docs/datascience/jupyter-notebooks">Jupyter Notebooks in VS Code</a>: VS Code’s own guide to cells, kernels and Run All</li>
+<li><a href="https://code.visualstudio.com/docs/datascience/jupyter-notebooks">Jupyter Notebooks in VS Code</a>: VS Code’s own guide to cells, kernels, Run All and Export</li>
+<li><a href="https://nbconvert.readthedocs.io/en/latest/">nbconvert</a>: turns a notebook into HTML, PDF or a script, with or without the code</li>
+<li>Notebooks run on a schedule, as reports: at <a href="https://netflixtechblog.com/notebook-innovation-591ee3221233">Netflix</a> and at <a href="https://engineering.fb.com/2023/08/29/security/scheduling-jupyter-notebooks-meta/">Meta</a></li>
 <li><a href="https://docs.python.org/3/library/os.path.html">os.path</a>: Python’s functions for paths, <code>exists()</code> among them</li>
-<li><a href="https://swcarpentry.github.io/shell-novice/02-filedir">Navigating Files and Directories</a>: Software Carpentry’s lesson on absolute and relative paths, and <code>..</code>, from a terminal</li>
+<li><a href="https://swcarpentry.github.io/shell-novice/02-filedir">Navigating Files and Directories</a>: absolute and relative paths, and <code>..</code>, by Software Carpentry</li>
 <li><a href="https://r4ds.hadley.nz/whole-game">R for Data Science, Whole game</a>: the same road, from import to communication, in R</li>
-<li>The References of lectures 6, 7 and 8, one library each</li>
 </ul>
 </section>
 <section id="section" class="slide level2" data-background="#43464B">

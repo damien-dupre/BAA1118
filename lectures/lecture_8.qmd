@@ -66,6 +66,52 @@ g2007 = gapminder[gapminder["year"] == 2007]
 The table from lecture 6. Most of this lecture uses
 `g2007`, the 142 countries of 2007.
 
+## Your Turn: Get Set Up {.smaller background="#43464B"}
+
+1. In VS Code, open your `BAA1118` folder, then `File -> New File... -> Jupyter Notebook`
+2. At the top right, click **Select Kernel**, then **Python Environments...**, then `.venv`
+3. In the first cell, run `%pip install numpy pandas matplotlib statsmodels scikit-learn`.
+   When it has finished, click **Restart**
+4. In a second cell, run:
+
+```{.python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
+import sklearn
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+print(g2007.shape)
+```
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+You should see `.venv` at the top right, then `(142, 6)`. Save the notebook in `BAA1118`
+as `lecture_8.ipynb`. Done? Help your neighbour.
+:::
+
+::: {#second-column}
+::: {#timer1 .timer seconds="600" starton="interaction"}
+:::
+:::
+::::
+
+## When It Does Not Work {.smaller}
+
+| What you see | What to do |
+|:----------------|:------------------------|
+| No **Jupyter Notebook** in `New File...` | Install the **Python** and **Jupyter** extensions: tutorial 5, step 2 |
+| No `.venv` in the kernel list | Open the `BAA1118` folder itself. Still none? Create it as in tutorial 5, step 4 |
+| VS Code asks to install `ipykernel` | Click **Install** |
+| `ModuleNotFoundError` | Select `.venv`, run the `%pip` cell again, then click **Restart** |
+| `CERTIFICATE_VERIFY_FAILED`, on a Mac | In Applications, open the Python 3.14 folder and double-click **Install Certificates.command**. Then run the cell again |
+| A network error in the `%pip` cell | Run the cell again |
+| No Python or VS Code on your laptop | Follow today in Colab, where these packages are already installed. Then set up with tutorial 5, on Loop |
+
+Test 2, on 26 November, runs in a VS Code notebook: fix your setup now, not on the day.
+
 # 1. Correlation
 
 ## Is a Richer Country a Healthier One?
@@ -170,7 +216,7 @@ expectancy? A straight line, or a curve?
 :::
 
 ::: {#second-column}
-::: {#timer1 .timer seconds="300" starton="interaction"}
+::: {#timer2 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -313,7 +359,7 @@ You should see `8.83`, then `4.77`.
 :::
 
 ::: {#second-column}
-::: {#timer2 .timer seconds="300" starton="interaction"}
+::: {#timer3 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -415,7 +461,7 @@ share of the variation does income account for?
 :::
 
 ::: {#second-column}
-::: {#timer3 .timer seconds="300" starton="interaction"}
+::: {#timer4 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -654,7 +700,7 @@ improve the predictions?
 :::
 
 ::: {#second-column}
-::: {#timer4 .timer seconds="300" starton="interaction"}
+::: {#timer5 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::

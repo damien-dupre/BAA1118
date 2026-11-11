@@ -599,7 +599,43 @@ Read an error from its **last line**: it names the problem, and often the fix.
 
 # 4. What to Do With a Notebook
 
-## A Notebook Is a File
+## A Notebook's Life at Work
+
+```{python}
+#| echo: false
+steps = [
+    ("Work", "in VS Code", "cell by cell", "code, results\nand text for a reader"),
+    ("Check", "Restart, Run All", "relative paths", "it runs on\nanyone's computer"),
+    ("Share", "a format per reader", "notebook, HTML", "a schedule,\na dashboard"),
+]
+fig, ax = plt.subplots(figsize=(10.8, 2.6))
+ax.set_xlim(-0.5, 101)
+ax.set_ylim(0, 25)
+ax.axis("off")
+w, h, gap, y0 = 28.5, 21.0, 4.8, 1.5
+xs = [0.4 + i * (w + gap) for i in range(len(steps))]
+for x, (title, line1, line2, words) in zip(xs, steps):
+    ax.add_patch(FancyBboxPatch((x, y0), w, h, boxstyle="round,pad=0.2,rounding_size=1.5",
+                                facecolor="#eeeeee", edgecolor="#23373b", linewidth=1.3))
+    ax.text(x + w / 2, y0 + h - 3.3, title, ha="center", va="center", fontsize=17,
+            fontweight="bold", color="#23373b")
+    ax.text(x + w / 2, y0 + h - 7.6, line1, ha="center", va="center", fontsize=12.5,
+            color="#eb811b", fontweight="bold")
+    ax.text(x + w / 2, y0 + h - 11.3, line2, ha="center", va="center", fontsize=12,
+            color="#555555")
+    ax.text(x + w / 2, y0 + 4.2, words, ha="center", va="center", fontsize=12,
+            color="#1a292c", linespacing=1.2)
+for x in xs[:-1]:
+    ax.add_patch(FancyArrowPatch((x + w + 0.4, y0 + h / 2), (x + w + gap - 0.4, y0 + h / 2),
+                                 arrowstyle="-|>", mutation_scale=18, color="#23373b", lw=1.6))
+plt.show()
+```
+
+- At work, others read your notebook: a colleague, a manager, an auditor, or you in six
+  months
+- So analysts take the same three steps every time, before anyone else sees their work
+
+## Work: Cells and the Kernel
 
 ```{=html}
 <style>
@@ -614,59 +650,13 @@ Read an error from its **last line**: it names the problem, and often the fix.
 <span class="kernel">Python 3.14.10</span></div>
 ```
 
-- A `.ipynb` file holds **cells**, code or Markdown text, and the **output** of each code
-  cell, saved with it: it opens in VS Code, Colab or Jupyter
-- The toolbar, above the first cell: `+ Code` and `+ Markdown` add a cell; **Run All** runs
-  every cell, from the top; **Restart** empties the kernel's memory
-- The **kernel**, at the top right, is the Python that runs the cells: on your laptop, the
-  one you use in the tutorials. Wrong kernel? `ModuleNotFoundError`
-
-## Run the Cells in Order
-
-- Once run, a code cell shows a number, `[1]`, `[2]`: the order in which the cells ran
-- The kernel **remembers every name** a cell creates, until it restarts. A cell can only use
-  a name that a cell already run has created:
-
-```{.python}
-# the cell above: it creates both, but it has not run yet
-both = y1952.merge(y2007, on="country")
-```
-
-```{.python}
-# the cell below, run first
-print(len(both))
-```
-
-```
-NameError: name 'both' is not defined
-```
-
-- Editing a cell changes nothing until it runs again, with <kbd>Shift</kbd>+<kbd>Enter</kbd>
-
-## Restart, Then Run All
-
-- The kernel also remembers the names made by cells you have since **changed or
-  deleted**: a notebook can work for you, and fail for anyone who opens it
-- The check: **Restart**, which empties the kernel's memory, then **Run All**, from the top.
-  If a cell stops with an error, fix that one, then check again
-- Do it before you hand in or share a notebook, then save it: <kbd>Ctrl</kbd>+<kbd>S</kbd>,
-  or <kbd>Cmd</kbd>+<kbd>S</kbd> on a Mac. A dot on the notebook's tab means unsaved changes
-
-::: {.callout-note}
-A notebook that runs from top to bottom after a restart is a notebook anyone can run: the
-marker, a colleague, or you in six months.
-:::
-
-## Text Cells and Shortcuts
-
 :::: {layout="[1,1]"}
 ::: {#first-column}
-**Markdown cells** hold text:
-
-- `+ Markdown`, or <kbd>Esc</kbd> then <kbd>M</kbd>
-- Double-click to edit, <kbd>Shift</kbd>+<kbd>Enter</kbd> to show
-- `# A heading`, `**bold**`, `- a list`
-- In the tests, written answers go in the cells marked *Your answer*
+- **Code cells** and **Markdown cells**: each code cell's **output** is saved in the
+  `.ipynb`
+- The **kernel**, at the top right, runs the cells: **Python 3.14**, as in the tutorials
+- It **remembers every name** a cell creates, until it restarts. `[1]`, `[2]`: the order in
+  which the cells ran
 :::
 
 ::: {#second-column}
@@ -685,7 +675,82 @@ The same keys on Windows and on a Mac.
 :::
 ::::
 
-## From Loop to VS Code, and Back {.smaller}
+## Work: Write for a Reader
+
+At work, the first cell answers the question, for a reader who reads nothing else:
+
+```{.markdown}
+# Life expectancy, 1952 to 2007
+
+- **Question:** did the countries that lived longest in 1952 still live longest in 2007?
+- **Data:** gapminder, 142 countries, in 1952 and in 2007
+- **Finding:** yes: each extra year in 1952 was associated with 0.77 more years in 2007
+```
+
+- Then a Markdown cell before each step: what it does, and why, in one sentence
+- Charts with a title that states the finding, and numbers with their units
+- `+ Markdown`, or <kbd>Esc</kbd> then <kbd>M</kbd>; double-click to edit,
+  <kbd>Shift</kbd>+<kbd>Enter</kbd> to show. In the tests, written answers go in the cells
+  marked *Your answer*
+
+## Check: Restart, Then Run All
+
+- The kernel remembers names from cells you have since changed, deleted or run out of
+  order: a notebook can work for you, and fail for everyone else
+- **Restart**, which empties the kernel's memory, then **Run All**: every result now comes
+  from the code above it. A cell stops? Fix it, then check again
+- **Relative paths** only: `data/...`, never `/Users/aoife/...`
+- **Nothing private**: outputs are saved in the file, so the `.head()` of a customer table
+  travels with it. No passwords, and no personal data you may not share
+- Then save: <kbd>Ctrl</kbd>+<kbd>S</kbd>, or <kbd>Cmd</kbd>+<kbd>S</kbd> on a Mac
+
+## Share: One Notebook, Several Readers
+
+| Reader | Send them | How |
+|:--|:--|:--|
+| a colleague who codes | the notebook and its `data` folder | a zip, or the team's Git repository |
+| a manager or a client | the results, not the code | an HTML report, or a PDF printed from it |
+| the same report every week | a scheduled notebook | re-run on new data, as Netflix and Meta do |
+| numbers to watch every day | a dashboard | Power BI or Tableau, on the same data |
+
+Ask who will read it before you choose: **the format follows the reader**.
+
+## Share: Export to HTML
+
+1. **Once only**: run `%pip install nbconvert` in a cell, then delete the cell
+2. **Restart**, then **Run All**, then save
+3. In the toolbar: `...`, then **Export**, then **HTML**. Save it beside the notebook
+4. **Open the `.html` in any browser**: text, code, tables and charts in one file, no Python
+   needed
+
+- A PDF? Print the HTML from your browser
+- Without the code, as reports for managers often are, in a terminal:
+
+```{.bash}
+jupyter nbconvert --to html --no-input lecture_9.ipynb
+```
+
+## Your Turn: From Notebook to Report {background="#43464B"}
+
+1. In `lecture_9.ipynb`, add a Markdown cell at the very top (<kbd>Esc</kbd>, <kbd>A</kbd>,
+   then <kbd>M</kbd>): a title, then the question, data and finding of one exercise
+2. Click **Restart**, then **Run All**. A cell stops? Fix it, perhaps a `____` left blank
+3. Once only: run `%pip install nbconvert` in a new cell, then delete that cell and save
+4. `...`, then **Export**, then **HTML**, and open `lecture_9.html` in your browser
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+You should see your summary first, then the code, tables and charts: a report anyone can
+open, without Python.
+:::
+
+::: {#second-column}
+::: {#timer6 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
+
+## Hand In: From Loop to VS Code, and Back {.smaller}
 
 The mock test and Test 2 each come as a zip: a notebook and its `data` folder.
 
@@ -694,11 +759,13 @@ The mock test and Test 2 each come as a zip: a notebook and its `data` folder.
 2. **Move** the unzipped folder into `BAA1118`, notebook and `data` together. On a DCU
    computer, leave it where it is
 3. In VS Code, open `BAA1118` (on a DCU computer, the unzipped folder), then the notebook.
-   Select the kernel you use in the tutorials, or on a DCU computer the Python that VS Code
-   offers
+   Select the kernel that shows **Python 3.14**, or on a DCU computer the Python that VS
+   Code offers
 4. **Run the first cell**: `Ready. Data found: True`. `False`? See section 1, on paths
 5. Work in order: code in the empty cells, sentences in the *Your answer* cells
 6. **Save**, then **upload the `.ipynb` file** to Loop: the notebook only, not the data
+
+Here the reader is the marker, who reads your code: so you hand in the notebook itself.
 
 ## Your Turn: The Mock Test Drill {background="#43464B"}
 
@@ -715,7 +782,7 @@ You should see `Ready. Data found: True`, then a path that ends with `BAA1118_te
 :::
 
 ::: {#second-column}
-::: {#timer6 .timer seconds="300" starton="interaction"}
+::: {#timer7 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -732,14 +799,18 @@ You should see `Ready. Data found: True`, then a path that ends with `BAA1118_te
 ## References
 
 - [Jupyter Notebooks in VS Code](https://code.visualstudio.com/docs/datascience/jupyter-notebooks):
-  VS Code's own guide to cells, kernels and Run All
+  VS Code's own guide to cells, kernels, Run All and Export
+- [nbconvert](https://nbconvert.readthedocs.io/en/latest/): turns a notebook into HTML, PDF
+  or a script, with or without the code
+- Notebooks run on a schedule, as reports: at
+  [Netflix](https://netflixtechblog.com/notebook-innovation-591ee3221233) and at
+  [Meta](https://engineering.fb.com/2023/08/29/security/scheduling-jupyter-notebooks-meta/)
 - [os.path](https://docs.python.org/3/library/os.path.html): Python's functions for paths,
   `exists()` among them
 - [Navigating Files and Directories](https://swcarpentry.github.io/shell-novice/02-filedir):
-  Software Carpentry's lesson on absolute and relative paths, and `..`, from a terminal
+  absolute and relative paths, and `..`, by Software Carpentry
 - [R for Data Science, Whole game](https://r4ds.hadley.nz/whole-game): the same road, from
   import to communication, in R
-- The References of lectures 6, 7 and 8, one library each
 
 ## {background="#43464B"}
 

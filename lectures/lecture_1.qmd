@@ -223,7 +223,7 @@ For weeks 1 to 5 we use **Google Colab**:
 - Free with a Google account
 - The Python is running on Google's computer, not yours
 
-In week 6 you will install Python and VS Code on your own laptop, build a virtual environment for this module, and we will never look back.
+In week 6 you will install Python and VS Code on your own laptop, and we will never look back.
 
 # 3. Google Colab
 

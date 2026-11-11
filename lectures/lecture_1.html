@@ -6,25 +6,31 @@
 <script src="lecture_1_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lecture_1_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lecture_1_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lecture_1_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lecture_1_files/libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lecture_1_files/libs/quarto-contrib/quarto-timer-1.0.0/timer.js"></script>
 <link href="lecture_1_files/libs/quarto-contrib/quarto-timer-1.0.0/timer.css" rel="stylesheet">
 <link href="lecture_1_files/libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="lecture_1_files/libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.25">
+  <meta name="generator" content="quarto-1.11.9">
 
   <meta name="author" content="Damien Dupré">
   <title>Lecture 1: Getting Started with Python</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="lecture_1_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="lecture_1_files/libs/revealjs/dist/reveal.css">
   <style>
-    code{white-space: pre-wrap;}
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -99,7 +105,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lecture_1_files/libs/revealjs/dist/theme/quarto-5042f1b6ff7b1366e8f3ea51c25bee36.css">
+  <link rel="stylesheet" href="lecture_1_files/libs/revealjs/dist/theme/quarto-1dfff38cd8494ab3f4ffc82b6fbdb1c5.css">
   <link href="lecture_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lecture_1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lecture_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -203,7 +209,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Damien Dupré 
+Damien Dupré
 </div>
 </div>
 </div>
@@ -312,15 +318,13 @@ Damien Dupré
 <section id="what-about-you" class="slide level2">
 <h2>What About You?</h2>
 <ul>
-<li class="fragment">Who is convinced they are “not a maths person”?</li>
-<li class="fragment">Who uses Microsoft Windows, macOS, or Linux?</li>
-<li class="fragment">Who already has a GitHub account?</li>
-<li class="fragment">Who has already written a line of code in any language?</li>
-<li class="fragment">Who has used ChatGPT, Claude, or Copilot to write code?</li>
+<li>Who is convinced they are “not a maths person”?</li>
+<li>Who uses Microsoft Windows, macOS, or Linux?</li>
+<li>Who already has a GitHub account?</li>
+<li>Who has already written a line of code in any language?</li>
+<li>Who has used ChatGPT, Claude, or Copilot to write code?</li>
 </ul>
-<div class="fragment">
 <p><strong>No previous experience is assumed. We start from zero.</strong></p>
-</div>
 </section>
 <section id="module-assessment" class="slide level2">
 <h2>Module Assessment</h2>
@@ -341,13 +345,11 @@ Damien Dupré
 <section id="the-only-rule-that-matters" class="slide level2">
 <h2>The Only Rule That Matters</h2>
 <ul>
-<li class="fragment">You cannot learn to code by watching someone else code</li>
-<li class="fragment">You cannot learn to code by reading about code</li>
-<li class="fragment">You learn to code by <strong>typing code, getting an error, and fixing it</strong></li>
+<li>You cannot learn to code by watching someone else code</li>
+<li>You cannot learn to code by reading about code</li>
+<li>You learn to code by <strong>typing code, getting an error, and fixing it</strong></li>
 </ul>
-<div class="fragment">
 <p>Every lecture has “Your Turn” slides. Those are the lecture. The rest is context.</p>
-</div>
 </section>
 <section>
 <section id="why-python" class="title-slide slide level1 center">
@@ -358,14 +360,12 @@ Damien Dupré
 <h2>Why Python?</h2>
 <p>Modern data analytics uses free and open-source languages:</p>
 <ul>
-<li class="fragment">Proprietary software (SPSS, Stata, SAS, Matlab) is expensive, closed, and increasingly rare in industry</li>
-<li class="fragment">Python and R are the two dominant open-source languages</li>
-<li class="fragment">R is mostly used in academic research and public institutions</li>
-<li class="fragment">Python is, by far, the most used language in organisations</li>
+<li>Proprietary software (SPSS, Stata, SAS, Matlab) is expensive, closed, and increasingly rare in industry</li>
+<li>Python and R are the two dominant open-source languages</li>
+<li>R is mostly used in academic research and public institutions</li>
+<li>Python is, by far, the most used language in organisations</li>
 </ul>
-<div class="fragment">
 <p>Python is also a <strong>general purpose</strong> language: the same skill writes a data analysis, a web scraper, an automation script, or a machine learning model.</p>
-</div>
 </section>
 <section id="why-python-2" class="slide level2">
 <h2>Why Python?</h2>
@@ -389,13 +389,11 @@ Damien Dupré
 <section id="what-python-is-not" class="slide level2">
 <h2>What Python Is Not</h2>
 <ul>
-<li class="fragment">Python is <strong>not</strong> a spreadsheet. There is no grid, and nothing recalculates by itself.</li>
-<li class="fragment">Python is <strong>not</strong> intelligent. It does exactly what you write, including the mistakes.</li>
-<li class="fragment">Python is <strong>not</strong> fast to write at the beginning. It becomes fast when a task has to be done twice.</li>
+<li>Python is <strong>not</strong> a spreadsheet. There is no grid, and nothing recalculates by itself.</li>
+<li>Python is <strong>not</strong> intelligent. It does exactly what you write, including the mistakes.</li>
+<li>Python is <strong>not</strong> fast to write at the beginning. It becomes fast when a task has to be done twice.</li>
 </ul>
-<div class="fragment">
 <p>The value of code is <strong>reproducibility</strong>: the same script run on new data gives you the new answer in one second.</p>
-</div>
 </section>
 <section id="excel-or-python" class="slide level2">
 <h2>Excel or Python?</h2>
@@ -435,9 +433,7 @@ Damien Dupré
 </tr>
 </tbody>
 </table>
-<div class="fragment">
 <p>They are not competitors. Most analysts use both.</p>
-</div>
 </section></section>
 <section>
 <section id="python-and-its-interfaces" class="title-slide slide level1 center">
@@ -448,12 +444,10 @@ Damien Dupré
 <h2>Language vs Interface</h2>
 <p>There are two key concepts to keep separate:</p>
 <ul>
-<li class="fragment"><strong>Python</strong> is the name of the language</li>
-<li class="fragment">Python code is written in an interface called an <strong>IDE</strong> (Integrated Development Environment)</li>
+<li><strong>Python</strong> is the name of the language</li>
+<li>Python code is written in an interface called an <strong>IDE</strong> (Integrated Development Environment)</li>
 </ul>
-<div class="fragment">
 <p>At its simplest, <strong>Python is like a car’s engine</strong>, while <strong>an IDE is like a car’s dashboard</strong>.</p>
-</div>
 </section>
 <section id="language-vs-interface-1" class="slide level2 smaller">
 <h2>Language vs Interface</h2>
@@ -471,9 +465,7 @@ Damien Dupré
 </div>
 </div>
 </div>
-<div class="fragment">
 <h4 id="in-a-default-installation-the-two-are-installed-separately.-this-is-the-single-most-common-source-of-week-1-frustration.">In a default installation, the two are installed <strong>separately</strong>. This is the single most common source of week-1 frustration.</h4>
-</div>
 </section>
 <section id="popular-python-ides" class="slide level2">
 <h2>Popular Python IDEs</h2>
@@ -484,28 +476,20 @@ Damien Dupré
 <li><a href="https://jupyter.org/"><strong>JupyterLab</strong></a>: notebook-first, runs in your browser</li>
 <li><a href="https://positron.posit.co/"><strong>Positron</strong></a>: newer, from the RStudio team, handles Python and R</li>
 </ul>
-<div class="fragment">
 <p><a href="https://www.anaconda.com/download"><strong>Anaconda</strong></a> is a fifth option: it bundles Python, an IDE and 1,500 packages in one 1 GB installer. Convenient, and it hides a lot.</p>
-</div>
-<div class="fragment">
 <p><strong>From week 6 this module uses VS Code with Python installed from <a href="https://www.python.org/">python.org</a>, and we install each package ourselves.</strong> You will understand every piece of your own setup, and it is what you will meet in a job.</p>
-</div>
 </section>
 <section id="but-not-today" class="slide level2">
 <h2>But Not Today</h2>
 <p>Installing software on 60 different laptops in a 2-hour lecture is a guaranteed way to teach nothing.</p>
-<div class="fragment">
 <p>For weeks 1 to 5 we use <strong>Google Colab</strong>:</p>
 <ul>
-<li class="fragment">Nothing to install</li>
-<li class="fragment">Runs in the browser, on any machine</li>
-<li class="fragment">Free with a Google account</li>
-<li class="fragment">The Python is running on Google’s computer, not yours</li>
+<li>Nothing to install</li>
+<li>Runs in the browser, on any machine</li>
+<li>Free with a Google account</li>
+<li>The Python is running on Google’s computer, not yours</li>
 </ul>
-</div>
-<div class="fragment">
-<p>In week 6 you will install Python and VS Code on your own laptop, build a virtual environment for this module, and we will never look back.</p>
-</div>
+<p>In week 6 you will install Python and VS Code on your own laptop, and we will never look back.</p>
 </section></section>
 <section>
 <section id="google-colab" class="title-slide slide level1 center">
@@ -520,9 +504,7 @@ Damien Dupré
 <li>Sign in with a Google account (your DCU one works)</li>
 <li>Click <strong>New Notebook</strong></li>
 </ol>
-<div class="fragment">
 <p>You now have a <code>.ipynb</code> file saved in your Google Drive, in a folder called <code>Colab Notebooks</code>.</p>
-</div>
 </section>
 <section id="google-colab-2" class="slide level2">
 <h2>Google Colab</h2>
@@ -546,9 +528,7 @@ Damien Dupré
 </div>
 </div>
 </div>
-<div class="fragment">
 <p>A notebook is therefore a <strong>report and a program at the same time</strong>. That is why it is the standard tool in data analytics.</p>
-</div>
 </section>
 <section id="colab-keyboard-shortcuts" class="slide level2">
 <h2>Colab Keyboard Shortcuts</h2>
@@ -607,9 +587,7 @@ Damien Dupré
 <div class="small-font">
 <p>The full list is under <code>Tools -&gt; Keyboard shortcuts</code>, and Colab lets you rebind any of them.</p>
 </div>
-<div class="fragment">
 <p><strong>The rule for the rest of the module:</strong> wherever these slides write <kbd>Ctrl</kbd>, a Mac uses <kbd>Cmd</kbd>. The only exceptions are called out where they happen.</p>
-</div>
 </section>
 <section id="anatomy-of-a-code-cell" class="slide level2">
 <h2>Anatomy of a Code Cell</h2>
@@ -622,14 +600,12 @@ Damien Dupré
 <h2>The Runtime</h2>
 <p>When you run your first cell, Colab connects to a <strong>runtime</strong>: a small virtual computer that holds your Python session.</p>
 <ul>
-<li class="fragment">Everything you create lives in that runtime’s memory</li>
-<li class="fragment">If the runtime disconnects (90 minutes idle), everything created is lost</li>
-<li class="fragment">Your <em>code</em> is safe, your <em>results</em> are not</li>
-<li class="fragment"><code>Runtime -&gt; Restart session</code> gives you a clean slate</li>
+<li>Everything you create lives in that runtime’s memory</li>
+<li>If the runtime disconnects (90 minutes idle), everything created is lost</li>
+<li>Your <em>code</em> is safe, your <em>results</em> are not</li>
+<li><code>Runtime -&gt; Restart session</code> gives you a clean slate</li>
 </ul>
-<div class="fragment">
 <p><strong>This is not a bug.</strong> Restarting and rerunning from the top is how you check that your notebook actually works.</p>
-</div>
 </section>
 <section id="your-turn-first-contact" class="slide level2" data-background="#43464B">
 <h2>Your Turn: First Contact</h2>
@@ -638,7 +614,7 @@ Damien Dupré
 <li>Rename it <code>BAA1118_week1</code> (click the title, top left)</li>
 <li>In the first cell, type the following and press <kbd>Shift</kbd> + <kbd>Enter</kbd>:</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="bu">print</span>(<span class="st">"Hello, my name is &lt;your name&gt;"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"Hello, my name is &lt;your name&gt;"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="4" type="1">
 <li>Add a <strong>text cell</strong> above it and write <code># My first notebook</code></li>
 </ol>
@@ -658,61 +634,54 @@ Damien Dupré
 <section id="print" class="slide level2">
 <h2>print()</h2>
 <p><code>print()</code> displays something on the screen.</p>
-<div id="5a60fc98" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="bu">print</span>(<span class="st">"Hello, world!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="5629d8e6" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"Hello, world!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Hello, world!</code></pre>
 </div>
 </div>
-<div class="fragment">
 <p>Everything between the quotes is text, called a <strong>string</strong>. The brackets belong to <code>print</code>, which is a <strong>function</strong>.</p>
-<div id="baba432f" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="bu">print</span>(<span class="st">"I am"</span>, <span class="dv">25</span>, <span class="st">"years old"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="eda16102" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"I am"</span>, <span class="dv">25</span>, <span class="st">"years old"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>I am 25 years old</code></pre>
-</div>
 </div>
 </div>
 </section>
 <section id="python-as-a-calculator" class="slide level2">
 <h2>Python as a Calculator</h2>
 <p>A code cell also shows the value of its <strong>last line</strong> without <code>print()</code>.</p>
-<div id="fa06930b" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="59f15195" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>4</code></pre>
 </div>
 </div>
-<div class="fragment">
-<div id="7f248aea" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>(<span class="dv">17</span> <span class="op">*</span> <span class="dv">3</span>) <span class="op">/</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fa560bab" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-label="1"></a>(<span class="dv">17</span> <span class="op">*</span> <span class="dv">3</span>) <span class="op">/</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>25.5</code></pre>
 </div>
 </div>
-</div>
-<div class="fragment">
 <p>But only the last one:</p>
-<div id="3b9b8434" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb10-2"><a href=""></a><span class="dv">10</span> <span class="op">+</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a2ecdffd" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-label="1"></a><span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb10-2"><a href="" aria-label="2"></a><span class="dv">10</span> <span class="op">+</span> <span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>20</code></pre>
-</div>
 </div>
 </div>
 </section>
 <section id="comments" class="slide level2">
 <h2>Comments</h2>
 <p>Anything after a <code>#</code> is ignored by Python.</p>
-<div id="8a37bd56" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a><span class="co"># This line explains what the next one does</span></span>
-<span id="cb12-2"><a href=""></a><span class="bu">print</span>(<span class="st">"Data analytics"</span>)  <span class="co"># this also works at the end of a line</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="e1580ae7" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-label="1"></a><span class="co"># This line explains what the next one does</span></span>
+<span id="cb12-2"><a href="" aria-label="2"></a><span class="bu">print</span>(<span class="st">"Data analytics"</span>)  <span class="co"># this also works at the end of a line</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Data analytics</code></pre>
 </div>
 </div>
-<div class="fragment">
 <p>Comments are written for <strong>the person reading the code in six months</strong>, who is almost always you.</p>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -727,44 +696,37 @@ Damien Dupré
 </div>
 </div>
 </div>
-</div>
 </section>
 <section id="storing-a-result" class="slide level2">
 <h2>Storing a Result</h2>
 <p>A result you do not store disappears.</p>
-<div id="28ef2b2b" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a>price <span class="op">=</span> <span class="dv">250</span></span>
-<span id="cb14-2"><a href=""></a>vat <span class="op">=</span> <span class="fl">0.23</span></span>
-<span id="cb14-3"><a href=""></a>total <span class="op">=</span> price <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> vat)</span>
-<span id="cb14-4"><a href=""></a><span class="bu">print</span>(total)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a6ae37b0" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="" aria-label="1"></a>price <span class="op">=</span> <span class="dv">250</span></span>
+<span id="cb14-2"><a href="" aria-label="2"></a>vat <span class="op">=</span> <span class="fl">0.23</span></span>
+<span id="cb14-3"><a href="" aria-label="3"></a>total <span class="op">=</span> price <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> vat)</span>
+<span id="cb14-4"><a href="" aria-label="4"></a><span class="bu">print</span>(total)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>307.5</code></pre>
 </div>
 </div>
-<div class="fragment">
 <p><code>price</code>, <code>vat</code> and <code>total</code> are <strong>variables</strong>. The <code>=</code> sign does not mean equality: it means <em>“take what is on the right, and give it this name”</em>.</p>
 <p>We will spend all of next week on this.</p>
-</div>
 </section>
 <section id="order-matters-twice" class="slide level2">
 <h2>Order Matters, Twice</h2>
 <ol type="1">
-<li class="fragment">Python reads a cell <strong>top to bottom</strong></li>
-<li class="fragment">Colab runs cells <strong>in the order you click them</strong>, not top to bottom</li>
+<li>Python reads a cell <strong>top to bottom</strong></li>
+<li>Colab runs cells <strong>in the order you click them</strong>, not top to bottom</li>
 </ol>
-<div class="fragment">
 <p>This is the number one cause of “but it worked five minutes ago”.</p>
-<div id="badbac45" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a><span class="co"># Cell 3, run first</span></span>
-<span id="cb16-2"><a href=""></a><span class="bu">print</span>(revenue)     <span class="co"># NameError: name 'revenue' is not defined</span></span>
-<span id="cb16-3"><a href=""></a></span>
-<span id="cb16-4"><a href=""></a><span class="co"># Cell 1, run second</span></span>
-<span id="cb16-5"><a href=""></a>revenue <span class="op">=</span> <span class="dv">1000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a6969387" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-label="1"></a><span class="co"># Cell 3, run first</span></span>
+<span id="cb16-2"><a href="" aria-label="2"></a><span class="bu">print</span>(revenue)     <span class="co"># NameError: name 'revenue' is not defined</span></span>
+<span id="cb16-3"><a href="" aria-label="3"></a></span>
+<span id="cb16-4"><a href="" aria-label="4"></a><span class="co"># Cell 1, run second</span></span>
+<span id="cb16-5"><a href="" aria-label="5"></a>revenue <span class="op">=</span> <span class="dv">1000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
-<div class="fragment">
 <p>The small number in <code>[ ]</code> to the left of each cell tells you the order in which cells were actually run.</p>
-</div>
 </section>
 <section id="your-turn-a-small-calculation" class="slide level2" data-background="#43464B">
 <h2>Your Turn: A Small Calculation</h2>
@@ -786,24 +748,22 @@ Damien Dupré
 </section>
 <section id="one-solution" class="slide level2">
 <h2>One Solution</h2>
-<div id="3c4cd958" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a><span class="co"># profit calculation for product A</span></span>
-<span id="cb17-2"><a href=""></a>units <span class="op">=</span> <span class="dv">340</span></span>
-<span id="cb17-3"><a href=""></a>price <span class="op">=</span> <span class="fl">12.99</span></span>
-<span id="cb17-4"><a href=""></a>cost <span class="op">=</span> <span class="fl">7.50</span></span>
-<span id="cb17-5"><a href=""></a></span>
-<span id="cb17-6"><a href=""></a>revenue <span class="op">=</span> units <span class="op">*</span> price</span>
-<span id="cb17-7"><a href=""></a>total_cost <span class="op">=</span> units <span class="op">*</span> cost</span>
-<span id="cb17-8"><a href=""></a>profit <span class="op">=</span> revenue <span class="op">-</span> total_cost</span>
-<span id="cb17-9"><a href=""></a></span>
-<span id="cb17-10"><a href=""></a><span class="bu">print</span>(<span class="st">"The profit is"</span>, profit, <span class="st">"euros"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6c11d233" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="" aria-label="1"></a><span class="co"># profit calculation for product A</span></span>
+<span id="cb17-2"><a href="" aria-label="2"></a>units <span class="op">=</span> <span class="dv">340</span></span>
+<span id="cb17-3"><a href="" aria-label="3"></a>price <span class="op">=</span> <span class="fl">12.99</span></span>
+<span id="cb17-4"><a href="" aria-label="4"></a>cost <span class="op">=</span> <span class="fl">7.50</span></span>
+<span id="cb17-5"><a href="" aria-label="5"></a></span>
+<span id="cb17-6"><a href="" aria-label="6"></a>revenue <span class="op">=</span> units <span class="op">*</span> price</span>
+<span id="cb17-7"><a href="" aria-label="7"></a>total_cost <span class="op">=</span> units <span class="op">*</span> cost</span>
+<span id="cb17-8"><a href="" aria-label="8"></a>profit <span class="op">=</span> revenue <span class="op">-</span> total_cost</span>
+<span id="cb17-9"><a href="" aria-label="9"></a></span>
+<span id="cb17-10"><a href="" aria-label="10"></a><span class="bu">print</span>(<span class="st">"The profit is"</span>, profit, <span class="st">"euros"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The profit is 1866.6000000000004 euros</code></pre>
 </div>
 </div>
-<div class="fragment">
 <p>Yours does not have to look like this. It has to give the same number.</p>
-</div>
 </section></section>
 <section>
 <section id="errors" class="title-slide slide level1 center">
@@ -813,18 +773,16 @@ Damien Dupré
 <section id="errors-are-normal" class="slide level2">
 <h2>Errors Are Normal</h2>
 <ul>
-<li class="fragment">Beginners think an error means they failed</li>
-<li class="fragment">Professionals see 30 errors before lunch</li>
-<li class="fragment">An error is Python <strong>telling you exactly where it stopped</strong></li>
+<li>Beginners think an error means they failed</li>
+<li>Professionals see 30 errors before lunch</li>
+<li>An error is Python <strong>telling you exactly where it stopped</strong></li>
 </ul>
-<div class="fragment">
 <p>The one skill that separates people who learn to code from people who give up is <strong>reading the error message</strong>.</p>
-</div>
 </section>
 <section id="anatomy-of-an-error" class="slide level2">
 <h2>Anatomy of an Error</h2>
-<div id="cbc804e1" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a><span class="bu">print</span>(<span class="st">"The total is: "</span> <span class="op">+</span> <span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8fdf1154" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"The total is: "</span> <span class="op">+</span> <span class="dv">42</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -836,19 +794,17 @@ Cell <span class="ansi-green-fg">In[9], line 1</span>
 </div>
 </div>
 </div>
-<div class="fragment">
 <p>Read it <strong>bottom up</strong>:</p>
 <ul>
 <li>Last line: the <em>type</em> of error and a description</li>
 <li>Above it: the line of your code that caused it</li>
 <li><code>TypeError</code> here means: you cannot add text and a number</li>
 </ul>
-</div>
 </section>
 <section id="the-four-errors-you-will-meet-this-month" class="slide level2">
 <h2>The Four Errors You Will Meet This Month</h2>
-<div id="67a442e7" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a><span class="bu">print</span>(<span class="st">"hello"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="b4adcb3d" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"hello"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-cyan-fg">  Cell </span><span class="ansi-green-fg">In[10], line 1</span>
@@ -863,8 +819,8 @@ Cell <span class="ansi-green-fg">In[9], line 1</span>
 </section>
 <section id="the-four-errors-you-will-meet-this-month-1" class="slide level2">
 <h2>The Four Errors You Will Meet This Month</h2>
-<div id="9cfc6b5a" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a><span class="bu">print</span>(revenu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="b63d3bf3" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="" aria-label="1"></a><span class="bu">print</span>(revenu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -880,8 +836,8 @@ Cell <span class="ansi-green-fg">In[11], line 1</span>
 </section>
 <section id="the-four-errors-you-will-meet-this-month-2" class="slide level2">
 <h2>The Four Errors You Will Meet This Month</h2>
-<div id="36e0da6a" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a><span class="bu">print</span>(<span class="st">"5"</span> <span class="op">*</span> <span class="st">"3"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="1ba9b8cb" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"5"</span> <span class="op">*</span> <span class="st">"3"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -897,8 +853,8 @@ Cell <span class="ansi-green-fg">In[12], line 1</span>
 </section>
 <section id="the-four-errors-you-will-meet-this-month-3" class="slide level2">
 <h2>The Four Errors You Will Meet This Month</h2>
-<div id="8d0e3f17" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a>Print(<span class="st">"hello"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="1736867c" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="" aria-label="1"></a>Print(<span class="st">"hello"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -915,24 +871,22 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 <section id="how-to-solve-an-error" class="slide level2">
 <h2>How to Solve an Error</h2>
 <ol type="1">
-<li class="fragment">Read the last line of the message</li>
-<li class="fragment">Look at the line number it gives you, and the one above</li>
-<li class="fragment">Check the obvious: capital letters, quotes, brackets, commas</li>
-<li class="fragment">Copy the error message into a search engine or an AI assistant</li>
-<li class="fragment">Ask a neighbour, then ask me</li>
+<li>Read the last line of the message</li>
+<li>Look at the line number it gives you, and the one above</li>
+<li>Check the obvious: capital letters, quotes, brackets, commas</li>
+<li>Copy the error message into a search engine or an AI assistant</li>
+<li>Ask a neighbour, then ask me</li>
 </ol>
-<div class="fragment">
 <p>Steps 1 to 3 solve about 80% of errors in this module, and they take 20 seconds.</p>
-</div>
 </section>
 <section id="your-turn-name-the-error" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Name the Error</h2>
 <p>Run each line in its own cell. For each one, write in a text cell <strong>which error type</strong> it produces and <strong>what the fix is</strong>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a><span class="bu">print</span>(<span class="st">"Total: "</span> <span class="op">+</span> <span class="dv">100</span>)</span>
-<span id="cb24-2"><a href=""></a><span class="bu">print</span>(<span class="dv">3</span> <span class="op">+</span> <span class="st">"3"</span>)</span>
-<span id="cb24-3"><a href=""></a>prnt(<span class="st">"hello"</span>)</span>
-<span id="cb24-4"><a href=""></a><span class="bu">print</span>(<span class="st">"hello world)</span></span>
-<span id="cb24-5"><a href=""></a><span class="er">print</span>(Price <span class="op">*</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="" aria-label="1"></a><span class="bu">print</span>(<span class="st">"Total: "</span> <span class="op">+</span> <span class="dv">100</span>)</span>
+<span id="cb24-2"><a href="" aria-label="2"></a><span class="bu">print</span>(<span class="dv">3</span> <span class="op">+</span> <span class="st">"3"</span>)</span>
+<span id="cb24-3"><a href="" aria-label="3"></a>prnt(<span class="st">"hello"</span>)</span>
+<span id="cb24-4"><a href="" aria-label="4"></a><span class="bu">print</span>(<span class="st">"hello world)</span></span>
+<span id="cb24-5"><a href="" aria-label="5"></a><span class="er">print</span>(Price <span class="op">*</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then fix all five so that each prints something sensible.</p>
                     <div id="timer4"></div>
                     <script>
@@ -980,9 +934,7 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 </tr>
 </tbody>
 </table>
-<div class="fragment">
 <p>Two error types cover almost everything you will meet in week 1: you used a name that does not exist, or you combined types that do not go together.</p>
-</div>
 </section></section>
 <section>
 <section id="coding-with-ai-assistants" class="title-slide slide level1 center">
@@ -992,7 +944,6 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 <section id="the-elephant-in-the-room" class="slide level2">
 <h2>The Elephant in the Room</h2>
 <p>You all have access to ChatGPT, Claude, Copilot and Gemini. Colab has Gemini built in.</p>
-<div class="fragment">
 <p>Pretending otherwise would be silly. <strong>Using them well is now part of the skill.</strong></p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
@@ -1007,28 +958,25 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 </div>
 </div>
 </div>
-</div>
 </section>
 <section id="what-ai-is-good-at" class="slide level2">
 <h2>What AI Is Good At</h2>
 <ul>
-<li class="fragment">Explaining an error message in plain English</li>
-<li class="fragment">Writing the boring 10 lines you have written 50 times before</li>
-<li class="fragment">Translating “I want the average sales per region” into pandas code</li>
-<li class="fragment">Suggesting a function name you have forgotten</li>
+<li>Explaining an error message in plain English</li>
+<li>Writing the boring 10 lines you have written 50 times before</li>
+<li>Translating “I want the average sales per region” into pandas code</li>
+<li>Suggesting a function name you have forgotten</li>
 </ul>
 </section>
 <section id="what-ai-is-bad-at" class="slide level2">
 <h2>What AI Is Bad At</h2>
 <ul>
-<li class="fragment">Knowing what your data actually looks like</li>
-<li class="fragment">Knowing what question is worth asking</li>
-<li class="fragment">Admitting when it does not know: it invents functions that do not exist</li>
-<li class="fragment">Producing code you can defend in an exam</li>
+<li>Knowing what your data actually looks like</li>
+<li>Knowing what question is worth asking</li>
+<li>Admitting when it does not know: it invents functions that do not exist</li>
+<li>Producing code you can defend in an exam</li>
 </ul>
-<div class="fragment">
 <p><strong>The assistant writes a plausible answer. Only you can check it is the right one.</strong></p>
-</div>
 </section>
 <section id="prompting-that-works" class="slide level2">
 <h2>Prompting That Works</h2>
@@ -1036,34 +984,28 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 <blockquote>
 <p>make a chart of my data</p>
 </blockquote>
-<div class="fragment">
 <p>Strong prompt:</p>
 <blockquote>
 <p>I have a pandas DataFrame called <code>sales</code> with columns <code>region</code> (text), <code>month</code> (text) and <code>revenue</code> (float). Write Python using seaborn to plot mean revenue per region as a bar chart, with axis labels in euros. Explain each line.</p>
 </blockquote>
-</div>
-<div class="fragment">
 <p>The difference is <strong>context, names, types, and the request to explain</strong>.</p>
-</div>
 </section>
 <section id="the-rule-for-this-module" class="slide level2">
 <h2>The Rule for This Module</h2>
 <ul>
-<li class="fragment">Type the code yourself for the first four weeks. Muscle memory is real.</li>
-<li class="fragment">If an assistant gives you code with a function we have not seen, ask it what that function does before using it</li>
-<li class="fragment">Never paste code you cannot read into an assessment</li>
+<li>Type the code yourself for the first four weeks. Muscle memory is real.</li>
+<li>If an assistant gives you code with a function we have not seen, ask it what that function does before using it</li>
+<li>Never paste code you cannot read into an assessment</li>
 </ul>
-<div class="fragment">
 <p>You are not being trained to produce code. You are being trained to <strong>judge</strong> code.</p>
-</div>
 </section>
 <section id="your-turn-break-it-and-fix-it" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Break It and Fix It</h2>
 <p>Copy this into a cell. It contains three errors.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a>Units <span class="op">=</span> <span class="dv">12</span></span>
-<span id="cb25-2"><a href=""></a>price <span class="op">=</span> <span class="fl">4.5</span></span>
-<span id="cb25-3"><a href=""></a>total <span class="op">=</span> units <span class="op">*</span> Price</span>
-<span id="cb25-4"><a href=""></a><span class="bu">print</span>(<span class="st">"Total: "</span> <span class="op">+</span> total)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="" aria-label="1"></a>Units <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb25-2"><a href="" aria-label="2"></a>price <span class="op">=</span> <span class="fl">4.5</span></span>
+<span id="cb25-3"><a href="" aria-label="3"></a>total <span class="op">=</span> units <span class="op">*</span> Price</span>
+<span id="cb25-4"><a href="" aria-label="4"></a><span class="bu">print</span>(<span class="st">"Total: "</span> <span class="op">+</span> total)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol type="1">
 <li>Run it, read the first error, fix only that one</li>
 <li>Run again, fix the next one, and so on</li>
@@ -1079,18 +1021,16 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 </section>
 <section id="solution-1" class="slide level2">
 <h2>Solution</h2>
-<div id="46aee181" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a>units <span class="op">=</span> <span class="dv">12</span>          <span class="co"># was Units, then used as units</span></span>
-<span id="cb26-2"><a href=""></a>price <span class="op">=</span> <span class="fl">4.5</span></span>
-<span id="cb26-3"><a href=""></a>total <span class="op">=</span> units <span class="op">*</span> price   <span class="co"># was Price</span></span>
-<span id="cb26-4"><a href=""></a><span class="bu">print</span>(<span class="st">"Total:"</span>, total)  <span class="co"># was "Total: " + total</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="25e6c16a" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="" aria-label="1"></a>units <span class="op">=</span> <span class="dv">12</span>          <span class="co"># was Units, then used as units</span></span>
+<span id="cb26-2"><a href="" aria-label="2"></a>price <span class="op">=</span> <span class="fl">4.5</span></span>
+<span id="cb26-3"><a href="" aria-label="3"></a>total <span class="op">=</span> units <span class="op">*</span> price   <span class="co"># was Price</span></span>
+<span id="cb26-4"><a href="" aria-label="4"></a><span class="bu">print</span>(<span class="st">"Total:"</span>, total)  <span class="co"># was "Total: " + total</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Total: 54.0</code></pre>
 </div>
 </div>
-<div class="fragment">
 <p>Three errors, three different lessons: case sensitivity, consistency, and text vs numbers.</p>
-</div>
 </section></section>
 <section>
 <section id="saving-your-work" class="title-slide slide level1 center">
@@ -1105,7 +1045,6 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 <li><code>File -&gt; Download -&gt; .ipynb</code>: the notebook file, what you submit</li>
 <li><code>File -&gt; Download -&gt; .py</code>: the code only, no output</li>
 </ul>
-<div class="fragment">
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1119,22 +1058,19 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 </div>
 </div>
 </div>
-</div>
 </section>
 <section id="getting-better-at-python" class="slide level2">
 <h2>Getting Better at Python</h2>
 <ul>
-<li class="fragment"><strong>Type, do not copy.</strong> Copy-paste teaches nothing.</li>
-<li class="fragment"><strong>Break things on purpose.</strong> Change a number, remove a bracket, see what happens.</li>
-<li class="fragment"><strong>Read other people’s code.</strong> Kaggle notebooks are free and endless.</li>
-<li class="fragment"><strong>Have a question of your own.</strong> The people who learn fastest are the ones with a dataset they actually care about.</li>
+<li><strong>Type, do not copy.</strong> Copy-paste teaches nothing.</li>
+<li><strong>Break things on purpose.</strong> Change a number, remove a bracket, see what happens.</li>
+<li><strong>Read other people’s code.</strong> Kaggle notebooks are free and endless.</li>
+<li><strong>Have a question of your own.</strong> The people who learn fastest are the ones with a dataset they actually care about.</li>
 </ul>
-<div class="fragment">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="https://c.tenor.com/0heitU7-tg4AAAAC/copy-paste-paste.gif" class="quarto-figure quarto-figure-center" style="width:30.0%"></p>
 </figure>
-</div>
 </div>
 </section>
 <section id="resources" class="slide level2">
@@ -1145,16 +1081,14 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 <li><a href="https://automatetheboringstuff.com/">Automate the Boring Stuff</a>, free online, Al Sweigart</li>
 <li><a href="https://www.kaggle.com/learn/python">Kaggle Learn: Python</a>, 5 hours, interactive</li>
 </ul>
-<div class="fragment">
 <p>For this module, none of these are required. The lecture and the exercises are enough.</p>
-</div>
 </section>
 <section id="before-next-week" class="slide level2">
 <h2>Before Next Week</h2>
 <ol type="1">
-<li class="fragment">Make sure you can open Colab and create a notebook</li>
-<li class="fragment">Redo the two exercises from today from scratch, without looking at the solutions</li>
-<li class="fragment">Write, in a text cell, one sentence describing a dataset you would like to analyse for your project</li>
+<li>Make sure you can open Colab and create a notebook</li>
+<li>Redo the two exercises from today from scratch, without looking at the solutions</li>
+<li>Write, in a text cell, one sentence describing a dataset you would like to analyse for your project</li>
 </ol>
 </section>
 <section id="references" class="slide level2">
@@ -1220,7 +1154,7 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"\u003ci class=\"fas fa-gear\">\u003c/i>","content":"\u003cul class=\"slide-menu-items\">\n\u003cli class=\"slide-tool-item active\" data-item=\"0\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\">\u003ckbd>f\u003c/kbd> Fullscreen\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"1\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\">\u003ckbd>s\u003c/kbd> Speaker View\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"2\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\">\u003ckbd>o\u003c/kbd> Slide Overview\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"3\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\">\u003ckbd>e\u003c/kbd> PDF Export Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"4\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\">\u003ckbd>r\u003c/kbd> Scroll View Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"5\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\">\u003ckbd>?\u003c/kbd> Keyboard Help\u003c/a>\u003c/li>\n\u003c/ul>"}],"openButton":true,"openButtonLabel":"Slide menu"},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1475,7 +1409,8 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }
           // Inspect non-navigation links and adorn them if external
-         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          window.quartoDecorateExternalLinks = function (root) {
+         var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
           for (var i=0; i<links.length; i++) {
             const link = links[i];
             if (!isInternal(link.href)) {
@@ -1484,8 +1419,69 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+              if (!link.classList.contains('no-external-icon')) {
+              }
             }
           }
+          };
+          window.quartoDecorateExternalLinks(window.document);
+        // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+        // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+        const hideOnEscAndFocusOut = {
+          name: 'hideOnEscAndFocusOut',
+          defaultValue: true,
+          fn(instance) {
+            const dismiss = () => {
+              // A show scheduled by the trigger delay would otherwise reopen it
+              instance.clearDelayTimeouts();
+              instance.hide();
+            };
+            const onKeyDown = (event) => {
+              if (event.key !== 'Escape') {
+                return;
+              }
+              // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+              // except an open reveal.js slide menu, which Esc should close too.
+              // The menu handles keys only when its keyboard option is on.
+              const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+                window.Reveal.getConfig().menu?.keyboard !== false;
+              if (!menuHandlesEsc) {
+                event.stopPropagation();
+              }
+              if (instance.popper.contains(window.document.activeElement)) {
+                // Disabled while refocusing so the focus trigger does not reopen it
+                instance.disable();
+                instance.reference.focus();
+                instance.enable();
+              }
+              dismiss();
+            };
+            const onFocusOut = (event) => {
+              const target = event.relatedTarget;
+              if (target && !instance.reference.contains(target) &&
+                  !instance.popper.contains(target)) {
+                dismiss();
+              }
+            };
+            // On the trigger too: a click trigger (code-annotations: select) has no
+            // blur handling. Attached for the instance's lifetime so leaving the
+            // trigger also cancels a show still pending on the trigger delay.
+            instance.reference.addEventListener('focusout', onFocusOut);
+            return {
+              onShow() {
+                window.document.addEventListener('keydown', onKeyDown, true);
+                instance.popper.addEventListener('focusout', onFocusOut);
+              },
+              onHide() {
+                window.document.removeEventListener('keydown', onKeyDown, true);
+                instance.popper.removeEventListener('focusout', onFocusOut);
+              },
+              onDestroy() {
+                instance.reference.removeEventListener('focusout', onFocusOut);
+              },
+            };
+          },
+        };
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
           const config = {
             allowHTML: true,
@@ -1499,6 +1495,7 @@ Cell <span class="ansi-green-fg">In[13], line 1</span>
             interactiveBorder: 10,
             theme: 'light-border',
             placement: 'bottom-start',
+            plugins: [hideOnEscAndFocusOut],
           };
           if (contentFn) {
             config.content = contentFn;

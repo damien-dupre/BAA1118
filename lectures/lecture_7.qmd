@@ -109,7 +109,7 @@ g2007 = gapminder[gapminder["year"] == 2007]
 ## Your Turn: Get Set Up {.smaller background="#43464B"}
 
 1. In VS Code, open your `BAA1118` folder, then `File -> New File... -> Jupyter Notebook`
-2. At the top right, click **Select Kernel**, then **Python Environments...**, then `.venv`
+2. At the top right, click **Select Kernel**, then **Python Environments...**, then the Python that says **3.14**
 3. In the first cell, run `%pip install pandas matplotlib seaborn`.
    When it has finished, click **Restart**
 4. In a second cell, run:
@@ -126,7 +126,7 @@ print(g2007.shape)
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-You should see `.venv` at the top right, then `(142, 6)`. Save the notebook in `BAA1118`
+You should see **Python 3.14** at the top right, then `(142, 6)`. Save the notebook in `BAA1118`
 as `lecture_7.ipynb`. Done? Help your neighbour.
 :::
 
@@ -141,9 +141,9 @@ as `lecture_7.ipynb`. Done? Help your neighbour.
 | What you see | What to do |
 |:----------------|:------------------------|
 | No **Jupyter Notebook** in `New File...` | Install the **Python** and **Jupyter** extensions: tutorial 5, step 2 |
-| No `.venv` in the kernel list | Open the `BAA1118` folder itself. Still none? Create it as in tutorial 5, step 4 |
+| No Python 3.14 in the kernel list | Quit VS Code completely and open it again. Still none? Install Python as in tutorial 5, step 1 |
 | VS Code asks to install `ipykernel` | Click **Install** |
-| `ModuleNotFoundError` | Select `.venv`, run the `%pip` cell again, then click **Restart** |
+| `ModuleNotFoundError` | Select **Python 3.14**, run the `%pip` cell again, then click **Restart** |
 | `CERTIFICATE_VERIFY_FAILED`, on a Mac | In Applications, open the Python 3.14 folder and double-click **Install Certificates.command**. Then run the cell again |
 | A network error in the `%pip` cell | Run the cell again |
 | No Python or VS Code on your laptop | Follow today in Colab, where these packages are already installed. Then set up with tutorial 5, on Loop |

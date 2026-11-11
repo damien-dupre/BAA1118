@@ -6,25 +6,31 @@
 <script src="lecture_7_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lecture_7_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lecture_7_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lecture_7_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lecture_7_files/libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lecture_7_files/libs/quarto-contrib/quarto-timer-1.0.0/timer.js"></script>
 <link href="lecture_7_files/libs/quarto-contrib/quarto-timer-1.0.0/timer.css" rel="stylesheet">
 <link href="lecture_7_files/libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="lecture_7_files/libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.25">
+  <meta name="generator" content="quarto-1.11.9">
 
   <meta name="author" content="Damien Dupré">
   <title>Lecture 7: Data Visualisation with matplotlib</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="lecture_7_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="lecture_7_files/libs/revealjs/dist/reveal.css">
   <style>
-    code{white-space: pre-wrap;}
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -99,7 +105,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lecture_7_files/libs/revealjs/dist/theme/quarto-827b7773fd74e4bcfe42e9ba7e1ce8d9.css">
+  <link rel="stylesheet" href="lecture_7_files/libs/revealjs/dist/theme/quarto-1dfff38cd8494ab3f4ffc82b6fbdb1c5.css">
   <link href="lecture_7_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lecture_7_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lecture_7_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -206,7 +212,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Damien Dupré 
+Damien Dupré
 </div>
 </div>
 </div>
@@ -214,7 +220,7 @@ Damien Dupré
 </section>
 <section id="summary-statistics-lie" class="slide level2">
 <h2>Summary Statistics Lie</h2>
-<div id="a4fd0d27" class="cell" data-execution_count="2">
+<div id="51ea5cdb" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <style scoped="">
@@ -283,11 +289,11 @@ Damien Dupré
 </div>
 </div>
 </div>
-<div id="5ce7a9c0" class="cell" data-execution_count="3">
+<div id="2f330e8b" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture_7_files/figure-revealjs/cell-4-output-1.png" width="1012" height="203"></p>
+<p><img data-src="lecture_7_files/figure-revealjs/cell-4-output-1.png" width="1013" height="203"></p>
 </figure>
 </div>
 </div>
@@ -297,7 +303,7 @@ Damien Dupré
 <section id="install-the-packages" class="slide level2">
 <h2>Install the Packages</h2>
 <p>matplotlib is not part of Python: Colab has it, your own Python does not. Install it once, in a code cell of a VS Code notebook:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="op">%</span>pip install pandas matplotlib seaborn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="op">%</span>pip install pandas matplotlib seaborn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Use <code>%pip</code>, not <code>!pip</code>: <code>%pip</code> installs into the Python that runs your notebook, while <code>!pip</code> can install into a different Python and the import then fails</li>
 <li>Wait until the cell finishes, then click <strong>Restart</strong> in the notebook toolbar</li>
@@ -308,13 +314,13 @@ Damien Dupré
 <section id="the-gapminder-dataset" class="slide level2">
 <h2>The gapminder Dataset</h2>
 <p>Each row is <strong>a country in a given year</strong>, from 1952 to 2007. As in lecture 6: read it and keep 2007 in <code>g2007</code>.</p>
-<div id="a537d4ca" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb2-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt         <span class="co"># the plotting library, as plt</span></span>
-<span id="cb2-3"><a href=""></a></span>
-<span id="cb2-4"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb2-5"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb2-6"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8640b393" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt         <span class="co"># the plotting library, as plt</span></span>
+<span id="cb2-3"><a href="" aria-label="3"></a></span>
+<span id="cb2-4"><a href="" aria-label="4"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb2-5"><a href="" aria-label="5"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb2-6"><a href="" aria-label="6"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>The columns: <code>country</code>, <code>continent</code>, <code>year</code>, <code>lifeExp</code> (in years), <code>pop</code> and <code>gdpPercap</code> (in US dollars)</li>
@@ -325,21 +331,21 @@ Damien Dupré
 <h2>Your Turn: Get Set Up</h2>
 <ol type="1">
 <li>In VS Code, open your <code>BAA1118</code> folder, then <code>File -&gt; New File... -&gt; Jupyter Notebook</code></li>
-<li>At the top right, click <strong>Select Kernel</strong>, then <strong>Python Environments…</strong>, then <code>.venv</code></li>
+<li>At the top right, click <strong>Select Kernel</strong>, then <strong>Python Environments…</strong>, then the Python that says <strong>3.14</strong></li>
 <li>In the first cell, run <code>%pip install pandas matplotlib seaborn</code>. When it has finished, click <strong>Restart</strong></li>
 <li>In a second cell, run:</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb3-4"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb3-5"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb3-6"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb3-7"><a href=""></a><span class="bu">print</span>(g2007.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="" aria-label="3"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb3-4"><a href="" aria-label="4"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb3-5"><a href="" aria-label="5"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb3-6"><a href="" aria-label="6"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb3-7"><a href="" aria-label="7"></a><span class="bu">print</span>(g2007.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
-<p>You should see <code>.venv</code> at the top right, then <code>(142, 6)</code>. Save the notebook in <code>BAA1118</code> as <code>lecture_7.ipynb</code>. Done? Help your neighbour.</p>
+<p>You should see <strong>Python 3.14</strong> at the top right, then <code>(142, 6)</code>. Save the notebook in <code>BAA1118</code> as <code>lecture_7.ipynb</code>. Done? Help your neighbour.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
                     <div id="timer1"></div>
@@ -372,8 +378,8 @@ Damien Dupré
 <td style="text-align: left;">Install the <strong>Python</strong> and <strong>Jupyter</strong> extensions: tutorial 5, step 2</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">No <code>.venv</code> in the kernel list</td>
-<td style="text-align: left;">Open the <code>BAA1118</code> folder itself. Still none? Create it as in tutorial 5, step 4</td>
+<td style="text-align: left;">No Python 3.14 in the kernel list</td>
+<td style="text-align: left;">Quit VS Code completely and open it again. Still none? Install Python as in tutorial 5, step 1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">VS Code asks to install <code>ipykernel</code></td>
@@ -381,7 +387,7 @@ Damien Dupré
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>ModuleNotFoundError</code></td>
-<td style="text-align: left;">Select <code>.venv</code>, run the <code>%pip</code> cell again, then click <strong>Restart</strong></td>
+<td style="text-align: left;">Select <strong>Python 3.14</strong>, run the <code>%pip</code> cell again, then click <strong>Restart</strong></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>CERTIFICATE_VERIFY_FAILED</code>, on a Mac</td>
@@ -407,15 +413,15 @@ Damien Dupré
 <section id="using-matplotlib" class="slide level2">
 <h2>Using matplotlib</h2>
 <p><code>matplotlib</code> is Python’s main plotting library: pandas, seaborn and most charts written by AI assistants draw with it. A chart is built in <strong>layers</strong>, one line of code each:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()     <span class="co"># 1. the canvas: an empty frame</span></span>
-<span id="cb4-2"><a href=""></a>ax.scatter(x, y)             <span class="co"># 2. a geometry: what to draw, and which columns</span></span>
-<span id="cb4-3"><a href=""></a>ax.set_xlabel(<span class="st">"..."</span>)         <span class="co"># 3. more layers: labels, scales, colours</span></span>
-<span id="cb4-4"><a href=""></a>plt.show()                   <span class="co"># 4. show it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="d12598de" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots()     <span class="co"># 1. the canvas: an empty frame</span></span>
+<span id="cb4-2"><a href="" aria-label="2"></a>ax.scatter(x, y)             <span class="co"># 2. a geometry: what to draw, and which columns</span></span>
+<span id="cb4-3"><a href="" aria-label="3"></a>ax.set_xlabel(<span class="st">"..."</span>)         <span class="co"># 3. more layers: labels, scales, colours</span></span>
+<span id="cb4-4"><a href="" aria-label="4"></a>plt.show()                   <span class="co"># 4. show it</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="8747abbd" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture_7_files/figure-revealjs/cell-6-output-1.png" width="1036" height="177"></p>
+<p><img data-src="lecture_7_files/figure-revealjs/cell-6-output-1.png" width="1035" height="177"></p>
 </figure>
 </div>
 </div>
@@ -424,13 +430,13 @@ Damien Dupré
 </section>
 <section id="the-canvas-fig-and-ax" class="slide level2">
 <h2>The Canvas: fig and ax</h2>
-<div id="f7745f53" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.5</span>))</span>
-<span id="cb5-2"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="18344a5a" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.5</span>))</span>
+<span id="cb5-2"><a href="" aria-label="2"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture_7_files/figure-revealjs/cell-7-output-1.png" width="754" height="182"></p>
+<p><img data-src="lecture_7_files/figure-revealjs/cell-7-output-1.png" width="755" height="182"></p>
 </figure>
 </div>
 </div>
@@ -443,17 +449,17 @@ Damien Dupré
 <section id="mapping-x-and-y" class="slide level2">
 <h2>Mapping x and y</h2>
 <p>A geometry’s first two arguments are its <strong>mapping</strong>: the x column, then the y column.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb6-2"><a href=""></a>ax.scatter(my_table[<span class="st">"my_x_column"</span>], my_table[<span class="st">"my_y_column"</span>])   <span class="co"># x first, then y</span></span>
-<span id="cb6-3"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="ca0446e5" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.6</span>))</span>
-<span id="cb7-2"><a href=""></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>])</span>
-<span id="cb7-3"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb6-2"><a href="" aria-label="2"></a>ax.scatter(my_table[<span class="st">"my_x_column"</span>], my_table[<span class="st">"my_y_column"</span>])   <span class="co"># x first, then y</span></span>
+<span id="cb6-3"><a href="" aria-label="3"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d4b55981" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.6</span>))</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>])</span>
+<span id="cb7-3"><a href="" aria-label="3"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture_7_files/figure-revealjs/cell-8-output-1.png" width="739" height="184"></p>
+<p><img data-src="lecture_7_files/figure-revealjs/cell-8-output-1.png" width="740" height="184"></p>
 </figure>
 </div>
 </div>
@@ -462,15 +468,15 @@ Damien Dupré
 </section>
 <section id="more-than-x-and-y" class="slide level2">
 <h2>More Than x and y</h2>
-<div id="4f559bda" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" data-code-line-numbers="3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.6</span>))</span>
-<span id="cb8-2"><a href=""></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>],</span>
-<span id="cb8-3"><a href=""></a>           color<span class="op">=</span><span class="st">"darkred"</span>, s<span class="op">=</span><span class="dv">15</span>, marker<span class="op">=</span><span class="st">"s"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb8-4"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="5b583fea" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8" data-code-line-numbers="3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.6</span>))</span>
+<span id="cb8-2"><a href="" aria-label="2"></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>],</span>
+<span id="cb8-3"><a href="" aria-label="3"></a>           color<span class="op">=</span><span class="st">"darkred"</span>, s<span class="op">=</span><span class="dv">15</span>, marker<span class="op">=</span><span class="st">"s"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb8-4"><a href="" aria-label="4"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture_7_files/figure-revealjs/cell-9-output-1.png" width="739" height="184"></p>
+<p><img data-src="lecture_7_files/figure-revealjs/cell-9-output-1.png" width="740" height="184"></p>
 </figure>
 </div>
 </div>
@@ -528,11 +534,11 @@ Damien Dupré
 </section>
 <section id="line-chart" class="slide level2">
 <h2>Line Chart</h2>
-<div id="1ce0ea2a" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>ireland <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>]</span>
-<span id="cb9-2"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
-<span id="cb9-3"><a href=""></a>ax.plot(ireland[<span class="st">"year"</span>], ireland[<span class="st">"lifeExp"</span>], marker<span class="op">=</span><span class="st">"o"</span>)</span>
-<span id="cb9-4"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="7bdc074a" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a>ireland <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>]</span>
+<span id="cb9-2"><a href="" aria-label="2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
+<span id="cb9-3"><a href="" aria-label="3"></a>ax.plot(ireland[<span class="st">"year"</span>], ireland[<span class="st">"lifeExp"</span>], marker<span class="op">=</span><span class="st">"o"</span>)</span>
+<span id="cb9-4"><a href="" aria-label="4"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -548,11 +554,11 @@ Damien Dupré
 </section>
 <section id="bar-chart" class="slide level2">
 <h2>Bar Chart</h2>
-<div id="cbb50db6" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a>means <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[<span class="st">"lifeExp"</span>].mean()</span>
-<span id="cb10-2"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
-<span id="cb10-3"><a href=""></a>ax.bar(means.index, means.values)</span>
-<span id="cb10-4"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a0ab98b8" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-label="1"></a>means <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[<span class="st">"lifeExp"</span>].mean()</span>
+<span id="cb10-2"><a href="" aria-label="2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
+<span id="cb10-3"><a href="" aria-label="3"></a>ax.bar(means.index, means.values)</span>
+<span id="cb10-4"><a href="" aria-label="4"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -568,10 +574,10 @@ Damien Dupré
 </section>
 <section id="histogram" class="slide level2">
 <h2>Histogram</h2>
-<div id="c0413384" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
-<span id="cb11-2"><a href=""></a>ax.hist(g2007[<span class="st">"lifeExp"</span>], bins<span class="op">=</span><span class="dv">20</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb11-3"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="21721628" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
+<span id="cb11-2"><a href="" aria-label="2"></a>ax.hist(g2007[<span class="st">"lifeExp"</span>], bins<span class="op">=</span><span class="dv">20</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb11-3"><a href="" aria-label="3"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -587,12 +593,12 @@ Damien Dupré
 </section>
 <section id="boxplot" class="slide level2">
 <h2>Boxplot</h2>
-<div id="0573669f" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a>africa <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Africa"</span>]</span>
-<span id="cb12-2"><a href=""></a>europe <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Europe"</span>]</span>
-<span id="cb12-3"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
-<span id="cb12-4"><a href=""></a>ax.boxplot([africa[<span class="st">"lifeExp"</span>], europe[<span class="st">"lifeExp"</span>]], tick_labels<span class="op">=</span>[<span class="st">"Africa"</span>, <span class="st">"Europe"</span>])</span>
-<span id="cb12-5"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="f0ad2430" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-label="1"></a>africa <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Africa"</span>]</span>
+<span id="cb12-2"><a href="" aria-label="2"></a>europe <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Europe"</span>]</span>
+<span id="cb12-3"><a href="" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
+<span id="cb12-4"><a href="" aria-label="4"></a>ax.boxplot([africa[<span class="st">"lifeExp"</span>], europe[<span class="st">"lifeExp"</span>]], tick_labels<span class="op">=</span>[<span class="st">"Africa"</span>, <span class="st">"Europe"</span>])</span>
+<span id="cb12-5"><a href="" aria-label="5"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -609,18 +615,18 @@ Damien Dupré
 <section id="your-turn-first-charts" class="slide level2" data-background="#43464B">
 <h2>Your Turn: First Charts</h2>
 <p>Replace each <code>____</code>, using the comments, then run the cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb13-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb13-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb13-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb13-5"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
-<span id="cb13-6"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb13-7"><a href=""></a>ax.____(g1952[<span class="st">"lifeExp"</span>], bins<span class="op">=</span><span class="dv">20</span>)                <span class="co"># a histogram, with .hist()</span></span>
-<span id="cb13-8"><a href=""></a>plt.show()</span>
-<span id="cb13-9"><a href=""></a>china <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> ____]    <span class="co"># "China", in quotes</span></span>
-<span id="cb13-10"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb13-11"><a href=""></a>ax.____(china[<span class="st">"year"</span>], china[____])                <span class="co"># a line, with .plot(), of "lifeExp"</span></span>
-<span id="cb13-12"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb13-2"><a href="" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb13-3"><a href="" aria-label="3"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb13-4"><a href="" aria-label="4"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb13-5"><a href="" aria-label="5"></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
+<span id="cb13-6"><a href="" aria-label="6"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb13-7"><a href="" aria-label="7"></a>ax.____(g1952[<span class="st">"lifeExp"</span>], bins<span class="op">=</span><span class="dv">20</span>)                <span class="co"># a histogram, with .hist()</span></span>
+<span id="cb13-8"><a href="" aria-label="8"></a>plt.show()</span>
+<span id="cb13-9"><a href="" aria-label="9"></a>china <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> ____]    <span class="co"># "China", in quotes</span></span>
+<span id="cb13-10"><a href="" aria-label="10"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb13-11"><a href="" aria-label="11"></a>ax.____(china[<span class="st">"year"</span>], china[____])                <span class="co"># a line, with .plot(), of "lifeExp"</span></span>
+<span id="cb13-12"><a href="" aria-label="12"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
@@ -640,19 +646,19 @@ Damien Dupré
 </section>
 <section id="solution" class="slide level2">
 <h2>Solution</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb14-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb14-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb14-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb14-5"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
-<span id="cb14-6"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb14-7"><a href=""></a>ax.hist(g1952[<span class="st">"lifeExp"</span>], bins<span class="op">=</span><span class="dv">20</span>)              <span class="co"># two humps: around 40, and around 65</span></span>
-<span id="cb14-8"><a href=""></a>plt.show()</span>
-<span id="cb14-9"><a href=""></a>china <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"China"</span>]</span>
-<span id="cb14-10"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb14-11"><a href=""></a>ax.plot(china[<span class="st">"year"</span>], china[<span class="st">"lifeExp"</span>])        <span class="co"># 1962: the Great Leap Forward famine</span></span>
-<span id="cb14-12"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="ebbaf27a" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-2"><a href="" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-3"><a href="" aria-label="3"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb14-4"><a href="" aria-label="4"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb14-5"><a href="" aria-label="5"></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
+<span id="cb14-6"><a href="" aria-label="6"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb14-7"><a href="" aria-label="7"></a>ax.hist(g1952[<span class="st">"lifeExp"</span>], bins<span class="op">=</span><span class="dv">20</span>)              <span class="co"># two humps: around 40, and around 65</span></span>
+<span id="cb14-8"><a href="" aria-label="8"></a>plt.show()</span>
+<span id="cb14-9"><a href="" aria-label="9"></a>china <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"China"</span>]</span>
+<span id="cb14-10"><a href="" aria-label="10"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb14-11"><a href="" aria-label="11"></a>ax.plot(china[<span class="st">"year"</span>], china[<span class="st">"lifeExp"</span>])        <span class="co"># 1962: the Great Leap Forward famine</span></span>
+<span id="cb14-12"><a href="" aria-label="12"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="f8bfd1f9" class="cell quarto-layout-panel" data-execution_count="14" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img data-src="lecture_7_files/figure-revealjs/cell-15-output-1.png" width="437"></p>
@@ -670,16 +676,16 @@ Damien Dupré
 </section>
 <section id="grey-everything-colour-one-thing" class="slide level2">
 <h2>Grey Everything, Colour One Thing</h2>
-<div id="7f92f20b" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a>eq_guinea <span class="op">=</span> g2007[g2007[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Equatorial Guinea"</span>]</span>
-<span id="cb15-2"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.7</span>))</span>
-<span id="cb15-3"><a href=""></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
-<span id="cb15-4"><a href=""></a>ax.scatter(eq_guinea[<span class="st">"gdpPercap"</span>], eq_guinea[<span class="st">"lifeExp"</span>], color<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb15-5"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ddc87d60" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="" aria-label="1"></a>eq_guinea <span class="op">=</span> g2007[g2007[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Equatorial Guinea"</span>]</span>
+<span id="cb15-2"><a href="" aria-label="2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.7</span>))</span>
+<span id="cb15-3"><a href="" aria-label="3"></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
+<span id="cb15-4"><a href="" aria-label="4"></a>ax.scatter(eq_guinea[<span class="st">"gdpPercap"</span>], eq_guinea[<span class="st">"lifeExp"</span>], color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb15-5"><a href="" aria-label="5"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture_7_files/figure-revealjs/cell-16-output-1.png" width="739" height="193"></p>
+<p><img data-src="lecture_7_files/figure-revealjs/cell-16-output-1.png" width="740" height="193"></p>
 </figure>
 </div>
 </div>
@@ -691,17 +697,17 @@ Damien Dupré
 </section>
 <section id="colour-by-group" class="slide level2">
 <h2>Colour by Group</h2>
-<div id="39430b03" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
-<span id="cb16-2"><a href=""></a><span class="cf">for</span> continent <span class="kw">in</span> [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>]:</span>
-<span id="cb16-3"><a href=""></a>    subset <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> continent]</span>
-<span id="cb16-4"><a href=""></a>    ax.scatter(subset[<span class="st">"gdpPercap"</span>], subset[<span class="st">"lifeExp"</span>], label<span class="op">=</span>continent)</span>
-<span id="cb16-5"><a href=""></a>ax.legend()</span>
-<span id="cb16-6"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="0584412b" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
+<span id="cb16-2"><a href="" aria-label="2"></a><span class="cf">for</span> continent <span class="kw">in</span> [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>]:</span>
+<span id="cb16-3"><a href="" aria-label="3"></a>    subset <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> continent]</span>
+<span id="cb16-4"><a href="" aria-label="4"></a>    ax.scatter(subset[<span class="st">"gdpPercap"</span>], subset[<span class="st">"lifeExp"</span>], label<span class="op">=</span>continent)</span>
+<span id="cb16-5"><a href="" aria-label="5"></a>ax.legend()</span>
+<span id="cb16-6"><a href="" aria-label="6"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture_7_files/figure-revealjs/cell-17-output-1.png" width="739" height="201"></p>
+<p><img data-src="lecture_7_files/figure-revealjs/cell-17-output-1.png" width="740" height="201"></p>
 </figure>
 </div>
 </div>
@@ -713,18 +719,18 @@ Damien Dupré
 </section>
 <section id="styles" class="slide level2">
 <h2>Styles</h2>
-<div id="97373641" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" data-code-line-numbers="1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a>plt.style.use(<span class="st">"petroff10"</span>)</span>
-<span id="cb17-2"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.6</span>))</span>
-<span id="cb17-3"><a href=""></a><span class="cf">for</span> continent <span class="kw">in</span> [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>]:</span>
-<span id="cb17-4"><a href=""></a>    subset <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> continent]</span>
-<span id="cb17-5"><a href=""></a>    ax.scatter(subset[<span class="st">"gdpPercap"</span>], subset[<span class="st">"lifeExp"</span>], label<span class="op">=</span>continent)</span>
-<span id="cb17-6"><a href=""></a>ax.legend()</span>
-<span id="cb17-7"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="b0c8c1a0" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17" data-code-line-numbers="1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="" aria-label="1"></a>plt.style.use(<span class="st">"petroff10"</span>)</span>
+<span id="cb17-2"><a href="" aria-label="2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.6</span>))</span>
+<span id="cb17-3"><a href="" aria-label="3"></a><span class="cf">for</span> continent <span class="kw">in</span> [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>]:</span>
+<span id="cb17-4"><a href="" aria-label="4"></a>    subset <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> continent]</span>
+<span id="cb17-5"><a href="" aria-label="5"></a>    ax.scatter(subset[<span class="st">"gdpPercap"</span>], subset[<span class="st">"lifeExp"</span>], label<span class="op">=</span>continent)</span>
+<span id="cb17-6"><a href="" aria-label="6"></a>ax.legend()</span>
+<span id="cb17-7"><a href="" aria-label="7"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture_7_files/figure-revealjs/cell-18-output-1.png" width="739" height="184"></p>
+<p><img data-src="lecture_7_files/figure-revealjs/cell-18-output-1.png" width="740" height="184"></p>
 </figure>
 </div>
 </div>
@@ -735,14 +741,14 @@ Damien Dupré
 </section>
 <section id="scales" class="slide level2">
 <h2>Scales</h2>
-<div id="53e3384c" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" data-code-line-numbers="6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.6</span>))</span>
-<span id="cb18-2"><a href=""></a><span class="cf">for</span> continent <span class="kw">in</span> [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>]:</span>
-<span id="cb18-3"><a href=""></a>    subset <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> continent]</span>
-<span id="cb18-4"><a href=""></a>    ax.scatter(subset[<span class="st">"gdpPercap"</span>], subset[<span class="st">"lifeExp"</span>], label<span class="op">=</span>continent)</span>
-<span id="cb18-5"><a href=""></a>ax.legend()</span>
-<span id="cb18-6"><a href=""></a>ax.set_xscale(<span class="st">"log"</span>)</span>
-<span id="cb18-7"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="3763fe45" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18" data-code-line-numbers="6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.6</span>))</span>
+<span id="cb18-2"><a href="" aria-label="2"></a><span class="cf">for</span> continent <span class="kw">in</span> [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>]:</span>
+<span id="cb18-3"><a href="" aria-label="3"></a>    subset <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> continent]</span>
+<span id="cb18-4"><a href="" aria-label="4"></a>    ax.scatter(subset[<span class="st">"gdpPercap"</span>], subset[<span class="st">"lifeExp"</span>], label<span class="op">=</span>continent)</span>
+<span id="cb18-5"><a href="" aria-label="5"></a>ax.legend()</span>
+<span id="cb18-6"><a href="" aria-label="6"></a>ax.set_xscale(<span class="st">"log"</span>)</span>
+<span id="cb18-7"><a href="" aria-label="7"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -757,16 +763,16 @@ Damien Dupré
 </section>
 <section id="labels" class="slide level2">
 <h2>Labels</h2>
-<div id="92bc69f5" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19" data-code-line-numbers="7,8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.45</span>))</span>
-<span id="cb19-2"><a href=""></a><span class="cf">for</span> continent <span class="kw">in</span> [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>]:</span>
-<span id="cb19-3"><a href=""></a>    subset <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> continent]</span>
-<span id="cb19-4"><a href=""></a>    ax.scatter(subset[<span class="st">"gdpPercap"</span>], subset[<span class="st">"lifeExp"</span>], label<span class="op">=</span>continent)</span>
-<span id="cb19-5"><a href=""></a>ax.legend()</span>
-<span id="cb19-6"><a href=""></a>ax.set_xscale(<span class="st">"log"</span>)</span>
-<span id="cb19-7"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"GDP per capita (US$, log scale)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)</span>
-<span id="cb19-8"><a href=""></a>ax.set_title(<span class="st">"Each doubling of income comes with a longer life"</span>, loc<span class="op">=</span><span class="st">"left"</span>)</span>
-<span id="cb19-9"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="35a933fe" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19" data-code-line-numbers="7,8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.45</span>))</span>
+<span id="cb19-2"><a href="" aria-label="2"></a><span class="cf">for</span> continent <span class="kw">in</span> [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>]:</span>
+<span id="cb19-3"><a href="" aria-label="3"></a>    subset <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> continent]</span>
+<span id="cb19-4"><a href="" aria-label="4"></a>    ax.scatter(subset[<span class="st">"gdpPercap"</span>], subset[<span class="st">"lifeExp"</span>], label<span class="op">=</span>continent)</span>
+<span id="cb19-5"><a href="" aria-label="5"></a>ax.legend()</span>
+<span id="cb19-6"><a href="" aria-label="6"></a>ax.set_xscale(<span class="st">"log"</span>)</span>
+<span id="cb19-7"><a href="" aria-label="7"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"GDP per capita (US$, log scale)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)</span>
+<span id="cb19-8"><a href="" aria-label="8"></a>ax.set_title(<span class="st">"Each doubling of income comes with a longer life"</span>, loc<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb19-9"><a href="" aria-label="9"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -781,14 +787,14 @@ Damien Dupré
 </section>
 <section id="panels" class="slide level2">
 <h2>Panels</h2>
-<div id="114ccb6b" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
-<span id="cb20-2"><a href=""></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">1.6</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-3"><a href=""></a>axes[<span class="dv">0</span>].scatter(g1952[<span class="st">"gdpPercap"</span>], g1952[<span class="st">"lifeExp"</span>])</span>
-<span id="cb20-4"><a href=""></a>axes[<span class="dv">0</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">"1952"</span>, xscale<span class="op">=</span><span class="st">"log"</span>)</span>
-<span id="cb20-5"><a href=""></a>axes[<span class="dv">1</span>].scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>])</span>
-<span id="cb20-6"><a href=""></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">"2007"</span>, xscale<span class="op">=</span><span class="st">"log"</span>)</span>
-<span id="cb20-7"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="66e196e2" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="" aria-label="1"></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
+<span id="cb20-2"><a href="" aria-label="2"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="fl">1.6</span>), sharey<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-3"><a href="" aria-label="3"></a>axes[<span class="dv">0</span>].scatter(g1952[<span class="st">"gdpPercap"</span>], g1952[<span class="st">"lifeExp"</span>])</span>
+<span id="cb20-4"><a href="" aria-label="4"></a>axes[<span class="dv">0</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">"1952"</span>, xscale<span class="op">=</span><span class="st">"log"</span>)</span>
+<span id="cb20-5"><a href="" aria-label="5"></a>axes[<span class="dv">1</span>].scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>])</span>
+<span id="cb20-6"><a href="" aria-label="6"></a>axes[<span class="dv">1</span>].<span class="bu">set</span>(title<span class="op">=</span><span class="st">"2007"</span>, xscale<span class="op">=</span><span class="st">"log"</span>)</span>
+<span id="cb20-7"><a href="" aria-label="7"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -804,13 +810,13 @@ Damien Dupré
 </section>
 <section id="reference-lines" class="slide level2">
 <h2>Reference Lines</h2>
-<div id="a23c6aff" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
-<span id="cb21-2"><a href=""></a>ax.hist(g2007[<span class="st">"lifeExp"</span>], bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"lightgrey"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
-<span id="cb21-3"><a href=""></a>ax.axvline(g2007[<span class="st">"lifeExp"</span>].mean(), color<span class="op">=</span><span class="st">"red"</span>, label<span class="op">=</span><span class="st">"mean"</span>)</span>
-<span id="cb21-4"><a href=""></a>ax.axvline(g2007[<span class="st">"lifeExp"</span>].median(), color<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"median"</span>)</span>
-<span id="cb21-5"><a href=""></a>ax.legend()</span>
-<span id="cb21-6"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="5440f294" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
+<span id="cb21-2"><a href="" aria-label="2"></a>ax.hist(g2007[<span class="st">"lifeExp"</span>], bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">"lightgrey"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb21-3"><a href="" aria-label="3"></a>ax.axvline(g2007[<span class="st">"lifeExp"</span>].mean(), color<span class="op">=</span><span class="st">"red"</span>, label<span class="op">=</span><span class="st">"mean"</span>)</span>
+<span id="cb21-4"><a href="" aria-label="4"></a>ax.axvline(g2007[<span class="st">"lifeExp"</span>].median(), color<span class="op">=</span><span class="st">"black"</span>, label<span class="op">=</span><span class="st">"median"</span>)</span>
+<span id="cb21-5"><a href="" aria-label="5"></a>ax.legend()</span>
+<span id="cb21-6"><a href="" aria-label="6"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -826,8 +832,8 @@ Damien Dupré
 </section>
 <section id="saving-a-figure" class="slide level2">
 <h2>Saving a Figure</h2>
-<div id="0bb11ba8" class="cell" data-execution_count="22">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a>fig.savefig(<span class="st">"lifeExp_2007.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ea6f61c6" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="" aria-label="1"></a>fig.savefig(<span class="st">"lifeExp_2007.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>A relative path: the file appears beside your notebook. To save into a folder, such as <code>"output/lifeExp_2007.png"</code>, the folder must already exist</li>
@@ -840,18 +846,18 @@ Damien Dupré
 <section id="your-turn-one-good-chart" class="slide level2" data-background="#43464B">
 <h2>Your Turn: One Good Chart</h2>
 <p><strong>Ireland in 2007.</strong> Replace each <code>____</code>, using the comments:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb23-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb23-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb23-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb23-5"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb23-6"><a href=""></a>ireland <span class="op">=</span> g2007[g2007[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>]</span>
-<span id="cb23-7"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb23-8"><a href=""></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>], color<span class="op">=</span>____)      <span class="co"># all: "lightgrey"</span></span>
-<span id="cb23-9"><a href=""></a>ax.scatter(ireland[<span class="st">"gdpPercap"</span>], ireland[<span class="st">"lifeExp"</span>], color<span class="op">=</span>____)  <span class="co"># Ireland: "red"</span></span>
-<span id="cb23-10"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span>____, ylabel<span class="op">=</span>____)               <span class="co"># both labels, each with its unit</span></span>
-<span id="cb23-11"><a href=""></a>ax.set_title(____)                             <span class="co"># a title that states the finding</span></span>
-<span id="cb23-12"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb23-2"><a href="" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb23-3"><a href="" aria-label="3"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb23-4"><a href="" aria-label="4"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb23-5"><a href="" aria-label="5"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb23-6"><a href="" aria-label="6"></a>ireland <span class="op">=</span> g2007[g2007[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>]</span>
+<span id="cb23-7"><a href="" aria-label="7"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb23-8"><a href="" aria-label="8"></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>], color<span class="op">=</span>____)      <span class="co"># all: "lightgrey"</span></span>
+<span id="cb23-9"><a href="" aria-label="9"></a>ax.scatter(ireland[<span class="st">"gdpPercap"</span>], ireland[<span class="st">"lifeExp"</span>], color<span class="op">=</span>____)  <span class="co"># Ireland: "red"</span></span>
+<span id="cb23-10"><a href="" aria-label="10"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span>____, ylabel<span class="op">=</span>____)               <span class="co"># both labels, each with its unit</span></span>
+<span id="cb23-11"><a href="" aria-label="11"></a>ax.set_title(____)                             <span class="co"># a title that states the finding</span></span>
+<span id="cb23-12"><a href="" aria-label="12"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
@@ -871,19 +877,19 @@ Damien Dupré
 </section>
 <section id="solution-1" class="slide level2">
 <h2>Solution</h2>
-<div id="225c982d" class="cell" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb24-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb24-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb24-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb24-5"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb24-6"><a href=""></a>ireland <span class="op">=</span> g2007[g2007[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>]</span>
-<span id="cb24-7"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb24-8"><a href=""></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
-<span id="cb24-9"><a href=""></a>ax.scatter(ireland[<span class="st">"gdpPercap"</span>], ireland[<span class="st">"lifeExp"</span>], color<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb24-10"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"GDP per capita (US$)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)</span>
-<span id="cb24-11"><a href=""></a>ax.set_title(<span class="st">"Ireland: 5th richest country, but 22nd for life expectancy"</span>)</span>
-<span id="cb24-12"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d9ec0422" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb24-2"><a href="" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb24-3"><a href="" aria-label="3"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb24-4"><a href="" aria-label="4"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb24-5"><a href="" aria-label="5"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb24-6"><a href="" aria-label="6"></a>ireland <span class="op">=</span> g2007[g2007[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>]</span>
+<span id="cb24-7"><a href="" aria-label="7"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb24-8"><a href="" aria-label="8"></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
+<span id="cb24-9"><a href="" aria-label="9"></a>ax.scatter(ireland[<span class="st">"gdpPercap"</span>], ireland[<span class="st">"lifeExp"</span>], color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb24-10"><a href="" aria-label="10"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"GDP per capita (US$)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)</span>
+<span id="cb24-11"><a href="" aria-label="11"></a>ax.set_title(<span class="st">"Ireland: 5th richest country, but 22nd for life expectancy"</span>)</span>
+<span id="cb24-12"><a href="" aria-label="12"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -900,13 +906,13 @@ Damien Dupré
 </section>
 <section id="a-new-column-then-plot" class="slide level2">
 <h2>A New Column, Then Plot</h2>
-<div id="0c10b817" class="cell" data-execution_count="25">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a>gapminder[<span class="st">"gdp_bn"</span>] <span class="op">=</span> gapminder[<span class="st">"pop"</span>] <span class="op">*</span> gapminder[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1_000_000_000</span></span>
-<span id="cb25-2"><a href=""></a>ireland <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>]</span>
-<span id="cb25-3"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
-<span id="cb25-4"><a href=""></a>ax.plot(ireland[<span class="st">"year"</span>], ireland[<span class="st">"gdp_bn"</span>], marker<span class="op">=</span><span class="st">"o"</span>)</span>
-<span id="cb25-5"><a href=""></a>ax.set_ylabel(<span class="st">"GDP (US$ billions)"</span>)</span>
-<span id="cb25-6"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6fa79f81" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="" aria-label="1"></a>gapminder[<span class="st">"gdp_bn"</span>] <span class="op">=</span> gapminder[<span class="st">"pop"</span>] <span class="op">*</span> gapminder[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1_000_000_000</span></span>
+<span id="cb25-2"><a href="" aria-label="2"></a>ireland <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>]</span>
+<span id="cb25-3"><a href="" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
+<span id="cb25-4"><a href="" aria-label="4"></a>ax.plot(ireland[<span class="st">"year"</span>], ireland[<span class="st">"gdp_bn"</span>], marker<span class="op">=</span><span class="st">"o"</span>)</span>
+<span id="cb25-5"><a href="" aria-label="5"></a>ax.set_ylabel(<span class="st">"GDP (US$ billions)"</span>)</span>
+<span id="cb25-6"><a href="" aria-label="6"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -922,13 +928,13 @@ Damien Dupré
 </section>
 <section id="groupby-then-plot" class="slide level2">
 <h2>groupby(), Then Plot</h2>
-<div id="83993e89" class="cell" data-execution_count="26">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a>pop_bn <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[<span class="st">"pop"</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="dv">1_000_000_000</span></span>
-<span id="cb26-2"><a href=""></a>pop_bn <span class="op">=</span> pop_bn.sort_values()</span>
-<span id="cb26-3"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
-<span id="cb26-4"><a href=""></a>ax.barh(pop_bn.index, pop_bn.values)</span>
-<span id="cb26-5"><a href=""></a>ax.set_xlabel(<span class="st">"Population in 2007 (billions)"</span>)</span>
-<span id="cb26-6"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a3b3880a" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="" aria-label="1"></a>pop_bn <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[<span class="st">"pop"</span>].<span class="bu">sum</span>() <span class="op">/</span> <span class="dv">1_000_000_000</span></span>
+<span id="cb26-2"><a href="" aria-label="2"></a>pop_bn <span class="op">=</span> pop_bn.sort_values()</span>
+<span id="cb26-3"><a href="" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.8</span>))</span>
+<span id="cb26-4"><a href="" aria-label="4"></a>ax.barh(pop_bn.index, pop_bn.values)</span>
+<span id="cb26-5"><a href="" aria-label="5"></a>ax.set_xlabel(<span class="st">"Population in 2007 (billions)"</span>)</span>
+<span id="cb26-6"><a href="" aria-label="6"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -944,14 +950,14 @@ Damien Dupré
 </section>
 <section id="pivot_table-then-plot" class="slide level2">
 <h2>pivot_table(), Then Plot</h2>
-<div id="9968687b" class="cell" data-execution_count="27">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a>by_year <span class="op">=</span> gapminder.pivot_table(index<span class="op">=</span><span class="st">"year"</span>, columns<span class="op">=</span><span class="st">"continent"</span>,</span>
-<span id="cb27-2"><a href=""></a>                                values<span class="op">=</span><span class="st">"lifeExp"</span>, aggfunc<span class="op">=</span><span class="st">"mean"</span>)</span>
-<span id="cb27-3"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.45</span>))</span>
-<span id="cb27-4"><a href=""></a>by_year.plot(ax<span class="op">=</span>ax, marker<span class="op">=</span><span class="st">"o"</span>)</span>
-<span id="cb27-5"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Year"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>, ylim<span class="op">=</span>(<span class="dv">35</span>, <span class="dv">90</span>))</span>
-<span id="cb27-6"><a href=""></a>ax.legend(ncol<span class="op">=</span><span class="dv">5</span>)</span>
-<span id="cb27-7"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="231a1701" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="" aria-label="1"></a>by_year <span class="op">=</span> gapminder.pivot_table(index<span class="op">=</span><span class="st">"year"</span>, columns<span class="op">=</span><span class="st">"continent"</span>,</span>
+<span id="cb27-2"><a href="" aria-label="2"></a>                                values<span class="op">=</span><span class="st">"lifeExp"</span>, aggfunc<span class="op">=</span><span class="st">"mean"</span>)</span>
+<span id="cb27-3"><a href="" aria-label="3"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.45</span>))</span>
+<span id="cb27-4"><a href="" aria-label="4"></a>by_year.plot(ax<span class="op">=</span>ax, marker<span class="op">=</span><span class="st">"o"</span>)</span>
+<span id="cb27-5"><a href="" aria-label="5"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Year"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>, ylim<span class="op">=</span>(<span class="dv">35</span>, <span class="dv">90</span>))</span>
+<span id="cb27-6"><a href="" aria-label="6"></a>ax.legend(ncol<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb27-7"><a href="" aria-label="7"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -968,17 +974,17 @@ Damien Dupré
 <section id="your-turn-table-to-chart" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Table to Chart</h2>
 <p>Replace each <code>____</code>, using the comments, then run the cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb28-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb28-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb28-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb28-5"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb28-6"><a href=""></a>medians <span class="op">=</span> g2007.groupby(____)[<span class="st">"gdpPercap"</span>].____()   <span class="co"># by "continent", with .median()</span></span>
-<span id="cb28-7"><a href=""></a>medians <span class="op">=</span> medians.____()                              <span class="co"># lowest first, with .sort_values()</span></span>
-<span id="cb28-8"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb28-9"><a href=""></a>ax.____(medians.index, medians.values)                <span class="co"># sideways bars, with .barh()</span></span>
-<span id="cb28-10"><a href=""></a>ax.set_xlabel(____)                                   <span class="co"># a label, with its unit</span></span>
-<span id="cb28-11"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb28-2"><a href="" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb28-3"><a href="" aria-label="3"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb28-4"><a href="" aria-label="4"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb28-5"><a href="" aria-label="5"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb28-6"><a href="" aria-label="6"></a>medians <span class="op">=</span> g2007.groupby(____)[<span class="st">"gdpPercap"</span>].____()   <span class="co"># by "continent", with .median()</span></span>
+<span id="cb28-7"><a href="" aria-label="7"></a>medians <span class="op">=</span> medians.____()                              <span class="co"># lowest first, with .sort_values()</span></span>
+<span id="cb28-8"><a href="" aria-label="8"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb28-9"><a href="" aria-label="9"></a>ax.____(medians.index, medians.values)                <span class="co"># sideways bars, with .barh()</span></span>
+<span id="cb28-10"><a href="" aria-label="10"></a>ax.set_xlabel(____)                                   <span class="co"># a label, with its unit</span></span>
+<span id="cb28-11"><a href="" aria-label="11"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
@@ -998,18 +1004,18 @@ Damien Dupré
 </section>
 <section id="solution-2" class="slide level2">
 <h2>Solution</h2>
-<div id="191e895f" class="cell" data-execution_count="29">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb29-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb29-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb29-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb29-5"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb29-6"><a href=""></a>medians <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[<span class="st">"gdpPercap"</span>].median()  <span class="co"># incomes are skewed</span></span>
-<span id="cb29-7"><a href=""></a>medians <span class="op">=</span> medians.sort_values()</span>
-<span id="cb29-8"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb29-9"><a href=""></a>ax.barh(medians.index, medians.values)</span>
-<span id="cb29-10"><a href=""></a>ax.set_xlabel(<span class="st">"Median GDP per capita in 2007 (US$)"</span>)</span>
-<span id="cb29-11"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="317504b6" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb29-2"><a href="" aria-label="2"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb29-3"><a href="" aria-label="3"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb29-4"><a href="" aria-label="4"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb29-5"><a href="" aria-label="5"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb29-6"><a href="" aria-label="6"></a>medians <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[<span class="st">"gdpPercap"</span>].median()  <span class="co"># incomes are skewed</span></span>
+<span id="cb29-7"><a href="" aria-label="7"></a>medians <span class="op">=</span> medians.sort_values()</span>
+<span id="cb29-8"><a href="" aria-label="8"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb29-9"><a href="" aria-label="9"></a>ax.barh(medians.index, medians.values)</span>
+<span id="cb29-10"><a href="" aria-label="10"></a>ax.set_xlabel(<span class="st">"Median GDP per capita in 2007 (US$)"</span>)</span>
+<span id="cb29-11"><a href="" aria-label="11"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1021,13 +1027,13 @@ Damien Dupré
 </section>
 <section id="same-chart-one-line" class="slide level2">
 <h2>Same Chart, One Line</h2>
-<div id="5a2955b6" class="cell" data-execution_count="30">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href=""></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb30-2"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.0</span>))</span>
-<span id="cb30-3"><a href=""></a>sns.scatterplot(data<span class="op">=</span>g2007, x<span class="op">=</span><span class="st">"gdpPercap"</span>, y<span class="op">=</span><span class="st">"lifeExp"</span>, hue<span class="op">=</span><span class="st">"continent"</span>, ax<span class="op">=</span>ax)</span>
-<span id="cb30-4"><a href=""></a>ax.<span class="bu">set</span>(xscale<span class="op">=</span><span class="st">"log"</span>, xlabel<span class="op">=</span><span class="st">"GDP per capita (US$, log scale)"</span>,</span>
-<span id="cb30-5"><a href=""></a>       ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)</span>
-<span id="cb30-6"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="7e1e122d" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="" aria-label="1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb30-2"><a href="" aria-label="2"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.0</span>))</span>
+<span id="cb30-3"><a href="" aria-label="3"></a>sns.scatterplot(data<span class="op">=</span>g2007, x<span class="op">=</span><span class="st">"gdpPercap"</span>, y<span class="op">=</span><span class="st">"lifeExp"</span>, hue<span class="op">=</span><span class="st">"continent"</span>, ax<span class="op">=</span>ax)</span>
+<span id="cb30-4"><a href="" aria-label="4"></a>ax.<span class="bu">set</span>(xscale<span class="op">=</span><span class="st">"log"</span>, xlabel<span class="op">=</span><span class="st">"GDP per capita (US$, log scale)"</span>,</span>
+<span id="cb30-5"><a href="" aria-label="5"></a>       ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)</span>
+<span id="cb30-6"><a href="" aria-label="6"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -1091,12 +1097,12 @@ Damien Dupré
 <p>Describe the chart in plain English, and an AI assistant writes the code.</p>
 <p><strong>1. The prompt:</strong> <em>“With pandas and matplotlib, using fig, ax: a scatter of gdpPercap against lifeExp from the DataFrame g2007, on a log x-axis, with labels and a title.”</em></p>
 <p><strong>2. The code it writes:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb31-2"><a href=""></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>], alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb31-3"><a href=""></a>ax.set_xscale(<span class="st">"log"</span>)</span>
-<span id="cb31-4"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"GDP per capita (US$, log scale)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)</span>
-<span id="cb31-5"><a href=""></a>ax.set_title(<span class="st">"Life Expectancy vs GDP per Capita"</span>)</span>
-<span id="cb31-6"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="" aria-label="1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb31-2"><a href="" aria-label="2"></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>], alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb31-3"><a href="" aria-label="3"></a>ax.set_xscale(<span class="st">"log"</span>)</span>
+<span id="cb31-4"><a href="" aria-label="4"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"GDP per capita (US$, log scale)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)</span>
+<span id="cb31-5"><a href="" aria-label="5"></a>ax.set_title(<span class="st">"Life Expectancy vs GDP per Capita"</span>)</span>
+<span id="cb31-6"><a href="" aria-label="6"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>3. Read every line, then run it:</strong> its title only names the columns.</p>
 </section>
 <section id="check-before-you-trust" class="slide level2">
@@ -1212,7 +1218,7 @@ Damien Dupré
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"\u003ci class=\"fas fa-gear\">\u003c/i>","content":"\u003cul class=\"slide-menu-items\">\n\u003cli class=\"slide-tool-item active\" data-item=\"0\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\">\u003ckbd>f\u003c/kbd> Fullscreen\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"1\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\">\u003ckbd>s\u003c/kbd> Speaker View\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"2\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\">\u003ckbd>o\u003c/kbd> Slide Overview\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"3\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\">\u003ckbd>e\u003c/kbd> PDF Export Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"4\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\">\u003ckbd>r\u003c/kbd> Scroll View Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"5\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\">\u003ckbd>?\u003c/kbd> Keyboard Help\u003c/a>\u003c/li>\n\u003c/ul>"}],"openButton":true,"openButtonLabel":"Slide menu"},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1467,7 +1473,8 @@ Damien Dupré
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }
           // Inspect non-navigation links and adorn them if external
-         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          window.quartoDecorateExternalLinks = function (root) {
+         var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
           for (var i=0; i<links.length; i++) {
             const link = links[i];
             if (!isInternal(link.href)) {
@@ -1476,8 +1483,69 @@ Damien Dupré
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+              if (!link.classList.contains('no-external-icon')) {
+              }
             }
           }
+          };
+          window.quartoDecorateExternalLinks(window.document);
+        // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+        // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+        const hideOnEscAndFocusOut = {
+          name: 'hideOnEscAndFocusOut',
+          defaultValue: true,
+          fn(instance) {
+            const dismiss = () => {
+              // A show scheduled by the trigger delay would otherwise reopen it
+              instance.clearDelayTimeouts();
+              instance.hide();
+            };
+            const onKeyDown = (event) => {
+              if (event.key !== 'Escape') {
+                return;
+              }
+              // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+              // except an open reveal.js slide menu, which Esc should close too.
+              // The menu handles keys only when its keyboard option is on.
+              const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+                window.Reveal.getConfig().menu?.keyboard !== false;
+              if (!menuHandlesEsc) {
+                event.stopPropagation();
+              }
+              if (instance.popper.contains(window.document.activeElement)) {
+                // Disabled while refocusing so the focus trigger does not reopen it
+                instance.disable();
+                instance.reference.focus();
+                instance.enable();
+              }
+              dismiss();
+            };
+            const onFocusOut = (event) => {
+              const target = event.relatedTarget;
+              if (target && !instance.reference.contains(target) &&
+                  !instance.popper.contains(target)) {
+                dismiss();
+              }
+            };
+            // On the trigger too: a click trigger (code-annotations: select) has no
+            // blur handling. Attached for the instance's lifetime so leaving the
+            // trigger also cancels a show still pending on the trigger delay.
+            instance.reference.addEventListener('focusout', onFocusOut);
+            return {
+              onShow() {
+                window.document.addEventListener('keydown', onKeyDown, true);
+                instance.popper.addEventListener('focusout', onFocusOut);
+              },
+              onHide() {
+                window.document.removeEventListener('keydown', onKeyDown, true);
+                instance.popper.removeEventListener('focusout', onFocusOut);
+              },
+              onDestroy() {
+                instance.reference.removeEventListener('focusout', onFocusOut);
+              },
+            };
+          },
+        };
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
           const config = {
             allowHTML: true,
@@ -1491,6 +1559,7 @@ Damien Dupré
             interactiveBorder: 10,
             theme: 'light-border',
             placement: 'bottom-start',
+            plugins: [hideOnEscAndFocusOut],
           };
           if (contentFn) {
             config.content = contentFn;

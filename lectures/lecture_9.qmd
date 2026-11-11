@@ -27,6 +27,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
 
 pd.set_option("display.max_rows", 8)
 pd.set_option("display.width", 100)
@@ -141,15 +143,40 @@ In VS Code's Explorer, right-click the file:
 On Windows, both use `\`: change each one to `/`. In `"data\roasted_daily.csv"`, Python reads
 `\r` as one character, a carriage return, and never finds the file.
 
-## Your Turn: Read a Path {background="#43464B"}
+## Your Turn: Get Set Up {background="#43464B"}
 
 In VS Code, open your `BAA1118` folder, then `File -> New File... -> Jupyter Notebook`. Save
-it in `BAA1118` as `lecture_9.ipynb`, select your kernel as in the tutorials, and replace each
-`____`:
+it in `BAA1118` as `lecture_9.ipynb`, select your kernel as in the tutorials, and run this
+cell first:
 
 ```{.python}
 import os
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+print(gapminder.shape)
+```
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+You should see `(1704, 6)`. Keep the notebook open: today's exercises reuse these libraries
+and `gapminder`.
+:::
+
+::: {#second-column}
+::: {#timer1 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
+
+## Your Turn: Read a Path {background="#43464B"}
+
+Replace each `____`, using the comments, then run the cell:
+
+```{.python}
 print(os.____())                                  # the notebook's folder, with getcwd
 print(os.listdir(____))                           # what is in the "data" folder
 print(os.path.exists("data/roasted_daily.csv"))   # True if the file is found
@@ -164,7 +191,7 @@ You should see the path of your `BAA1118` folder, a list with `'roasted_daily.cs
 :::
 
 ::: {#second-column}
-::: {#timer1 .timer seconds="300" starton="interaction"}
+::: {#timer2 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -172,8 +199,6 @@ You should see the path of your `BAA1118` folder, a list with `'roasted_daily.cs
 ## Solution
 
 ```{.python}
-import os
-import pandas as pd
 print(os.getcwd())
 print(os.listdir("data"))
 print(os.path.exists("data/roasted_daily.csv"))
@@ -218,9 +243,6 @@ df.merge(other, on="key", how="left")           # join: then check len()
 **The 1952 countries.** Replace each `____`, using the comments:
 
 ```{.python}
-import pandas as pd
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.____(url)                            # read it, with read_csv
 g1952 = gapminder[gapminder[____] == ____]          # the column "year", then 1952
 g1952["pop_m"] = g1952[____] / 1_000_000            # "pop", in millions
 (g1952
@@ -237,7 +259,7 @@ You should see Asia first, with 33 countries and 1395 million people.
 :::
 
 ::: {#second-column}
-::: {#timer2 .timer seconds="300" starton="interaction"}
+::: {#timer3 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -245,9 +267,6 @@ You should see Asia first, with 33 countries and 1395 million people.
 ## Solution {.smaller}
 
 ```{python}
-import pandas as pd
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
 g1952 = gapminder[gapminder["year"] == 1952]
 g1952["pop_m"] = g1952["pop"] / 1_000_000
 (g1952
@@ -285,10 +304,6 @@ fig.savefig("chart.png", dpi=300, bbox_inches="tight")
 **The 2007 countries.** Replace each `____`, using the comments:
 
 ```{.python}
-import pandas as pd
-import matplotlib.pyplot as plt
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
 g2007 = gapminder[gapminder["year"] == 2007]
 means = g2007.groupby("continent")[____].mean()     # the mean of "lifeExp"
 low = means[means < ____]                           # the continents below 60 years
@@ -305,7 +320,7 @@ You should see five grey bars, and Africa's in red, at about 55 years.
 :::
 
 ::: {#second-column}
-::: {#timer3 .timer seconds="300" starton="interaction"}
+::: {#timer4 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -318,10 +333,6 @@ plt.rcParams["figure.figsize"] = (8, 1.6)     # display size only, to fit the sl
 ```
 
 ```{python}
-import pandas as pd
-import matplotlib.pyplot as plt
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
 g2007 = gapminder[gapminder["year"] == 2007]
 means = g2007.groupby("continent")["lifeExp"].mean()
 low = means[means < 60]                             # a Series filters like a table
@@ -369,11 +380,6 @@ Lecture 8's model of the 2007 countries, `lifeExp ~ log_gdp`:
 **The 1977 countries.** Replace each `____`, using the comments:
 
 ```{.python}
-import numpy as np
-import pandas as pd
-import statsmodels.formula.api as smf
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
 g1977 = gapminder[gapminder["year"] == 1977]
 g1977["log_gdp"] = np.log(g1977["gdpPercap"])
 model = smf.ols(____, data=g1977).fit()                   # lifeExp explained by log_gdp
@@ -389,7 +395,7 @@ You should see `-2.74` and `7.55`, then `0.66`, then `49.4` and `66.8` years.
 :::
 
 ::: {#second-column}
-::: {#timer4 .timer seconds="300" starton="interaction"}
+::: {#timer5 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -397,11 +403,6 @@ You should see `-2.74` and `7.55`, then `0.66`, then `49.4` and `66.8` years.
 ## Solution {.smaller}
 
 ```{python}
-import numpy as np
-import pandas as pd
-import statsmodels.formula.api as smf
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
 g1977 = gapminder[gapminder["year"] == 1977]
 g1977["log_gdp"] = np.log(g1977["gdpPercap"])
 model = smf.ols("lifeExp ~ log_gdp", data=g1977).fit()
@@ -532,11 +533,6 @@ print(round(model.rsquared, 2))
 ## Your Turn: From Table to Finding {background="#43464B"}
 
 ```{.python}
-import pandas as pd
-import matplotlib.pyplot as plt
-import statsmodels.formula.api as smf
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
 g2007 = gapminder[gapminder["year"] == 2007]
 europe = g2007[g2007["continent"] == ____]          # lecture 6: "Europe"
 europe["gdp_k"] = europe["gdpPercap"] / 1000     # in thousands of US$
@@ -554,7 +550,7 @@ then `72.27` and `0.21`.
 :::
 
 ::: {#second-column}
-::: {#timer5 .timer seconds="300" starton="interaction"}
+::: {#timer6 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -567,11 +563,6 @@ plt.rcParams["figure.figsize"] = (8, 1.25)    # display size only, to fit the sl
 ```
 
 ```{python}
-import pandas as pd
-import matplotlib.pyplot as plt
-import statsmodels.formula.api as smf
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
 g2007 = gapminder[gapminder["year"] == 2007]
 europe = g2007[g2007["continent"] == "Europe"]
 europe["gdp_k"] = europe["gdpPercap"] / 1000
@@ -745,7 +736,7 @@ open, without Python.
 :::
 
 ::: {#second-column}
-::: {#timer6 .timer seconds="300" starton="interaction"}
+::: {#timer7 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -782,7 +773,7 @@ You should see `Ready. Data found: True`, then a path that ends with `BAA1118_te
 :::
 
 ::: {#second-column}
-::: {#timer7 .timer seconds="300" starton="interaction"}
+::: {#timer8 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::

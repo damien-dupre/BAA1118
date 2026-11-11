@@ -6,31 +6,25 @@
 <script src="lecture_6_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="lecture_6_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="lecture_6_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lecture_6_files/libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="lecture_6_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="lecture_6_files/libs/quarto-contrib/quarto-timer-1.0.0/timer.js"></script>
 <link href="lecture_6_files/libs/quarto-contrib/quarto-timer-1.0.0/timer.css" rel="stylesheet">
 <link href="lecture_6_files/libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="lecture_6_files/libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.11.9">
+  <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Damien Dupré">
   <title>Lecture 6: Data Wrangling with pandas</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
   <link rel="stylesheet" href="lecture_6_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="lecture_6_files/libs/revealjs/dist/reveal.css">
   <style>
-    /* Default styles provided by pandoc.
-    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-    */
+    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: 1.5em;}
-    div.column{flex: auto;}
-    @media screen {
-    div.columns{gap: min(4vw, 1.5em);}
-    div.column{overflow-x: auto;}
-    }
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
@@ -105,7 +99,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lecture_6_files/libs/revealjs/dist/theme/quarto-1dfff38cd8494ab3f4ffc82b6fbdb1c5.css">
+  <link rel="stylesheet" href="lecture_6_files/libs/revealjs/dist/theme/quarto-827b7773fd74e4bcfe42e9ba7e1ce8d9.css">
   <link href="lecture_6_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lecture_6_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lecture_6_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -212,7 +206,7 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Damien Dupré
+Damien Dupré 
 </div>
 </div>
 </div>
@@ -221,11 +215,11 @@ Damien Dupré
 <section id="pandas-and-dataframes" class="slide level2">
 <h2>pandas and DataFrames</h2>
 <p><code>pandas</code> is Python’s library for tables, imported as <code>pd</code>:</p>
-<div id="8cf914ad" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="" aria-label="2"></a>capitals <span class="op">=</span> pd.DataFrame({<span class="st">"country"</span>: [<span class="st">"Ireland"</span>, <span class="st">"France"</span>, <span class="st">"Japan"</span>],</span>
-<span id="cb1-3"><a href="" aria-label="3"></a>                         <span class="st">"capital"</span>: [<span class="st">"Dublin"</span>, <span class="st">"Paris"</span>, <span class="st">"Tokyo"</span>]})</span>
-<span id="cb1-4"><a href="" aria-label="4"></a>capitals</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="1941ee9f" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href=""></a>capitals <span class="op">=</span> pd.DataFrame({<span class="st">"country"</span>: [<span class="st">"Ireland"</span>, <span class="st">"France"</span>, <span class="st">"Japan"</span>],</span>
+<span id="cb1-3"><a href=""></a>                         <span class="st">"capital"</span>: [<span class="st">"Dublin"</span>, <span class="st">"Paris"</span>, <span class="st">"Tokyo"</span>]})</span>
+<span id="cb1-4"><a href=""></a>capitals</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <style scoped="">
@@ -322,10 +316,10 @@ Damien Dupré
 <section id="the-gapminder-dataset" class="slide level2">
 <h2>The gapminder Dataset</h2>
 <p>Each row is <strong>a country in a given year</strong>, every five years from 1952 to 2007: <code>country</code>, <code>continent</code>, <code>year</code>, <code>lifeExp</code> (in years), <code>pop</code> and <code>gdpPercap</code> (in US$).</p>
-<div id="cf6708b1" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="" aria-label="1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb2-2"><a href="" aria-label="2"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb2-3"><a href="" aria-label="3"></a>gapminder.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a9b77d23" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb2-2"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb2-3"><a href=""></a>gapminder.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 <style scoped="">
@@ -390,11 +384,35 @@ Damien Dupré
 </div>
 <p><code>pd.read_csv()</code> reads a CSV file into a DataFrame; <code>.head(3)</code> shows its first 3 rows.</p>
 </section>
+<section id="your-turn-get-set-up" class="slide level2" data-background="#43464B">
+<h2>Your Turn: Get Set Up</h2>
+<p>In a new notebook, run this cell first:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb3-3"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb3-4"><a href=""></a>gapminder.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-layout-panel" data-layout="[3,2]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
+<p>You should see Afghanistan in 1952, 1957 and 1962. Keep the notebook open: today’s exercises reuse <code>pd</code> and <code>gapminder</code>.</p>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
+                    <div id="timer1"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            initializeTimer("timer1", 300, "interaction");
+                        });
+                    </script>
+                
+</div>
+</div>
+</div>
+</section>
 <section id="a-first-look" class="slide level2">
 <h2>A First Look</h2>
-<div id="a20da29b" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="" aria-label="1"></a><span class="bu">print</span>(gapminder.shape)      <span class="co"># (rows, columns): a value, so no round brackets</span></span>
-<span id="cb3-2"><a href="" aria-label="2"></a>gapminder.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="0fef4226" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="bu">print</span>(gapminder.shape)      <span class="co"># (rows, columns): a value, so no round brackets</span></span>
+<span id="cb4-2"><a href=""></a>gapminder.info()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(1704, 6)
 &lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -418,8 +436,8 @@ memory usage: 80.0+ KB</code></pre>
 <h2>describe() and value_counts()</h2>
 <div class="code-columns">
 <div id="first-column">
-<div id="30c703e8" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="" aria-label="1"></a>gapminder[<span class="st">"lifeExp"</span>].describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="51a17ca7" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>gapminder[<span class="st">"lifeExp"</span>].describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>count    1704.000000
 mean       59.474439
@@ -434,8 +452,8 @@ Name: lifeExp, dtype: float64</code></pre>
 </div>
 </div>
 <div id="second-column">
-<div id="ddf6a83a" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="" aria-label="1"></a>gapminder[<span class="st">"continent"</span>].value_counts()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="dc1cae45" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>gapminder[<span class="st">"continent"</span>].value_counts()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>continent
 Africa      624
@@ -456,22 +474,19 @@ Name: count, dtype: int64</code></pre>
 <section id="your-turn-a-first-look" class="slide level2" data-background="#43464B">
 <h2>Your Turn: A First Look</h2>
 <p>Replace each <code>____</code>, using the comments, then run the cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb9-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb9-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb9-4"><a href="" aria-label="4"></a><span class="bu">print</span>(gapminder.____)                    <span class="co"># rows and columns, with .shape</span></span>
-<span id="cb9-5"><a href="" aria-label="5"></a><span class="bu">print</span>(gapminder[<span class="st">"country"</span>].____())       <span class="co"># how many countries, with .nunique()</span></span>
-<span id="cb9-6"><a href="" aria-label="6"></a><span class="bu">print</span>(gapminder[<span class="st">"continent"</span>].____())     <span class="co"># rows per continent, with .value_counts()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="bu">print</span>(gapminder.____)                    <span class="co"># rows and columns, with .shape</span></span>
+<span id="cb10-2"><a href=""></a><span class="bu">print</span>(gapminder[<span class="st">"country"</span>].____())       <span class="co"># how many countries, with .nunique()</span></span>
+<span id="cb10-3"><a href=""></a><span class="bu">print</span>(gapminder[<span class="st">"continent"</span>].____())     <span class="co"># rows per continent, with .value_counts()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
 <p>You should see <code>(1704, 6)</code>, then <code>142</code>, then Africa first, with 624 rows.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-                    <div id="timer1"></div>
+                    <div id="timer2"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer1", 300, "interaction");
+                            initializeTimer("timer2", 300, "interaction");
                         });
                     </script>
                 
@@ -481,13 +496,10 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="solution" class="slide level2">
 <h2>Solution</h2>
-<div id="ef124cba" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb10-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb10-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb10-4"><a href="" aria-label="4"></a><span class="bu">print</span>(gapminder.shape)</span>
-<span id="cb10-5"><a href="" aria-label="5"></a><span class="bu">print</span>(gapminder[<span class="st">"country"</span>].nunique())</span>
-<span id="cb10-6"><a href="" aria-label="6"></a><span class="bu">print</span>(gapminder[<span class="st">"continent"</span>].value_counts())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="98640e48" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a><span class="bu">print</span>(gapminder.shape)</span>
+<span id="cb11-2"><a href=""></a><span class="bu">print</span>(gapminder[<span class="st">"country"</span>].nunique())</span>
+<span id="cb11-3"><a href=""></a><span class="bu">print</span>(gapminder[<span class="st">"continent"</span>].value_counts())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(1704, 6)
 142
@@ -511,8 +523,8 @@ Name: count, dtype: int64</code></pre>
 <div class="code-columns">
 <div id="first-column">
 <p>A <strong>list</strong> of names, so two pairs of square brackets: a <strong>DataFrame</strong></p>
-<div id="06a2fb33" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="" aria-label="1"></a>gapminder[[<span class="st">"country"</span>, <span class="st">"pop"</span>]].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="3ea9bc23" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a>gapminder[[<span class="st">"country"</span>, <span class="st">"pop"</span>]].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 <style scoped="">
@@ -562,8 +574,8 @@ Name: count, dtype: int64</code></pre>
 </div>
 <div id="second-column">
 <p>One name, one pair of square brackets: a <strong>Series</strong></p>
-<div id="d3a14419" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="" aria-label="1"></a>gapminder[<span class="st">"pop"</span>].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="4cf74332" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a>gapminder[<span class="st">"pop"</span>].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>0     8425333
 1     9240934
@@ -580,9 +592,9 @@ Name: pop, dtype: int64</code></pre>
 </section>
 <section id="renaming-columns" class="slide level2">
 <h2>Renaming Columns</h2>
-<div id="b87ebe2f" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="" aria-label="1"></a>renamed <span class="op">=</span> gapminder.rename(columns<span class="op">=</span>{<span class="st">"pop"</span>: <span class="st">"population"</span>})</span>
-<span id="cb15-2"><a href="" aria-label="2"></a>renamed.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="51e7bc93" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>renamed <span class="op">=</span> gapminder.rename(columns<span class="op">=</span>{<span class="st">"pop"</span>: <span class="st">"population"</span>})</span>
+<span id="cb16-2"><a href=""></a>renamed.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 <style scoped="">
@@ -654,22 +666,19 @@ Name: pop, dtype: int64</code></pre>
 <section id="your-turn-select-and-rename" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Select and Rename</h2>
 <p>Replace each <code>____</code>, using the comments, then run the cell. Column names go in quotes:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb16-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb16-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb16-4"><a href="" aria-label="4"></a>small <span class="op">=</span> gapminder[[<span class="st">"country"</span>, <span class="st">"year"</span>, ____]]        <span class="co"># keep "lifeExp" too</span></span>
-<span id="cb16-5"><a href="" aria-label="5"></a>small <span class="op">=</span> small.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: ____})    <span class="co"># call it "life"</span></span>
-<span id="cb16-6"><a href="" aria-label="6"></a>small.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a>small <span class="op">=</span> gapminder[[<span class="st">"country"</span>, <span class="st">"year"</span>, ____]]        <span class="co"># keep "lifeExp" too</span></span>
+<span id="cb17-2"><a href=""></a>small <span class="op">=</span> small.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: ____})    <span class="co"># call it "life"</span></span>
+<span id="cb17-3"><a href=""></a>small.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
 <p>You should see the columns <code>country</code>, <code>year</code> and <code>life</code>, and Afghanistan in 1952 with 28.801.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-                    <div id="timer2"></div>
+                    <div id="timer3"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer2", 300, "interaction");
+                            initializeTimer("timer3", 300, "interaction");
                         });
                     </script>
                 
@@ -679,13 +688,10 @@ Name: pop, dtype: int64</code></pre>
 </section>
 <section id="solution-1" class="slide level2">
 <h2>Solution</h2>
-<div id="97a8c0bc" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb17-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb17-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb17-4"><a href="" aria-label="4"></a>small <span class="op">=</span> gapminder[[<span class="st">"country"</span>, <span class="st">"year"</span>, <span class="st">"lifeExp"</span>]]</span>
-<span id="cb17-5"><a href="" aria-label="5"></a>small <span class="op">=</span> small.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: <span class="st">"life"</span>})</span>
-<span id="cb17-6"><a href="" aria-label="6"></a>small.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="30b1c5ef" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a>small <span class="op">=</span> gapminder[[<span class="st">"country"</span>, <span class="st">"year"</span>, <span class="st">"lifeExp"</span>]]</span>
+<span id="cb18-2"><a href=""></a>small <span class="op">=</span> small.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: <span class="st">"life"</span>})</span>
+<span id="cb18-3"><a href=""></a>small.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 <style scoped="">
@@ -744,8 +750,8 @@ Name: pop, dtype: int64</code></pre>
 </section>
 <section id="filtering-rows" class="slide level2">
 <h2>Filtering Rows</h2>
-<div id="aa1cce69" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="" aria-label="1"></a>gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="5e5b4395" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 <style scoped="">
@@ -844,18 +850,18 @@ Name: pop, dtype: int64</code></pre>
 </tbody>
 </table>
 <p>The easiest mistake to make is one <code>=</code> instead of two:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="" aria-label="1"></a>gapminder[gapminder[<span class="st">"country"</span>] <span class="op">=</span> <span class="st">"Ireland"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a>gapminder[gapminder[<span class="st">"country"</span>] <span class="op">=</span> <span class="st">"Ireland"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <pre><code>SyntaxError: cannot assign to subscript here. Maybe you meant '==' instead of '='?</code></pre>
 <p><code>=</code> stores a value, <code>==</code> compares two. Python stops, and suggests the fix.</p>
 </section>
 <section id="several-conditions-several-values" class="slide level2">
 <h2>Several Conditions, Several Values</h2>
-<div id="424f2b04" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="" aria-label="1"></a>recent <span class="op">=</span> gapminder[(gapminder[<span class="st">"year"</span>] <span class="op">&gt;=</span> <span class="dv">2000</span>) <span class="op">&amp;</span></span>
-<span id="cb21-2"><a href="" aria-label="2"></a>                   (gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>)]</span>
-<span id="cb21-3"><a href="" aria-label="3"></a>two <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>].isin([<span class="st">"Ireland"</span>, <span class="st">"France"</span>])]</span>
-<span id="cb21-4"><a href="" aria-label="4"></a>nineties <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>].between(<span class="dv">1990</span>, <span class="dv">1999</span>)]</span>
-<span id="cb21-5"><a href="" aria-label="5"></a><span class="bu">print</span>(<span class="bu">len</span>(recent), <span class="bu">len</span>(two), <span class="bu">len</span>(nineties))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="b3493d63" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a>recent <span class="op">=</span> gapminder[(gapminder[<span class="st">"year"</span>] <span class="op">&gt;=</span> <span class="dv">2000</span>) <span class="op">&amp;</span></span>
+<span id="cb22-2"><a href=""></a>                   (gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"Ireland"</span>)]</span>
+<span id="cb22-3"><a href=""></a>two <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>].isin([<span class="st">"Ireland"</span>, <span class="st">"France"</span>])]</span>
+<span id="cb22-4"><a href=""></a>nineties <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>].between(<span class="dv">1990</span>, <span class="dv">1999</span>)]</span>
+<span id="cb22-5"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(recent), <span class="bu">len</span>(two), <span class="bu">len</span>(nineties))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2 24 284</code></pre>
 </div>
@@ -868,9 +874,9 @@ Name: pop, dtype: int64</code></pre>
 </section>
 <section id="sorting-rows" class="slide level2">
 <h2>Sorting Rows</h2>
-<div id="4aee8455" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="" aria-label="1"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb23-2"><a href="" aria-label="2"></a>g2007.sort_values(<span class="st">"lifeExp"</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="0259061d" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb24-2"><a href=""></a>g2007.sort_values(<span class="st">"lifeExp"</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <div>
 <style scoped="">
@@ -942,23 +948,20 @@ Name: pop, dtype: int64</code></pre>
 <section id="your-turn-filter" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Filter</h2>
 <p>Replace each <code>____</code>, using the comments, then run the cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb24-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb24-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb24-4"><a href="" aria-label="4"></a>france <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> ____]     <span class="co"># the rows of "France"</span></span>
-<span id="cb24-5"><a href="" aria-label="5"></a>france_1982 <span class="op">=</span> france[france[____] <span class="op">==</span> <span class="dv">1982</span>]           <span class="co"># the column of the "year"</span></span>
-<span id="cb24-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="bu">len</span>(france), <span class="bu">len</span>(france_1982))</span>
-<span id="cb24-7"><a href="" aria-label="7"></a>france_1982</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a>france <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> ____]     <span class="co"># the rows of "France"</span></span>
+<span id="cb25-2"><a href=""></a>france_1982 <span class="op">=</span> france[france[____] <span class="op">==</span> <span class="dv">1982</span>]           <span class="co"># the column of the "year"</span></span>
+<span id="cb25-3"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(france), <span class="bu">len</span>(france_1982))</span>
+<span id="cb25-4"><a href=""></a>france_1982</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
 <p>You should see <code>12 1</code>, then France in 1982, with a <code>lifeExp</code> of 74.89.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-                    <div id="timer3"></div>
+                    <div id="timer4"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer3", 300, "interaction");
+                            initializeTimer("timer4", 300, "interaction");
                         });
                     </script>
                 
@@ -968,14 +971,11 @@ Name: pop, dtype: int64</code></pre>
 </section>
 <section id="solution-2" class="slide level2">
 <h2>Solution</h2>
-<div id="02938fba" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb25-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb25-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb25-4"><a href="" aria-label="4"></a>france <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"France"</span>]</span>
-<span id="cb25-5"><a href="" aria-label="5"></a>france_1982 <span class="op">=</span> france[france[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1982</span>]</span>
-<span id="cb25-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="bu">len</span>(france), <span class="bu">len</span>(france_1982))</span>
-<span id="cb25-7"><a href="" aria-label="7"></a>france_1982</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="d1ca36ba" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a>france <span class="op">=</span> gapminder[gapminder[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"France"</span>]</span>
+<span id="cb26-2"><a href=""></a>france_1982 <span class="op">=</span> france[france[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1982</span>]</span>
+<span id="cb26-3"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(france), <span class="bu">len</span>(france_1982))</span>
+<span id="cb26-4"><a href=""></a>france_1982</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>12 1</code></pre>
 </div>
@@ -1032,10 +1032,10 @@ Name: pop, dtype: int64</code></pre>
 </section>
 <section id="creating-columns-1" class="slide level2">
 <h2>Creating Columns</h2>
-<div id="5289e2a4" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="" aria-label="1"></a>gapminder[<span class="st">"gdp_bn"</span>] <span class="op">=</span> gapminder[<span class="st">"pop"</span>] <span class="op">*</span> gapminder[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1_000_000_000</span></span>
-<span id="cb27-2"><a href="" aria-label="2"></a>gapminder[<span class="st">"pop_m"</span>] <span class="op">=</span> (gapminder[<span class="st">"pop"</span>] <span class="op">/</span> <span class="dv">1_000_000</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
-<span id="cb27-3"><a href="" aria-label="3"></a>gapminder[[<span class="st">"country"</span>, <span class="st">"year"</span>, <span class="st">"pop_m"</span>, <span class="st">"gdp_bn"</span>]].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c2ffcc74" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href=""></a>gapminder[<span class="st">"gdp_bn"</span>] <span class="op">=</span> gapminder[<span class="st">"pop"</span>] <span class="op">*</span> gapminder[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1_000_000_000</span></span>
+<span id="cb28-2"><a href=""></a>gapminder[<span class="st">"pop_m"</span>] <span class="op">=</span> (gapminder[<span class="st">"pop"</span>] <span class="op">/</span> <span class="dv">1_000_000</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb28-3"><a href=""></a>gapminder[[<span class="st">"country"</span>, <span class="st">"year"</span>, <span class="st">"pop_m"</span>, <span class="st">"gdp_bn"</span>]].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 <style scoped="">
@@ -1100,22 +1100,19 @@ Name: pop, dtype: int64</code></pre>
 <section id="your-turn-new-columns" class="slide level2" data-background="#43464B">
 <h2>Your Turn: New Columns</h2>
 <p>Replace each <code>____</code>, using the comments, then run the cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb28-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb28-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb28-4"><a href="" aria-label="4"></a>gapminder[<span class="st">"country_upper"</span>] <span class="op">=</span> gapminder[<span class="st">"country"</span>].<span class="bu">str</span>.____()   <span class="co"># with .str.upper()</span></span>
-<span id="cb28-5"><a href="" aria-label="5"></a>gapminder[<span class="st">"life_months"</span>] <span class="op">=</span> gapminder[____] <span class="op">*</span> <span class="dv">12</span>                <span class="co"># "lifeExp", in months</span></span>
-<span id="cb28-6"><a href="" aria-label="6"></a>gapminder[[<span class="st">"country_upper"</span>, <span class="st">"life_months"</span>]].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a>gapminder[<span class="st">"country_upper"</span>] <span class="op">=</span> gapminder[<span class="st">"country"</span>].<span class="bu">str</span>.____()   <span class="co"># with .str.upper()</span></span>
+<span id="cb29-2"><a href=""></a>gapminder[<span class="st">"life_months"</span>] <span class="op">=</span> gapminder[____] <span class="op">*</span> <span class="dv">12</span>                <span class="co"># "lifeExp", in months</span></span>
+<span id="cb29-3"><a href=""></a>gapminder[[<span class="st">"country_upper"</span>, <span class="st">"life_months"</span>]].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
 <p>You should see <code>AFGHANISTAN</code> and <code>345.612</code> on the first row.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-                    <div id="timer4"></div>
+                    <div id="timer5"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer4", 300, "interaction");
+                            initializeTimer("timer5", 300, "interaction");
                         });
                     </script>
                 
@@ -1125,13 +1122,10 @@ Name: pop, dtype: int64</code></pre>
 </section>
 <section id="solution-3" class="slide level2">
 <h2>Solution</h2>
-<div id="206c0f8a" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb29-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb29-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb29-4"><a href="" aria-label="4"></a>gapminder[<span class="st">"country_upper"</span>] <span class="op">=</span> gapminder[<span class="st">"country"</span>].<span class="bu">str</span>.upper()</span>
-<span id="cb29-5"><a href="" aria-label="5"></a>gapminder[<span class="st">"life_months"</span>] <span class="op">=</span> gapminder[<span class="st">"lifeExp"</span>] <span class="op">*</span> <span class="dv">12</span></span>
-<span id="cb29-6"><a href="" aria-label="6"></a>gapminder[[<span class="st">"country_upper"</span>, <span class="st">"life_months"</span>]].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ecaf78fe" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href=""></a>gapminder[<span class="st">"country_upper"</span>] <span class="op">=</span> gapminder[<span class="st">"country"</span>].<span class="bu">str</span>.upper()</span>
+<span id="cb30-2"><a href=""></a>gapminder[<span class="st">"life_months"</span>] <span class="op">=</span> gapminder[<span class="st">"lifeExp"</span>] <span class="op">*</span> <span class="dv">12</span></span>
+<span id="cb30-3"><a href=""></a>gapminder[[<span class="st">"country_upper"</span>, <span class="st">"life_months"</span>]].head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 <style scoped="">
@@ -1186,10 +1180,10 @@ Name: pop, dtype: int64</code></pre>
 </section>
 <section id="one-number-for-a-column" class="slide level2">
 <h2>One Number for a Column</h2>
-<div id="f4371903" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="" aria-label="1"></a><span class="bu">print</span>(gapminder[<span class="st">"lifeExp"</span>].mean())</span>
-<span id="cb30-2"><a href="" aria-label="2"></a><span class="bu">print</span>(gapminder[<span class="st">"lifeExp"</span>].median())</span>
-<span id="cb30-3"><a href="" aria-label="3"></a><span class="bu">print</span>(gapminder[<span class="st">"pop"</span>].<span class="bu">max</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6917735b" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href=""></a><span class="bu">print</span>(gapminder[<span class="st">"lifeExp"</span>].mean())</span>
+<span id="cb31-2"><a href=""></a><span class="bu">print</span>(gapminder[<span class="st">"lifeExp"</span>].median())</span>
+<span id="cb31-3"><a href=""></a><span class="bu">print</span>(gapminder[<span class="st">"pop"</span>].<span class="bu">max</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>59.474439366197174
 60.7125
@@ -1205,9 +1199,9 @@ Name: pop, dtype: int64</code></pre>
 <h2>One Number per Group</h2>
 <div class="code-columns">
 <div id="first-column">
-<div id="affbb16d" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="" aria-label="1"></a>groups <span class="op">=</span> gapminder.groupby(<span class="st">"continent"</span>)</span>
-<span id="cb32-2"><a href="" aria-label="2"></a>groups[<span class="st">"lifeExp"</span>].mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="5a3b27fe" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href=""></a>groups <span class="op">=</span> gapminder.groupby(<span class="st">"continent"</span>)</span>
+<span id="cb33-2"><a href=""></a>groups[<span class="st">"lifeExp"</span>].mean()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>continent
 Africa      48.865330
@@ -1233,23 +1227,23 @@ Name: lifeExp, dtype: float64</code></pre>
 <div class="code-columns">
 <div id="first-column">
 <p>Step by step, one name per step:</p>
-<div id="67c075cf" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="" aria-label="1"></a>groups <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)</span>
-<span id="cb34-2"><a href="" aria-label="2"></a>means <span class="op">=</span> groups[<span class="st">"lifeExp"</span>].mean()</span>
-<span id="cb34-3"><a href="" aria-label="3"></a>means.sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="37a46a11" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href=""></a>groups <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)</span>
+<span id="cb35-2"><a href=""></a>means <span class="op">=</span> groups[<span class="st">"lifeExp"</span>].mean()</span>
+<span id="cb35-3"><a href=""></a>means.sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The same steps as one <strong>chain</strong>:</p>
-<div id="b56372f7" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="" aria-label="1"></a>(g2007</span>
-<span id="cb35-2"><a href="" aria-label="2"></a>  .groupby(<span class="st">"continent"</span>)[<span class="st">"lifeExp"</span>]</span>
-<span id="cb35-3"><a href="" aria-label="3"></a>  .mean()</span>
-<span id="cb35-4"><a href="" aria-label="4"></a>  .sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb35-5"><a href="" aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="7bc34cd0" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href=""></a>(g2007</span>
+<span id="cb36-2"><a href=""></a>  .groupby(<span class="st">"continent"</span>)[<span class="st">"lifeExp"</span>]</span>
+<span id="cb36-3"><a href=""></a>  .mean()</span>
+<span id="cb36-4"><a href=""></a>  .sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb36-5"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div id="second-column">
 <p>Both give the mean life expectancy per continent in 2007, highest first:</p>
-<div id="3857132b" class="cell" data-execution_count="22">
+<div id="494bf29f" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>continent
 Oceania     80.719500
@@ -1266,13 +1260,13 @@ Name: lifeExp, dtype: float64</code></pre>
 </section>
 <section id="several-statistics-at-once" class="slide level2">
 <h2>Several Statistics at Once</h2>
-<div id="d260722f" class="cell" data-execution_count="23">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="" aria-label="1"></a>(g2007</span>
-<span id="cb37-2"><a href="" aria-label="2"></a>  .groupby(<span class="st">"continent"</span>)</span>
-<span id="cb37-3"><a href="" aria-label="3"></a>  .agg(countries<span class="op">=</span>(<span class="st">"country"</span>, <span class="st">"nunique"</span>),</span>
-<span id="cb37-4"><a href="" aria-label="4"></a>       mean_life<span class="op">=</span>(<span class="st">"lifeExp"</span>, <span class="st">"mean"</span>))</span>
-<span id="cb37-5"><a href="" aria-label="5"></a>  .sort_values(<span class="st">"mean_life"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb37-6"><a href="" aria-label="6"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="14c7c2d8" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href=""></a>(g2007</span>
+<span id="cb38-2"><a href=""></a>  .groupby(<span class="st">"continent"</span>)</span>
+<span id="cb38-3"><a href=""></a>  .agg(countries<span class="op">=</span>(<span class="st">"country"</span>, <span class="st">"nunique"</span>),</span>
+<span id="cb38-4"><a href=""></a>       mean_life<span class="op">=</span>(<span class="st">"lifeExp"</span>, <span class="st">"mean"</span>))</span>
+<span id="cb38-5"><a href=""></a>  .sort_values(<span class="st">"mean_life"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb38-6"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
 <div>
 <style scoped="">
@@ -1341,10 +1335,10 @@ Name: lifeExp, dtype: float64</code></pre>
 </section>
 <section id="wide-tables-pivot_table" class="slide level2">
 <h2>Wide Tables: pivot_table</h2>
-<div id="f774add4" class="cell" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="" aria-label="1"></a>wide <span class="op">=</span> gapminder.pivot_table(index<span class="op">=</span><span class="st">"continent"</span>, columns<span class="op">=</span><span class="st">"year"</span>,</span>
-<span id="cb38-2"><a href="" aria-label="2"></a>                             values<span class="op">=</span><span class="st">"lifeExp"</span>, aggfunc<span class="op">=</span><span class="st">"mean"</span>)</span>
-<span id="cb38-3"><a href="" aria-label="3"></a>wide[[<span class="dv">1952</span>, <span class="dv">1977</span>, <span class="dv">2007</span>]].<span class="bu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="e523773f" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href=""></a>wide <span class="op">=</span> gapminder.pivot_table(index<span class="op">=</span><span class="st">"continent"</span>, columns<span class="op">=</span><span class="st">"year"</span>,</span>
+<span id="cb39-2"><a href=""></a>                             values<span class="op">=</span><span class="st">"lifeExp"</span>, aggfunc<span class="op">=</span><span class="st">"mean"</span>)</span>
+<span id="cb39-3"><a href=""></a>wide[[<span class="dv">1952</span>, <span class="dv">1977</span>, <span class="dv">2007</span>]].<span class="bu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <div>
 <style scoped="">
@@ -1421,27 +1415,24 @@ Name: lifeExp, dtype: float64</code></pre>
 <section id="your-turn-summarise" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Summarise</h2>
 <p>Replace each <code>____</code>, using the comments, then run the cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb39-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb39-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb39-4"><a href="" aria-label="4"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb39-5"><a href="" aria-label="5"></a>(g2007</span>
-<span id="cb39-6"><a href="" aria-label="6"></a>  .groupby(____)                                       <span class="co"># by "continent"</span></span>
-<span id="cb39-7"><a href="" aria-label="7"></a>  <span class="co"># the mean and the "median" of "gdpPercap"</span></span>
-<span id="cb39-8"><a href="" aria-label="8"></a>  .agg(mean_gdp<span class="op">=</span>(____, <span class="st">"mean"</span>), median_gdp<span class="op">=</span>(<span class="st">"gdpPercap"</span>, ____))</span>
-<span id="cb39-9"><a href="" aria-label="9"></a>  .sort_values(<span class="st">"mean_gdp"</span>, ascending<span class="op">=</span>____)             <span class="co"># highest first: False</span></span>
-<span id="cb39-10"><a href="" aria-label="10"></a>  .<span class="bu">round</span>()</span>
-<span id="cb39-11"><a href="" aria-label="11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb40-2"><a href=""></a>(g2007</span>
+<span id="cb40-3"><a href=""></a>  .groupby(____)                                       <span class="co"># by "continent"</span></span>
+<span id="cb40-4"><a href=""></a>  <span class="co"># the mean and the "median" of "gdpPercap"</span></span>
+<span id="cb40-5"><a href=""></a>  .agg(mean_gdp<span class="op">=</span>(____, <span class="st">"mean"</span>), median_gdp<span class="op">=</span>(<span class="st">"gdpPercap"</span>, ____))</span>
+<span id="cb40-6"><a href=""></a>  .sort_values(<span class="st">"mean_gdp"</span>, ascending<span class="op">=</span>____)             <span class="co"># highest first: False</span></span>
+<span id="cb40-7"><a href=""></a>  .<span class="bu">round</span>()</span>
+<span id="cb40-8"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
 <p>You should see Oceania first; in Asia, a mean of 12473 but a median of 4471.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-                    <div id="timer5"></div>
+                    <div id="timer6"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer5", 300, "interaction");
+                            initializeTimer("timer6", 300, "interaction");
                         });
                     </script>
                 
@@ -1451,17 +1442,14 @@ Name: lifeExp, dtype: float64</code></pre>
 </section>
 <section id="solution-4" class="slide level2">
 <h2>Solution</h2>
-<div id="27ab3779" class="cell" data-execution_count="25">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb40-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb40-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb40-4"><a href="" aria-label="4"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb40-5"><a href="" aria-label="5"></a>(g2007</span>
-<span id="cb40-6"><a href="" aria-label="6"></a>  .groupby(<span class="st">"continent"</span>)</span>
-<span id="cb40-7"><a href="" aria-label="7"></a>  .agg(mean_gdp<span class="op">=</span>(<span class="st">"gdpPercap"</span>, <span class="st">"mean"</span>), median_gdp<span class="op">=</span>(<span class="st">"gdpPercap"</span>, <span class="st">"median"</span>))</span>
-<span id="cb40-8"><a href="" aria-label="8"></a>  .sort_values(<span class="st">"mean_gdp"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb40-9"><a href="" aria-label="9"></a>  .<span class="bu">round</span>()</span>
-<span id="cb40-10"><a href="" aria-label="10"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="30fe708b" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb41-2"><a href=""></a>(g2007</span>
+<span id="cb41-3"><a href=""></a>  .groupby(<span class="st">"continent"</span>)</span>
+<span id="cb41-4"><a href=""></a>  .agg(mean_gdp<span class="op">=</span>(<span class="st">"gdpPercap"</span>, <span class="st">"mean"</span>), median_gdp<span class="op">=</span>(<span class="st">"gdpPercap"</span>, <span class="st">"median"</span>))</span>
+<span id="cb41-5"><a href=""></a>  .sort_values(<span class="st">"mean_gdp"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb41-6"><a href=""></a>  .<span class="bu">round</span>()</span>
+<span id="cb41-7"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <div>
 <style scoped="">
@@ -1547,14 +1535,14 @@ Name: lifeExp, dtype: float64</code></pre>
 </section>
 <section id="merge-in-practice" class="slide level2">
 <h2>merge() in Practice</h2>
-<div id="869fa4e5" class="cell" data-execution_count="26">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="" aria-label="1"></a>leads <span class="op">=</span> pd.DataFrame({</span>
-<span id="cb41-2"><a href="" aria-label="2"></a>    <span class="st">"continent"</span>: [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>],</span>
-<span id="cb41-3"><a href="" aria-label="3"></a>    <span class="st">"lead"</span>: [<span class="st">"Ama"</span>, <span class="st">"Ben"</span>, <span class="st">"Chen"</span>, <span class="st">"Dana"</span>],</span>
-<span id="cb41-4"><a href="" aria-label="4"></a>})</span>
-<span id="cb41-5"><a href="" aria-label="5"></a>joined <span class="op">=</span> g2007.merge(leads, on<span class="op">=</span><span class="st">"continent"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
-<span id="cb41-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="bu">len</span>(g2007), <span class="st">"rows before,"</span>, <span class="bu">len</span>(joined), <span class="st">"after;"</span>,</span>
-<span id="cb41-7"><a href="" aria-label="7"></a>      joined[<span class="st">"lead"</span>].isna().<span class="bu">sum</span>(), <span class="st">"without a lead"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="99252557" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href=""></a>leads <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb42-2"><a href=""></a>    <span class="st">"continent"</span>: [<span class="st">"Africa"</span>, <span class="st">"Americas"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>],</span>
+<span id="cb42-3"><a href=""></a>    <span class="st">"lead"</span>: [<span class="st">"Ama"</span>, <span class="st">"Ben"</span>, <span class="st">"Chen"</span>, <span class="st">"Dana"</span>],</span>
+<span id="cb42-4"><a href=""></a>})</span>
+<span id="cb42-5"><a href=""></a>joined <span class="op">=</span> g2007.merge(leads, on<span class="op">=</span><span class="st">"continent"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb42-6"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(g2007), <span class="st">"rows before,"</span>, <span class="bu">len</span>(joined), <span class="st">"after;"</span>,</span>
+<span id="cb42-7"><a href=""></a>      joined[<span class="st">"lead"</span>].isna().<span class="bu">sum</span>(), <span class="st">"without a lead"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>142 rows before, 142 after; 2 without a lead</code></pre>
 </div>
@@ -1568,24 +1556,21 @@ Name: lifeExp, dtype: float64</code></pre>
 <section id="your-turn-join" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Join</h2>
 <p>Replace each <code>____</code>, using the comments, then run the cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb43-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb43-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb43-4"><a href="" aria-label="4"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb43-5"><a href="" aria-label="5"></a>capitals <span class="op">=</span> pd.DataFrame({<span class="st">"country"</span>: [<span class="st">"Ireland"</span>, <span class="st">"France"</span>, <span class="st">"Japan"</span>],</span>
-<span id="cb43-6"><a href="" aria-label="6"></a>                         <span class="st">"capital"</span>: [<span class="st">"Dublin"</span>, <span class="st">"Paris"</span>, <span class="st">"Tokyo"</span>]})</span>
-<span id="cb43-7"><a href="" aria-label="7"></a>both <span class="op">=</span> g2007.merge(capitals, on<span class="op">=</span>____, how<span class="op">=</span>____)     <span class="co"># on "country", how "inner"</span></span>
-<span id="cb43-8"><a href="" aria-label="8"></a><span class="bu">print</span>(<span class="bu">len</span>(both))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb44-2"><a href=""></a>capitals <span class="op">=</span> pd.DataFrame({<span class="st">"country"</span>: [<span class="st">"Ireland"</span>, <span class="st">"France"</span>, <span class="st">"Japan"</span>],</span>
+<span id="cb44-3"><a href=""></a>                         <span class="st">"capital"</span>: [<span class="st">"Dublin"</span>, <span class="st">"Paris"</span>, <span class="st">"Tokyo"</span>]})</span>
+<span id="cb44-4"><a href=""></a>both <span class="op">=</span> g2007.merge(capitals, on<span class="op">=</span>____, how<span class="op">=</span>____)     <span class="co"># on "country", how "inner"</span></span>
+<span id="cb44-5"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(both))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
 <p>You should see <code>3</code>. Then change <code>"inner"</code> to <code>"left"</code> and run the cell again: <code>142</code>.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-                    <div id="timer6"></div>
+                    <div id="timer7"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer6", 300, "interaction");
+                            initializeTimer("timer7", 300, "interaction");
                         });
                     </script>
                 
@@ -1595,16 +1580,13 @@ Name: lifeExp, dtype: float64</code></pre>
 </section>
 <section id="solution-5" class="slide level2">
 <h2>Solution</h2>
-<div id="9ffeb477" class="cell" data-execution_count="27">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="" aria-label="1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb44-2"><a href="" aria-label="2"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb44-3"><a href="" aria-label="3"></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb44-4"><a href="" aria-label="4"></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb44-5"><a href="" aria-label="5"></a>capitals <span class="op">=</span> pd.DataFrame({<span class="st">"country"</span>: [<span class="st">"Ireland"</span>, <span class="st">"France"</span>, <span class="st">"Japan"</span>],</span>
-<span id="cb44-6"><a href="" aria-label="6"></a>                         <span class="st">"capital"</span>: [<span class="st">"Dublin"</span>, <span class="st">"Paris"</span>, <span class="st">"Tokyo"</span>]})</span>
-<span id="cb44-7"><a href="" aria-label="7"></a>inner <span class="op">=</span> g2007.merge(capitals, on<span class="op">=</span><span class="st">"country"</span>, how<span class="op">=</span><span class="st">"inner"</span>)</span>
-<span id="cb44-8"><a href="" aria-label="8"></a>left <span class="op">=</span> g2007.merge(capitals, on<span class="op">=</span><span class="st">"country"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
-<span id="cb44-9"><a href="" aria-label="9"></a><span class="bu">print</span>(<span class="bu">len</span>(inner), <span class="bu">len</span>(left))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="54dc66aa" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb45-2"><a href=""></a>capitals <span class="op">=</span> pd.DataFrame({<span class="st">"country"</span>: [<span class="st">"Ireland"</span>, <span class="st">"France"</span>, <span class="st">"Japan"</span>],</span>
+<span id="cb45-3"><a href=""></a>                         <span class="st">"capital"</span>: [<span class="st">"Dublin"</span>, <span class="st">"Paris"</span>, <span class="st">"Tokyo"</span>]})</span>
+<span id="cb45-4"><a href=""></a>inner <span class="op">=</span> g2007.merge(capitals, on<span class="op">=</span><span class="st">"country"</span>, how<span class="op">=</span><span class="st">"inner"</span>)</span>
+<span id="cb45-5"><a href=""></a>left <span class="op">=</span> g2007.merge(capitals, on<span class="op">=</span><span class="st">"country"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb45-6"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(inner), <span class="bu">len</span>(left))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3 142</code></pre>
 </div>
@@ -1725,7 +1707,7 @@ Name: lifeExp, dtype: float64</code></pre>
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"\u003ci class=\"fas fa-gear\">\u003c/i>","content":"\u003cul class=\"slide-menu-items\">\n\u003cli class=\"slide-tool-item active\" data-item=\"0\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\">\u003ckbd>f\u003c/kbd> Fullscreen\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"1\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\">\u003ckbd>s\u003c/kbd> Speaker View\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"2\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\">\u003ckbd>o\u003c/kbd> Slide Overview\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"3\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\">\u003ckbd>e\u003c/kbd> PDF Export Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"4\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\">\u003ckbd>r\u003c/kbd> Scroll View Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"5\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\">\u003ckbd>?\u003c/kbd> Keyboard Help\u003c/a>\u003c/li>\n\u003c/ul>"}],"openButton":true,"openButtonLabel":"Slide menu"},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -1980,8 +1962,7 @@ Name: lifeExp, dtype: float64</code></pre>
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }
           // Inspect non-navigation links and adorn them if external
-          window.quartoDecorateExternalLinks = function (root) {
-         var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
           for (var i=0; i<links.length; i++) {
             const link = links[i];
             if (!isInternal(link.href)) {
@@ -1990,69 +1971,8 @@ Name: lifeExp, dtype: float64</code></pre>
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
-              if (!link.classList.contains('no-external-icon')) {
-              }
             }
           }
-          };
-          window.quartoDecorateExternalLinks(window.document);
-        // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
-        // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
-        const hideOnEscAndFocusOut = {
-          name: 'hideOnEscAndFocusOut',
-          defaultValue: true,
-          fn(instance) {
-            const dismiss = () => {
-              // A show scheduled by the trigger delay would otherwise reopen it
-              instance.clearDelayTimeouts();
-              instance.hide();
-            };
-            const onKeyDown = (event) => {
-              if (event.key !== 'Escape') {
-                return;
-              }
-              // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
-              // except an open reveal.js slide menu, which Esc should close too.
-              // The menu handles keys only when its keyboard option is on.
-              const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
-                window.Reveal.getConfig().menu?.keyboard !== false;
-              if (!menuHandlesEsc) {
-                event.stopPropagation();
-              }
-              if (instance.popper.contains(window.document.activeElement)) {
-                // Disabled while refocusing so the focus trigger does not reopen it
-                instance.disable();
-                instance.reference.focus();
-                instance.enable();
-              }
-              dismiss();
-            };
-            const onFocusOut = (event) => {
-              const target = event.relatedTarget;
-              if (target && !instance.reference.contains(target) &&
-                  !instance.popper.contains(target)) {
-                dismiss();
-              }
-            };
-            // On the trigger too: a click trigger (code-annotations: select) has no
-            // blur handling. Attached for the instance's lifetime so leaving the
-            // trigger also cancels a show still pending on the trigger delay.
-            instance.reference.addEventListener('focusout', onFocusOut);
-            return {
-              onShow() {
-                window.document.addEventListener('keydown', onKeyDown, true);
-                instance.popper.addEventListener('focusout', onFocusOut);
-              },
-              onHide() {
-                window.document.removeEventListener('keydown', onKeyDown, true);
-                instance.popper.removeEventListener('focusout', onFocusOut);
-              },
-              onDestroy() {
-                instance.reference.removeEventListener('focusout', onFocusOut);
-              },
-            };
-          },
-        };
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
           const config = {
             allowHTML: true,
@@ -2066,7 +1986,6 @@ Name: lifeExp, dtype: float64</code></pre>
             interactiveBorder: 10,
             theme: 'light-border',
             placement: 'bottom-start',
-            plugins: [hideOnEscAndFocusOut],
           };
           if (contentFn) {
             config.content = contentFn;

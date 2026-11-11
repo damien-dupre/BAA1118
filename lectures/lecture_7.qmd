@@ -127,11 +127,12 @@ print(g2007.shape)
 :::: {layout="[3,2]"}
 ::: {#first-column}
 You should see **Python 3.14** at the top right, then `(142, 6)`. Save the notebook in `BAA1118`
-as `lecture_7.ipynb`. Done? Help your neighbour.
+as `lecture_7.ipynb`. Keep it open: today's exercises reuse these libraries and `gapminder`.
+Done? Help your neighbour.
 :::
 
 ::: {#second-column}
-::: {#timer1 .timer seconds="600" starton="interaction"}
+::: {#timer1 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
@@ -295,10 +296,6 @@ plt.show()
 Replace each `____`, using the comments, then run the cell:
 
 ```{.python}
-import pandas as pd
-import matplotlib.pyplot as plt
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
 g1952 = gapminder[gapminder["year"] == 1952]
 fig, ax = plt.subplots()
 ax.____(g1952["lifeExp"], bins=20)                # a histogram, with .hist()
@@ -329,10 +326,6 @@ plt.rcParams["figure.figsize"] = (4.5, 1.5)   # display size only, to fit the sl
 
 ```{python}
 #| layout-ncol: 2
-import pandas as pd
-import matplotlib.pyplot as plt
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
 g1952 = gapminder[gapminder["year"] == 1952]
 fig, ax = plt.subplots()
 ax.hist(g1952["lifeExp"], bins=20)              # two humps: around 40, and around 65
@@ -469,11 +462,6 @@ fig.savefig("lifeExp_2007.png", dpi=300, bbox_inches="tight")
 **Ireland in 2007.** Replace each `____`, using the comments:
 
 ```{.python}
-import pandas as pd
-import matplotlib.pyplot as plt
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
-g2007 = gapminder[gapminder["year"] == 2007]
 ireland = g2007[g2007["country"] == "Ireland"]
 fig, ax = plt.subplots()
 ax.scatter(g2007["gdpPercap"], g2007["lifeExp"], color=____)      # all: "lightgrey"
@@ -502,11 +490,6 @@ plt.rcParams["figure.figsize"] = (8, 1.3)     # display size only, to fit the sl
 ```
 
 ```{python}
-import pandas as pd
-import matplotlib.pyplot as plt
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
-g2007 = gapminder[gapminder["year"] == 2007]
 ireland = g2007[g2007["country"] == "Ireland"]
 fig, ax = plt.subplots()
 ax.scatter(g2007["gdpPercap"], g2007["lifeExp"], color="lightgrey")
@@ -566,11 +549,6 @@ plt.show()
 Replace each `____`, using the comments, then run the cell:
 
 ```{.python}
-import pandas as pd
-import matplotlib.pyplot as plt
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
-g2007 = gapminder[gapminder["year"] == 2007]
 medians = g2007.groupby(____)["gdpPercap"].____()   # by "continent", with .median()
 medians = medians.____()                              # lowest first, with .sort_values()
 fig, ax = plt.subplots()
@@ -599,11 +577,6 @@ plt.rcParams["figure.figsize"] = (8, 1.6)     # display size only, to fit the sl
 ```
 
 ```{python}
-import pandas as pd
-import matplotlib.pyplot as plt
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
-g2007 = gapminder[gapminder["year"] == 2007]
 medians = g2007.groupby("continent")["gdpPercap"].median()  # incomes are skewed
 medians = medians.sort_values()
 fig, ax = plt.subplots()

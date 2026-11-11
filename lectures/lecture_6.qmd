@@ -102,16 +102,15 @@ gapminder["continent"].value_counts()
 
 ## Your Turn: A First Look {background="#43464B"}
 
-Replace each `____` with the missing word, then run the cell:
-
-1. The number of rows and columns, with `.shape`
-2. The number of different countries, with `.nunique()`
-3. The number of rows per continent, with `.value_counts()`
+Replace each `____`, using the comments, then run the cell:
 
 ```{.python}
-print(gapminder.____)
-print(gapminder["country"].____())
-print(gapminder["continent"].____())
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+print(gapminder.____)                    # rows and columns, with .shape
+print(gapminder["country"].____())       # how many countries, with .nunique()
+print(gapminder["continent"].____())     # rows per continent, with .value_counts()
 ```
 
 :::: {layout="[3,2]"}
@@ -128,6 +127,9 @@ You should see `(1704, 6)`, then `142`, then Africa first, with 624 rows.
 ## Solution
 
 ```{python}
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
 print(gapminder.shape)
 print(gapminder["country"].nunique())
 print(gapminder["continent"].value_counts())
@@ -161,32 +163,31 @@ gapminder["pop"].head(3)
 ## Renaming Columns
 
 ```{python}
-gapminder = gapminder.rename(columns={"lifeExp": "life_exp",
-                                      "gdpPercap": "gdp_per_cap"})
-gapminder.head(3)
+renamed = gapminder.rename(columns={"pop": "population"})
+renamed.head(3)
 ```
 
 - `rename()` takes a dictionary, `{old name: new name}`
-- It **returns** a new table: without `gapminder =` in front, nothing changes
-- From now on, the columns are `life_exp` and `gdp_per_cap`
+- It **returns** a new table: store it, or nothing changes
+- `gapminder` itself is unchanged: the next slides still use its own names
 
 ## Your Turn: Select and Rename {background="#43464B"}
 
-Replace each `____` with the missing word, then run the cell. Column names go in quotes,
-like `"year"`:
-
-1. Keep only `country`, `year` and `life_exp`, in a new table called `small`
-2. In `small`, rename `life_exp` to `life_expectancy`
+Replace each `____`, using the comments, then run the cell. Column names go in quotes:
 
 ```{.python}
-small = gapminder[[____, "year", ____]]
-small = small.rename(columns={____: "life_expectancy"})
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+small = gapminder[["country", "year", ____]]        # keep "lifeExp" too
+small = small.rename(columns={"lifeExp": ____})    # call it "life"
 small.head(3)
 ```
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-You should see three columns, and Afghanistan in 1952 with 28.801.
+You should see the columns `country`, `year` and `life`, and Afghanistan in 1952 with
+28.801.
 :::
 
 ::: {#second-column}
@@ -198,8 +199,11 @@ You should see three columns, and Afghanistan in 1952 with 28.801.
 ## Solution
 
 ```{python}
-small = gapminder[["country", "year", "life_exp"]]
-small = small.rename(columns={"life_exp": "life_expectancy"})
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+small = gapminder[["country", "year", "lifeExp"]]
+small = small.rename(columns={"lifeExp": "life"})
 small.head(3)
 ```
 
@@ -256,30 +260,30 @@ print(len(recent), len(two), len(nineties))
 
 ```{python}
 g2007 = gapminder[gapminder["year"] == 2007]
-g2007.sort_values("life_exp", ascending=False).head(3)
+g2007.sort_values("lifeExp", ascending=False).head(3)
 ```
 
-- `sort_values("life_exp")` puts the smallest first; with `ascending=False`, the largest
+- `sort_values("lifeExp")` puts the smallest first; with `ascending=False`, the largest
 - After a sort, `.head(3)` gives the top three: Japan first, at 82.6 years
 - `g2007`, the 142 countries in 2007, comes back in sections 4 and 5
 
 ## Your Turn: Filter {background="#43464B"}
 
-Replace each `____` with the missing word, then run the cell:
-
-1. Keep the rows of France, in a table called `france`
-2. From `france`, keep the year 1982, in a table called `france_1982`
+Replace each `____`, using the comments, then run the cell:
 
 ```{.python}
-france = gapminder[gapminder["country"] == ____]
-france_1982 = france[france[____] == 1982]
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+france = gapminder[gapminder["country"] == ____]     # the rows of "France"
+france_1982 = france[france[____] == 1982]           # the column of the "year"
 print(len(france), len(france_1982))
 france_1982
 ```
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-You should see `12 1`, then France in 1982, with a life expectancy of 74.89.
+You should see `12 1`, then France in 1982, with a `lifeExp` of 74.89.
 :::
 
 ::: {#second-column}
@@ -291,6 +295,9 @@ You should see `12 1`, then France in 1982, with a life expectancy of 74.89.
 ## Solution
 
 ```{python}
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
 france = gapminder[gapminder["country"] == "France"]
 france_1982 = france[france["year"] == 1982]
 print(len(france), len(france_1982))
@@ -304,7 +311,7 @@ Text goes in quotes, `"France"`; numbers do not, `1982`.
 ## Creating Columns
 
 ```{python}
-gapminder["gdp_bn"] = gapminder["pop"] * gapminder["gdp_per_cap"] / 1_000_000_000
+gapminder["gdp_bn"] = gapminder["pop"] * gapminder["gdpPercap"] / 1_000_000_000
 gapminder["pop_m"] = (gapminder["pop"] / 1_000_000).round(1)
 gapminder[["country", "year", "pop_m", "gdp_bn"]].head(3)
 ```
@@ -317,14 +324,14 @@ gapminder[["country", "year", "pop_m", "gdp_bn"]].head(3)
 
 ## Your Turn: New Columns {background="#43464B"}
 
-Replace each `____` with the missing word, then run the cell:
-
-1. A column `country_upper`: the country in capitals, with `.str.upper()`
-2. A column `life_months`: the life expectancy in months, `life_exp` times 12
+Replace each `____`, using the comments, then run the cell:
 
 ```{.python}
-gapminder["country_upper"] = gapminder["country"].str.____()
-gapminder["life_months"] = gapminder[____] * 12
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+gapminder["country_upper"] = gapminder["country"].str.____()   # with .str.upper()
+gapminder["life_months"] = gapminder[____] * 12                # "lifeExp", in months
 gapminder[["country_upper", "life_months"]].head(3)
 ```
 
@@ -342,8 +349,11 @@ You should see `AFGHANISTAN` and `345.612` on the first row.
 ## Solution
 
 ```{python}
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
 gapminder["country_upper"] = gapminder["country"].str.upper()
-gapminder["life_months"] = gapminder["life_exp"] * 12
+gapminder["life_months"] = gapminder["lifeExp"] * 12
 gapminder[["country_upper", "life_months"]].head(3)
 ```
 
@@ -352,8 +362,8 @@ gapminder[["country_upper", "life_months"]].head(3)
 ## One Number for a Column
 
 ```{python}
-print(gapminder["life_exp"].mean())
-print(gapminder["life_exp"].median())
+print(gapminder["lifeExp"].mean())
+print(gapminder["lifeExp"].median())
 print(gapminder["pop"].max())
 ```
 
@@ -367,7 +377,7 @@ print(gapminder["pop"].max())
 ::: {#first-column}
 ```{python}
 groups = gapminder.groupby("continent")
-groups["life_exp"].mean()
+groups["lifeExp"].mean()
 ```
 :::
 
@@ -381,7 +391,7 @@ Source: UBC Master of Data Science, [Programming in Python for Data Science](htt
 ::::
 
 `groupby("continent")` **splits** the rows into groups, as in the picture;
-`["life_exp"].mean()` **applies** the mean to each group and **combines** the results, with
+`["lifeExp"].mean()` **applies** the mean to each group and **combines** the results, with
 the continents as the index.
 
 ## One Step per Line
@@ -393,7 +403,7 @@ Step by step, one name per step:
 ```{python}
 #| output: false
 groups = g2007.groupby("continent")
-means = groups["life_exp"].mean()
+means = groups["lifeExp"].mean()
 means.sort_values(ascending=False)
 ```
 
@@ -402,7 +412,7 @@ The same steps as one **chain**:
 ```{python}
 #| output: false
 (g2007
-  .groupby("continent")["life_exp"]
+  .groupby("continent")["lifeExp"]
   .mean()
   .sort_values(ascending=False)
 )
@@ -428,20 +438,20 @@ take the mean, then sort. The round brackets let it run over several lines.
 (g2007
   .groupby("continent")
   .agg(countries=("country", "nunique"),
-       mean_life=("life_exp", "mean"))
+       mean_life=("lifeExp", "mean"))
   .sort_values("mean_life", ascending=False)
 )
 ```
 
 - Inside `.agg()`, each statistic gets a name, then a column and a function:
-  `mean_life=("life_exp", "mean")`
+  `mean_life=("lifeExp", "mean")`
 - The next step can use that name: `.sort_values("mean_life")`
 
 ## Wide Tables: pivot_table
 
 ```{python}
 wide = gapminder.pivot_table(index="continent", columns="year",
-                             values="life_exp", aggfunc="mean")
+                             values="lifeExp", aggfunc="mean")
 wide[[1952, 1977, 2007]].round(1)
 ```
 
@@ -451,23 +461,25 @@ wide[[1952, 1977, 2007]].round(1)
 
 ## Your Turn: Summarise {background="#43464B"}
 
-Replace each `____` with the missing word, then run the cell:
-
-1. Group by `continent`; highest mean first, with `ascending=False`
-2. The mean and the median of `gdp_per_cap`, with `"mean"` and `"median"`
+Replace each `____`, using the comments, then run the cell:
 
 ```{.python}
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
 (g2007
-  .groupby(____)
-  .agg(mean_gdp=(____, "mean"), median_gdp=("gdp_per_cap", ____))
-  .sort_values("mean_gdp", ascending=____)
+  .groupby(____)                                       # by "continent"
+  # the mean and the "median" of "gdpPercap"
+  .agg(mean_gdp=(____, "mean"), median_gdp=("gdpPercap", ____))
+  .sort_values("mean_gdp", ascending=____)             # highest first: False
   .round()
 )
 ```
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-You should see Oceania first; Asia's mean is 12473, its median 4471.
+You should see Oceania first; in Asia, a mean of 12473 but a median of 4471.
 :::
 
 ::: {#second-column}
@@ -479,16 +491,17 @@ You should see Oceania first; Asia's mean is 12473, its median 4471.
 ## Solution
 
 ```{python}
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
 (g2007
   .groupby("continent")
-  .agg(mean_gdp=("gdp_per_cap", "mean"),
-       median_gdp=("gdp_per_cap", "median"))
+  .agg(mean_gdp=("gdpPercap", "mean"), median_gdp=("gdpPercap", "median"))
   .sort_values("mean_gdp", ascending=False)
   .round()
 )
 ```
-
-In Asia the median is a third of the mean: a few rich countries pull the mean up.
 
 # 5. Joining Tables
 
@@ -525,22 +538,22 @@ print(len(g2007), "rows before,", len(joined), "after;",
 
 ## Your Turn: Join {background="#43464B"}
 
-Replace each `____` with the missing word, then run the cell:
-
-1. Join `capitals`, the table from the start of the lecture, onto `g2007`: on the `country`
-   column, with `how="inner"`
-2. Change `"inner"` to `"left"`, and run the cell again
+Replace each `____`, using the comments, then run the cell:
 
 ```{.python}
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
 capitals = pd.DataFrame({"country": ["Ireland", "France", "Japan"],
                          "capital": ["Dublin", "Paris", "Tokyo"]})
-both = g2007.merge(capitals, on=____, how=____)
+both = g2007.merge(capitals, on=____, how=____)     # on "country", how "inner"
 print(len(both))
 ```
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-You should see `3`, then `142`.
+You should see `3`. Then change `"inner"` to `"left"` and run the cell again: `142`.
 :::
 
 ::: {#second-column}
@@ -552,10 +565,15 @@ You should see `3`, then `142`.
 ## Solution
 
 ```{python}
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+capitals = pd.DataFrame({"country": ["Ireland", "France", "Japan"],
+                         "capital": ["Dublin", "Paris", "Tokyo"]})
 inner = g2007.merge(capitals, on="country", how="inner")
 left = g2007.merge(capitals, on="country", how="left")
 print(len(inner), len(left))
-inner[["country", "year", "life_exp", "capital"]]
 ```
 
 `inner` keeps the 3 countries found in both tables; `left` keeps all 142, with `NaN` as the

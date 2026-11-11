@@ -37,6 +37,20 @@ plt.style.use("petroff10")
 
 ```
 
+## Install the Packages
+
+You only need to do this once. In a VS Code notebook, run this line in a code cell:
+
+```{.python}
+%pip install numpy pandas matplotlib statsmodels scikit-learn
+```
+
+- Use `%pip`, not `!pip`: `%pip` installs into the Python that runs your notebook, while `!pip` can install into a different Python and the import then fails
+- Wait until the cell finishes, then click **Restart** in the notebook toolbar
+- If a package is already installed, pip says "Requirement already satisfied", which is fine
+
+Then run the Setup cell on the next slide. If it gives no error, everything is installed.
+
 ## Setup
 
 ```{python}
@@ -46,180 +60,31 @@ import matplotlib.pyplot as plt
 plt.style.use("petroff10")
 url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
 gapminder = pd.read_csv(url)
-gapminder = gapminder.rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
 g2007 = gapminder[gapminder["year"] == 2007]
 ```
 
-The table from lecture 6, with the same two names changed. Most of this lecture uses
+The table from lecture 6. Most of this lecture uses
 `g2007`, the 142 countries of 2007.
 
-# 1. Describing One Variable
+# 1. Correlation
 
-## The Centre: Mean and Median
-
-```{python}
-gdp = g2007["gdp_per_cap"]
-life = g2007["life_exp"]
-print("GDP per capita:  mean", round(gdp.mean()), "  median", round(gdp.median()))
-print("Life expectancy: mean", round(life.mean(), 1), "  median", round(life.median(), 1))
-```
-
-- **Mean**: add everything up, divide by the count. A few very rich countries pull it up
-- **Median**: the middle value once sorted. Half the countries are above it, half below
-- A mean above the median usually signals a tail of high values, **right skew**; below it,
-  **left skew**. For a skewed variable, report the median, or both
-
-## Spread: Standard Deviation
+## Is a Richer Country a Healthier One?
 
 ```{python}
-sales = pd.Series([2, 4, 4, 4, 5, 5, 7, 9])
-deviations = sales - sales.mean()
-print(deviations.tolist())
-print(round((deviations ** 2).sum() / (len(sales) - 1), 2))   # the variance
-print(round(sales.var(), 2), round(sales.std(), 2))
-```
-
-- **Variance**: the average squared distance from the mean, dividing by n − 1 for a
-  sample. **Standard deviation**: its square root, in the original units
-- pandas divides by n − 1; numpy's `np.std()` divides by n, and gives 2.0
-- **IQR**, `quantile(0.75) - quantile(0.25)`: the spread of the middle half
-
-## Shape: Skew and the Normal Curve
-
-```{python}
-#| echo: false
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.4))
-axes[0].hist(gdp, bins=25, color="#bbbbbb")
-axes[0].axvline(gdp.mean(), color="#C44E52", label=f"mean {gdp.mean():,.0f}")
-axes[0].axvline(gdp.median(), color="#23373b", linestyle="--",
-                label=f"median {gdp.median():,.0f}")
-axes[0].legend(fontsize=9)
-axes[0].set_title("GDP per capita in 2007: right skew", fontsize=10)
-x = np.linspace(-3.5, 3.5, 300)
-y = np.exp(-x ** 2 / 2) / np.sqrt(2 * np.pi)
-axes[1].plot(x, y, color="#23373b")
-axes[1].fill_between(x, y, where=np.abs(x) <= 2, color="#3f90da", alpha=0.25)
-axes[1].fill_between(x, y, where=np.abs(x) <= 1, color="#3f90da", alpha=0.45)
-axes[1].text(0, 0.15, "68%", ha="center", fontsize=11)
-axes[1].text(-1.55, 0.03, "95%", ha="center", fontsize=10)
-axes[1].set_xticks([-2, -1, 0, 1, 2], ["-2 sd", "-1 sd", "mean", "+1 sd", "+2 sd"])
-axes[1].set_yticks([])
-axes[1].set_title("Normal: about 68% within 1 sd, 95% within 2", fontsize=10)
-fig.tight_layout()
+fig, ax = plt.subplots(figsize=(8, 2.6))
+ax.scatter(g2007["gdpPercap"], g2007["lifeExp"])
+ax.set(xlabel="GDP per capita (dollars)", ylabel="Life expectancy (years)")
 plt.show()
 ```
 
-- In a right-skewed variable, the tail pulls the **mean** past the median
-- In a **normal**, bell-shaped variable, about 68% of values lie within 1 standard deviation
-  of the mean, and **about 95% within 2**. Section 2 relies on that 95%
-
-## Your Turn: Describe a Variable {background="#43464B"}
-
-On the 2007 countries. Replace each `____`, then run the cell:
-
-```{.python}
-pop_m = g2007["pop"] / 1_000_000
-print(round(pop_m.mean(), 1), round(pop_m.____(), 1))   # mean, median
-europe = g2007[g2007["continent"] == "Europe"]
-africa = g2007[g2007["continent"] == ____]
-print(round(europe["life_exp"].____(), 1))      # standard deviation
-print(round(africa["life_exp"].____(), 1))      # standard deviation
-```
-
-:::: {layout="[3,2]"}
-::: {#first-column}
-1. Mean and median population: why so far apart?
-2. Which continent's life expectancy is more spread out?
-:::
-
-::: {#second-column}
-You should see:
-
-```
-44.0 10.5
-3.0
-9.6
-```
-
-::: {#timer1 .timer seconds="300" starton="interaction"}
-:::
-:::
-::::
-
-## Solution
-
-```{python}
-pop_m = g2007["pop"] / 1_000_000
-print(round(pop_m.mean(), 1), round(pop_m.median(), 1))
-
-europe = g2007[g2007["continent"] == "Europe"]
-africa = g2007[g2007["continent"] == "Africa"]
-print(round(europe["life_exp"].std(), 1))
-print(round(africa["life_exp"].std(), 1))
-```
-
-- China and India, over a billion people each, pull the mean of `pop` far above the median
-- Africa's life expectancies are three times as spread out as Europe's
-
-# 2. Samples and Uncertainty
-
-## Every Sample Gives a Different Answer
-
-Treat the 1,704 rows of gapminder as everything there is. Their mean life expectancy is
-59.5 years. Now pretend you can only afford to collect 30 rows:
-
-```{python}
-for seed in [1, 2, 3, 4, 5]:
-    sample = gapminder.sample(30, random_state=seed)
-    print(round(sample["life_exp"].mean(), 1))
-```
-
-Five samples, five answers, and none is 59.5. None is wrong either: each one is
-**uncertain**. `random_state` makes a random sample repeatable.
-
-## The Standard Error
-
-```{python}
-#| echo: false
-many = [gapminder.sample(30, random_state=s)["life_exp"].mean() for s in range(1000)]
-fig, ax = plt.subplots(figsize=(8, 1.6))
-ax.hist(many, bins=30, color="#bbbbbb")
-ax.axvline(gapminder["life_exp"].mean(), color="#C44E52")
-ax.set_xlabel("Mean life expectancy in a sample of 30 rows (years)")
-ax.set_title(f"1,000 samples: their means have a standard deviation of {np.std(many, ddof=1):.1f}",
-             fontsize=10)
-plt.show()
-```
-
-The spread of all possible sample means is the **standard error**. From one sample,
-estimate it as the standard deviation divided by √n:
-
-```{python}
-one = gapminder.sample(30, random_state=1)["life_exp"]
-se = one.std() / np.sqrt(len(one))
-print(round(one.mean(), 1), round(se, 1))
-```
-
-Four times as much data halves the standard error.
-
-## Confidence Intervals and p-values
-
-```{python}
-low = one.mean() - 1.96 * se
-high = one.mean() + 1.96 * se
-print(round(low, 1), "to", round(high, 1))
-```
-
-- **95% confidence interval**: the estimate ± 1.96 standard errors. Of all intervals built
-  this way, 95% contain the true value. This one does: 59.5
-- **p-value**: if the true value were 0, how often would chance alone give an estimate at
-  least this far from 0? Below 0.05, by convention, it is called *statistically significant*
-- A p-value is **not** the probability that a result is true, and *significant* does not
-  mean large or important
-
-# 3. Correlation
+- In 2007, countries with higher incomes tend to have longer lives
+- **Correlation** sums this up in one number
 
 ## Correlation
+
+```{python}
+print(round(g2007["gdpPercap"].corr(g2007["lifeExp"]), 2))
+```
 
 ```{python}
 #| echo: false
@@ -236,74 +101,218 @@ fig.tight_layout()
 plt.show()
 ```
 
+- `r` runs from −1 to +1 and measures how close the points are to **a straight line**
+- Its sign gives the **direction**, its size the **strength**. Here, 0.68: up together
+
+## Several Columns at Once
+
 ```{python}
-g2007[["life_exp", "gdp_per_cap", "pop"]].corr().round(2)
+g2007[["lifeExp", "gdpPercap", "pop"]].corr().round(2)
 ```
 
-`r` runs from −1 to +1 and measures how close the points are to **a straight line**. It has
-no units, and is the same in both directions; each column with itself gives 1.
+- Each pair of columns gets its r, and each column with itself gives 1
+- `pop` and `lifeExp`: 0.05, almost no link between a country's size and its life
+  expectancy
 
 ## Correlation Only Sees Straight Lines
 
 ```{python}
-g2007["log_gdp"] = np.log(g2007["gdp_per_cap"])
-print(round(g2007["gdp_per_cap"].corr(g2007["life_exp"]), 2),
-      round(g2007["log_gdp"].corr(g2007["life_exp"]), 2))
+g2007["log_gdp"] = np.log(g2007["gdpPercap"])
+print(round(g2007["log_gdp"].corr(g2007["lifeExp"]), 2))
 ```
 
 ```{python}
 #| echo: false
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.0))
-axes[0].scatter(g2007["gdp_per_cap"], g2007["life_exp"], s=12)
-axes[0].set_xlabel("gdp_per_cap")
-axes[1].scatter(g2007["log_gdp"], g2007["life_exp"], s=12)
+fig, axes = plt.subplots(1, 2, figsize=(9, 1.9))
+axes[0].scatter(g2007["gdpPercap"], g2007["lifeExp"], s=12)
+axes[0].set_xlabel("gdpPercap")
+axes[1].scatter(g2007["log_gdp"], g2007["lifeExp"], s=12)
 axes[1].set_xlabel("log_gdp")
-axes[0].set_ylabel("life_exp")
+axes[0].set_ylabel("lifeExp")
 fig.tight_layout()
 plt.show()
 ```
 
-`np.log()` turns doublings into equal steps, as the log axis did in lecture 7. Same
-countries, same relationship, only its shape changed: r went from 0.68 to 0.81.
+`np.log()` turns doublings into equal steps, as the log axis did in lecture 7. The curve
+becomes a straight line, and r goes from 0.68 to 0.81.
 
 ## Correlation Is Not Causation
 
 ::: {.callout-important}
-A correlation, or a regression, finds an **association**. Richer countries also have more
-doctors, cleaner water and more schooling: income stands in for all of them.
+A correlation finds an **association**. Richer countries also have more doctors, cleaner
+water and more schooling: income stands in for all of them.
 :::
 
 - You may write: *"in 2007, countries with higher incomes had longer life expectancies"*
 - You may not write: *"raising income raises life expectancy"*
-- r near 0 does not mean no relationship, only no **straight-line** one: a U-shape can give
-  r = 0. Plot first, as Anscombe showed in lecture 7
+- r near 0 does not mean no relationship, only no **straight-line** one. Plot first, as
+  Anscombe showed in lecture 7
 
 ## Your Turn: Correlation and Shape {background="#43464B"}
 
-On the 1952 countries. Replace each `____`, then run the cell:
+**The 1952 countries.** Replace each `____`, using the comments:
 
 ```{.python}
-g1952 = gapminder[gapminder["year"] == 1952]
-gdp52 = g1952["gdp_per_cap"]
-life52 = g1952["life_exp"]
-print(round(gdp52.corr(____), 2))              # income as it is
-print(round(np.log(____).corr(life52), 2))     # the log of income
+import numpy as np
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.____(url)                                     # read the file: .read_csv()
+g1952 = gapminder[gapminder["year"] == ____]                  # keep only the year 1952
+g1952["log_gdp"] = np.____(g1952["gdpPercap"])              # the log, with np.log()
+print(round(g1952["gdpPercap"].____(g1952[____]), 2))      # corr with "lifeExp"
+print(round(g1952["log_gdp"].____(g1952[____]), 2))     # corr with "lifeExp"
 ```
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-In 1952, how strongly was income related to life expectancy? Is it a straight line, or a
-curve?
+You should see `0.28`, then `0.75`. In 1952, how strongly was income related to life
+expectancy? A straight line, or a curve?
 :::
 
 ::: {#second-column}
-You should see:
+::: {#timer1 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
 
-```
-0.28
-0.75
+## Solution
+
+```{python}
+import numpy as np
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g1952 = gapminder[gapminder["year"] == 1952]
+g1952["log_gdp"] = np.log(g1952["gdpPercap"])
+print(round(g1952["gdpPercap"].corr(g1952["lifeExp"]), 2))
+print(round(g1952["log_gdp"].corr(g1952["lifeExp"]), 2))
 ```
 
+0.28 as it is, but 0.75 after the log: a strong relationship, but a curved one, as in 2007.
+Log first, then correlate.
+
+# 2. Linear Regression Models in Python
+
+## From Correlation to a Line
+
+Correlation measures the link. **Linear regression** draws the line:
+
+$$\text{lifeExp} = b_0 + b_1 \times \text{log_gdp} + e$$
+
+```{python}
+#| echo: false
+fit_all = smf.ols("lifeExp ~ log_gdp", data=g2007).fit()
+xs = np.array([g2007["log_gdp"].min(), g2007["log_gdp"].max()])
+fig, ax = plt.subplots(figsize=(8, 1.9))
+ax.scatter(g2007["log_gdp"], g2007["lifeExp"], s=12)
+ax.plot(xs, fit_all.params["Intercept"] + fit_all.params["log_gdp"] * xs, color="#C44E52")
+ax.set(xlabel="log_gdp", ylabel="lifeExp")
+plt.show()
+```
+
+- $b_0$, the **intercept**: the value of `lifeExp` when `log_gdp` is 0
+- $b_1$, the **slope**: how much `lifeExp` changes when `log_gdp` increases by 1
+
+## The Line of Best Fit
+
+```{python}
+#| echo: false
+mini = g2007.sample(25, random_state=7)
+fit_mini = smf.ols("lifeExp ~ log_gdp", data=mini).fit()
+line_x = np.array([mini["log_gdp"].min(), mini["log_gdp"].max()])
+fig, ax = plt.subplots(figsize=(8, 2.2))
+ax.vlines(mini["log_gdp"], mini["lifeExp"], fit_mini.fittedvalues, color="#999999", linewidth=1)
+ax.scatter(mini["log_gdp"], mini["lifeExp"], zorder=3)
+ax.plot(line_x, fit_mini.params["Intercept"] + fit_mini.params["log_gdp"] * line_x,
+        color="#C44E52")
+ax.set(xlabel="log_gdp", ylabel="lifeExp")
+ax.set_title("25 countries: each grey line is one residual", loc="left", fontsize=10)
+plt.show()
+```
+
+- $e$, the **residual**: how far each country is from the line, actual minus predicted
+- The **line of best fit** keeps the residuals as small as possible: its method is called
+  **ordinary least squares**, or OLS
+
+## Fitting a Model in Python
+
+`smf.ols()` needs two things: a **formula**, the equation, and the **data**.
+
+```{python}
+import statsmodels.formula.api as smf
+
+model = smf.ols("lifeExp ~ log_gdp", data=g2007).fit()
+model.params.round(2)
+```
+
+- `smf.ols()` sets the model up, `.fit()` finds the line, and `.params` gives its two
+  estimates: $b_0$, called `Intercept`, and $b_1$
+
+## Reading the Estimates
+
+The two estimates, back in the equation:
+
+$$\text{lifeExp} = 4.95 + 7.20 \times \text{log_gdp}$$
+
+- $b_1$ = **7.20**: one more unit of `log_gdp` is associated with **7.2 more years** of life
+  expectancy
+- $b_0$ = **4.95**: the prediction when `log_gdp` is 0, far outside the data. Do not
+  interpret it
+- Write *"is associated with"*, never *"causes"*
+
+## From Equation to Formula
+
+The formula is the equation, written for Python:
+
+1. The `=` sign becomes `~`
+2. Each predictor is added with `+`
+3. No $b$ and no $e$: Python adds them itself
+
+$$\text{lifeExp} = b_0 + b_1 \times \text{log_gdp} + e$$
+
+```{.python}
+smf.ols("lifeExp ~ log_gdp", data=g2007)
+```
+
+## More Than One Predictor
+
+A categorical predictor, such as `continent`, goes inside `C()`:
+
+$$\text{lifeExp} = b_0 + b_1 \times \text{log_gdp} + b_2 \times \text{continent} + e$$
+
+```{.python}
+smf.ols("lifeExp ~ log_gdp + C(continent)", data=g2007)
+```
+
+- Any number of predictors can be added the same way, each with `+`
+- Section 3 reads what this model finds
+
+## Your Turn: From Equation to Formula {background="#43464B"}
+
+**The 1952 countries.** Replace each `____` with a model's formula:
+
+```{.python}
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g1952 = gapminder[gapminder["year"] == 1952]
+g1952["log_gdp"] = np.log(g1952["gdpPercap"])
+model1 = smf.ols(____, data=g1952).fit()          # model 1, in quotes
+model2 = smf.ols(____, data=g1952).fit()          # model 2, the continent inside C()
+print(round(model1.params["log_gdp"], 2))
+print(round(model2.params["log_gdp"], 2))
+```
+
+:::: {layout="[4,1]"}
+::: {#first-column}
+[Model 1: $\text{lifeExp} = b_0 + b_1 \times \text{log_gdp} + e$]{style="font-size: 85%"}<br>
+[Model 2: $\text{lifeExp} = b_0 + b_1 \times \text{log_gdp} + b_2 \times \text{continent} + e$]{style="font-size: 85%"}<br>
+You should see `8.83`, then `4.77`.
+:::
+
+::: {#second-column}
 ::: {#timer2 .timer seconds="300" starton="interaction"}
 :::
 :::
@@ -312,93 +321,58 @@ You should see:
 ## Solution
 
 ```{python}
-g1952 = gapminder[gapminder["year"] == 1952]
-gdp52 = g1952["gdp_per_cap"]
-life52 = g1952["life_exp"]
-print(round(gdp52.corr(life52), 2))
-print(round(np.log(gdp52).corr(life52), 2))
-```
-
-0.28 as it is, but 0.75 after the log: a strong relationship, but a curved one, as in 2007.
-Log first, then correlate.
-
-# 4. Linear Regression
-
-## The Line of Best Fit
-
-**life_exp = intercept + slope × log_gdp + residual**
-
-```{python}
-#| echo: false
-mini = g2007.sample(25, random_state=7)
-fit_mini = smf.ols("life_exp ~ log_gdp", data=mini).fit()
-line_x = np.array([mini["log_gdp"].min(), mini["log_gdp"].max()])
-fig, ax = plt.subplots(figsize=(8, 1.8))
-ax.vlines(mini["log_gdp"], mini["life_exp"], fit_mini.fittedvalues, color="#999999", linewidth=1)
-ax.scatter(mini["log_gdp"], mini["life_exp"], zorder=3)
-ax.plot(line_x, fit_mini.params["Intercept"] + fit_mini.params["log_gdp"] * line_x,
-        color="#C44E52")
-ax.set(xlabel="log_gdp", ylabel="life_exp")
-ax.set_title("25 countries: each grey line is one residual", loc="left", fontsize=10)
-plt.show()
-```
-
-- **Slope**: the change in life expectancy per unit of `log_gdp`. **Intercept**: the
-  prediction when `log_gdp` is 0. **Residual**: actual minus predicted
-- **Ordinary least squares (OLS)** picks the line with the smallest sum of squared residuals
-
-## Fitting a Model
-
-```{python}
+import numpy as np
+import pandas as pd
 import statsmodels.formula.api as smf
-
-model = smf.ols("life_exp ~ log_gdp", data=g2007).fit()
-model.params
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g1952 = gapminder[gapminder["year"] == 1952]
+g1952["log_gdp"] = np.log(g1952["gdpPercap"])
+model1 = smf.ols("lifeExp ~ log_gdp", data=g1952).fit()
+model2 = smf.ols("lifeExp ~ log_gdp + C(continent)", data=g1952).fit()
+print(round(model1.params["log_gdp"], 2))
+print(round(model2.params["log_gdp"], 2))
 ```
 
-- `"life_exp ~ log_gdp"` reads *"life_exp explained by log_gdp"*: the outcome goes on the
-  left of `~`, the predictors on the right
-- `smf.ols()` sets the model up, `.fit()` estimates it, and `.params` holds the intercept
-  and the slope
-- More predictors are added with `+`: `"life_exp ~ log_gdp + pop"`
+With the continent in the model, the income slope falls from 8.83 to 4.77: part of what
+income seemed to explain was the continent.
 
-## Reading the Coefficients
+# 3. Linear Regression Results
 
-```{python}
-print(round(model.params["log_gdp"] * np.log(2), 1), "years per doubling of income")
-```
+## The Table of Estimates
 
-- **Slope, 7.2**: one more unit of log GDP goes with 7.2 more years of life expectancy.
-  One unit of log means income × 2.7, so more usefully: **each doubling of income goes with
-  5.0 more years**
-- **Intercept, 4.9**: the prediction for log GDP of 0, an income of \$1 a year. That is far
-  outside the data: do not interpret it
-- Write *"is associated with"*, never *"causes"*
-
-## Reading the Rest of the Table
+`.summary()` prints the full results. Its second table, `.tables[1]`, holds the estimates:
 
 ```{python}
 print(model.summary().tables[1])
 ```
 
-- `std err`: each estimate's standard error, as in section 2
-- `[0.025  0.975]`: the 95% confidence interval. Slopes from 6.3 to 8.1 are compatible
+- `coef`: the estimates, as in `model.params`
+- The other columns say **how sure** we can be of each one
+
+## How Sure Are We?
+
+Other countries, or another year, would give a slightly different slope. The table says by
+how much:
+
+- `std err`, the **standard error**: how much the estimate would change with other data
+- `[0.025  0.975]`, the **95% confidence interval**: slopes from 6.3 to 8.1 are compatible
   with the data
-- `P>|t|`: the p-value against a true value of 0. The slope's `0.000`, below 0.0005: if the
-  true slope were 0, chance would almost never give one this far from it. The intercept's
-  0.202: compatible with 0
+- `P>|t|`, the **p-value**: if the true slope were 0, how often would chance alone give one
+  this far from 0? Below 0.05, the slope is **significantly** different from 0. Here,
+  `0.000`
+- A p-value is **not** the probability that the result is true
+- A table showing `0.000` means below 0.0005: write **p < 0.001**
 
 ## How Well Does It Fit?
 
 ```{python}
 print(round(model.rsquared, 2))
-print(round(np.sqrt(model.scale), 1))
 ```
 
 - **R² = 0.65**: the model accounts for 65% of the variation in life expectancy between
-  countries. The other 35% is how far countries sit above or below what their income predicts
-- **Residual standard error, 7.1 years**: most countries are within about 7 years of the
-  line, a few much further
+  countries
+- The other 35% is how far countries sit above or below what their income predicts
 
 ::: {.callout-warning}
 A high R² does not make a model right, nor a low one useless: judge it by what it is for.
@@ -407,37 +381,40 @@ A high R² does not make a model right, nor a low one useless: judge it by what 
 ## A Categorical Predictor
 
 ```{python}
-model2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=g2007).fit()
+model2 = smf.ols("lifeExp ~ log_gdp + C(continent)", data=g2007).fit()
 print(model2.params.round(2))
-print(round(model2.rsquared, 2))
 ```
 
-- `C()` adds a 0/1 column per continent but the first alphabetically, Africa: the
-  **reference**. Each coefficient is a difference from Africa
+- Africa, first in alphabetical order, is the **reference**: each continent's estimate is a
+  difference from Africa
 - **At the same income**, life expectancy is 11.3 years higher in Europe than in Africa, on
-  average; the income slope falls from 7.2 to 4.6
+  average
 
-## Your Turn: Fit a Model {background="#43464B"}
+## Your Turn: Read the Results {background="#43464B"}
 
-On the 1952 countries. Replace each `____`, then run the cell:
+**The 1952 countries.** Replace each `____`, using the comments:
 
 ```{.python}
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
 g1952 = gapminder[gapminder["year"] == 1952]
-g1952["log_gdp"] = np.log(g1952["gdp_per_cap"])
-fit52 = smf.ols("life_exp ~ ____", data=g1952).fit()
-print(round(fit52.params["log_gdp"], 2))              # the slope
-print(round(fit52.params["log_gdp"] * np.log(2), 1))  # years per doubling
-print(round(fit52.____, 2))                           # R²
+g1952["log_gdp"] = np.log(g1952["gdpPercap"])
+model = smf.ols("lifeExp ~ log_gdp", data=g1952).fit()
+print(model.summary().____[1])                     # the estimates, with .tables
+print(round(model.params["log_gdp"], 2))           # the slope
+print(round(model.____, 2))                        # R², with .rsquared
 ```
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-Then add `+ C(continent)` to the formula: how much does R² rise?
+You should see the table, then `8.83` (the slope) and `0.56` (R²). Is the slope significant? What
+share of the variation does income account for?
 :::
 
 ::: {#second-column}
-You should see `8.83`, `6.1` and `0.56`; with the continent, an R² of `0.74`.
-
 ::: {#timer3 .timer seconds="300" starton="interaction"}
 :::
 :::
@@ -446,36 +423,113 @@ You should see `8.83`, `6.1` and `0.56`; with the continent, an R² of `0.74`.
 ## Solution
 
 ```{python}
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
 g1952 = gapminder[gapminder["year"] == 1952]
-g1952["log_gdp"] = np.log(g1952["gdp_per_cap"])
-fit52 = smf.ols("life_exp ~ log_gdp", data=g1952).fit()
-print(round(fit52.params["log_gdp"], 2))
-print(round(fit52.params["log_gdp"] * np.log(2), 1))
-print(round(fit52.rsquared, 2))
-
-fit52c = smf.ols("life_exp ~ log_gdp + C(continent)", data=g1952).fit()
-print(round(fit52c.rsquared, 2))
+g1952["log_gdp"] = np.log(g1952["gdpPercap"])
+model = smf.ols("lifeExp ~ log_gdp", data=g1952).fit()
+print(model.summary().tables[1])
+print(round(model.params["log_gdp"], 2))
+print(round(model.rsquared, 2))
 ```
 
-- In 1952 a doubling of income went with 6.1 more years, against 5.0 in 2007: a steeper
-  slope, but a looser fit (R² 0.56 against 0.65)
-- Continent lifts R² from 0.56 to 0.74, more than in 2007 (0.65 to 0.77)
+Yes: p is below 0.001, and 0 is outside 7.52 to 10.14. Income accounted for 56% of the
+variation in 1952, against 65% in 2007.
 
-# 5. Prediction
+# 4. Prediction
 
-## Explanation vs Prediction
+## From Explaining to Predicting
 
-- **Explanation**: what is the slope, and how sure are we? Fitted on all the data, judged by
-  its standard errors. That was section 4
-- **Prediction**: for a country the model has never seen, how wrong will the guess be?
-- On average, a model fits its own data better than new data: judging it there is
-  **marking your own homework**
-- So: fit on some countries, **test** on the others, and look at the test set once
+- Sections 2 and 3 **explained**: how life expectancy goes with income, and how sure we
+  are of it
+- The same line can also **predict**: a best guess of a country's life expectancy, from its
+  income alone
+- Businesses predict all the time: tomorrow's sales, next month's demand, the price of a
+  house
 
-This is the idea every machine learning model, from a regression to a neural network, is
-evaluated on.
+This section answers three questions, in order: how to predict, how wrong the predictions
+are, and how to measure that honestly.
+
+## Predicting One New Value
+
+Back to the 2007 model. Fit it, put the new income in a table, and predict. Here, a country
+with \$10,000 per person:
+
+```{python}
+model = smf.ols("lifeExp ~ log_gdp", data=g2007).fit()
+new = pd.DataFrame({"log_gdp": [np.log(10000)]})
+model.predict(new).round(1)
+```
+
+- `predict()` needs a table with the same column as the formula: `log_gdp`
+- By hand: $b_0 + b_1 \times \text{log_gdp}$ = 4.95 + 7.20 × 9.21 = **71.3 years**
+- A best guess, not a fact: real countries sit above or below the line
+
+## Predicting for Several Countries
+
+One row per country. `np.log()` takes the whole list of incomes at once:
+
+```{python}
+new = pd.DataFrame({"log_gdp": np.log([2000, 10000, 45000])})
+model.predict(new).round(1)
+```
+
+- Rows 0, 1 and 2 are the incomes \$2,000, \$10,000 and \$45,000
+
+::: {.callout-warning}
+Only predict inside the range of the data: incomes from \$278 to \$49,357 in 2007. For
+\$500,000, the line predicts 99.5 years. It has never seen such a country, and neither have
+you.
+:::
+
+## How Wrong Are the Predictions?
+
+To find out, predict the countries whose life expectancy we already know, and compare:
+
+```{python}
+g2007["predicted"] = model.predict(g2007)
+g2007["error"] = g2007["lifeExp"] - g2007["predicted"]
+g2007[["country", "lifeExp", "predicted", "error"]].round(1).head(4)
+```
+
+- The **error**: actual minus predicted, the residual of section 2
+- Albania lives 8.9 years longer than its income predicts; Angola 23.3 years shorter
+
+## One Number for All the Errors
+
+```{python}
+mae = g2007["error"].abs().mean()
+rmse = np.sqrt((g2007["error"] ** 2).mean())
+print("MAE", round(mae, 1), "years; RMSE", round(rmse, 1), "years")
+```
+
+- **MAE**, the mean absolute error: drop the signs with `.abs()`, then take the mean. A
+  prediction misses by 5.1 years on average
+- Why `.abs()`? Errors above and below the line would cancel out: their mean is 0
+- **RMSE**, the root mean squared error: square the errors, take the mean, then the square
+  root. Big misses count more
+- Both are in **years**: the smaller, the better
+
+## Marking Your Own Homework
+
+The 5.1 years is too optimistic:
+
+- These are the 142 countries that **drew the line**: OLS put it as close as possible to
+  them
+- A new country had no say in where the line goes, so it will usually be missed by more
+- It is like practising on the exam paper itself: a great score, but it says nothing about
+  a new paper
+
+::: {.callout-important}
+To know how wrong a model will be on **new** data, measure it on data it has **not** seen.
+:::
 
 ## Train and Test
+
+Before fitting, put a quarter of the countries aside:
 
 ```{python}
 train = g2007.sample(frac=0.75, random_state=1118)
@@ -483,43 +537,41 @@ test = g2007.drop(train.index)
 print(len(train), "countries to fit the model,", len(test), "to test it")
 ```
 
-- `sample(frac=0.75)` draws 75% of the rows at random; `drop(train.index)` keeps the rest
-- `random_state` makes the split repeatable: the same countries every time
-- The test countries take no part in fitting: for the model, they are new
+- **train**: 75% of the countries, drawn at random, to fit the model
+- **test**: the other 25%, kept aside: for the model, they are new countries
+- `random_state` fixes the random draw: the same split every time
 
-## Predict and Measure the Error
+Every machine learning model, from a regression to a neural network, is judged this way.
 
-```{python}
-fit = smf.ols("life_exp ~ log_gdp", data=train).fit()
-predicted = fit.predict(test)
-errors = test["life_exp"] - predicted
-rmse = np.sqrt((errors ** 2).mean())
-mae = errors.abs().mean()
-print("RMSE", round(rmse, 1), "years; MAE", round(mae, 1), "years")
-```
-
-- **RMSE**: square the errors, average them, take the root: the **r**oot **m**ean
-  **s**quared **e**rror. Big misses weigh more
-- **MAE**: the mean absolute error, the average miss. The easiest to explain
-- Both in **years**, on 36 countries the model never saw. On its own 106 training countries
-  the RMSE is 6.7: on average, a model looks better on the data it was fitted on
-
-## Predicting for New Data
+## Fit on Train, Measure on Test
 
 ```{python}
-new = pd.DataFrame({"gdp_per_cap": [2000, 10000, 45000]})
-new["log_gdp"] = np.log(new["gdp_per_cap"])
-new["predicted_life_exp"] = fit.predict(new).round(1)
-new
+fit = smf.ols("lifeExp ~ log_gdp", data=train).fit()
+errors_train = train["lifeExp"] - fit.predict(train)
+errors_test = test["lifeExp"] - fit.predict(test)
+print("MAE on train:", round(errors_train.abs().mean(), 1), "years")
+print("MAE on test:", round(errors_test.abs().mean(), 1), "years")
 ```
 
-::: {.callout-warning}
-Never predict outside the range of the data. Incomes in 2007 run from \$278 to \$49,357: for
-\$500,000, the same line predicts 100.5 years. It has never seen such a country, and neither
-have you.
-:::
+```{python}
+#| echo: false
+xs = np.array([g2007["log_gdp"].min(), g2007["log_gdp"].max()])
+fig, ax = plt.subplots(figsize=(8, 1.45))
+ax.scatter(train["log_gdp"], train["lifeExp"], s=10, color="#23373b", label="train")
+ax.vlines(test["log_gdp"], test["lifeExp"], fit.predict(test), color="#999999", linewidth=1)
+ax.scatter(test["log_gdp"], test["lifeExp"], s=24, color="#EB811B", zorder=3, label="test")
+ax.plot(xs, fit.params["Intercept"] + fit.params["log_gdp"] * xs, color="#C44E52")
+ax.set(xlabel="log_gdp", ylabel="lifeExp")
+ax.set_title("The line comes from train; each grey line is a test error", loc="left",
+             fontsize=10)
+ax.legend(fontsize=8, loc="lower right")
+plt.show()
+```
 
-## Overfitting
+- Train: 4.9 years. Test: **5.7 years**, the honest figure for a new country
+- The RMSE agrees: 6.7 years on train, 8.0 on test
+
+## Why It Matters: Overfitting
 
 ```{python}
 #| echo: false
@@ -527,72 +579,81 @@ tr = g2007.sample(12, random_state=7)
 te = g2007.drop(tr.index)
 grid = np.linspace(tr["log_gdp"].min(), tr["log_gdp"].max(), 300)
 fig, axes = plt.subplots(1, 2, figsize=(9, 2.3), sharey=True)
-for ax, degree, name in zip(axes, [1, 8], ["Straight line", "Degree-8 curve"]):
-    coef = np.polyfit(tr["log_gdp"], tr["life_exp"], degree)
-    err_tr = np.sqrt(((tr["life_exp"] - np.polyval(coef, tr["log_gdp"])) ** 2).mean())
-    err_te = np.sqrt(((te["life_exp"] - np.polyval(coef, te["log_gdp"])) ** 2).mean())
-    ax.scatter(te["log_gdp"], te["life_exp"], s=10, color="#cccccc", label="test countries")
-    ax.scatter(tr["log_gdp"], tr["life_exp"], s=28, color="#23373b", label="12 training countries")
+for ax, degree, name in zip(axes, [1, 8], ["Straight line", "Flexible curve"]):
+    coef = np.polyfit(tr["log_gdp"], tr["lifeExp"], degree)
+    mae_tr = (tr["lifeExp"] - np.polyval(coef, tr["log_gdp"])).abs().mean()
+    mae_te = (te["lifeExp"] - np.polyval(coef, te["log_gdp"])).abs().mean()
+    ax.scatter(te["log_gdp"], te["lifeExp"], s=10, color="#EB811B", alpha=0.5,
+               label="test countries")
+    ax.scatter(tr["log_gdp"], tr["lifeExp"], s=28, color="#23373b", label="12 train countries")
     ax.plot(grid, np.polyval(coef, grid), color="#C44E52")
     ax.set_ylim(30, 90)
     ax.set_xlabel("log_gdp")
-    ax.set_title(f"{name}: training RMSE {err_tr:.1f}, test RMSE {err_te:.1f}", fontsize=10)
+    ax.set_title(f"{name}: MAE {mae_tr:.1f} on train, {mae_te:.1f} on test", fontsize=10)
 axes[0].legend(fontsize=8, loc="lower right")
 fig.tight_layout()
 plt.show()
 ```
 
-A straight line has two numbers to estimate and barely overfits. The degree-8 curve has nine:
-it learns the **noise** of its 12 points, so its training error falls while its test error
-more than doubles. Use the test set once, at the end, or you start fitting to it too.
+A more flexible model can bend to pass close to every train country. Fitted on 12
+countries, the curve misses them by 1.8 years on average, but misses the others by 12.9: it
+has learned the **noise** of its 12 countries, not the pattern. This is **overfitting**,
+and only the test set shows it.
 
 ## The Same Pattern in scikit-learn
+
+**scikit-learn**, the main machine learning library, fits the same line on `train`:
 
 ```{python}
 from sklearn.linear_model import LinearRegression
 model_sk = LinearRegression()
-model_sk.fit(train[["log_gdp"]], train["life_exp"])
+model_sk.fit(train[["log_gdp"]], train["lifeExp"])
 print(round(model_sk.intercept_, 2), model_sk.coef_.round(2))
 print(fit.params.round(2).tolist())
 ```
 
-- Same split, same line. `X` is a DataFrame, hence two brackets; `y` is a Series
-- Choose a model, `.fit()`, `.predict()`: the same three steps for decision trees, random
-  forests and neural networks
-- scikit-learn has no summary table: it is built for prediction, not explanation
+- The same intercept and slope as `smf.ols()` on `train`
+- Predictors in a table, hence two brackets; the outcome is one column
+- Choose a model, `.fit()`, `.predict()`: the same three steps for every model
 
 ## What You Can and Cannot Write
 
-> In 2007, across 142 countries, each doubling of GDP per capita was associated with about
-> 5 more years of life expectancy (95% CI 4.4 to 5.6), and income accounted for 65% of the
-> variation. On 36 countries held out from fitting, predictions missed by 5.7 years on
-> average.
+> In 2007, across 142 countries, one more unit of log GDP per capita was associated with
+> 7.2 more years of life expectancy (95% CI 6.3 to 8.1), and income accounted for 65% of
+> the variation. On 36 test countries, kept aside from fitting, predictions missed by 5.7
+> years on average.
 
-- Numbers in real units, with their uncertainty and their scope
+- Numbers with their uncertainty and their scope
 - No cause: "associated with", not "raises"
 - No extrapolation: nothing about incomes outside \$278 to \$49,357
 
 ## Your Turn: Predict {background="#43464B"}
 
-The same `train` and `test`, now with the continent. Replace each `____`:
+**With the continent.** Replace each `____`, using the comments:
 
 ```{.python}
-fit2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=____).fit()
-errors2 = test["life_exp"] - fit2.predict(____)
-rmse2 = np.sqrt((errors2 ** 2).mean())
-mae2 = errors2.____().mean()
-print(round(rmse2, 1), round(mae2, 1))
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+g2007["log_gdp"] = np.log(g2007["gdpPercap"])
+train = g2007.sample(frac=____, random_state=1118)       # 75% of the countries
+test = g2007.drop(train.____)                            # the rest, with .index
+fit2 = smf.ols("lifeExp ~ log_gdp + C(continent)", data=____).fit()   # on train
+errors2 = test["lifeExp"] - fit2.predict(____)           # on test
+print(round(errors2.____().mean(), 1))                   # the MAE, with .abs()
+print(round(np.sqrt((errors2 ** 2).mean()), 1))          # the RMSE
 ```
 
-:::: {layout="[3,2]"}
+:::: {layout="[4,1]"}
 ::: {#first-column}
-Without the continent, the test RMSE was 8.0 years and the MAE 5.7. Does knowing the
-continent improve the predictions?
+You should see `4.0`, then `6.0`. Without the continent: 5.7 and 8.0. Does the continent
+improve the predictions?
 :::
 
 ::: {#second-column}
-You should see `6.0 4.0`.
-
 ::: {#timer4 .timer seconds="300" starton="interaction"}
 :::
 :::
@@ -601,16 +662,23 @@ You should see `6.0 4.0`.
 ## Solution
 
 ```{python}
-fit2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=train).fit()
-errors2 = test["life_exp"] - fit2.predict(test)
-rmse2 = np.sqrt((errors2 ** 2).mean())
-mae2 = errors2.abs().mean()
-print(round(rmse2, 1), round(mae2, 1))
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+g2007["log_gdp"] = np.log(g2007["gdpPercap"])
+train = g2007.sample(frac=0.75, random_state=1118)
+test = g2007.drop(train.index)
+fit2 = smf.ols("lifeExp ~ log_gdp + C(continent)", data=train).fit()
+errors2 = test["lifeExp"] - fit2.predict(test)
+print(round(errors2.abs().mean(), 1))
+print(round(np.sqrt((errors2 ** 2).mean()), 1))
 ```
 
-Yes: the continent cuts the typical miss from 8.0 to 6.0 years (RMSE), and the average miss
-from 5.7 to 4.0. A test country's continent must also appear in `train`, or `predict()`
-stops with an error.
+Yes: on the same 36 test countries, the average miss falls from 5.7 to 4.0 years, and the
+RMSE from 8.0 to 6.0.
 
 ## References
 
@@ -625,12 +693,11 @@ stops with an error.
 
 ## Test 2: Thursday 26 November
 
-- In class, **one hour**, multiple choice, like Test 1
+- In class, **one hour**, in a **notebook in VS Code**: you write and run the code, as in
+  the tutorials
 - It covers the **pandas, matplotlib, statistics and regression** of lectures 6, 7 and 8
 - The best revision: redo every Your Turn from lectures 6 to 8 without the solution, then
   check
-- On the answer sheet, **cross** the boxes of your student number, do not only write the
-  digits, and **cross** your answers rather than shading them
 
 ## {background="#43464B"}
 

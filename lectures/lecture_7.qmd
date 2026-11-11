@@ -32,24 +32,12 @@ pd.set_option("display.width", 100)
 plt.rcParams["figure.figsize"] = (8, 3)
 plt.rcParams["figure.dpi"] = 110
 plt.rcParams["font.size"] = 11
+plt.rcParams["legend.fontsize"] = 8          # compact legends, for short slide charts
+plt.rcParams["legend.labelspacing"] = 0.2
+plt.rcParams["legend.borderpad"] = 0.3
+plt.rcParams["legend.borderaxespad"] = 0.3
 
 ```
-
-## Setup
-
-```{python}
-import pandas as pd
-import matplotlib.pyplot as plt
-
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
-gapminder = gapminder.rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
-g2007 = gapminder[gapminder["year"] == 2007]
-```
-
-The table from lecture 6, read from the same URL, with the same two names changed.
-
-# 1. Why Visualise
 
 ## Summary Statistics Lie
 
@@ -85,12 +73,201 @@ plt.show()
 **Anscombe's quartet** (1973): same means, standard deviations, correlation and best-fit
 line. Only the plots tell them apart. **Always plot the data.**
 
-## Your Turn: Choose the Form {background="#43464B"}
+## Install the Packages
 
-:::: {layout="[3,1]"}
+matplotlib is not part of Python: Colab has it, your own Python does not. Install it once,
+in a code cell of a VS Code notebook:
+
+```{.python}
+%pip install pandas matplotlib seaborn
+```
+
+- Use `%pip`, not `!pip`: `%pip` installs into the Python that runs your notebook, while `!pip` can install into a different Python and the import then fails
+- Wait until the cell finishes, then click **Restart** in the notebook toolbar
+- If a package is already installed, pip says "Requirement already satisfied", which is fine
+
+Then run the cell on the next slide: no error means it worked.
+
+## The gapminder Dataset
+
+Each row is **a country in a given year**, from 1952 to 2007. As in lecture 6: read it
+and keep 2007 in `g2007`.
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt         # the plotting library, as plt
+
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+```
+
+- The columns: `country`, `continent`, `year`, `lifeExp` (in years), `pop` and
+  `gdpPercap` (in US dollars)
+- Every chart today starts from `gapminder`, or from `g2007`, its 142 countries in 2007
+
+# 1. Basic Visualisations with matplotlib
+
+## Using matplotlib
+
+`matplotlib` is Python's main plotting library: pandas, seaborn and most charts written by
+AI assistants draw with it. A chart is built in **layers**, one line of code each:
+
+```{.python}
+fig, ax = plt.subplots()     # 1. the canvas: an empty frame
+ax.scatter(x, y)             # 2. a geometry: what to draw, and which columns
+ax.set_xlabel("...")         # 3. more layers: labels, scales, colours
+plt.show()                   # 4. show it
+```
+
+```{python}
+#| echo: false
+fig, axes = plt.subplots(1, 3, figsize=(9.5, 1.75))
+steps = ["1. fig, ax = plt.subplots()", "2. ax.scatter(x, y)", "3. ax.set_xlabel(...)"]
+for ax, step in zip(axes, steps):
+    ax.set_title(step, fontsize=9, family="monospace", loc="left")
+    ax.tick_params(labelsize=7)
+for ax in axes[1:]:
+    ax.scatter(g2007["gdpPercap"], g2007["lifeExp"], s=5)
+axes[2].set_xlabel("GDP per capita (US$)", fontsize=8)
+axes[2].set_ylabel("Life expectancy", fontsize=8)
+fig.tight_layout()
+plt.show()
+```
+
+Read from top to bottom: each line adds to what the lines above it drew.
+
+## The Canvas: fig and ax
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 1.5))
+plt.show()
+```
+
+- `plt.subplots()` returns two things, unpacked as in lecture 3: `fig`, the whole canvas,
+  and `ax`, the plotting area inside it. `figsize`: width and height, in inches
+- Only an empty frame: every layer from now on is a method of `ax`, such as `ax.scatter()`
+
+## Mapping x and y
+
+A geometry's first two arguments are its **mapping**: the x column, then the y column.
+
+```{.python}
+fig, ax = plt.subplots()
+ax.scatter(my_table["my_x_column"], my_table["my_y_column"])   # x first, then y
+plt.show()
+```
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 1.6))
+ax.scatter(g2007["gdpPercap"], g2007["lifeExp"])
+plt.show()
+```
+
+One point per country in 2007: GDP per capita across, life expectancy up.
+
+## More Than x and y
+
+```{python}
+#| code-line-numbers: "3"
+fig, ax = plt.subplots(figsize=(8, 1.6))
+ax.scatter(g2007["gdpPercap"], g2007["lifeExp"],
+           color="darkred", s=15, marker="s", alpha=0.5)
+plt.show()
+```
+
+- `color`: a name or a code, such as `"#C44E52"`. `s`: the size. `marker`: the shape,
+  `"o"`, `"s"` or `"^"`. `alpha`: 0 is invisible, 1 solid, so overlaps show darker
+- Each is **one value for the whole layer**: section 2 colours by continent
+
+## Geometries
+
+Each kind of chart has its own `ax` method, its **geometry**:
+
+| Method | Draws | To show |
+|:--|:--|:--|
+| `ax.scatter(x, y)` | points | how two columns relate |
+| `ax.plot(x, y)` | a line | a change over time |
+| `ax.bar(x, heights)` | bars | one number per category |
+| `ax.barh(y, widths)` | sideways bars | the same, for long names |
+| `ax.hist(values)` | a histogram | how one column is spread |
+| `ax.boxplot(groups)` | boxes | the spread in each group |
+
+**The question picks the geometry.** All the others:
+[plot types](https://matplotlib.org/stable/plot_types/index.html).
+
+## Line Chart
+
+```{python}
+ireland = gapminder[gapminder["country"] == "Ireland"]
+fig, ax = plt.subplots(figsize=(8, 1.8))
+ax.plot(ireland["year"], ireland["lifeExp"], marker="o")
+plt.show()
+```
+
+- A line joins the rows in order: keep one country first, or it zigzags through all 142
+- `marker="o"` adds a dot for each year: Ireland, from 67 years in 1952 to 79 in 2007
+
+## Bar Chart
+
+```{python}
+means = g2007.groupby("continent")["lifeExp"].mean()
+fig, ax = plt.subplots(figsize=(8, 1.8))
+ax.bar(means.index, means.values)
+plt.show()
+```
+
+- `groupby()` gives one mean per continent, with the continents as the **index** (lecture 6):
+  `means.index` gives the x positions, `means.values` the heights
+- A bar's length is its value, so the axis starts at 0
+
+## Histogram
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 1.8))
+ax.hist(g2007["lifeExp"], bins=20, edgecolor="white")
+plt.show()
+```
+
+- One column only: matplotlib cuts it into 20 **bins** and counts the countries in each
+- 83 countries are above 70 years, and a tail runs down to 40. Try several `bins`: too few
+  hide the shape, too many turn it into noise
+
+## Boxplot
+
+```{python}
+africa = g2007[g2007["continent"] == "Africa"]
+europe = g2007[g2007["continent"] == "Europe"]
+fig, ax = plt.subplots(figsize=(8, 1.8))
+ax.boxplot([africa["lifeExp"], europe["lifeExp"]], tick_labels=["Africa", "Europe"])
+plt.show()
+```
+
+- A list of columns, one box each, named by `tick_labels`
+- Line: the **median**. Box: the middle 50%. Whiskers: up to 1.5 box-lengths. Dots: outliers
+
+## Your Turn: First Charts {background="#43464B"}
+
+Replace each `____`, using the comments, then run the cell:
+
+```{.python}
+import pandas as pd
+import matplotlib.pyplot as plt
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g1952 = gapminder[gapminder["year"] == 1952]
+fig, ax = plt.subplots()
+ax.____(g1952["lifeExp"], bins=20)                # a histogram, with .hist()
+plt.show()
+china = gapminder[gapminder["country"] == ____]    # "China", in quotes
+fig, ax = plt.subplots()
+ax.____(china["year"], china[____])                # a line, with .plot(), of "lifeExp"
+plt.show()
+```
+
+:::: {layout="[3,2]"}
 ::: {#first-column}
-No code. Match each question to one chart: **histogram**, **bar chart**, **line chart**,
-**scatter plot** or **boxplot**. Each chart is used once.
+You should see two charts: 1952, with two humps, then China's line, which drops in 1962.
 :::
 
 ::: {#second-column}
@@ -99,236 +276,172 @@ No code. Match each question to one chart: **histogram**, **bar chart**, **line 
 :::
 ::::
 
-1. Are salaries in our company spread evenly, or bunched at the bottom?
-2. Which of our five regions sells the most?
-3. Has customer churn risen since January?
-4. Do customers who spend more also visit more often?
-5. Do app users and web users spend different amounts per order?
-
-## One Answer
-
-| Question | Chart | Why |
-|:--|:--|:--|
-| Salary spread | histogram | one numeric variable: its shape |
-| Sales per region | sorted bar chart | one number per category |
-| Churn since January | line chart | one variable over time |
-| Spend vs visits | scatter plot | two numeric variables |
-| App vs web orders | boxplot | a distribution, per group |
-
-**The question picks the chart**, never the other way round.
-
-# 2. Figure and Axes
-
-## Two Objects: fig and ax
+## Solution
 
 ```{python}
 #| echo: false
-ireland = gapminder[gapminder["country"] == "Ireland"]
+plt.rcParams["figure.figsize"] = (4.5, 1.5)   # display size only, to fit the slide
+```
+
+```{python}
+#| layout-ncol: 2
+import pandas as pd
+import matplotlib.pyplot as plt
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g1952 = gapminder[gapminder["year"] == 1952]
+fig, ax = plt.subplots()
+ax.hist(g1952["lifeExp"], bins=20)              # two humps: around 40, and around 65
+plt.show()
 china = gapminder[gapminder["country"] == "China"]
-fig, ax = plt.subplots(figsize=(8.5, 3.6))
-fig.patch.set_facecolor("#dfe7ea")
-ax.plot(ireland["year"], ireland["life_exp"], marker="o", label="ax.plot(...)")
-ax.set_title("ax.set_title(...)")
-ax.set_xlabel("ax.set_xlabel(...)")
-ax.set_ylabel("ax.set_ylabel(...)")
-ax.legend(loc="lower right")
-ax.text(1953, 77, "ax: one plotting area,\nwith its own axes and marks", fontsize=11,
-        va="top", color="#23373b")
-fig.text(0.01, 0.03, "fig: the whole canvas (grey)", fontsize=11, color="#23373b")
-fig.tight_layout()
+fig, ax = plt.subplots()
+ax.plot(china["year"], china["lifeExp"])        # 1962: the Great Leap Forward famine
 plt.show()
 ```
 
-`fig` is the canvas: its size, and what you save. `ax` is one plotting area: every mark,
-label and title on it comes from a method of `ax`.
+# 2. Advanced Visualisations with matplotlib
 
-## Your First Figure
+## Grey Everything, Colour One Thing
 
 ```{python}
-ireland = gapminder[gapminder["country"] == "Ireland"]
-fig, ax = plt.subplots(figsize=(8, 2.4))
-ax.plot(ireland["year"], ireland["life_exp"], marker="o")
-ax.set_xlabel("Year")
-ax.set_ylabel("Life expectancy (years)")
-ax.set_title("Ireland")
+eq_guinea = g2007[g2007["country"] == "Equatorial Guinea"]
+fig, ax = plt.subplots(figsize=(8, 1.7))
+ax.scatter(g2007["gdpPercap"], g2007["lifeExp"], color="lightgrey")
+ax.scatter(eq_guinea["gdpPercap"], eq_guinea["lifeExp"], color="red")
 plt.show()
 ```
 
-`plt.subplots()` returns two things, unpacked as in lecture 3.
-
-## The ax Methods You Need
-
-:::: {.code-columns}
-::: {#first-column}
-**To draw**
-
-```{.python}
-ax.plot(x, y)         # line
-ax.scatter(x, y)      # points
-ax.bar(x, heights)    # bars
-ax.barh(y, widths)    # sideways bars
-ax.hist(values)       # histogram
-ax.boxplot(groups)    # boxplots
-```
-:::
-
-::: {#second-column}
-**To label and adjust**
-
-```{.python}
-ax.set_title("...")   # title
-ax.set_xlabel("...")  # x label
-ax.set_ylabel("...")  # y label
-ax.set_ylim(0, 100)   # y range
-ax.set_xscale("log")  # log scale
-ax.legend()           # legend
-```
-:::
-::::
-
-`ax.set(xlabel="...", ylabel="...", xscale="log")` sets several of these in one call.
-
-::: {.callout-tip}
-Code online and from AI assistants often writes `plt.title()` and `plt.xlabel()`, which only
-work on the last chart drawn. With several panels you need `ax`: use it from the start.
-:::
-
-## Several Panels
-
-```{python}
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.3))
-axes[0].plot(ireland["year"], ireland["life_exp"], marker="o")
-axes[0].set_title("Ireland: life expectancy (years)")
-axes[1].plot(ireland["year"], ireland["gdp_per_cap"], marker="o")
-axes[1].set_title("Ireland: GDP per capita (US$)")
-fig.tight_layout()
-plt.show()
-```
-
-`plt.subplots(1, 2)` gives one row of two panels, `axes[0]` and `axes[1]`. Two variables in
-different units go in **two panels**, never on two y-axes.
-
-# 3. Four Questions, Four Charts
-
-## 1. How Is One Variable Distributed?
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 2.5))
-ax.hist(g2007["life_exp"], bins=20, edgecolor="white")
-ax.set_xlabel("Life expectancy in 2007 (years)")
-ax.set_ylabel("Number of countries")
-plt.show()
-```
-
-83 of the 142 countries are above 70, and a long tail runs down to 40. The mean, 67 years,
-describes neither group.
-
-## The Bins Change the Story
-
-```{python}
-#| echo: false
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.6), sharey=False)
-axes[0].hist(g2007["life_exp"], bins=4, edgecolor="white")
-axes[0].set_title("bins=4: too coarse", fontsize=11)
-axes[1].hist(g2007["life_exp"], bins=60, edgecolor="white")
-axes[1].set_title("bins=60: too noisy", fontsize=11)
-for ax in axes:
-    ax.set_xlabel("Life expectancy in 2007 (years)")
-fig.tight_layout()
-plt.show()
-```
-
-Same 142 countries, one number changed. Too few bins hide the shape; too many turn it into
-noise. **Try several before you believe a shape.**
-
-## 2. How Do Groups Compare?
-
-```{python}
-means = g2007.groupby("continent")["life_exp"].mean().sort_values()
-fig, ax = plt.subplots(figsize=(8, 2.3))
-ax.barh(means.index, means.values)
-ax.set_xlabel("Mean life expectancy in 2007 (years)")
-plt.show()
-```
-
-Horizontal bars keep labels readable. `barh` draws from the bottom up, so an ascending sort
-puts the longest bar on top.
-
-## Boxplots: More Than the Mean
-
-```{python}
-continents = ["Africa", "Americas", "Asia", "Europe", "Oceania"]
-groups = [g2007[g2007["continent"] == c]["life_exp"] for c in continents]
-fig, ax = plt.subplots(figsize=(8, 2.3))
-ax.boxplot(groups, tick_labels=continents)
-ax.set_ylabel("Life expectancy (years)")
-plt.show()
-```
-
-Line: the **median**. Box: the middle 50%. Whiskers: up to 1.5 box-lengths. Dots: outliers.
-Oceania is 2 countries: a box of 2 is not a distribution.
-
-## 3. Are Two Variables Related?
-
-```{python}
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.0), sharey=True)
-axes[0].scatter(g2007["gdp_per_cap"], g2007["life_exp"], alpha=0.7)   # see-through
-axes[0].set(xlabel="GDP per capita (US$)", ylabel="Life expectancy (years)")
-axes[1].scatter(g2007["gdp_per_cap"], g2007["life_exp"], alpha=0.7)
-axes[1].set(xscale="log", xlabel="GDP per capita (US$, log scale)")
-plt.show()
-```
-
-Left: related, but curved. Right: on a **log axis** every doubling covers the same
-distance, and the curve becomes a line, which lecture 8 fits.
+- Two layers: every country in grey, then Equatorial Guinea in red, **on top**
+- Bars work the same way: grey bars, then `ax.bar()` again for the ones to colour
 
 ## Colour by Group
 
 ```{python}
-fig, ax = plt.subplots(figsize=(8, 2.0))
-for continent in continents:
+fig, ax = plt.subplots(figsize=(8, 1.8))
+for continent in ["Africa", "Americas", "Asia", "Europe", "Oceania"]:
     subset = g2007[g2007["continent"] == continent]
-    ax.scatter(subset["gdp_per_cap"], subset["life_exp"], label=continent, alpha=0.7)
-ax.set(xscale="log", xlabel="GDP per capita in 2007 (US$, log scale)",
-       ylabel="Life expectancy (years)")
-ax.legend(fontsize=9)
+    ax.scatter(subset["gdpPercap"], subset["lifeExp"], label=continent)
+ax.legend()
 plt.show()
 ```
 
-One `scatter` per continent, each with a `label`, gathered by `ax.legend()`.
+- matplotlib colours a **layer**, not a column: a loop draws one layer per continent
+- `label=` names each layer, and `ax.legend()` lists the names
 
-## 4. How Does It Change Over Time?
+## Styles
 
 ```{python}
-by_year = gapminder.pivot_table(index="year", columns="continent",
-                                values="life_exp", aggfunc="mean")
-ax = by_year.plot(marker="o", figsize=(8, 2.3))
-ax.set(xlabel="", ylabel="Mean life expectancy (years)", ylim=(35, 90))
-ax.legend(ncol=5, fontsize=9)
+#| code-line-numbers: "1"
+plt.style.use("petroff10")
+fig, ax = plt.subplots(figsize=(8, 1.6))
+for continent in ["Africa", "Americas", "Asia", "Europe", "Oceania"]:
+    subset = g2007[g2007["continent"] == continent]
+    ax.scatter(subset["gdpPercap"], subset["lifeExp"], label=continent)
+ax.legend()
 plt.show()
 ```
 
-One column per continent, so `.plot()` draws one line per column **with matplotlib**, and
-returns the `ax`: everything today still applies.
+- A style changes **every chart after it**: `petroff10`'s colours stay distinct for
+  colour-blind readers. Others: `"ggplot"`, `"bmh"`, `"grayscale"`
 
-## Your Turn: Two Charts {background="#43464B"}
+## Scales
 
-One figure, two panels. Replace each `____`, then run the cell:
+```{python}
+#| code-line-numbers: "6"
+fig, ax = plt.subplots(figsize=(8, 1.6))
+for continent in ["Africa", "Americas", "Asia", "Europe", "Oceania"]:
+    subset = g2007[g2007["continent"] == continent]
+    ax.scatter(subset["gdpPercap"], subset["lifeExp"], label=continent)
+ax.legend()
+ax.set_xscale("log")
+plt.show()
+```
+
+- On a **log axis** every doubling covers the same distance: the curve becomes a line, which
+  lecture 8 fits. `ax.set_ylim(0, 90)` sets a range
+
+## Labels
+
+```{python}
+#| code-line-numbers: "7,8"
+fig, ax = plt.subplots(figsize=(8, 1.45))
+for continent in ["Africa", "Americas", "Asia", "Europe", "Oceania"]:
+    subset = g2007[g2007["continent"] == continent]
+    ax.scatter(subset["gdpPercap"], subset["lifeExp"], label=continent)
+ax.legend()
+ax.set_xscale("log")
+ax.set(xlabel="GDP per capita (US$, log scale)", ylabel="Life expectancy (years)")
+ax.set_title("Each doubling of income comes with a longer life", loc="left")
+plt.show()
+```
+
+- `ax.set()` sets several labels in one line. The title states the **finding**
+
+## Panels
+
+```{python}
+g1952 = gapminder[gapminder["year"] == 1952]
+fig, axes = plt.subplots(1, 2, figsize=(9, 1.6), sharey=True)
+axes[0].scatter(g1952["gdpPercap"], g1952["lifeExp"])
+axes[0].set(title="1952", xscale="log")
+axes[1].scatter(g2007["gdpPercap"], g2007["lifeExp"])
+axes[1].set(title="2007", xscale="log")
+plt.show()
+```
+
+- One row of two panels: `axes[0]` and `axes[1]`, each with its own layers
+- `sharey=True`: one y-axis for both. Never two y-axes on one panel
+
+## Reference Lines
+
+```{python}
+fig, ax = plt.subplots(figsize=(8, 1.8))
+ax.hist(g2007["lifeExp"], bins=20, color="lightgrey", edgecolor="white")
+ax.axvline(g2007["lifeExp"].mean(), color="red", label="mean")
+ax.axvline(g2007["lifeExp"].median(), color="black", label="median")
+ax.legend()
+plt.show()
+```
+
+- pandas computes the number, and `ax.axvline()` draws it as a layer
+- Mean 67, median 72: the tail of short lives pulls the mean down
+
+## Saving a Figure
+
+```{python}
+#| eval: false
+fig.savefig("lifeExp_2007.png", dpi=300, bbox_inches="tight")
+```
+
+- A relative path: the file appears beside your notebook. To save into a folder, such as
+  `"output/lifeExp_2007.png"`, the folder must already exist
+- `dpi=300` for print, 150 for a screen
+- `bbox_inches="tight"` stops the labels being cut off at the edges
+- `.png` for documents and slides; `.svg` or `.pdf` for anything that will be resized
+- Save with code, never with a right-click: the code is the record of how it was made
+
+## Your Turn: One Good Chart {background="#43464B"}
+
+**Ireland in 2007.** Replace each `____`, using the comments:
 
 ```{.python}
-g1952 = gapminder[gapminder["year"] == 1952]
-china = gapminder[gapminder["country"] == "China"]
-fig, axes = plt.subplots(1, 2, figsize=(9, 1.8))
-axes[0].hist(g1952["life_exp"], bins=____)       # 20 bins
-axes[0].set_xlabel(____)                          # a label, with its unit
-axes[1].plot(china["year"], china[____])          # China's life expectancy
-axes[1].set_xlabel("Year")
+import pandas as pd
+import matplotlib.pyplot as plt
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+ireland = g2007[g2007["country"] == "Ireland"]
+fig, ax = plt.subplots()
+ax.scatter(g2007["gdpPercap"], g2007["lifeExp"], color=____)      # all: "lightgrey"
+ax.scatter(ireland["gdpPercap"], ireland["lifeExp"], color=____)  # Ireland: "red"
+ax.set(xlabel=____, ylabel=____)               # both labels, each with its unit
+ax.set_title(____)                             # a title that states the finding
 plt.show()
 ```
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-Then: how many humps in 1952? What happened in China around 1960?
+You should see Ireland in red, at the top right. Then save it, with `fig.savefig()`.
 :::
 
 ::: {#second-column}
@@ -340,125 +453,92 @@ Then: how many humps in 1952? What happened in China around 1960?
 ## Solution
 
 ```{python}
-g1952 = gapminder[gapminder["year"] == 1952]
-china = gapminder[gapminder["country"] == "China"]
-fig, axes = plt.subplots(1, 2, figsize=(9, 1.8))
-axes[0].hist(g1952["life_exp"], bins=20)
-axes[0].set_xlabel("Life expectancy in 1952 (years)")
-axes[1].plot(china["year"], china["life_exp"])
-axes[1].set_xlabel("Year")
-plt.show()
-```
-
-1952: two humps. China, 1962: the Great Leap Forward famine.
-
-# 4. Polishing, Honesty and Saving
-
-## The Checklist Before Showing Anyone
-
-- Does every axis have a **label with its units**?
-- Does the title state the **finding**, not the variable names?
-- Are the categories in a meaningful **order**?
-- Is the legend needed, or could the lines be labelled directly?
-- Would it survive printing in black and white, and a reader with colour-blindness?
-- Is any text too small to read from the back of the room?
-
-A chart for **exploring** is for you: fast, ugly, thrown away. A chart for **explaining** goes
-through this list.
-
-## Title as Finding
-
-```{python}
-fig, ax = plt.subplots(figsize=(8, 2.2))
-ax.scatter(g2007["gdp_per_cap"], g2007["life_exp"], alpha=0.7)
-ax.set(xscale="log", xlabel="GDP per capita in 2007 (US$, log scale)",
-       ylabel="Life expectancy (years)")
-ax.set_title("Each doubling of income comes with a longer life", loc="left")
-plt.show()
-```
-
-A title states what the reader should see, not what the axes already say.
-
-## Grey Everything, Colour One Thing
-
-```{python}
-eg = g2007[g2007["country"] == "Equatorial Guinea"]
-fig, ax = plt.subplots(figsize=(8, 1.6))
-ax.scatter(g2007["gdp_per_cap"], g2007["life_exp"], color="lightgrey")
-ax.scatter(eg["gdp_per_cap"], eg["life_exp"], color="#C44E52", s=80)
-ax.annotate("Equatorial Guinea", xy=(12154, 51.6),
-            xytext=(10, -4), textcoords="offset points", color="#C44E52")
-ax.set(xscale="log", xlabel="GDP per capita (US$, log scale)", ylabel="Life expectancy")
-ax.set_title("Equatorial Guinea: Mexico's income, 25 fewer years of life", loc="left")
-plt.show()
-```
-
-`annotate()` writes text at the point `xy`, shifted by `xytext` points.
-
-## Colour With Care
-
-```{python}
-plt.style.use("petroff10")
-```
-
-- About 1 man in 12 has some colour-vision deficiency. matplotlib's `petroff10` colours were
-  designed to stay distinguishable for them, and the line above switches them on
-- **Categories**: clearly different colours. **Amounts**: one colour, light to dark
-- Never a rainbow scale: it invents boundaries that are not in the data
-- Never colour alone for something the reader must identify: label it as well
-
-## Bars Start at Zero
-
-```{python}
 #| echo: false
-means_desc = means.sort_values(ascending=False)
-ratio_cut = (means_desc.max() - 50) / (means_desc.min() - 50)
-ratio_true = means_desc.max() / means_desc.min()
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.7))
-for ax in axes:
-    ax.bar(means_desc.index, means_desc.values)
-    ax.tick_params(axis="x", labelsize=9)
-    ax.set_ylabel("Life expectancy")
-axes[0].set_ylim(50, 82)
-axes[0].set_title(f"Axis from 50: Oceania looks {ratio_cut:.0f} times Africa", fontsize=10)
-axes[1].set_title(f"Axis from 0: it is {ratio_true:.1f} times", fontsize=10)
-fig.tight_layout()
+plt.rcParams["figure.figsize"] = (8, 1.3)     # display size only, to fit the slide
+```
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+ireland = g2007[g2007["country"] == "Ireland"]
+fig, ax = plt.subplots()
+ax.scatter(g2007["gdpPercap"], g2007["lifeExp"], color="lightgrey")
+ax.scatter(ireland["gdpPercap"], ireland["lifeExp"], color="red")
+ax.set(xlabel="GDP per capita (US$)", ylabel="Life expectancy (years)")
+ax.set_title("Ireland: 5th richest country, but 22nd for life expectancy")
 plt.show()
 ```
 
-Same data, one line changed: `ax.set_ylim(50, 82)`. The length of a bar **is** the value,
-so cutting the axis multiplies the differences. A line chart or a dot can start elsewhere;
-a bar cannot.
+# 3. Combine pandas and matplotlib
 
-## What Not To Do
+## A New Column, Then Plot
 
-- **Two y-axes**: choose the two scales and any two series look related. Use two panels
-- **A bar axis that does not start at zero**, as on the last slide
-- **Pie charts with more than three slices**: people compare angles badly. Use sorted bars
-- **3D effects**: the perspective distorts the very values it shows
-- **Rainbow colour scales**, and colour as the only way to tell groups apart
-- **A number printed on every point**: if the reader needs every number, give a table
+```{python}
+gapminder["gdp_bn"] = gapminder["pop"] * gapminder["gdpPercap"] / 1_000_000_000
+ireland = gapminder[gapminder["country"] == "Ireland"]
+fig, ax = plt.subplots(figsize=(8, 1.8))
+ax.plot(ireland["year"], ireland["gdp_bn"], marker="o")
+ax.set_ylabel("GDP (US$ billions)")
+plt.show()
+```
 
-## Your Turn: Fix This Chart {background="#43464B"}
+- pandas first: lecture 6's `gdp_bn`, then the filter, once the column exists
+- Then matplotlib draws it like any column: 15 to 167 billion dollars
 
-This runs, but it has five problems. Fix them one at a time:
+## groupby(), Then Plot
+
+```{python}
+pop_bn = g2007.groupby("continent")["pop"].sum() / 1_000_000_000
+pop_bn = pop_bn.sort_values()
+fig, ax = plt.subplots(figsize=(8, 1.8))
+ax.barh(pop_bn.index, pop_bn.values)
+ax.set_xlabel("Population in 2007 (billions)")
+plt.show()
+```
+
+- Sorted: `barh()` draws from the bottom up, so the largest ends on top
+- Asia: 3.8 billion people, more than the four others together
+
+## pivot_table(), Then Plot
+
+```{python}
+by_year = gapminder.pivot_table(index="year", columns="continent",
+                                values="lifeExp", aggfunc="mean")
+fig, ax = plt.subplots(figsize=(8, 1.45))
+by_year.plot(ax=ax, marker="o")
+ax.set(xlabel="Year", ylabel="Life expectancy (years)", ylim=(35, 90))
+ax.legend(ncol=5)
+plt.show()
+```
+
+- Lecture 6's table turned round: years as rows, one column per continent
+- pandas' `.plot()` draws one line per column, with matplotlib, on your `ax`
+
+## Your Turn: Table to Chart {background="#43464B"}
+
+Replace each `____`, using the comments, then run the cell:
 
 ```{.python}
-means_gdp = g2007.groupby("continent")["gdp_per_cap"].mean()
+import pandas as pd
+import matplotlib.pyplot as plt
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+medians = g2007.groupby(____)["gdpPercap"].____()   # by "continent", with .median()
+medians = medians.____()                              # lowest first, with .sort_values()
 fig, ax = plt.subplots()
-ax.bar(means_gdp.index, means_gdp.values)
-ax.set_ylim(2000, 30000)
-ax.set_title("gdp_per_cap vs continent")
+ax.____(medians.index, medians.values)                # sideways bars, with .barh()
+ax.set_xlabel(____)                                   # a label, with its unit
 plt.show()
 ```
 
-:::: {layout="[2,1]"}
+:::: {layout="[3,2]"}
 ::: {#first-column}
-1. Delete `ax.set_ylim()`: bars start at 0
-2. `.median()`, not `.mean()`: incomes are skewed
-3. Add `.sort_values()`, and use `ax.barh()`
-4. A label with units: `ax.set_xlabel()`
-5. A title that states the finding
+You should see five bars: Africa at the bottom, at about 1,450 dollars, and Oceania on top,
+at about 29,800.
 :::
 
 ::: {#second-column}
@@ -467,117 +547,40 @@ plt.show()
 :::
 ::::
 
-## One Fixed Version
-
-```{python}
-medians = g2007.groupby("continent")["gdp_per_cap"].median().sort_values()
-fig, ax = plt.subplots(figsize=(8, 1.9))
-ax.barh(medians.index, medians.values)
-ax.set_xlabel("Median GDP per capita in 2007 (US$)")
-ax.set_title("Europe's median country is 19 times richer than Africa's", loc="left")
-plt.show()
-```
-
-Sorted bars from zero, units, a finding as title, and the **median**: a few rich countries
-pull Asia's mean to almost three times its median.
-
-## Charts From an AI Assistant
-
-An assistant writes a chart in seconds. Before it goes in your report, check:
-
-1. Is it the right **form** for the question?
-2. Does it use `fig, ax` and `ax.` methods, or `plt.` everywhere?
-3. Are both axes labelled, **with units**? Do the bars start at zero?
-4. Did it summarise for you, with a mean or an error bar? Could you say which?
-
-The module's rule: you may use an assistant's code if you can **explain every line** of it.
-
-## Saving a Figure
-
-```{python}
-#| eval: false
-fig.savefig("life_gdp_2007.png", dpi=300, bbox_inches="tight")
-```
-
-- A relative path: the file appears beside your notebook. To save into a folder, such as
-  `"output/life_gdp_2007.png"`, the folder must already exist
-- `dpi=300` for print, 150 for a screen
-- `bbox_inches="tight"` stops the labels being cut off at the edges
-- `.png` for documents and slides; `.svg` or `.pdf` for anything that will be resized
-- Save with code, never with a right-click: the code is the record of how it was made
-
-## Your Turn: One Good Chart {background="#43464B"}
-
-**How does Ireland compare with the world in 2007?** Replace each `____`:
-
-```{.python}
-ireland = g2007[g2007["country"] == "Ireland"]
-fig, ax = plt.subplots()
-ax.scatter(g2007["gdp_per_cap"], g2007["life_exp"], color="lightgrey")
-ax.scatter(ireland["gdp_per_cap"], ireland["life_exp"], color=____,
-           label="Ireland")
-ax.set(xscale=____, xlabel="GDP per capita in 2007 (US$, log scale)",
-       ylabel="Life expectancy (years)")
-ax.set_title(____)                   # a title that states the finding
-ax.legend()
-plt.show()
-```
-
-:::: {layout="[3,2]"}
-::: {#first-column}
-A colour such as `"red"`, the scale `"log"`, and your finding as the title. Then save
-it, in a new cell: `fig.savefig("ireland_2007.png", dpi=300)`.
-:::
-
-::: {#second-column}
-::: {#timer4 .timer seconds="300" starton="interaction"}
-:::
-:::
-::::
-
 ## Solution
 
 ```{python}
-ireland = g2007[g2007["country"] == "Ireland"]
-fig, ax = plt.subplots(figsize=(8, 1.4))
-ax.scatter(g2007["gdp_per_cap"], g2007["life_exp"], color="lightgrey")
-ax.scatter(ireland["gdp_per_cap"], ireland["life_exp"], color="#C44E52",
-           label="Ireland")
-ax.set(xscale="log", xlabel="GDP per capita in 2007 (US$, log scale)",
-       ylabel="Life expectancy (years)")
-ax.set_title("Ireland: among the richest, not the longest-lived")
-ax.legend()
-plt.show()
-# then, in a new cell: fig.savefig("ireland_2007.png", dpi=300)
+#| echo: false
+plt.rcParams["figure.figsize"] = (8, 1.6)     # display size only, to fit the slide
 ```
 
-# 5. seaborn, Briefly
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+medians = g2007.groupby("continent")["gdpPercap"].median()  # incomes are skewed
+medians = medians.sort_values()
+fig, ax = plt.subplots()
+ax.barh(medians.index, medians.values)
+ax.set_xlabel("Median GDP per capita in 2007 (US$)")
+plt.show()
+```
 
 ## Same Chart, One Line
 
 ```{python}
 import seaborn as sns
-fig, ax = plt.subplots(figsize=(8, 2.1))
-sns.scatterplot(data=g2007, x="gdp_per_cap", y="life_exp", hue="continent", ax=ax)
-ax.set(xscale="log", xlabel="GDP per capita in 2007 (US$, log scale)",
-       ylabel="Life expectancy (years)")
-ax.legend(fontsize=9, loc="lower right")
-plt.show()
-```
-
-`hue="continent"` replaced the loop from **Colour by Group**.
-
-## seaborn Draws on Your ax
-
-```{python}
 fig, ax = plt.subplots(figsize=(8, 2.0))
-sns.boxplot(data=g2007, x="continent", y="life_exp", color="white", ax=ax)
-sns.stripplot(data=g2007, x="continent", y="life_exp", alpha=0.6, ax=ax)
-ax.set(xlabel="", ylabel="Life expectancy in 2007 (years)")
+sns.scatterplot(data=g2007, x="gdpPercap", y="lifeExp", hue="continent", ax=ax)
+ax.set(xscale="log", xlabel="GDP per capita (US$, log scale)",
+       ylabel="Life expectancy (years)")
 plt.show()
 ```
 
-`ax=ax` draws on your `ax`, so every `ax.` method from today still works.
+- **seaborn** takes the whole table in `data=`, and the columns by name
+- `hue="continent"` replaces the loop; `ax=ax` draws on your `ax`
 
 ## What seaborn Computes For You
 
@@ -586,18 +589,85 @@ plt.show()
 | `sns.histplot` | a histogram | it chooses the bins |
 | `sns.boxplot` | a box per group | |
 | `sns.scatterplot` | the points | |
-| `sns.barplot` | the **mean** per group | adds error bars: `errorbar=None` |
-| `sns.lineplot` | the **mean** per x value | adds a band: `errorbar=None` |
+| `sns.barplot` | the **mean** per group | error bars: `errorbar=None` |
+| `sns.lineplot` | the **mean** per x value | a band: `errorbar=None` |
 
-seaborn summarises **before** it draws. If you cannot say what it computed, you cannot
-defend the chart.
+seaborn summarises **before** it draws, as pandas did in this section. If you cannot say
+what it computed, you cannot defend the chart.
+
+# 4. Vibe Coding Visualisations
+
+## What Is Vibe Coding?
+
+Describe the chart in plain English, and an AI assistant writes the code.
+
+**1. The prompt:** *"With pandas and matplotlib, using fig, ax: a scatter of gdpPercap
+against lifeExp from the DataFrame g2007, on a log x-axis, with labels and a title."*
+
+**2. The code it writes:**
+
+```{.python}
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.scatter(g2007["gdpPercap"], g2007["lifeExp"], alpha=0.7)
+ax.set_xscale("log")
+ax.set(xlabel="GDP per capita (US$, log scale)", ylabel="Life expectancy (years)")
+ax.set_title("Life Expectancy vs GDP per Capita")
+plt.show()
+```
+
+**3. Read every line, then run it:** its title only names the columns.
+
+## Check Before You Trust
+
+:::: {layout="[1,1]"}
+::: {#first-column}
+**Ask for:**
+
+- matplotlib, with `fig, ax`
+- the table, and its columns
+- the geometry
+- labels and a title
+:::
+
+::: {#second-column}
+**Then check:**
+
+- `ax.`, or `plt.` everywhere?
+- do the columns exist?
+- labels with units?
+- a mean you did not ask for?
+:::
+::::
+
+You may use an assistant's code if you can **explain every line** of it. A `KeyError` names
+a column that does not exist: `life_exp` instead of `lifeExp`, for example.
+
+## Your Turn: Ask, Then Check {background="#43464B"}
+
+1. Ask an AI assistant: *"With pandas and matplotlib, using fig, ax: from a DataFrame
+   called gapminder, with the columns country, continent, year, lifeExp, pop and
+   gdpPercap, one line per continent of the mean lifeExp in each year, with labels and a
+   title that states the finding."*
+2. Paste its code in a new cell, below the cell that reads `gapminder`, then
+   check it with the last slide's list before you run it
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+You should see the chart of **pivot_table(), Then Plot**. If not, what did you fix?
+:::
+
+::: {#second-column}
+::: {#timer4 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
 
 ## References
 
 - [Quick start guide](https://matplotlib.org/stable/users/explain/quick_start.html):
   matplotlib's own introduction to `fig`, `ax` and the ax methods
-- [The matplotlib gallery](https://matplotlib.org/stable/gallery/index.html): hundreds of
-  charts, each with its code
+- [Plot types](https://matplotlib.org/stable/plot_types/index.html): every geometry, each
+  with its code
 - [An introduction to seaborn](https://seaborn.pydata.org/tutorial/introduction.html): the
   official tutorial
 - [Fundamentals of Data Visualization](https://clauswilke.com/dataviz/): free online, by

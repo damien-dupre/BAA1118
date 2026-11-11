@@ -1,5 +1,5 @@
 ---
-title: "Lecture 9: Statistics, Regression and Prediction"
+title: "Lecture 9: From a File to a Finding"
 subtitle: BAA1118 - Foundations of Programming for Analytics & AI
 author: Damien Dupré
 format:
@@ -33,613 +33,713 @@ pd.set_option("display.width", 100)
 plt.rcParams["figure.figsize"] = (8, 2.4)
 plt.rcParams["figure.dpi"] = 110
 plt.rcParams["font.size"] = 11
-plt.style.use("petroff10")
 
 ```
 
-## For Today
+# 1. Reading Paths
 
-#### Requirements
+## Where Is the File?
 
-- ✅ pandas: filtering and `groupby`, from lecture 7
-- ✅ matplotlib: scatter plots and the log scale, from lecture 8
+A **path** is a file's address: the folders to open, from the top of the disk down to the
+file.
 
-#### Programme
+```{.default}
+Mac:      /Users/aoife/BAA1118/data/roasted_daily.csv
+Windows:  C:\Users\aoife\BAA1118\data\roasted_daily.csv
+```
 
-1. Describing one variable
-2. Samples and uncertainty
-3. Correlation
-4. Linear regression
-5. Prediction
+Read it from left to right:
 
-## From Description to Prediction
+- `/`, or `C:\` on Windows: the **root**, the top of the disk
+- `Users/aoife`: your **home folder**, named after you
+- `BAA1118`, then `data`: two folders, each inside the one before. `BAA1118` is the course
+  folder you made in tutorial 5
+- `roasted_daily.csv`: the **file**, its name then its extension
 
-1. **Description**: the mean life expectancy in Europe? *Lectures 7 and 8*
-2. **Explanation**: how strongly is income associated with it? *Sections 1 to 4*
-3. **Prediction**: for a given income, what life expectancy, and how wrong? *Section 5*
+## Absolute and Relative Paths
+
+```{.python}
+# absolute: starts at the root, so it works on Aoife's laptop only
+sales = pd.read_csv("/Users/aoife/BAA1118/data/roasted_daily.csv")
+# on Windows:       "C:/Users/aoife/BAA1118/data/roasted_daily.csv"
+
+# relative: starts from the notebook's folder, so it works on any computer
+sales = pd.read_csv("data/roasted_daily.csv")
+```
+
+- **Absolute**: from the root. Anyone else's computer has no `aoife` folder, so the same
+  line fails there
+- **Relative**: from the folder **the notebook is in**. It works wherever the notebook sits
+  beside its `data` folder: use relative paths in your notebooks
+- Write `/` on both systems: Python on Windows accepts it, and `\` causes trouble
+
+## Where Is the Notebook Running?
+
+`os`, a module that comes with Python, answers from inside the notebook:
+
+```{.python}
+import os
+print(os.getcwd())                                # the folder relative paths start from
+print(os.listdir())                               # what is in it
+print(os.listdir("data"))                         # what is in its data folder
+print(os.path.exists("data/roasted_daily.csv"))   # True if the path finds a file
+```
+
+```
+/Users/aoife/BAA1118
+['data', 'lecture_9.ipynb', 'tutorial_08.ipynb']
+['roasted_daily.csv']
+True
+```
+
+- `getcwd()`: get the **current working directory**. On Windows: `C:\Users\aoife\BAA1118`
+- The first cell of the mock test, and of Test 2, uses `os.path.exists()` on its data
+
+## A Notebook in a Subfolder
+
+In VS Code, a notebook's relative paths start from **its own folder**, not from the folder
+you opened:
+
+```{.default}
+BAA1118                       ← the folder open in VS Code
+├── data
+│   └── roasted_daily.csv
+└── BAA1118_test2_mock        ← the notebook's folder: its paths start here
+    ├── data
+    │   └── lifeExpectancy.csv
+    └── test2_mock.ipynb
+```
+
+In `test2_mock.ipynb`:
+
+```{.python}
+pd.read_csv("data/lifeExpectancy.csv")      # found: this data folder is beside it
+pd.read_csv("data/roasted_daily.csv")        # FileNotFoundError: not in this one
+pd.read_csv("../data/roasted_daily.csv")     # found: .. goes up one folder, to BAA1118
+```
+
+## Copy the Path, Never Type It
+
+:::: {layout="[1,1]"}
+::: {#first-column}
+![](images/vscode-copy-path.png){width="100%"}
+
+::: {.small-font}
+Source: Danilo Freire, [DATASCI 151 lectures](https://github.com/danilofreire/datasci151)
+:::
+:::
+
+::: {#second-column}
+In VS Code's Explorer, right-click the file:
+
+- **Copy Path**: the absolute path
+- **Copy Relative Path**: from the folder **open in VS Code**, not from the notebook. Right
+  only if the notebook sits in that folder
+:::
+::::
+
+On Windows, both use `\`: change each one to `/`. In `"data\roasted_daily.csv"`, Python reads
+`\r` as one character, a carriage return, and never finds the file.
+
+## Your Turn: Read a Path {background="#43464B"}
+
+In VS Code, open your `BAA1118` folder, then `File -> New File... -> Jupyter Notebook`. Save
+it in `BAA1118` as `lecture_9.ipynb`, select your kernel as in the tutorials, and replace each
+`____`:
+
+```{.python}
+import os
+import pandas as pd
+print(os.____())                                  # the notebook's folder, with getcwd
+print(os.listdir(____))                           # what is in the "data" folder
+print(os.path.exists("data/roasted_daily.csv"))   # True if the file is found
+sales = pd.read_csv(____)                         # the file's relative path, in quotes
+print(sales.shape)
+```
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+You should see the path of your `BAA1118` folder, a list with `'roasted_daily.csv'` in it,
+`True`, then `(1086, 10)`.
+:::
+
+::: {#second-column}
+::: {#timer1 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
+
+## Solution
+
+```{.python}
+import os
+import pandas as pd
+print(os.getcwd())
+print(os.listdir("data"))
+print(os.path.exists("data/roasted_daily.csv"))
+sales = pd.read_csv("data/roasted_daily.csv")
+print(sales.shape)
+```
+
+```
+/Users/aoife/BAA1118
+['roasted_daily.csv']
+True
+(1086, 10)
+```
+
+On Windows, the first line is `C:\Users\aoife\BAA1118`. `False`, or a `FileNotFoundError`?
+Compare the first two lines with the Explorer: is the notebook in `BAA1118`, and the file in
+`data`?
+
+# 2. Lectures 6 to 8 in Review
+
+## Lecture 6: Wrangling with pandas
+
+```{.python}
+df = pd.read_csv("data/file.csv")               # read: a DataFrame
+df.shape, df.head(3), df["a"].value_counts()    # look
+df = df.rename(columns={"old": "new"})          # rename: store the new table
+df[["a", "b"]]                                  # select: df["a"] alone is a Series
+df[(df["a"] == "x") & (df["b"] > 0)]            # filter: & for and, | for or
+df.sort_values("a", ascending=False)            # sort: the largest first
+df["c"] = df["a"] * 2                           # create: every row at once
+df.groupby("g")["a"].mean()                     # summarise: one number per group
+df.groupby("g").agg(avg=("a", "mean"))          # several statistics, each named
+df.merge(other, on="key", how="left")           # join: then check len()
+```
+
+- Five operations: **selection**, **reduction** (filter), **extension** (create),
+  **aggregation** (summarise) and **combination** (join)
+- Text in quotes, numbers without; `==` compares, `=` stores
+
+## Your Turn: Wrangle {background="#43464B"}
+
+**The 1952 countries.** Replace each `____`, using the comments:
+
+```{.python}
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.____(url)                            # read it, with read_csv
+g1952 = gapminder[gapminder[____] == ____]          # the column "year", then 1952
+g1952["pop_m"] = g1952[____] / 1_000_000            # "pop", in millions
+(g1952
+  .groupby(____)                                    # by "continent"
+  .agg(countries=("country", ____), pop_m=("pop_m", ____))   # "nunique", then "sum"
+  .sort_values("pop_m", ascending=____)             # largest first: False
+  .round()
+)
+```
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+You should see Asia first, with 33 countries and 1395 million people.
+:::
+
+::: {#second-column}
+::: {#timer2 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
+
+## Solution {.smaller}
+
+```{python}
+import pandas as pd
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g1952 = gapminder[gapminder["year"] == 1952]
+g1952["pop_m"] = g1952["pop"] / 1_000_000
+(g1952
+  .groupby("continent")
+  .agg(countries=("country", "nunique"), pop_m=("pop_m", "sum"))
+  .sort_values("pop_m", ascending=False)
+  .round()
+)
+```
+
+In 1952, Asia already held more people than the four other continents together, and Africa
+had the most countries, 52.
+
+## Lecture 7: Visualisation with matplotlib
+
+```{.python}
+fig, ax = plt.subplots()                              # the canvas
+ax.scatter(df["x"], df["y"], color="lightgrey")      # a geometry: x first, then y
+ax.scatter(one["x"], one["y"], color="red")          # grey everything, colour one thing
+ax.set_xscale("log")                                 # a scale
+ax.set(xlabel="Income (US$)", ylabel="Life expectancy (years)")   # labels, with units
+ax.set_title("A title that states the finding")      # the finding
+plt.show()
+fig.savefig("chart.png", dpi=300, bbox_inches="tight")
+```
+
+- **The question picks the geometry**: how two columns relate, `ax.scatter()`; a change
+  over time, `ax.plot()`; one number per category, `ax.bar()` or `ax.barh()`; a spread,
+  `ax.hist()` or `ax.boxplot()`
+- After a `groupby()`, the groups are the index: `ax.bar(s.index, s.values)`
+- Colour by group: a loop, one layer per group with `label=`, then `ax.legend()`
+
+## Your Turn: Grey Bars, One Colour {background="#43464B"}
+
+**The 2007 countries.** Replace each `____`, using the comments:
+
+```{.python}
+import pandas as pd
+import matplotlib.pyplot as plt
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+means = g2007.groupby("continent")[____].mean()     # the mean of "lifeExp"
+low = means[means < ____]                           # the continents below 60 years
+fig, ax = plt.____()                                # the canvas, with subplots
+ax.____(means.index, means.values, color=____)      # bars, with .bar(); "lightgrey"
+ax.bar(low.____, low.____, color=____)              # .index, .values; then "red"
+ax.set(ylabel=____, title=____)                     # "... (years)", then the finding
+plt.show()
+```
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+You should see five grey bars, and Africa's in red, at about 55 years.
+:::
+
+::: {#second-column}
+::: {#timer3 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
+
+## Solution {.smaller}
+
+```{python}
+#| echo: false
+plt.rcParams["figure.figsize"] = (8, 1.6)     # display size only, to fit the slide
+```
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+means = g2007.groupby("continent")["lifeExp"].mean()
+low = means[means < 60]                             # a Series filters like a table
+fig, ax = plt.subplots()
+ax.bar(means.index, means.values, color="lightgrey")
+ax.bar(low.index, low.values, color="red")
+ax.set(ylabel="Life expectancy (years)",
+       title="Africa: the only continent below 60 years in 2007")
+plt.show()
+```
+
+## Lecture 8: Statistics with statsmodels
+
+```{.python}
+df["x"].corr(df["y"])                                # r, from -1 to +1: straight lines
+df[["x", "y", "z"]].corr()                           # every pair of columns at once
+df["log_x"] = np.log(df["x"])                        # a curve? straighten it first
+model = smf.ols("y ~ x + C(group)", data=df).fit()  # = becomes ~, + adds a predictor
+model.params                                         # the estimates: Intercept, slopes
+model.summary().tables[1]                            # std err, p-value, 95% CI
+model.rsquared                                       # the share of the variation
+model.predict(new)                                   # new: a DataFrame with x in it
+train = df.sample(frac=0.75, random_state=1)         # fit on train, then measure
+test = df.drop(train.index)                          # the misses on test: RMSE, MAE
+```
+
+- **Explanation**: the estimates and how sure we are, fitted on all the data
+- **Prediction**: how far the guesses miss, on rows the model has never seen
+
+## Lecture 8: Results in Words
+
+Lecture 8's model of the 2007 countries, `lifeExp ~ log_gdp`:
+
+- **b = 7.20**: one more unit of `log_gdp` **is associated with** 7.2 more years of life
+  expectancy, never "causes"
+- **95% CI 6.3 to 8.1**: slopes **compatible with the data**; 0 is not among them
+- **p < 0.001** (`0.000` in the table): below 0.05, the slope is **significantly**
+  different from 0. Not the probability that the result is true
+- **R² = 0.65**: the model **accounts for 65%** of the variation between countries. The
+  other 35% is how far countries sit above or below what their income predicts
+- No prediction outside the data: incomes from \$278 to \$49,357
+
+## Your Turn: Fit, Read, Predict {background="#43464B"}
+
+**The 1977 countries.** Replace each `____`, using the comments:
+
+```{.python}
+import numpy as np
+import pandas as pd
+import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g1977 = gapminder[gapminder["year"] == 1977]
+g1977["log_gdp"] = np.log(g1977["gdpPercap"])
+model = smf.ols(____, data=g1977).fit()                   # lifeExp explained by log_gdp
+print(model.____.round(2))                                # the estimates, with .params
+print(round(model.____, 2))                               # R², with .rsquared
+new = pd.DataFrame({"log_gdp": np.log([1000, 10000])})    # 1,000 and 10,000 US$
+print(model.____(new).round(1))                           # with .predict()
+```
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+You should see `-2.74` and `7.55`, then `0.66`, then `49.4` and `66.8` years.
+:::
+
+::: {#second-column}
+::: {#timer4 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
+
+## Solution {.smaller}
 
 ```{python}
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-plt.style.use("petroff10")
+import statsmodels.formula.api as smf
 url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
 gapminder = pd.read_csv(url)
-gapminder = gapminder.rename(columns={"lifeExp": "life_exp", "gdpPercap": "gdp_per_cap"})
-g2007 = gapminder[gapminder["year"] == 2007]
-```
-
-Most of today uses `g2007`, the 142 countries of 2007.
-
-# 1. Describing One Variable
-
-## The Centre: Mean and Median
-
-```{python}
-gdp = g2007["gdp_per_cap"]
-life = g2007["life_exp"]
-print("GDP per capita:  mean", round(gdp.mean()), "  median", round(gdp.median()))
-print("Life expectancy: mean", round(life.mean(), 1), "  median", round(life.median(), 1))
-```
-
-- **Mean**: add everything up, divide by the count. A few very rich countries pull it up
-- **Median**: the middle value once sorted. Half the countries are above it, half below
-- A mean above the median usually signals a tail of high values, **right skew**; below it,
-  **left skew**. For a skewed variable, report the median, or both
-
-## Spread: Standard Deviation
-
-```{python}
-sales = pd.Series([2, 4, 4, 4, 5, 5, 7, 9])
-deviations = sales - sales.mean()
-print(deviations.tolist())
-print(round((deviations ** 2).sum() / (len(sales) - 1), 2))   # the variance
-print(round(sales.var(), 2), round(sales.std(), 2))
-```
-
-- **Variance**: the average squared distance from the mean, dividing by n − 1 for a
-  sample. **Standard deviation**: its square root, in the original units
-- pandas divides by n − 1; numpy's `np.std()` divides by n, and gives 2.0
-- **IQR**, `quantile(0.75) - quantile(0.25)`: the spread of the middle half
-
-## Shape: Skew and the Normal Curve
-
-```{python}
-#| echo: false
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.4))
-axes[0].hist(gdp, bins=25, color="#bbbbbb")
-axes[0].axvline(gdp.mean(), color="#C44E52", label=f"mean {gdp.mean():,.0f}")
-axes[0].axvline(gdp.median(), color="#23373b", linestyle="--",
-                label=f"median {gdp.median():,.0f}")
-axes[0].legend(fontsize=9)
-axes[0].set_title("GDP per capita in 2007: right skew", fontsize=10)
-x = np.linspace(-3.5, 3.5, 300)
-y = np.exp(-x ** 2 / 2) / np.sqrt(2 * np.pi)
-axes[1].plot(x, y, color="#23373b")
-axes[1].fill_between(x, y, where=np.abs(x) <= 2, color="#3f90da", alpha=0.25)
-axes[1].fill_between(x, y, where=np.abs(x) <= 1, color="#3f90da", alpha=0.45)
-axes[1].text(0, 0.15, "68%", ha="center", fontsize=11)
-axes[1].text(-1.55, 0.03, "95%", ha="center", fontsize=10)
-axes[1].set_xticks([-2, -1, 0, 1, 2], ["-2 sd", "-1 sd", "mean", "+1 sd", "+2 sd"])
-axes[1].set_yticks([])
-axes[1].set_title("Normal: about 68% within 1 sd, 95% within 2", fontsize=10)
-fig.tight_layout()
-plt.show()
-```
-
-- In a right-skewed variable, the tail pulls the **mean** past the median
-- In a **normal**, bell-shaped variable, about 68% of values lie within 1 standard deviation
-  of the mean, and **about 95% within 2**. Section 2 relies on that 95%
-
-## Your Turn: Describe a Variable {background="#43464B"}
-
-:::: {layout="[3,2]"}
-::: {#first-column}
-1. Mean and median of `pop` in 2007, in millions. Why are they so far apart?
-2. Standard deviation and IQR of `life_exp` in 2007, for Europe and for Africa. Which is
-   more spread out?
-3. By hand, then with `.std()`: the standard deviation of `[3, 5, 7]`
-:::
-
-::: {#second-column}
-You should see:
-
-```
-44.0 10.5
-Europe 3.0 4.8
-Africa 9.6 11.6
-2.0
-```
-
-::: {#timer1 .timer seconds="420" starton="interaction"}
-:::
-:::
-::::
-
-## Solution
-
-```{python}
-pop_m = g2007["pop"] / 1_000_000
-print(round(pop_m.mean(), 1), round(pop_m.median(), 1))
-
-for continent in ["Europe", "Africa"]:
-    life_c = g2007[g2007["continent"] == continent]["life_exp"]
-    iqr = life_c.quantile(0.75) - life_c.quantile(0.25)
-    print(continent, round(life_c.std(), 1), round(iqr, 1))
-
-print(pd.Series([3, 5, 7]).std())
-```
-
-China and India, over a billion people each, drag the mean of `pop` far above the median.
-By hand: deviations −2, 0, 2; squares 4, 0, 4; 8 / 2 = 4; √4 = 2.
-
-# 2. Samples and Uncertainty
-
-## Every Sample Gives a Different Answer
-
-Treat the 1,704 rows of gapminder as everything there is. Their mean life expectancy is
-59.5 years. Now pretend you can only afford to collect 30 rows:
-
-```{python}
-for seed in [1, 2, 3, 4, 5]:
-    sample = gapminder.sample(30, random_state=seed)
-    print(round(sample["life_exp"].mean(), 1))
-```
-
-Five samples, five answers, and none is 59.5. None is wrong either: each one is
-**uncertain**. `random_state` makes a random sample repeatable.
-
-## The Standard Error
-
-```{python}
-#| echo: false
-many = [gapminder.sample(30, random_state=s)["life_exp"].mean() for s in range(1000)]
-fig, ax = plt.subplots(figsize=(8, 1.6))
-ax.hist(many, bins=30, color="#bbbbbb")
-ax.axvline(gapminder["life_exp"].mean(), color="#C44E52")
-ax.set_xlabel("Mean life expectancy in a sample of 30 rows (years)")
-ax.set_title(f"1,000 samples: their means have a standard deviation of {np.std(many, ddof=1):.1f}",
-             fontsize=10)
-plt.show()
-```
-
-The spread of all possible sample means is the **standard error**. From one sample,
-estimate it as the standard deviation divided by √n:
-
-```{python}
-one = gapminder.sample(30, random_state=1)["life_exp"]
-se = one.std() / np.sqrt(len(one))
-print(round(one.mean(), 1), round(se, 1))
-```
-
-Four times as much data halves the standard error.
-
-## Confidence Intervals and p-values
-
-```{python}
-low = one.mean() - 1.96 * se
-high = one.mean() + 1.96 * se
-print(round(low, 1), "to", round(high, 1))
-```
-
-- **95% confidence interval**: the estimate ± 1.96 standard errors. Of all intervals built
-  this way, 95% contain the true value. This one does: 59.5
-- **p-value**: if the true value were 0, how often would chance alone give an estimate at
-  least this far from 0? Below 0.05, by convention, it is called *statistically significant*
-- A p-value is **not** the probability that a result is true, and *significant* does not
-  mean large or important
-
-# 3. Correlation
-
-## Correlation
-
-```{python}
-#| echo: false
-rng = np.random.default_rng(1118)
-fig, axes = plt.subplots(1, 4, figsize=(9, 1.5))
-for ax, r in zip(axes, [-0.8, 0, 0.5, 0.95]):
-    x = rng.normal(size=150)
-    y = r * x + np.sqrt(1 - r ** 2) * rng.normal(size=150)
-    ax.scatter(x, y, s=6)
-    ax.set_title(f"r = {np.corrcoef(x, y)[0, 1]:.2f}", fontsize=10)
-    ax.set_xticks([])
-    ax.set_yticks([])
-fig.tight_layout()
-plt.show()
-```
-
-```{python}
-g2007[["life_exp", "gdp_per_cap", "pop"]].corr().round(2)
-```
-
-`r` runs from −1 to +1 and measures how close the points are to **a straight line**. It has
-no units, and is the same in both directions; each column with itself gives 1.
-
-## Correlation Only Sees Straight Lines
-
-```{python}
-g2007["log_gdp"] = np.log(g2007["gdp_per_cap"])
-print(round(g2007["gdp_per_cap"].corr(g2007["life_exp"]), 2),
-      round(g2007["log_gdp"].corr(g2007["life_exp"]), 2))
-```
-
-```{python}
-#| echo: false
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.0))
-axes[0].scatter(g2007["gdp_per_cap"], g2007["life_exp"], s=12)
-axes[0].set_xlabel("gdp_per_cap")
-axes[1].scatter(g2007["log_gdp"], g2007["life_exp"], s=12)
-axes[1].set_xlabel("log_gdp")
-axes[0].set_ylabel("life_exp")
-fig.tight_layout()
-plt.show()
-```
-
-`np.log()` turns doublings into equal steps, as the log axis did in lecture 8. Same
-countries, same relationship, only its shape changed: r went from 0.68 to 0.81.
-
-## Correlation Is Not Causation
-
-::: {.callout-important}
-A correlation, or a regression, finds an **association**. Richer countries also have more
-doctors, cleaner water and more schooling: income stands in for all of them.
-:::
-
-- You may write: *"in 2007, countries with higher incomes had longer life expectancies"*
-- You may not write: *"raising income raises life expectancy"*
-- r near 0 does not mean no relationship, only no **straight-line** one: a U-shape can give
-  r = 0. Plot first, as Anscombe showed in lecture 8
-
-## Your Turn: Correlation and Shape {background="#43464B"}
-
-:::: {layout="[3,2]"}
-::: {#first-column}
-1. In 2007, the correlation between `life_exp` and `pop`. Then plot it, `pop` on a log
-   x-axis: does the picture agree with the number?
-2. In **1952**, the correlation of `life_exp` with `gdp_per_cap`, then with its log
-   (`np.log`). Was income as strongly related then?
-:::
-
-::: {#second-column}
-You should see:
-
-```
-0.05
-0.28
-0.75
-```
-
-::: {#timer2 .timer seconds="420" starton="interaction"}
-:::
-:::
-::::
-
-## Solution
-
-:::: {.code-columns}
-::: {#first-column}
-```{python}
-life = g2007["life_exp"]
-pop = g2007["pop"]
-print(round(pop.corr(life), 2))
-fig, ax = plt.subplots(figsize=(4, 1.7))
-ax.scatter(pop, life, s=12)
-ax.set(xscale="log", xlabel="pop")
-plt.show()
-```
-:::
-
-::: {#second-column}
-```{python}
-is_1952 = gapminder["year"] == 1952
-g1952 = gapminder[is_1952]
-gdp52 = g1952["gdp_per_cap"]
-life52 = g1952["life_exp"]
-log52 = np.log(gdp52)
-print(round(gdp52.corr(life52), 2))
-print(round(log52.corr(life52), 2))
-```
-:::
-::::
-
-`pop`: a shapeless cloud. 1952: curved, so 0.28 raw but 0.75 log.
-
-# 4. Linear Regression
-
-## The Line of Best Fit
-
-**life_exp = intercept + slope × log_gdp + residual**
-
-```{python}
-#| echo: false
-mini = g2007.sample(25, random_state=7)
-fit_mini = smf.ols("life_exp ~ log_gdp", data=mini).fit()
-line_x = np.array([mini["log_gdp"].min(), mini["log_gdp"].max()])
-fig, ax = plt.subplots(figsize=(8, 1.8))
-ax.vlines(mini["log_gdp"], mini["life_exp"], fit_mini.fittedvalues, color="#999999", linewidth=1)
-ax.scatter(mini["log_gdp"], mini["life_exp"], zorder=3)
-ax.plot(line_x, fit_mini.params["Intercept"] + fit_mini.params["log_gdp"] * line_x,
-        color="#C44E52")
-ax.set(xlabel="log_gdp", ylabel="life_exp")
-ax.set_title("25 countries: each grey line is one residual", loc="left", fontsize=10)
-plt.show()
-```
-
-- **Slope**: the change in life expectancy per unit of `log_gdp`. **Intercept**: the
-  prediction when `log_gdp` is 0. **Residual**: actual minus predicted
-- **Ordinary least squares (OLS)** picks the line with the smallest sum of squared residuals
-
-## Fitting a Model
-
-```{python}
-import statsmodels.formula.api as smf
-
-model = smf.ols("life_exp ~ log_gdp", data=g2007).fit()
-model.params
-```
-
-- `"life_exp ~ log_gdp"` reads *"life_exp explained by log_gdp"*: the outcome goes on the
-  left of `~`, the predictors on the right
-- `smf.ols()` sets the model up, `.fit()` estimates it, and `.params` holds the intercept
-  and the slope
-- More predictors are added with `+`: `"life_exp ~ log_gdp + pop"`
-
-## Reading the Coefficients
-
-```{python}
-print(round(model.params["log_gdp"] * np.log(2), 1), "years per doubling of income")
-```
-
-- **Slope, 7.2**: one more unit of log GDP goes with 7.2 more years of life expectancy.
-  One unit of log means income × 2.7, so more usefully: **each doubling of income goes with
-  5.0 more years**
-- **Intercept, 4.9**: the prediction for log GDP of 0, an income of \$1 a year. That is far
-  outside the data: do not interpret it
-- Write *"is associated with"*, never *"causes"*
-
-## Reading the Rest of the Table
-
-```{python}
-print(model.summary().tables[1])
-```
-
-- `std err`: each estimate's standard error, as in section 2
-- `[0.025  0.975]`: the 95% confidence interval. Slopes from 6.3 to 8.1 are compatible
-  with the data
-- `P>|t|`: the p-value against a true value of 0. The slope's `0.000`, below 0.0005: if the
-  true slope were 0, chance would almost never give one this far from it. The intercept's
-  0.202: compatible with 0
-
-## How Well Does It Fit?
-
-```{python}
+g1977 = gapminder[gapminder["year"] == 1977]
+g1977["log_gdp"] = np.log(g1977["gdpPercap"])
+model = smf.ols("lifeExp ~ log_gdp", data=g1977).fit()
+print(model.params.round(2))
 print(round(model.rsquared, 2))
-print(round(np.sqrt(model.scale), 1))
+new = pd.DataFrame({"log_gdp": np.log([1000, 10000])})
+print(model.predict(new).round(1))
 ```
 
-- **R² = 0.65**: the model accounts for 65% of the variation in life expectancy between
-  countries. The other 35% is how far countries sit above or below what their income predicts
-- **Residual standard error, 7.1 years**: most countries are within about 7 years of the
-  line, a few much further
+In 1977, income accounted for 66% of the variation. Both incomes lie inside the data, from
+\$371 to \$59,265.
 
-::: {.callout-warning}
-A high R² does not make a model right, nor a low one useless: judge it by what it is for.
-:::
+# 3. How They Fit Together
 
-## A Categorical Predictor
-
-```{python}
-model2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=g2007).fit()
-print(model2.params.round(2))
-print(round(model2.rsquared, 2))
-```
-
-- `C()` adds a 0/1 column per continent but the first alphabetically, Africa: the
-  **reference**. Each coefficient is a difference from Africa
-- **At the same income**, life expectancy is 11.3 years higher in Europe than in Africa, on
-  average; the income slope falls from 7.2 to 4.6
-
-## Your Turn: Fit a Model {background="#43464B"}
-
-:::: {layout="[3,2]"}
-::: {#first-column}
-On `g1952`, the 1952 countries, with a `log_gdp` column added:
-
-1. Fit `life_exp ~ log_gdp`. Slope, years per doubling of income, and R²?
-2. Compared with 2007, was a doubling of income associated with more or fewer years?
-3. Add `C(continent)`: how much does R² rise?
-:::
-
-::: {#second-column}
-You should see:
-
-```
-8.83 6.1 0.56
-0.74
-```
-
-::: {#timer3 .timer seconds="480" starton="interaction"}
-:::
-:::
-::::
-
-## Solution
-
-```{python}
-g1952["log_gdp"] = np.log(g1952["gdp_per_cap"])
-fit52 = smf.ols("life_exp ~ log_gdp", data=g1952).fit()
-per_doubling = fit52.params["log_gdp"] * np.log(2)
-print(round(fit52.params["log_gdp"], 2), round(per_doubling, 1), round(fit52.rsquared, 2))
-
-fit52c = smf.ols("life_exp ~ log_gdp + C(continent)", data=g1952).fit()
-print(round(fit52c.rsquared, 2))
-```
-
-- In 1952 a doubling of income went with 6.1 more years, against 5.0 in 2007: a steeper
-  slope, but a looser fit (R² 0.56 against 0.65)
-- Continent lifts R² from 0.56 to 0.74, more than in 2007 (0.65 to 0.77)
-
-# 5. Prediction
-
-## Explanation vs Prediction
-
-- **Explanation**: what is the slope, and how sure are we? Fitted on all the data, judged by
-  its standard errors. That was section 4
-- **Prediction**: for a country the model has never seen, how wrong will the guess be?
-- On average, a model fits its own data better than new data: judging it there is
-  **marking your own homework**
-- So: fit on some countries, **test** on the others, and look at the test set once
-
-This is the idea every machine learning model, from a regression to a neural network, is
-evaluated on.
-
-## Train and Test
-
-```{python}
-train = g2007.sample(frac=0.75, random_state=1118)
-test = g2007.drop(train.index)
-print(len(train), "countries to fit the model,", len(test), "to test it")
-```
-
-- `sample(frac=0.75)` draws 75% of the rows at random; `drop(train.index)` keeps the rest
-- `random_state` makes the split repeatable: the same countries every time
-- The test countries take no part in fitting: for the model, they are new
-
-## Predict and Measure the Error
-
-```{python}
-fit = smf.ols("life_exp ~ log_gdp", data=train).fit()
-predicted = fit.predict(test)
-errors = test["life_exp"] - predicted
-rmse = np.sqrt((errors ** 2).mean())
-mae = errors.abs().mean()
-print("RMSE", round(rmse, 1), "years; MAE", round(mae, 1), "years")
-```
-
-- **RMSE**: square the errors, average them, take the root: the **r**oot **m**ean
-  **s**quared **e**rror. Big misses weigh more
-- **MAE**: the mean absolute error, the average miss. The easiest to explain
-- Both in **years**, on 36 countries the model never saw. On its own 106 training countries
-  the RMSE is 6.7: on average, a model looks better on the data it was fitted on
-
-## Predicting for New Data
-
-```{python}
-new = pd.DataFrame({"gdp_per_cap": [2000, 10000, 45000]})
-new["log_gdp"] = np.log(new["gdp_per_cap"])
-new["predicted_life_exp"] = fit.predict(new).round(1)
-new
-```
-
-::: {.callout-warning}
-Never predict outside the range of the data. Incomes in 2007 run from \$278 to \$49,357: for
-\$500,000, the same line predicts 100.5 years. It has never seen such a country, and neither
-have you.
-:::
-
-## Overfitting
+## One Analysis, Three Lectures
 
 ```{python}
 #| echo: false
-tr = g2007.sample(12, random_state=7)
-te = g2007.drop(tr.index)
-grid = np.linspace(tr["log_gdp"].min(), tr["log_gdp"].max(), 300)
-fig, axes = plt.subplots(1, 2, figsize=(9, 2.3), sharey=True)
-for ax, degree, name in zip(axes, [1, 8], ["Straight line", "Degree-8 curve"]):
-    coef = np.polyfit(tr["log_gdp"], tr["life_exp"], degree)
-    err_tr = np.sqrt(((tr["life_exp"] - np.polyval(coef, tr["log_gdp"])) ** 2).mean())
-    err_te = np.sqrt(((te["life_exp"] - np.polyval(coef, te["log_gdp"])) ** 2).mean())
-    ax.scatter(te["log_gdp"], te["life_exp"], s=10, color="#cccccc", label="test countries")
-    ax.scatter(tr["log_gdp"], tr["life_exp"], s=28, color="#23373b", label="12 training countries")
-    ax.plot(grid, np.polyval(coef, grid), color="#C44E52")
-    ax.set_ylim(30, 90)
-    ax.set_xlabel("log_gdp")
-    ax.set_title(f"{name}: training RMSE {err_tr:.1f}, test RMSE {err_te:.1f}", fontsize=10)
-axes[0].legend(fontsize=8, loc="lower right")
-fig.tight_layout()
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
+
+steps = [
+    ("Read", "pandas", "read_csv()", "a path or a URL"),
+    ("Wrangle", "pandas", "groupby()", "select, filter,\ncreate, join"),
+    ("Visualise", "matplotlib", "fig, ax", "plot first"),
+    ("Model", "statsmodels", "smf.ols()", "estimate, test,\npredict"),
+    ("Report", "in words", "model.params", "the numbers\nin a sentence"),
+]
+fig, ax = plt.subplots(figsize=(10.8, 3.4))
+ax.set_xlim(-0.5, 101)
+ax.set_ylim(-3, 37)
+ax.axis("off")
+w, h, gap, y0 = 17.4, 19.0, 3.2, 8.5
+xs = [0.4 + i * (w + gap) for i in range(len(steps))]
+for x, (title, lib, code, words) in zip(xs, steps):
+    ax.add_patch(FancyBboxPatch((x, y0), w, h, boxstyle="round,pad=0.2,rounding_size=1.5",
+                                facecolor="#eeeeee", edgecolor="#23373b", linewidth=1.3))
+    ax.text(x + w / 2, y0 + h - 3.0, title, ha="center", va="center", fontsize=17,
+            fontweight="bold", color="#23373b")
+    ax.text(x + w / 2, y0 + h - 7.0, lib, ha="center", va="center", fontsize=12.5,
+            color="#555555")
+    ax.text(x + w / 2, y0 + h - 10.6, code, ha="center", va="center", fontsize=12,
+            family="monospace", color="#1a292c")
+    ax.text(x + w / 2, y0 + 3.6, words, ha="center", va="center", fontsize=12,
+            color="#1a292c", linespacing=1.2)
+for x in xs[:-1]:
+    ax.add_patch(FancyArrowPatch((x + w + 0.25, y0 + h / 2), (x + w + gap - 0.25, y0 + h / 2),
+                                 arrowstyle="-|>", mutation_scale=17, color="#23373b", lw=1.6))
+for i_from, i_to, label in [(0, 1, "Lecture 6"), (2, 2, "Lecture 7"), (3, 4, "Lecture 8")]:
+    x1, x2, yb = xs[i_from] + 0.5, xs[i_to] + w - 0.5, y0 + h + 1.5
+    ax.plot([x1, x1, x2, x2], [yb, yb + 1.4, yb + 1.4, yb], color="#eb811b", lw=1.5)
+    ax.text((x1 + x2) / 2, yb + 4.0, label, ha="center", va="center", fontsize=14.5,
+            color="#eb811b", fontweight="bold")
+x1, x2 = xs[2] + w / 2, xs[1] + w / 2
+ax.add_patch(FancyArrowPatch((x1, y0 - 0.5), (x2, y0 - 0.5), connectionstyle="arc3,rad=-0.35",
+                             arrowstyle="-|>", mutation_scale=17, color="#23373b", lw=1.3))
+ax.text((x1 + x2) / 2, y0 - 7.8, "a curve? back to pandas for a log column", ha="center",
+        va="center", fontsize=12, color="#23373b", style="italic")
 plt.show()
 ```
 
-A straight line has two numbers to estimate and barely overfits. The degree-8 curve has nine:
-it learns the **noise** of its 12 points, so its training error falls while its test error
-more than doubles. Use the test set once, at the end, or you start fitting to it too.
+- One road, three stretches: a question goes in, a sentence with numbers comes out
+- It loops back to pandas: a curve needs a log column, as in lecture 8, and a test set needs
+  `sample()` and `drop()`
 
-## The Same Pattern in scikit-learn
+## What Each Step Hands to the Next {.smaller}
+
+| Step | Code | Hands on |
+|:--|:--|:--|
+| read | `df = pd.read_csv("data/file.csv")` | a **DataFrame** |
+| wrangle | `df[df["year"] == 2007]`, `.merge()`, `df["log_x"] = ...` | a DataFrame: one row per case, a column for each variable the question needs |
+| summarise | `s = df.groupby("g")["y"].mean()` | a **Series**: its index holds the groups, for `ax.bar(s.index, s.values)` |
+| visualise | `ax.scatter(df["x"], df["y"])` | a **chart**: a straight line, or a curve to straighten first? |
+| model | `model = smf.ols("y ~ x", data=df).fit()` | a **model**: its formula names the columns |
+| report | `model.params["x"]`, `model.rsquared` | **numbers**, to put in words |
+
+The **column names** tie the three lectures together: created in pandas, plotted with
+matplotlib, named in the formula. A typo anywhere along the road stops it.
+
+## One Question, Three Lectures: pandas
+
+**Did the countries that lived longest in 1952 still live longest in 2007?**
 
 ```{python}
-from sklearn.linear_model import LinearRegression
-model_sk = LinearRegression()
-model_sk.fit(train[["log_gdp"]], train["life_exp"])
-print(round(model_sk.intercept_, 2), model_sk.coef_.round(2))
-print(fit.params.round(2).tolist())
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)                                             # read
+y1952 = gapminder[gapminder["year"] == 1952]                             # filter
+y1952 = y1952[["country", "continent", "lifeExp"]]                      # select
+y1952 = y1952.rename(columns={"lifeExp": "life_1952"})                  # rename
+y2007 = gapminder[gapminder["year"] == 2007]
+y2007 = y2007[["country", "lifeExp"]]
+y2007 = y2007.rename(columns={"lifeExp": "life_2007"})
+both = y1952.merge(y2007, on="country", how="left")                     # join
+both["gain"] = both["life_2007"] - both["life_1952"]                     # create
+print(len(y1952), len(both), round(both["gain"].mean(), 1))
 ```
 
-- Same split, same line. `X` is a DataFrame, hence two brackets; `y` is a Series
-- Choose a model, `.fit()`, `.predict()`: the same three steps for decision trees, random
-  forests and neural networks
-- scikit-learn has no summary table: it is built for prediction, not explanation
+One row per country, both years side by side: 142 rows before the join, 142 after. On
+average, people lived 17.9 years longer in 2007 than in 1952.
 
-## What You Can and Cannot Write
+## One Question, Three Lectures: matplotlib
 
-> In 2007, across 142 countries, each doubling of GDP per capita was associated with about
-> 5 more years of life expectancy (95% CI 4.4 to 5.6), and income accounted for 65% of the
-> variation. On 36 countries held out from fitting, predictions missed by 5.7 years on
-> average.
+```{python}
+fell = both[both["gain"] < 0]
+fig, ax = plt.subplots(figsize=(8, 1.45))
+ax.scatter(both["life_1952"], both["life_2007"], color="lightgrey")
+ax.scatter(fell["life_1952"], fell["life_2007"], color="red")
+ax.plot([30, 80], [30, 80], color="black")              # where 2007 equals 1952
+ax.set(xlabel="Life expectancy in 1952 (years)", ylabel="In 2007 (years)")
+ax.set_title("Long lives in 1952 still meant long lives in 2007", loc="left")
+plt.show()
+```
 
-- Numbers in real units, with their uncertainty and their scope
-- No cause: "associated with", not "raises"
-- No extrapolation: nothing about incomes outside \$278 to \$49,357
+**Plot first**: a straight line, so a straight-line model fits. Below the black line, in
+red, life expectancy fell: Swaziland and Zimbabwe.
 
-## Your Turn: Predict {background="#43464B"}
+## One Question, Three Lectures: statsmodels
+
+```{python}
+model = smf.ols("life_2007 ~ life_1952", data=both).fit()
+print(model.summary().tables[1])
+print(round(model.rsquared, 2))
+```
+
+> Across 142 countries, each extra year of life expectancy in 1952 was associated with 0.77
+> more years in 2007 (95% CI 0.66 to 0.87, p < 0.001). Life expectancy in 1952 accounts for
+> 60% of the variation between countries in 2007.
+
+## Your Turn: From Table to Finding {background="#43464B"}
+
+```{.python}
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+europe = g2007[g2007["continent"] == ____]          # lecture 6: "Europe"
+europe["gdp_k"] = europe["gdpPercap"] / 1000     # in thousands of US$
+fig, ax = plt.subplots()
+ax.____(europe["gdp_k"], europe["lifeExp"])        # lecture 7: points, .scatter()
+plt.show()
+model = smf.ols(____, data=europe).fit()            # lecture 8: lifeExp by gdp_k
+print(model.params.round(2))
+```
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-With the same `train` and `test`:
-
-1. Fit `life_exp ~ log_gdp + C(continent)` on `train`
-2. Predict `test`: RMSE and MAE?
-3. Does knowing the continent improve the predictions, and by how much?
-4. Predict the life expectancy of an Asian country with a GDP per capita of \$5,000
+**Europe in 2007**, one blank per lecture. You should see 30 points rising along a line,
+then `72.27` and `0.21`.
 :::
 
 ::: {#second-column}
-You should see:
-
-```
-RMSE 6.0, MAE 4.0
-69.7
-```
-
-::: {#timer4 .timer seconds="540" starton="interaction"}
+::: {#timer5 .timer seconds="300" starton="interaction"}
 :::
 :::
 ::::
 
-## Solution
+## Solution {.smaller}
 
 ```{python}
-fit2 = smf.ols("life_exp ~ log_gdp + C(continent)", data=train).fit()
-errors2 = test["life_exp"] - fit2.predict(test)
-rmse2 = np.sqrt((errors2 ** 2).mean())
-mae2 = errors2.abs().mean()
-print(f"RMSE {rmse2:.1f}, MAE {mae2:.1f}")
-
-asia = pd.DataFrame({"log_gdp": [np.log(5000)], "continent": ["Asia"]})
-print(fit2.predict(asia).round(1).tolist())
+#| echo: false
+plt.rcParams["figure.figsize"] = (8, 1.25)    # display size only, to fit the slide
 ```
 
-The continent cuts the typical miss from 8.0 to 6.0 years (RMSE), and the average miss from
-5.7 to 4.0. A test country's continent must also appear in `train`, or `predict()` stops
-with an error.
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.formula.api as smf
+url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
+gapminder = pd.read_csv(url)
+g2007 = gapminder[gapminder["year"] == 2007]
+europe = g2007[g2007["continent"] == "Europe"]
+europe["gdp_k"] = europe["gdpPercap"] / 1000
+fig, ax = plt.subplots()
+ax.scatter(europe["gdp_k"], europe["lifeExp"])
+plt.show()
+model = smf.ols("lifeExp ~ gdp_k", data=europe).fit()
+print(model.params.round(2))
+```
+
+In Europe in 2007, 1,000 US\$ more GDP per capita was associated with 0.21 more years.
+
+## When the Code Stops {.smaller}
+
+| You see | Why | Fix |
+|:--|:--|:--|
+| `FileNotFoundError` | the path does not start from the notebook's folder | `os.getcwd()`, then `os.listdir()` |
+| `KeyError: 'lifeExp'` | no column has that name: a typo, or it was renamed | check `df.columns` |
+| `NameError: name 'both' is not defined` | the cell that creates `both` has not run | run the cells above, in order |
+| `ValueError: The truth value of a Series is ambiguous` | `and` or `or` between two conditions | `&` or <code>&#124;</code>, each condition in brackets |
+| fewer rows after a join | `how="inner"` drops the rows with no match | `how="left"`, then `len()` |
+| `PatsyError: ... name 'gdp' is not defined` | the formula names a column the table does not have | check `df.columns` |
+
+Read an error from its **last line**: it names the problem, and often the fix.
+
+# 4. What to Do With a Notebook
+
+## A Notebook Is a File
+
+```{=html}
+<style>
+.nb-bar {display: flex; gap: 1.1em; align-items: center; background: #1f1f1f; color: #d4d4d4;
+  font-size: 0.62em; padding: 0.45em 0.9em; border-radius: 8px; margin: 0.3em 0 0.9em 0;}
+.nb-bar span {white-space: nowrap;}
+.nb-bar .sep {border-left: 1px solid #777; height: 1.1em;}
+.nb-bar .kernel {margin-left: auto; color: #ffffff;}
+</style>
+<div class="nb-bar"><span>+ Code</span><span>+ Markdown</span><span class="sep"></span>
+<span>▷ Run All</span><span>↻ Restart</span><span>Clear All Outputs</span>
+<span class="kernel">Python 3.14.10</span></div>
+```
+
+- A `.ipynb` file holds **cells**, code or Markdown text, and the **output** of each code
+  cell, saved with it: it opens in VS Code, Colab or Jupyter
+- The toolbar, above the first cell: `+ Code` and `+ Markdown` add a cell; **Run All** runs
+  every cell, from the top; **Restart** empties the kernel's memory
+- The **kernel**, at the top right, is the Python that runs the cells: on your laptop, the
+  one you use in the tutorials. Wrong kernel? `ModuleNotFoundError`
+
+## Run the Cells in Order
+
+- Once run, a code cell shows a number, `[1]`, `[2]`: the order in which the cells ran
+- The kernel **remembers every name** a cell creates, until it restarts. A cell can only use
+  a name that a cell already run has created:
+
+```{.python}
+# the cell above: it creates both, but it has not run yet
+both = y1952.merge(y2007, on="country")
+```
+
+```{.python}
+# the cell below, run first
+print(len(both))
+```
+
+```
+NameError: name 'both' is not defined
+```
+
+- Editing a cell changes nothing until it runs again, with <kbd>Shift</kbd>+<kbd>Enter</kbd>
+
+## Restart, Then Run All
+
+- The kernel also remembers the names made by cells you have since **changed or
+  deleted**: a notebook can work for you, and fail for anyone who opens it
+- The check: **Restart**, which empties the kernel's memory, then **Run All**, from the top.
+  If a cell stops with an error, fix that one, then check again
+- Do it before you hand in or share a notebook, then save it: <kbd>Ctrl</kbd>+<kbd>S</kbd>,
+  or <kbd>Cmd</kbd>+<kbd>S</kbd> on a Mac. A dot on the notebook's tab means unsaved changes
+
+::: {.callout-note}
+A notebook that runs from top to bottom after a restart is a notebook anyone can run: the
+marker, a colleague, or you in six months.
+:::
+
+## Text Cells and Shortcuts
+
+:::: {layout="[1,1]"}
+::: {#first-column}
+**Markdown cells** hold text:
+
+- `+ Markdown`, or <kbd>Esc</kbd> then <kbd>M</kbd>
+- Double-click to edit, <kbd>Shift</kbd>+<kbd>Enter</kbd> to show
+- `# A heading`, `**bold**`, `- a list`
+- In the tests, written answers go in the cells marked *Your answer*
+:::
+
+::: {#second-column}
+::: {.small-font}
+| Action | Keys |
+|:--|:--|
+| run, then move on | <kbd>Shift</kbd>+<kbd>Enter</kbd> |
+| leave the cell | <kbd>Esc</kbd> |
+| add a cell above, below | <kbd>Esc</kbd>, <kbd>A</kbd> or <kbd>B</kbd> |
+| make it text, code | <kbd>Esc</kbd>, <kbd>M</kbd> or <kbd>Y</kbd> |
+| delete it | <kbd>Esc</kbd>, <kbd>D</kbd> <kbd>D</kbd> |
+| undo a deletion | <kbd>Esc</kbd>, <kbd>Z</kbd> |
+
+The same keys on Windows and on a Mac.
+:::
+:::
+::::
+
+## From Loop to VS Code, and Back {.smaller}
+
+The mock test and Test 2 each come as a zip: a notebook and its `data` folder.
+
+1. **Unzip** it: on Windows, right-click, then *Extract All*; on a Mac, double-click it. A
+   notebook opened from inside the zip has no `data` folder beside it
+2. **Move** the unzipped folder into `BAA1118`, notebook and `data` together. On a DCU
+   computer, leave it where it is
+3. In VS Code, open `BAA1118` (on a DCU computer, the unzipped folder), then the notebook.
+   Select the kernel you use in the tutorials, or on a DCU computer the Python that VS Code
+   offers
+4. **Run the first cell**: `Ready. Data found: True`. `False`? See section 1, on paths
+5. Work in order: code in the empty cells, sentences in the *Your answer* cells
+6. **Save**, then **upload the `.ipynb` file** to Loop: the notebook only, not the data
+
+## Your Turn: The Mock Test Drill {background="#43464B"}
+
+With the mock test from Loop, so that everything works first time on 26 November:
+
+1. Download `BAA1118_test2_mock.zip`, unzip it, and move `BAA1118_test2_mock` into
+   `BAA1118`
+2. In VS Code, open `test2_mock.ipynb`, select your kernel, and run the first cell
+3. Add a cell under it (<kbd>Esc</kbd>, <kbd>B</kbd>), run `print(os.getcwd())`, and save
+
+:::: {layout="[3,2]"}
+::: {#first-column}
+You should see `Ready. Data found: True`, then a path that ends with `BAA1118_test2_mock`.
+:::
+
+::: {#second-column}
+::: {#timer6 .timer seconds="300" starton="interaction"}
+:::
+:::
+::::
 
 ## Test 2: Thursday 26 November
 
-- In class, **one hour**, multiple choice, like Test 1
-- It covers **lectures 7, 8 and 9**: pandas, matplotlib, statistics and regression
-- The best revision: redo every Your Turn from these three lectures without the solution,
-  then check
-- On the answer sheet, **cross** the boxes of your student number, do not only write the
-  digits, and **cross** your answers rather than shading them
+- In class, **one hour**, in a **notebook in VS Code**: you write and run the code, as in
+  the tutorials and the mock test
+- It covers the **pandas, matplotlib, statistics and regression** of lectures 6, 7 and 8:
+  today's review
+- The best revision: the mock test in one hour, then every Your Turn of lectures 6 to 9
+  without the solution, then check
+
+## References
+
+- [Jupyter Notebooks in VS Code](https://code.visualstudio.com/docs/datascience/jupyter-notebooks):
+  VS Code's own guide to cells, kernels and Run All
+- [os.path](https://docs.python.org/3/library/os.path.html): Python's functions for paths,
+  `exists()` among them
+- [Navigating Files and Directories](https://swcarpentry.github.io/shell-novice/02-filedir):
+  Software Carpentry's lesson on absolute and relative paths, and `..`, from a terminal
+- [R for Data Science, Whole game](https://r4ds.hadley.nz/whole-game): the same road, from
+  import to communication, in R
+- The References of lectures 6, 7 and 8, one library each
 
 ## {background="#43464B"}
 

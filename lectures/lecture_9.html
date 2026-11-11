@@ -14,7 +14,7 @@
   <meta name="generator" content="quarto-1.8.25">
 
   <meta name="author" content="Damien Dupré">
-  <title>Lecture 9: Statistics, Regression and Prediction</title>
+  <title>Lecture 9: From a File to a Finding</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -200,7 +200,7 @@
     <div class="slides">
 
 <section id="title-slide" data-background-iframe="logo-fall/index.html" class="quarto-title-block center">
-  <h1 class="title">Lecture 9: Statistics, Regression and Prediction</h1>
+  <h1 class="title">Lecture 9: From a File to a Finding</h1>
   <p class="subtitle">BAA1118 - Foundations of Programming for Analytics &amp; AI</p>
 
 <div class="quarto-title-authors">
@@ -212,121 +212,111 @@ Damien Dupré
 </div>
 
 </section>
-<section id="for-today" class="slide level2">
-<h2>For Today</h2>
-<h4 id="requirements">Requirements</h4>
-<ul>
-<li>✅ pandas: filtering and <code>groupby</code>, from lecture 7</li>
-<li>✅ matplotlib: scatter plots and the log scale, from lecture 8</li>
-</ul>
-<h4 id="programme">Programme</h4>
-<ol type="1">
-<li>Describing one variable</li>
-<li>Samples and uncertainty</li>
-<li>Correlation</li>
-<li>Linear regression</li>
-<li>Prediction</li>
-</ol>
-</section>
-<section id="from-description-to-prediction" class="slide level2">
-<h2>From Description to Prediction</h2>
-<ol type="1">
-<li><strong>Description</strong>: the mean life expectancy in Europe? <em>Lectures 7 and 8</em></li>
-<li><strong>Explanation</strong>: how strongly is income associated with it? <em>Sections 1 to 4</em></li>
-<li><strong>Prediction</strong>: for a given income, what life expectancy, and how wrong? <em>Section 5</em></li>
-</ol>
-<div id="8b117511" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a href=""></a>plt.style.use(<span class="st">"petroff10"</span>)</span>
-<span id="cb1-5"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb1-6"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb1-7"><a href=""></a>gapminder <span class="op">=</span> gapminder.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: <span class="st">"life_exp"</span>, <span class="st">"gdpPercap"</span>: <span class="st">"gdp_per_cap"</span>})</span>
-<span id="cb1-8"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Most of today uses <code>g2007</code>, the 142 countries of 2007.</p>
-</section>
 <section>
-<section id="describing-one-variable" class="title-slide slide level1 center">
-<h1>1. Describing One Variable</h1>
+<section id="reading-paths" class="title-slide slide level1 center">
+<h1>1. Reading Paths</h1>
 
 </section>
-<section id="the-centre-mean-and-median" class="slide level2">
-<h2>The Centre: Mean and Median</h2>
-<div id="30a596b4" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>gdp <span class="op">=</span> g2007[<span class="st">"gdp_per_cap"</span>]</span>
-<span id="cb2-2"><a href=""></a>life <span class="op">=</span> g2007[<span class="st">"life_exp"</span>]</span>
-<span id="cb2-3"><a href=""></a><span class="bu">print</span>(<span class="st">"GDP per capita:  mean"</span>, <span class="bu">round</span>(gdp.mean()), <span class="st">"  median"</span>, <span class="bu">round</span>(gdp.median()))</span>
-<span id="cb2-4"><a href=""></a><span class="bu">print</span>(<span class="st">"Life expectancy: mean"</span>, <span class="bu">round</span>(life.mean(), <span class="dv">1</span>), <span class="st">"  median"</span>, <span class="bu">round</span>(life.median(), <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>GDP per capita:  mean 11680   median 6124
-Life expectancy: mean 67.0   median 71.9</code></pre>
-</div>
-</div>
+<section id="where-is-the-file" class="slide level2">
+<h2>Where Is the File?</h2>
+<p>A <strong>path</strong> is a file’s address: the folders to open, from the top of the disk down to the file.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href=""></a>Mac:      /Users/aoife/BAA1118/data/roasted_daily.csv</span>
+<span id="cb1-2"><a href=""></a>Windows:  C:\Users\aoife\BAA1118\data\roasted_daily.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Read it from left to right:</p>
 <ul>
-<li><strong>Mean</strong>: add everything up, divide by the count. A few very rich countries pull it up</li>
-<li><strong>Median</strong>: the middle value once sorted. Half the countries are above it, half below</li>
-<li>A mean above the median usually signals a tail of high values, <strong>right skew</strong>; below it, <strong>left skew</strong>. For a skewed variable, report the median, or both</li>
+<li><code>/</code>, or <code>C:\</code> on Windows: the <strong>root</strong>, the top of the disk</li>
+<li><code>Users/aoife</code>: your <strong>home folder</strong>, named after you</li>
+<li><code>BAA1118</code>, then <code>data</code>: two folders, each inside the one before. <code>BAA1118</code> is the course folder you made in tutorial 5</li>
+<li><code>roasted_daily.csv</code>: the <strong>file</strong>, its name then its extension</li>
 </ul>
 </section>
-<section id="spread-standard-deviation" class="slide level2">
-<h2>Spread: Standard Deviation</h2>
-<div id="1b792e42" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>sales <span class="op">=</span> pd.Series([<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>])</span>
-<span id="cb4-2"><a href=""></a>deviations <span class="op">=</span> sales <span class="op">-</span> sales.mean()</span>
-<span id="cb4-3"><a href=""></a><span class="bu">print</span>(deviations.tolist())</span>
-<span id="cb4-4"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>((deviations <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>() <span class="op">/</span> (<span class="bu">len</span>(sales) <span class="op">-</span> <span class="dv">1</span>), <span class="dv">2</span>))   <span class="co"># the variance</span></span>
-<span id="cb4-5"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(sales.var(), <span class="dv">2</span>), <span class="bu">round</span>(sales.std(), <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[-3.0, -1.0, -1.0, -1.0, 0.0, 0.0, 2.0, 4.0]
-4.57
-4.57 2.14</code></pre>
-</div>
-</div>
+<section id="absolute-and-relative-paths" class="slide level2">
+<h2>Absolute and Relative Paths</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="co"># absolute: starts at the root, so it works on Aoife's laptop only</span></span>
+<span id="cb2-2"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"/Users/aoife/BAA1118/data/roasted_daily.csv"</span>)</span>
+<span id="cb2-3"><a href=""></a><span class="co"># on Windows:       "C:/Users/aoife/BAA1118/data/roasted_daily.csv"</span></span>
+<span id="cb2-4"><a href=""></a></span>
+<span id="cb2-5"><a href=""></a><span class="co"># relative: starts from the notebook's folder, so it works on any computer</span></span>
+<span id="cb2-6"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"data/roasted_daily.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><strong>Variance</strong>: the average squared distance from the mean, dividing by n − 1 for a sample. <strong>Standard deviation</strong>: its square root, in the original units</li>
-<li>pandas divides by n − 1; numpy’s <code>np.std()</code> divides by n, and gives 2.0</li>
-<li><strong>IQR</strong>, <code>quantile(0.75) - quantile(0.25)</code>: the spread of the middle half</li>
+<li><strong>Absolute</strong>: from the root. Anyone else’s computer has no <code>aoife</code> folder, so the same line fails there</li>
+<li><strong>Relative</strong>: from the folder <strong>the notebook is in</strong>. It works wherever the notebook sits beside its <code>data</code> folder: use relative paths in your notebooks</li>
+<li>Write <code>/</code> on both systems: Python on Windows accepts it, and <code>\</code> causes trouble</li>
 </ul>
 </section>
-<section id="shape-skew-and-the-normal-curve" class="slide level2">
-<h2>Shape: Skew and the Normal Curve</h2>
-<div id="2da7aba7" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="lecture_9_files/figure-revealjs/cell-6-output-1.png" width="975" height="247"></p>
-</figure>
-</div>
-</div>
-</div>
+<section id="where-is-the-notebook-running" class="slide level2">
+<h2>Where Is the Notebook Running?</h2>
+<p><code>os</code>, a module that comes with Python, answers from inside the notebook:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">import</span> os</span>
+<span id="cb3-2"><a href=""></a><span class="bu">print</span>(os.getcwd())                                <span class="co"># the folder relative paths start from</span></span>
+<span id="cb3-3"><a href=""></a><span class="bu">print</span>(os.listdir())                               <span class="co"># what is in it</span></span>
+<span id="cb3-4"><a href=""></a><span class="bu">print</span>(os.listdir(<span class="st">"data"</span>))                         <span class="co"># what is in its data folder</span></span>
+<span id="cb3-5"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/roasted_daily.csv"</span>))   <span class="co"># True if the path finds a file</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>/Users/aoife/BAA1118
+['data', 'lecture_9.ipynb', 'tutorial_08.ipynb']
+['roasted_daily.csv']
+True</code></pre>
 <ul>
-<li>In a right-skewed variable, the tail pulls the <strong>mean</strong> past the median</li>
-<li>In a <strong>normal</strong>, bell-shaped variable, about 68% of values lie within 1 standard deviation of the mean, and <strong>about 95% within 2</strong>. Section 2 relies on that 95%</li>
+<li><code>getcwd()</code>: get the <strong>current working directory</strong>. On Windows: <code>C:\Users\aoife\BAA1118</code></li>
+<li>The first cell of the mock test, and of Test 2, uses <code>os.path.exists()</code> on its data</li>
 </ul>
 </section>
-<section id="your-turn-describe-a-variable" class="slide level2" data-background="#43464B">
-<h2>Your Turn: Describe a Variable</h2>
+<section id="a-notebook-in-a-subfolder" class="slide level2">
+<h2>A Notebook in a Subfolder</h2>
+<p>In VS Code, a notebook’s relative paths start from <strong>its own folder</strong>, not from the folder you opened:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href=""></a>BAA1118                       ← the folder open in VS Code</span>
+<span id="cb5-2"><a href=""></a>├── data</span>
+<span id="cb5-3"><a href=""></a>│   └── roasted_daily.csv</span>
+<span id="cb5-4"><a href=""></a>└── BAA1118_test2_mock        ← the notebook's folder: its paths start here</span>
+<span id="cb5-5"><a href=""></a>    ├── data</span>
+<span id="cb5-6"><a href=""></a>    │   └── lifeExpectancy.csv</span>
+<span id="cb5-7"><a href=""></a>    └── test2_mock.ipynb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In <code>test2_mock.ipynb</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>pd.read_csv(<span class="st">"data/lifeExpectancy.csv"</span>)      <span class="co"># found: this data folder is beside it</span></span>
+<span id="cb6-2"><a href=""></a>pd.read_csv(<span class="st">"data/roasted_daily.csv"</span>)        <span class="co"># FileNotFoundError: not in this one</span></span>
+<span id="cb6-3"><a href=""></a>pd.read_csv(<span class="st">"../data/roasted_daily.csv"</span>)     <span class="co"># found: .. goes up one folder, to BAA1118</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="copy-the-path-never-type-it" class="slide level2">
+<h2>Copy the Path, Never Type It</h2>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img data-src="images/vscode-copy-path.png"></p>
+<div class="small-font">
+<p>Source: Danilo Freire, <a href="https://github.com/danilofreire/datasci151">DATASCI 151 lectures</a></p>
+</div>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p>In VS Code’s Explorer, right-click the file:</p>
+<ul>
+<li><strong>Copy Path</strong>: the absolute path</li>
+<li><strong>Copy Relative Path</strong>: from the folder <strong>open in VS Code</strong>, not from the notebook. Right only if the notebook sits in that folder</li>
+</ul>
+</div>
+</div>
+</div>
+<p>On Windows, both use <code>\</code>: change each one to <code>/</code>. In <code>"data\roasted_daily.csv"</code>, Python reads <code>\r</code> as one character, a carriage return, and never finds the file.</p>
+</section>
+<section id="your-turn-read-a-path" class="slide level2" data-background="#43464B">
+<h2>Your Turn: Read a Path</h2>
+<p>In VS Code, open your <code>BAA1118</code> folder, then <code>File -&gt; New File... -&gt; Jupyter Notebook</code>. Save it in <code>BAA1118</code> as <code>lecture_9.ipynb</code>, select your kernel as in the tutorials, and replace each <code>____</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="im">import</span> os</span>
+<span id="cb7-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-3"><a href=""></a><span class="bu">print</span>(os.____())                                  <span class="co"># the notebook's folder, with getcwd</span></span>
+<span id="cb7-4"><a href=""></a><span class="bu">print</span>(os.listdir(____))                           <span class="co"># what is in the "data" folder</span></span>
+<span id="cb7-5"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/roasted_daily.csv"</span>))   <span class="co"># True if the file is found</span></span>
+<span id="cb7-6"><a href=""></a>sales <span class="op">=</span> pd.read_csv(____)                         <span class="co"># the file's relative path, in quotes</span></span>
+<span id="cb7-7"><a href=""></a><span class="bu">print</span>(sales.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
-<ol type="1">
-<li>Mean and median of <code>pop</code> in 2007, in millions. Why are they so far apart?</li>
-<li>Standard deviation and IQR of <code>life_exp</code> in 2007, for Europe and for Africa. Which is more spread out?</li>
-<li>By hand, then with <code>.std()</code>: the standard deviation of <code>[3, 5, 7]</code></li>
-</ol>
+<p>You should see the path of your <code>BAA1118</code> folder, a list with <code>'roasted_daily.csv'</code> in it, <code>True</code>, then <code>(1086, 10)</code>.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-<p>You should see:</p>
-<pre><code>44.0 10.5
-Europe 3.0 4.8
-Africa 9.6 11.6
-2.0</code></pre>
                     <div id="timer1"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer1", 420, "interaction");
+                            initializeTimer("timer1", 300, "interaction");
                         });
                     </script>
                 
@@ -336,104 +326,87 @@ Africa 9.6 11.6
 </section>
 <section id="solution" class="slide level2">
 <h2>Solution</h2>
-<div id="e17978d1" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>pop_m <span class="op">=</span> g2007[<span class="st">"pop"</span>] <span class="op">/</span> <span class="dv">1_000_000</span></span>
-<span id="cb7-2"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(pop_m.mean(), <span class="dv">1</span>), <span class="bu">round</span>(pop_m.median(), <span class="dv">1</span>))</span>
-<span id="cb7-3"><a href=""></a></span>
-<span id="cb7-4"><a href=""></a><span class="cf">for</span> continent <span class="kw">in</span> [<span class="st">"Europe"</span>, <span class="st">"Africa"</span>]:</span>
-<span id="cb7-5"><a href=""></a>    life_c <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> continent][<span class="st">"life_exp"</span>]</span>
-<span id="cb7-6"><a href=""></a>    iqr <span class="op">=</span> life_c.quantile(<span class="fl">0.75</span>) <span class="op">-</span> life_c.quantile(<span class="fl">0.25</span>)</span>
-<span id="cb7-7"><a href=""></a>    <span class="bu">print</span>(continent, <span class="bu">round</span>(life_c.std(), <span class="dv">1</span>), <span class="bu">round</span>(iqr, <span class="dv">1</span>))</span>
-<span id="cb7-8"><a href=""></a></span>
-<span id="cb7-9"><a href=""></a><span class="bu">print</span>(pd.Series([<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>]).std())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>44.0 10.5
-Europe 3.0 4.8
-Africa 9.6 11.6
-2.0</code></pre>
-</div>
-</div>
-<p>China and India, over a billion people each, drag the mean of <code>pop</code> far above the median. By hand: deviations −2, 0, 2; squares 4, 0, 4; 8 / 2 = 4; √4 = 2.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="im">import</span> os</span>
+<span id="cb8-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-3"><a href=""></a><span class="bu">print</span>(os.getcwd())</span>
+<span id="cb8-4"><a href=""></a><span class="bu">print</span>(os.listdir(<span class="st">"data"</span>))</span>
+<span id="cb8-5"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/roasted_daily.csv"</span>))</span>
+<span id="cb8-6"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"data/roasted_daily.csv"</span>)</span>
+<span id="cb8-7"><a href=""></a><span class="bu">print</span>(sales.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>/Users/aoife/BAA1118
+['roasted_daily.csv']
+True
+(1086, 10)</code></pre>
+<p>On Windows, the first line is <code>C:\Users\aoife\BAA1118</code>. <code>False</code>, or a <code>FileNotFoundError</code>? Compare the first two lines with the Explorer: is the notebook in <code>BAA1118</code>, and the file in <code>data</code>?</p>
 </section></section>
 <section>
-<section id="samples-and-uncertainty" class="title-slide slide level1 center">
-<h1>2. Samples and Uncertainty</h1>
+<section id="lectures-6-to-8-in-review" class="title-slide slide level1 center">
+<h1>2. Lectures 6 to 8 in Review</h1>
 
 </section>
-<section id="every-sample-gives-a-different-answer" class="slide level2">
-<h2>Every Sample Gives a Different Answer</h2>
-<p>Treat the 1,704 rows of gapminder as everything there is. Their mean life expectancy is 59.5 years. Now pretend you can only afford to collect 30 rows:</p>
-<div id="d382d2e5" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a><span class="cf">for</span> seed <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>]:</span>
-<span id="cb9-2"><a href=""></a>    sample <span class="op">=</span> gapminder.sample(<span class="dv">30</span>, random_state<span class="op">=</span>seed)</span>
-<span id="cb9-3"><a href=""></a>    <span class="bu">print</span>(<span class="bu">round</span>(sample[<span class="st">"life_exp"</span>].mean(), <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>57.9
-59.9
-59.7
-57.0
-60.0</code></pre>
-</div>
-</div>
-<p>Five samples, five answers, and none is 59.5. None is wrong either: each one is <strong>uncertain</strong>. <code>random_state</code> makes a random sample repeatable.</p>
-</section>
-<section id="the-standard-error" class="slide level2">
-<h2>The Standard Error</h2>
-<div id="b76105ad" class="cell" data-execution_count="8">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="lecture_9_files/figure-revealjs/cell-9-output-1.png" width="742" height="227"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The spread of all possible sample means is the <strong>standard error</strong>. From one sample, estimate it as the standard deviation divided by √n:</p>
-<div id="24741555" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>one <span class="op">=</span> gapminder.sample(<span class="dv">30</span>, random_state<span class="op">=</span><span class="dv">1</span>)[<span class="st">"life_exp"</span>]</span>
-<span id="cb11-2"><a href=""></a>se <span class="op">=</span> one.std() <span class="op">/</span> np.sqrt(<span class="bu">len</span>(one))</span>
-<span id="cb11-3"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(one.mean(), <span class="dv">1</span>), <span class="bu">round</span>(se, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>57.9 2.4</code></pre>
-</div>
-</div>
-<p>Four times as much data halves the standard error.</p>
-</section>
-<section id="confidence-intervals-and-p-values" class="slide level2">
-<h2>Confidence Intervals and p-values</h2>
-<div id="ba084948" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a>low <span class="op">=</span> one.mean() <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> se</span>
-<span id="cb13-2"><a href=""></a>high <span class="op">=</span> one.mean() <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> se</span>
-<span id="cb13-3"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(low, <span class="dv">1</span>), <span class="st">"to"</span>, <span class="bu">round</span>(high, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>53.2 to 62.7</code></pre>
-</div>
-</div>
+<section id="lecture-6-wrangling-with-pandas" class="slide level2">
+<h2>Lecture 6: Wrangling with pandas</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/file.csv"</span>)               <span class="co"># read: a DataFrame</span></span>
+<span id="cb10-2"><a href=""></a>df.shape, df.head(<span class="dv">3</span>), df[<span class="st">"a"</span>].value_counts()    <span class="co"># look</span></span>
+<span id="cb10-3"><a href=""></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">"old"</span>: <span class="st">"new"</span>})          <span class="co"># rename: store the new table</span></span>
+<span id="cb10-4"><a href=""></a>df[[<span class="st">"a"</span>, <span class="st">"b"</span>]]                                  <span class="co"># select: df["a"] alone is a Series</span></span>
+<span id="cb10-5"><a href=""></a>df[(df[<span class="st">"a"</span>] <span class="op">==</span> <span class="st">"x"</span>) <span class="op">&amp;</span> (df[<span class="st">"b"</span>] <span class="op">&gt;</span> <span class="dv">0</span>)]            <span class="co"># filter: &amp; for and, | for or</span></span>
+<span id="cb10-6"><a href=""></a>df.sort_values(<span class="st">"a"</span>, ascending<span class="op">=</span><span class="va">False</span>)            <span class="co"># sort: the largest first</span></span>
+<span id="cb10-7"><a href=""></a>df[<span class="st">"c"</span>] <span class="op">=</span> df[<span class="st">"a"</span>] <span class="op">*</span> <span class="dv">2</span>                           <span class="co"># create: every row at once</span></span>
+<span id="cb10-8"><a href=""></a>df.groupby(<span class="st">"g"</span>)[<span class="st">"a"</span>].mean()                     <span class="co"># summarise: one number per group</span></span>
+<span id="cb10-9"><a href=""></a>df.groupby(<span class="st">"g"</span>).agg(avg<span class="op">=</span>(<span class="st">"a"</span>, <span class="st">"mean"</span>))          <span class="co"># several statistics, each named</span></span>
+<span id="cb10-10"><a href=""></a>df.merge(other, on<span class="op">=</span><span class="st">"key"</span>, how<span class="op">=</span><span class="st">"left"</span>)           <span class="co"># join: then check len()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><strong>95% confidence interval</strong>: the estimate ± 1.96 standard errors. Of all intervals built this way, 95% contain the true value. This one does: 59.5</li>
-<li><strong>p-value</strong>: if the true value were 0, how often would chance alone give an estimate at least this far from 0? Below 0.05, by convention, it is called <em>statistically significant</em></li>
-<li>A p-value is <strong>not</strong> the probability that a result is true, and <em>significant</em> does not mean large or important</li>
+<li>Five operations: <strong>selection</strong>, <strong>reduction</strong> (filter), <strong>extension</strong> (create), <strong>aggregation</strong> (summarise) and <strong>combination</strong> (join)</li>
+<li>Text in quotes, numbers without; <code>==</code> compares, <code>=</code> stores</li>
 </ul>
-</section></section>
-<section>
-<section id="correlation" class="title-slide slide level1 center">
-<h1>3. Correlation</h1>
-
 </section>
-<section id="correlation-1" class="slide level2">
-<h2>Correlation</h2>
-<div id="cb289575" class="cell" data-execution_count="11">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="lecture_9_files/figure-revealjs/cell-12-output-1.png" width="975" height="150"></p>
-</figure>
+<section id="your-turn-wrangle" class="slide level2" data-background="#43464B">
+<h2>Your Turn: Wrangle</h2>
+<p><strong>The 1952 countries.</strong> Replace each <code>____</code>, using the comments:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-2"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb11-3"><a href=""></a>gapminder <span class="op">=</span> pd.____(url)                            <span class="co"># read it, with read_csv</span></span>
+<span id="cb11-4"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[____] <span class="op">==</span> ____]          <span class="co"># the column "year", then 1952</span></span>
+<span id="cb11-5"><a href=""></a>g1952[<span class="st">"pop_m"</span>] <span class="op">=</span> g1952[____] <span class="op">/</span> <span class="dv">1_000_000</span>            <span class="co"># "pop", in millions</span></span>
+<span id="cb11-6"><a href=""></a>(g1952</span>
+<span id="cb11-7"><a href=""></a>  .groupby(____)                                    <span class="co"># by "continent"</span></span>
+<span id="cb11-8"><a href=""></a>  .agg(countries<span class="op">=</span>(<span class="st">"country"</span>, ____), pop_m<span class="op">=</span>(<span class="st">"pop_m"</span>, ____))   <span class="co"># "nunique", then "sum"</span></span>
+<span id="cb11-9"><a href=""></a>  .sort_values(<span class="st">"pop_m"</span>, ascending<span class="op">=</span>____)             <span class="co"># largest first: False</span></span>
+<span id="cb11-10"><a href=""></a>  .<span class="bu">round</span>()</span>
+<span id="cb11-11"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-layout-panel" data-layout="[3,2]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
+<p>You should see Asia first, with 33 countries and 1395 million people.</p>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
+                    <div id="timer2"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            initializeTimer("timer2", 300, "interaction");
+                        });
+                    </script>
+                
 </div>
 </div>
 </div>
-<div id="e0f54f3e" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a>g2007[[<span class="st">"life_exp"</span>, <span class="st">"gdp_per_cap"</span>, <span class="st">"pop"</span>]].corr().<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+</section>
+<section id="solution-1" class="slide level2 smaller">
+<h2>Solution</h2>
+<div id="2411beea" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb12-2"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb12-3"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb12-4"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
+<span id="cb12-5"><a href=""></a>g1952[<span class="st">"pop_m"</span>] <span class="op">=</span> g1952[<span class="st">"pop"</span>] <span class="op">/</span> <span class="dv">1_000_000</span></span>
+<span id="cb12-6"><a href=""></a>(g1952</span>
+<span id="cb12-7"><a href=""></a>  .groupby(<span class="st">"continent"</span>)</span>
+<span id="cb12-8"><a href=""></a>  .agg(countries<span class="op">=</span>(<span class="st">"country"</span>, <span class="st">"nunique"</span>), pop_m<span class="op">=</span>(<span class="st">"pop_m"</span>, <span class="st">"sum"</span>))</span>
+<span id="cb12-9"><a href=""></a>  .sort_values(<span class="st">"pop_m"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-10"><a href=""></a>  .<span class="bu">round</span>()</span>
+<span id="cb12-11"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
@@ -453,29 +426,40 @@ Africa 9.6 11.6
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">life_exp</th>
-<th data-quarto-table-cell-role="th">gdp_per_cap</th>
-<th data-quarto-table-cell-role="th">pop</th>
+<th data-quarto-table-cell-role="th">countries</th>
+<th data-quarto-table-cell-role="th">pop_m</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">continent</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">life_exp</th>
-<td>1.00</td>
-<td>0.68</td>
-<td>0.05</td>
+<th data-quarto-table-cell-role="th">Asia</th>
+<td>33</td>
+<td>1395.0</td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">gdp_per_cap</th>
-<td>0.68</td>
-<td>1.00</td>
-<td>-0.06</td>
+<th data-quarto-table-cell-role="th">Europe</th>
+<td>30</td>
+<td>418.0</td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">pop</th>
-<td>0.05</td>
-<td>-0.06</td>
-<td>1.00</td>
+<th data-quarto-table-cell-role="th">Americas</th>
+<td>25</td>
+<td>345.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Africa</th>
+<td>52</td>
+<td>238.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Oceania</th>
+<td>2</td>
+<td>11.0</td>
 </tr>
 </tbody>
 </table>
@@ -483,69 +467,49 @@ Africa 9.6 11.6
 </div>
 </div>
 </div>
-<p><code>r</code> runs from −1 to +1 and measures how close the points are to <strong>a straight line</strong>. It has no units, and is the same in both directions; each column with itself gives 1.</p>
+<p>In 1952, Asia already held more people than the four other continents together, and Africa had the most countries, 52.</p>
 </section>
-<section id="correlation-only-sees-straight-lines" class="slide level2">
-<h2>Correlation Only Sees Straight Lines</h2>
-<div id="8032fcea" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>g2007[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g2007[<span class="st">"gdp_per_cap"</span>])</span>
-<span id="cb16-2"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(g2007[<span class="st">"gdp_per_cap"</span>].corr(g2007[<span class="st">"life_exp"</span>]), <span class="dv">2</span>),</span>
-<span id="cb16-3"><a href=""></a>      <span class="bu">round</span>(g2007[<span class="st">"log_gdp"</span>].corr(g2007[<span class="st">"life_exp"</span>]), <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.68 0.81</code></pre>
-</div>
-</div>
-<div id="0b7bc131" class="cell" data-execution_count="14">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="lecture_9_files/figure-revealjs/cell-15-output-1.png" width="973" height="202"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><code>np.log()</code> turns doublings into equal steps, as the log axis did in lecture 8. Same countries, same relationship, only its shape changed: r went from 0.68 to 0.81.</p>
-</section>
-<section id="correlation-is-not-causation" class="slide level2">
-<h2>Correlation Is Not Causation</h2>
-<div class="callout callout-important callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Important</strong></p>
-</div>
-<div class="callout-content">
-<p>A correlation, or a regression, finds an <strong>association</strong>. Richer countries also have more doctors, cleaner water and more schooling: income stands in for all of them.</p>
-</div>
-</div>
-</div>
+<section id="lecture-7-visualisation-with-matplotlib" class="slide level2">
+<h2>Lecture 7: Visualisation with matplotlib</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()                              <span class="co"># the canvas</span></span>
+<span id="cb13-2"><a href=""></a>ax.scatter(df[<span class="st">"x"</span>], df[<span class="st">"y"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)      <span class="co"># a geometry: x first, then y</span></span>
+<span id="cb13-3"><a href=""></a>ax.scatter(one[<span class="st">"x"</span>], one[<span class="st">"y"</span>], color<span class="op">=</span><span class="st">"red"</span>)          <span class="co"># grey everything, colour one thing</span></span>
+<span id="cb13-4"><a href=""></a>ax.set_xscale(<span class="st">"log"</span>)                                 <span class="co"># a scale</span></span>
+<span id="cb13-5"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Income (US$)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)   <span class="co"># labels, with units</span></span>
+<span id="cb13-6"><a href=""></a>ax.set_title(<span class="st">"A title that states the finding"</span>)      <span class="co"># the finding</span></span>
+<span id="cb13-7"><a href=""></a>plt.show()</span>
+<span id="cb13-8"><a href=""></a>fig.savefig(<span class="st">"chart.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>You may write: <em>“in 2007, countries with higher incomes had longer life expectancies”</em></li>
-<li>You may not write: <em>“raising income raises life expectancy”</em></li>
-<li>r near 0 does not mean no relationship, only no <strong>straight-line</strong> one: a U-shape can give r = 0. Plot first, as Anscombe showed in lecture 8</li>
+<li><strong>The question picks the geometry</strong>: how two columns relate, <code>ax.scatter()</code>; a change over time, <code>ax.plot()</code>; one number per category, <code>ax.bar()</code> or <code>ax.barh()</code>; a spread, <code>ax.hist()</code> or <code>ax.boxplot()</code></li>
+<li>After a <code>groupby()</code>, the groups are the index: <code>ax.bar(s.index, s.values)</code></li>
+<li>Colour by group: a loop, one layer per group with <code>label=</code>, then <code>ax.legend()</code></li>
 </ul>
 </section>
-<section id="your-turn-correlation-and-shape" class="slide level2" data-background="#43464B">
-<h2>Your Turn: Correlation and Shape</h2>
+<section id="your-turn-grey-bars-one-colour" class="slide level2" data-background="#43464B">
+<h2>Your Turn: Grey Bars, One Colour</h2>
+<p><strong>The 2007 countries.</strong> Replace each <code>____</code>, using the comments:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb14-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb14-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb14-5"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb14-6"><a href=""></a>means <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[____].mean()     <span class="co"># the mean of "lifeExp"</span></span>
+<span id="cb14-7"><a href=""></a>low <span class="op">=</span> means[means <span class="op">&lt;</span> ____]                           <span class="co"># the continents below 60 years</span></span>
+<span id="cb14-8"><a href=""></a>fig, ax <span class="op">=</span> plt.____()                                <span class="co"># the canvas, with subplots</span></span>
+<span id="cb14-9"><a href=""></a>ax.____(means.index, means.values, color<span class="op">=</span>____)      <span class="co"># bars, with .bar(); "lightgrey"</span></span>
+<span id="cb14-10"><a href=""></a>ax.bar(low.____, low.____, color<span class="op">=</span>____)              <span class="co"># .index, .values; then "red"</span></span>
+<span id="cb14-11"><a href=""></a>ax.<span class="bu">set</span>(ylabel<span class="op">=</span>____, title<span class="op">=</span>____)                     <span class="co"># "... (years)", then the finding</span></span>
+<span id="cb14-12"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
-<ol type="1">
-<li>In 2007, the correlation between <code>life_exp</code> and <code>pop</code>. Then plot it, <code>pop</code> on a log x-axis: does the picture agree with the number?</li>
-<li>In <strong>1952</strong>, the correlation of <code>life_exp</code> with <code>gdp_per_cap</code>, then with its log (<code>np.log</code>). Was income as strongly related then?</li>
-</ol>
+<p>You should see five grey bars, and Africa’s in red, at about 55 years.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-<p>You should see:</p>
-<pre><code>0.05
-0.28
-0.75</code></pre>
-                    <div id="timer2"></div>
+                    <div id="timer3"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer2", 420, "interaction");
+                            initializeTimer("timer3", 300, "interaction");
                         });
                     </script>
                 
@@ -553,192 +517,276 @@ Africa 9.6 11.6
 </div>
 </div>
 </section>
-<section id="solution-1" class="slide level2">
+<section id="solution-2" class="slide level2 smaller">
 <h2>Solution</h2>
-<div class="code-columns">
-<div id="first-column">
-<div id="5c2a4e6a" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>life <span class="op">=</span> g2007[<span class="st">"life_exp"</span>]</span>
-<span id="cb19-2"><a href=""></a>pop <span class="op">=</span> g2007[<span class="st">"pop"</span>]</span>
-<span id="cb19-3"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(pop.corr(life), <span class="dv">2</span>))</span>
-<span id="cb19-4"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="fl">1.7</span>))</span>
-<span id="cb19-5"><a href=""></a>ax.scatter(pop, life, s<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb19-6"><a href=""></a>ax.<span class="bu">set</span>(xscale<span class="op">=</span><span class="st">"log"</span>, xlabel<span class="op">=</span><span class="st">"pop"</span>)</span>
-<span id="cb19-7"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.05</code></pre>
-</div>
+<div id="b3427beb" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb15-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb15-3"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb15-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb15-5"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb15-6"><a href=""></a>means <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[<span class="st">"lifeExp"</span>].mean()</span>
+<span id="cb15-7"><a href=""></a>low <span class="op">=</span> means[means <span class="op">&lt;</span> <span class="dv">60</span>]                             <span class="co"># a Series filters like a table</span></span>
+<span id="cb15-8"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb15-9"><a href=""></a>ax.bar(means.index, means.values, color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
+<span id="cb15-10"><a href=""></a>ax.bar(low.index, low.values, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb15-11"><a href=""></a>ax.<span class="bu">set</span>(ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>,</span>
+<span id="cb15-12"><a href=""></a>       title<span class="op">=</span><span class="st">"Africa: the only continent below 60 years in 2007"</span>)</span>
+<span id="cb15-13"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
-<p><img data-src="lecture_9_files/figure-revealjs/cell-16-output-2.png" width="395" height="216"></p>
+<p><img data-src="lecture_9_files/figure-revealjs/cell-5-output-1.png" width="758" height="209"></p>
 </figure>
 </div>
 </div>
 </div>
-</div>
-<div id="second-column">
-<div id="7813bfe9" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a>is_1952 <span class="op">=</span> gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span></span>
-<span id="cb21-2"><a href=""></a>g1952 <span class="op">=</span> gapminder[is_1952]</span>
-<span id="cb21-3"><a href=""></a>gdp52 <span class="op">=</span> g1952[<span class="st">"gdp_per_cap"</span>]</span>
-<span id="cb21-4"><a href=""></a>life52 <span class="op">=</span> g1952[<span class="st">"life_exp"</span>]</span>
-<span id="cb21-5"><a href=""></a>log52 <span class="op">=</span> np.log(gdp52)</span>
-<span id="cb21-6"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(gdp52.corr(life52), <span class="dv">2</span>))</span>
-<span id="cb21-7"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(log52.corr(life52), <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.28
-0.75</code></pre>
-</div>
-</div>
-</div>
-</div>
-<p><code>pop</code>: a shapeless cloud. 1952: curved, so 0.28 raw but 0.75 log.</p>
-</section></section>
-<section>
-<section id="linear-regression" class="title-slide slide level1 center">
-<h1>4. Linear Regression</h1>
-
 </section>
-<section id="the-line-of-best-fit" class="slide level2">
-<h2>The Line of Best Fit</h2>
-<p><strong>life_exp = intercept + slope × log_gdp + residual</strong></p>
-<div id="075eced1" class="cell" data-execution_count="17">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="lecture_9_files/figure-revealjs/cell-18-output-1.png" width="759" height="245"></p>
-</figure>
-</div>
-</div>
-</div>
+<section id="lecture-8-statistics-with-statsmodels" class="slide level2">
+<h2>Lecture 8: Statistics with statsmodels</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>df[<span class="st">"x"</span>].corr(df[<span class="st">"y"</span>])                                <span class="co"># r, from -1 to +1: straight lines</span></span>
+<span id="cb16-2"><a href=""></a>df[[<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span>]].corr()                           <span class="co"># every pair of columns at once</span></span>
+<span id="cb16-3"><a href=""></a>df[<span class="st">"log_x"</span>] <span class="op">=</span> np.log(df[<span class="st">"x"</span>])                        <span class="co"># a curve? straighten it first</span></span>
+<span id="cb16-4"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"y ~ x + C(group)"</span>, data<span class="op">=</span>df).fit()  <span class="co"># = becomes ~, + adds a predictor</span></span>
+<span id="cb16-5"><a href=""></a>model.params                                         <span class="co"># the estimates: Intercept, slopes</span></span>
+<span id="cb16-6"><a href=""></a>model.summary().tables[<span class="dv">1</span>]                            <span class="co"># std err, p-value, 95% CI</span></span>
+<span id="cb16-7"><a href=""></a>model.rsquared                                       <span class="co"># the share of the variation</span></span>
+<span id="cb16-8"><a href=""></a>model.predict(new)                                   <span class="co"># new: a DataFrame with x in it</span></span>
+<span id="cb16-9"><a href=""></a>train <span class="op">=</span> df.sample(frac<span class="op">=</span><span class="fl">0.75</span>, random_state<span class="op">=</span><span class="dv">1</span>)         <span class="co"># fit on train, then measure</span></span>
+<span id="cb16-10"><a href=""></a>test <span class="op">=</span> df.drop(train.index)                          <span class="co"># the misses on test: RMSE, MAE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><strong>Slope</strong>: the change in life expectancy per unit of <code>log_gdp</code>. <strong>Intercept</strong>: the prediction when <code>log_gdp</code> is 0. <strong>Residual</strong>: actual minus predicted</li>
-<li><strong>Ordinary least squares (OLS)</strong> picks the line with the smallest sum of squared residuals</li>
+<li><strong>Explanation</strong>: the estimates and how sure we are, fitted on all the data</li>
+<li><strong>Prediction</strong>: how far the guesses miss, on rows the model has never seen</li>
 </ul>
 </section>
-<section id="fitting-a-model" class="slide level2">
-<h2>Fitting a Model</h2>
-<div id="2b4dc498" class="cell" data-execution_count="18">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb23-2"><a href=""></a></span>
-<span id="cb23-3"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"life_exp ~ log_gdp"</span>, data<span class="op">=</span>g2007).fit()</span>
-<span id="cb23-4"><a href=""></a>model.params</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
-<pre><code>Intercept    4.949612
-log_gdp      7.202802
+<section id="lecture-8-results-in-words" class="slide level2">
+<h2>Lecture 8: Results in Words</h2>
+<p>Lecture 8’s model of the 2007 countries, <code>lifeExp ~ log_gdp</code>:</p>
+<ul>
+<li><strong>b = 7.20</strong>: one more unit of <code>log_gdp</code> <strong>is associated with</strong> 7.2 more years of life expectancy, never “causes”</li>
+<li><strong>95% CI 6.3 to 8.1</strong>: slopes <strong>compatible with the data</strong>; 0 is not among them</li>
+<li><strong>p &lt; 0.001</strong> (<code>0.000</code> in the table): below 0.05, the slope is <strong>significantly</strong> different from 0. Not the probability that the result is true</li>
+<li><strong>R² = 0.65</strong>: the model <strong>accounts for 65%</strong> of the variation between countries. The other 35% is how far countries sit above or below what their income predicts</li>
+<li>No prediction outside the data: incomes from $278 to $49,357</li>
+</ul>
+</section>
+<section id="your-turn-fit-read-predict" class="slide level2" data-background="#43464B">
+<h2>Your Turn: Fit, Read, Predict</h2>
+<p><strong>The 1977 countries.</strong> Replace each <code>____</code>, using the comments:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb17-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-3"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb17-4"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb17-5"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb17-6"><a href=""></a>g1977 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1977</span>]</span>
+<span id="cb17-7"><a href=""></a>g1977[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1977[<span class="st">"gdpPercap"</span>])</span>
+<span id="cb17-8"><a href=""></a>model <span class="op">=</span> smf.ols(____, data<span class="op">=</span>g1977).fit()                   <span class="co"># lifeExp explained by log_gdp</span></span>
+<span id="cb17-9"><a href=""></a><span class="bu">print</span>(model.____.<span class="bu">round</span>(<span class="dv">2</span>))                                <span class="co"># the estimates, with .params</span></span>
+<span id="cb17-10"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.____, <span class="dv">2</span>))                               <span class="co"># R², with .rsquared</span></span>
+<span id="cb17-11"><a href=""></a>new <span class="op">=</span> pd.DataFrame({<span class="st">"log_gdp"</span>: np.log([<span class="dv">1000</span>, <span class="dv">10000</span>])})    <span class="co"># 1,000 and 10,000 US$</span></span>
+<span id="cb17-12"><a href=""></a><span class="bu">print</span>(model.____(new).<span class="bu">round</span>(<span class="dv">1</span>))                           <span class="co"># with .predict()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-layout-panel" data-layout="[3,2]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
+<p>You should see <code>-2.74</code> and <code>7.55</code>, then <code>0.66</code>, then <code>49.4</code> and <code>66.8</code> years.</p>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
+                    <div id="timer4"></div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            initializeTimer("timer4", 300, "interaction");
+                        });
+                    </script>
+                
+</div>
+</div>
+</div>
+</section>
+<section id="solution-3" class="slide level2 smaller">
+<h2>Solution</h2>
+<div id="c442eb5a" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb18-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb18-3"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb18-4"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb18-5"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb18-6"><a href=""></a>g1977 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1977</span>]</span>
+<span id="cb18-7"><a href=""></a>g1977[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1977[<span class="st">"gdpPercap"</span>])</span>
+<span id="cb18-8"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ log_gdp"</span>, data<span class="op">=</span>g1977).fit()</span>
+<span id="cb18-9"><a href=""></a><span class="bu">print</span>(model.params.<span class="bu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb18-10"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.rsquared, <span class="dv">2</span>))</span>
+<span id="cb18-11"><a href=""></a>new <span class="op">=</span> pd.DataFrame({<span class="st">"log_gdp"</span>: np.log([<span class="dv">1000</span>, <span class="dv">10000</span>])})</span>
+<span id="cb18-12"><a href=""></a><span class="bu">print</span>(model.predict(new).<span class="bu">round</span>(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Intercept   -2.74
+log_gdp      7.55
+dtype: float64
+0.66
+0    49.4
+1    66.8
 dtype: float64</code></pre>
 </div>
 </div>
+<p>In 1977, income accounted for 66% of the variation. Both incomes lie inside the data, from $371 to $59,265.</p>
+</section></section>
+<section>
+<section id="how-they-fit-together" class="title-slide slide level1 center">
+<h1>3. How They Fit Together</h1>
+
+</section>
+<section id="one-analysis-three-lectures" class="slide level2">
+<h2>One Analysis, Three Lectures</h2>
+<div id="43999fe3" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lecture_9_files/figure-revealjs/cell-7-output-1.png" width="942" height="309"></p>
+</figure>
+</div>
+</div>
+</div>
 <ul>
-<li><code>"life_exp ~ log_gdp"</code> reads <em>“life_exp explained by log_gdp”</em>: the outcome goes on the left of <code>~</code>, the predictors on the right</li>
-<li><code>smf.ols()</code> sets the model up, <code>.fit()</code> estimates it, and <code>.params</code> holds the intercept and the slope</li>
-<li>More predictors are added with <code>+</code>: <code>"life_exp ~ log_gdp + pop"</code></li>
+<li>One road, three stretches: a question goes in, a sentence with numbers comes out</li>
+<li>It loops back to pandas: a curve needs a log column, as in lecture 8, and a test set needs <code>sample()</code> and <code>drop()</code></li>
 </ul>
 </section>
-<section id="reading-the-coefficients" class="slide level2">
-<h2>Reading the Coefficients</h2>
-<div id="931a6cce" class="cell" data-execution_count="19">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.params[<span class="st">"log_gdp"</span>] <span class="op">*</span> np.log(<span class="dv">2</span>), <span class="dv">1</span>), <span class="st">"years per doubling of income"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="what-each-step-hands-to-the-next" class="slide level2 smaller">
+<h2>What Each Step Hands to the Next</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Step</th>
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">Hands on</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">read</td>
+<td style="text-align: left;"><code>df = pd.read_csv("data/file.csv")</code></td>
+<td style="text-align: left;">a <strong>DataFrame</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">wrangle</td>
+<td style="text-align: left;"><code>df[df["year"] == 2007]</code>, <code>.merge()</code>, <code>df["log_x"] = ...</code></td>
+<td style="text-align: left;">a DataFrame: one row per case, a column for each variable the question needs</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">summarise</td>
+<td style="text-align: left;"><code>s = df.groupby("g")["y"].mean()</code></td>
+<td style="text-align: left;">a <strong>Series</strong>: its index holds the groups, for <code>ax.bar(s.index, s.values)</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">visualise</td>
+<td style="text-align: left;"><code>ax.scatter(df["x"], df["y"])</code></td>
+<td style="text-align: left;">a <strong>chart</strong>: a straight line, or a curve to straighten first?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">model</td>
+<td style="text-align: left;"><code>model = smf.ols("y ~ x", data=df).fit()</code></td>
+<td style="text-align: left;">a <strong>model</strong>: its formula names the columns</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">report</td>
+<td style="text-align: left;"><code>model.params["x"]</code>, <code>model.rsquared</code></td>
+<td style="text-align: left;"><strong>numbers</strong>, to put in words</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>column names</strong> tie the three lectures together: created in pandas, plotted with matplotlib, named in the formula. A typo anywhere along the road stops it.</p>
+</section>
+<section id="one-question-three-lectures-pandas" class="slide level2">
+<h2>One Question, Three Lectures: pandas</h2>
+<p><strong>Did the countries that lived longest in 1952 still live longest in 2007?</strong></p>
+<div id="658a1e61" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb20-2"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)                                             <span class="co"># read</span></span>
+<span id="cb20-3"><a href=""></a>y1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]                             <span class="co"># filter</span></span>
+<span id="cb20-4"><a href=""></a>y1952 <span class="op">=</span> y1952[[<span class="st">"country"</span>, <span class="st">"continent"</span>, <span class="st">"lifeExp"</span>]]                      <span class="co"># select</span></span>
+<span id="cb20-5"><a href=""></a>y1952 <span class="op">=</span> y1952.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: <span class="st">"life_1952"</span>})                  <span class="co"># rename</span></span>
+<span id="cb20-6"><a href=""></a>y2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb20-7"><a href=""></a>y2007 <span class="op">=</span> y2007[[<span class="st">"country"</span>, <span class="st">"lifeExp"</span>]]</span>
+<span id="cb20-8"><a href=""></a>y2007 <span class="op">=</span> y2007.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: <span class="st">"life_2007"</span>})</span>
+<span id="cb20-9"><a href=""></a>both <span class="op">=</span> y1952.merge(y2007, on<span class="op">=</span><span class="st">"country"</span>, how<span class="op">=</span><span class="st">"left"</span>)                     <span class="co"># join</span></span>
+<span id="cb20-10"><a href=""></a>both[<span class="st">"gain"</span>] <span class="op">=</span> both[<span class="st">"life_2007"</span>] <span class="op">-</span> both[<span class="st">"life_1952"</span>]                     <span class="co"># create</span></span>
+<span id="cb20-11"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(y1952), <span class="bu">len</span>(both), <span class="bu">round</span>(both[<span class="st">"gain"</span>].mean(), <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>5.0 years per doubling of income</code></pre>
+<pre><code>142 142 17.9</code></pre>
 </div>
 </div>
-<ul>
-<li><strong>Slope, 7.2</strong>: one more unit of log GDP goes with 7.2 more years of life expectancy. One unit of log means income × 2.7, so more usefully: <strong>each doubling of income goes with 5.0 more years</strong></li>
-<li><strong>Intercept, 4.9</strong>: the prediction for log GDP of 0, an income of $1 a year. That is far outside the data: do not interpret it</li>
-<li>Write <em>“is associated with”</em>, never <em>“causes”</em></li>
-</ul>
+<p>One row per country, both years side by side: 142 rows before the join, 142 after. On average, people lived 17.9 years longer in 2007 than in 1952.</p>
 </section>
-<section id="reading-the-rest-of-the-table" class="slide level2">
-<h2>Reading the Rest of the Table</h2>
-<div id="42b93867" class="cell" data-execution_count="20">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a><span class="bu">print</span>(model.summary().tables[<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="one-question-three-lectures-matplotlib" class="slide level2">
+<h2>One Question, Three Lectures: matplotlib</h2>
+<div id="4c21f90a" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a>fell <span class="op">=</span> both[both[<span class="st">"gain"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]</span>
+<span id="cb22-2"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.45</span>))</span>
+<span id="cb22-3"><a href=""></a>ax.scatter(both[<span class="st">"life_1952"</span>], both[<span class="st">"life_2007"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
+<span id="cb22-4"><a href=""></a>ax.scatter(fell[<span class="st">"life_1952"</span>], fell[<span class="st">"life_2007"</span>], color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb22-5"><a href=""></a>ax.plot([<span class="dv">30</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">80</span>], color<span class="op">=</span><span class="st">"black"</span>)              <span class="co"># where 2007 equals 1952</span></span>
+<span id="cb22-6"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Life expectancy in 1952 (years)"</span>, ylabel<span class="op">=</span><span class="st">"In 2007 (years)"</span>)</span>
+<span id="cb22-7"><a href=""></a>ax.set_title(<span class="st">"Long lives in 1952 still meant long lives in 2007"</span>, loc<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb22-8"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure>
+<p><img data-src="lecture_9_files/figure-revealjs/cell-9-output-1.png" width="758" height="219"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Plot first</strong>: a straight line, so a straight-line model fits. Below the black line, in red, life expectancy fell: Swaziland and Zimbabwe.</p>
+</section>
+<section id="one-question-three-lectures-statsmodels" class="slide level2">
+<h2>One Question, Three Lectures: statsmodels</h2>
+<div id="3a84a4d1" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"life_2007 ~ life_1952"</span>, data<span class="op">=</span>both).fit()</span>
+<span id="cb23-2"><a href=""></a><span class="bu">print</span>(model.summary().tables[<span class="dv">1</span>])</span>
+<span id="cb23-3"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.rsquared, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>==============================================================================
                  coef    std err          t      P&gt;|t|      [0.025      0.975]
 ------------------------------------------------------------------------------
-Intercept      4.9496      3.858      1.283      0.202      -2.677      12.576
-log_gdp        7.2028      0.442     16.283      0.000       6.328       8.077
-==============================================================================</code></pre>
+Intercept     29.3916      2.658     11.056      0.000      24.136      34.647
+life_1952      0.7668      0.053     14.580      0.000       0.663       0.871
+==============================================================================
+0.6</code></pre>
 </div>
 </div>
-<ul>
-<li><code>std err</code>: each estimate’s standard error, as in section 2</li>
-<li><code>[0.025  0.975]</code>: the 95% confidence interval. Slopes from 6.3 to 8.1 are compatible with the data</li>
-<li><code>P&gt;|t|</code>: the p-value against a true value of 0. The slope’s <code>0.000</code>, below 0.0005: if the true slope were 0, chance would almost never give one this far from it. The intercept’s 0.202: compatible with 0</li>
-</ul>
+<blockquote>
+<p>Across 142 countries, each extra year of life expectancy in 1952 was associated with 0.77 more years in 2007 (95% CI 0.66 to 0.87, p &lt; 0.001). Life expectancy in 1952 accounts for 60% of the variation between countries in 2007.</p>
+</blockquote>
 </section>
-<section id="how-well-does-it-fit" class="slide level2">
-<h2>How Well Does It Fit?</h2>
-<div id="20c377f4" class="cell" data-execution_count="21">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.rsquared, <span class="dv">2</span>))</span>
-<span id="cb29-2"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(np.sqrt(model.scale), <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.65
-7.1</code></pre>
-</div>
-</div>
-<ul>
-<li><strong>R² = 0.65</strong>: the model accounts for 65% of the variation in life expectancy between countries. The other 35% is how far countries sit above or below what their income predicts</li>
-<li><strong>Residual standard error, 7.1 years</strong>: most countries are within about 7 years of the line, a few much further</li>
-</ul>
-<div class="callout callout-warning callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Warning</strong></p>
-</div>
-<div class="callout-content">
-<p>A high R² does not make a model right, nor a low one useless: judge it by what it is for.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="a-categorical-predictor" class="slide level2">
-<h2>A Categorical Predictor</h2>
-<div id="524d0772" class="cell" data-execution_count="22">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href=""></a>model2 <span class="op">=</span> smf.ols(<span class="st">"life_exp ~ log_gdp + C(continent)"</span>, data<span class="op">=</span>g2007).fit()</span>
-<span id="cb31-2"><a href=""></a><span class="bu">print</span>(model2.params.<span class="bu">round</span>(<span class="dv">2</span>))</span>
-<span id="cb31-3"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model2.rsquared, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Intercept                   20.14
-C(continent)[T.Americas]    11.69
-C(continent)[T.Asia]        10.11
-C(continent)[T.Europe]      11.27
-C(continent)[T.Oceania]     12.93
-log_gdp                      4.63
-dtype: float64
-0.77</code></pre>
-</div>
-</div>
-<ul>
-<li><code>C()</code> adds a 0/1 column per continent but the first alphabetically, Africa: the <strong>reference</strong>. Each coefficient is a difference from Africa</li>
-<li><strong>At the same income</strong>, life expectancy is 11.3 years higher in Europe than in Africa, on average; the income slope falls from 7.2 to 4.6</li>
-</ul>
-</section>
-<section id="your-turn-fit-a-model" class="slide level2" data-background="#43464B">
-<h2>Your Turn: Fit a Model</h2>
+<section id="your-turn-from-table-to-finding" class="slide level2" data-background="#43464B">
+<h2>Your Turn: From Table to Finding</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb25-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb25-3"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb25-4"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb25-5"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb25-6"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb25-7"><a href=""></a>europe <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> ____]          <span class="co"># lecture 6: "Europe"</span></span>
+<span id="cb25-8"><a href=""></a>europe[<span class="st">"gdp_k"</span>] <span class="op">=</span> europe[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1000</span>     <span class="co"># in thousands of US$</span></span>
+<span id="cb25-9"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb25-10"><a href=""></a>ax.____(europe[<span class="st">"gdp_k"</span>], europe[<span class="st">"lifeExp"</span>])        <span class="co"># lecture 7: points, .scatter()</span></span>
+<span id="cb25-11"><a href=""></a>plt.show()</span>
+<span id="cb25-12"><a href=""></a>model <span class="op">=</span> smf.ols(____, data<span class="op">=</span>europe).fit()            <span class="co"># lecture 8: lifeExp by gdp_k</span></span>
+<span id="cb25-13"><a href=""></a><span class="bu">print</span>(model.params.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
-<p>On <code>g1952</code>, the 1952 countries, with a <code>log_gdp</code> column added:</p>
-<ol type="1">
-<li>Fit <code>life_exp ~ log_gdp</code>. Slope, years per doubling of income, and R²?</li>
-<li>Compared with 2007, was a doubling of income associated with more or fewer years?</li>
-<li>Add <code>C(continent)</code>: how much does R² rise?</li>
-</ol>
+<p><strong>Europe in 2007</strong>, one blank per lecture. You should see 30 points rising along a line, then <code>72.27</code> and <code>0.21</code>.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-<p>You should see:</p>
-<pre><code>8.83 6.1 0.56
-0.74</code></pre>
-                    <div id="timer3"></div>
+                    <div id="timer5"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer3", 480, "interaction");
+                            initializeTimer("timer5", 300, "interaction");
                         });
                     </script>
                 
@@ -746,211 +794,235 @@ dtype: float64
 </div>
 </div>
 </section>
-<section id="solution-2" class="slide level2">
+<section id="solution-4" class="slide level2 smaller">
 <h2>Solution</h2>
-<div id="26b53409" class="cell" data-execution_count="23">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href=""></a>g1952[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1952[<span class="st">"gdp_per_cap"</span>])</span>
-<span id="cb34-2"><a href=""></a>fit52 <span class="op">=</span> smf.ols(<span class="st">"life_exp ~ log_gdp"</span>, data<span class="op">=</span>g1952).fit()</span>
-<span id="cb34-3"><a href=""></a>per_doubling <span class="op">=</span> fit52.params[<span class="st">"log_gdp"</span>] <span class="op">*</span> np.log(<span class="dv">2</span>)</span>
-<span id="cb34-4"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(fit52.params[<span class="st">"log_gdp"</span>], <span class="dv">2</span>), <span class="bu">round</span>(per_doubling, <span class="dv">1</span>), <span class="bu">round</span>(fit52.rsquared, <span class="dv">2</span>))</span>
-<span id="cb34-5"><a href=""></a></span>
-<span id="cb34-6"><a href=""></a>fit52c <span class="op">=</span> smf.ols(<span class="st">"life_exp ~ log_gdp + C(continent)"</span>, data<span class="op">=</span>g1952).fit()</span>
-<span id="cb34-7"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(fit52c.rsquared, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>8.83 6.1 0.56
-0.74</code></pre>
-</div>
-</div>
-<ul>
-<li>In 1952 a doubling of income went with 6.1 more years, against 5.0 in 2007: a steeper slope, but a looser fit (R² 0.56 against 0.65)</li>
-<li>Continent lifts R² from 0.56 to 0.74, more than in 2007 (0.65 to 0.77)</li>
-</ul>
-</section></section>
-<section>
-<section id="prediction" class="title-slide slide level1 center">
-<h1>5. Prediction</h1>
-
-</section>
-<section id="explanation-vs-prediction" class="slide level2">
-<h2>Explanation vs Prediction</h2>
-<ul>
-<li><strong>Explanation</strong>: what is the slope, and how sure are we? Fitted on all the data, judged by its standard errors. That was section 4</li>
-<li><strong>Prediction</strong>: for a country the model has never seen, how wrong will the guess be?</li>
-<li>On average, a model fits its own data better than new data: judging it there is <strong>marking your own homework</strong></li>
-<li>So: fit on some countries, <strong>test</strong> on the others, and look at the test set once</li>
-</ul>
-<p>This is the idea every machine learning model, from a regression to a neural network, is evaluated on.</p>
-</section>
-<section id="train-and-test" class="slide level2">
-<h2>Train and Test</h2>
-<div id="2ccfa4cd" class="cell" data-execution_count="24">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href=""></a>train <span class="op">=</span> g2007.sample(frac<span class="op">=</span><span class="fl">0.75</span>, random_state<span class="op">=</span><span class="dv">1118</span>)</span>
-<span id="cb36-2"><a href=""></a>test <span class="op">=</span> g2007.drop(train.index)</span>
-<span id="cb36-3"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(train), <span class="st">"countries to fit the model,"</span>, <span class="bu">len</span>(test), <span class="st">"to test it"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>106 countries to fit the model, 36 to test it</code></pre>
-</div>
-</div>
-<ul>
-<li><code>sample(frac=0.75)</code> draws 75% of the rows at random; <code>drop(train.index)</code> keeps the rest</li>
-<li><code>random_state</code> makes the split repeatable: the same countries every time</li>
-<li>The test countries take no part in fitting: for the model, they are new</li>
-</ul>
-</section>
-<section id="predict-and-measure-the-error" class="slide level2">
-<h2>Predict and Measure the Error</h2>
-<div id="391ffaee" class="cell" data-execution_count="25">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href=""></a>fit <span class="op">=</span> smf.ols(<span class="st">"life_exp ~ log_gdp"</span>, data<span class="op">=</span>train).fit()</span>
-<span id="cb38-2"><a href=""></a>predicted <span class="op">=</span> fit.predict(test)</span>
-<span id="cb38-3"><a href=""></a>errors <span class="op">=</span> test[<span class="st">"life_exp"</span>] <span class="op">-</span> predicted</span>
-<span id="cb38-4"><a href=""></a>rmse <span class="op">=</span> np.sqrt((errors <span class="op">**</span> <span class="dv">2</span>).mean())</span>
-<span id="cb38-5"><a href=""></a>mae <span class="op">=</span> errors.<span class="bu">abs</span>().mean()</span>
-<span id="cb38-6"><a href=""></a><span class="bu">print</span>(<span class="st">"RMSE"</span>, <span class="bu">round</span>(rmse, <span class="dv">1</span>), <span class="st">"years; MAE"</span>, <span class="bu">round</span>(mae, <span class="dv">1</span>), <span class="st">"years"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>RMSE 8.0 years; MAE 5.7 years</code></pre>
-</div>
-</div>
-<ul>
-<li><strong>RMSE</strong>: square the errors, average them, take the root: the <strong>r</strong>oot <strong>m</strong>ean <strong>s</strong>quared <strong>e</strong>rror. Big misses weigh more</li>
-<li><strong>MAE</strong>: the mean absolute error, the average miss. The easiest to explain</li>
-<li>Both in <strong>years</strong>, on 36 countries the model never saw. On its own 106 training countries the RMSE is 6.7: on average, a model looks better on the data it was fitted on</li>
-</ul>
-</section>
-<section id="predicting-for-new-data" class="slide level2">
-<h2>Predicting for New Data</h2>
-<div id="a3926f7b" class="cell" data-execution_count="26">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href=""></a>new <span class="op">=</span> pd.DataFrame({<span class="st">"gdp_per_cap"</span>: [<span class="dv">2000</span>, <span class="dv">10000</span>, <span class="dv">45000</span>]})</span>
-<span id="cb40-2"><a href=""></a>new[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(new[<span class="st">"gdp_per_cap"</span>])</span>
-<span id="cb40-3"><a href=""></a>new[<span class="st">"predicted_life_exp"</span>] <span class="op">=</span> fit.predict(new).<span class="bu">round</span>(<span class="dv">1</span>)</span>
-<span id="cb40-4"><a href=""></a>new</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
+<div id="8b2cfaf6" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb26-2"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb26-3"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb26-4"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb26-5"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
+<span id="cb26-6"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb26-7"><a href=""></a>europe <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Europe"</span>]</span>
+<span id="cb26-8"><a href=""></a>europe[<span class="st">"gdp_k"</span>] <span class="op">=</span> europe[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1000</span></span>
+<span id="cb26-9"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb26-10"><a href=""></a>ax.scatter(europe[<span class="st">"gdp_k"</span>], europe[<span class="st">"lifeExp"</span>])</span>
+<span id="cb26-11"><a href=""></a>plt.show()</span>
+<span id="cb26-12"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ gdp_k"</span>, data<span class="op">=</span>europe).fit()</span>
+<span id="cb26-13"><a href=""></a><span class="bu">print</span>(model.params.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
 <div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-
-<table class="dataframe caption-top" data-border="1">
+<figure>
+<p><img data-src="lecture_9_files/figure-revealjs/cell-12-output-1.png" width="736" height="155"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Intercept    72.27
+gdp_k         0.21
+dtype: float64</code></pre>
+</div>
+</div>
+<p>In Europe in 2007, 1,000 US$ more GDP per capita was associated with 0.21 more years.</p>
+</section>
+<section id="when-the-code-stops" class="slide level2 smaller">
+<h2>When the Code Stops</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
-<tr class="header" style="text-align: right;">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">gdp_per_cap</th>
-<th data-quarto-table-cell-role="th">log_gdp</th>
-<th data-quarto-table-cell-role="th">predicted_life_exp</th>
+<tr class="header">
+<th style="text-align: left;">You see</th>
+<th style="text-align: left;">Why</th>
+<th style="text-align: left;">Fix</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">0</th>
-<td>2000</td>
-<td>7.600902</td>
-<td>59.7</td>
+<td style="text-align: left;"><code>FileNotFoundError</code></td>
+<td style="text-align: left;">the path does not start from the notebook’s folder</td>
+<td style="text-align: left;"><code>os.getcwd()</code>, then <code>os.listdir()</code></td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">1</th>
-<td>10000</td>
-<td>9.210340</td>
-<td>71.6</td>
+<td style="text-align: left;"><code>KeyError: 'lifeExp'</code></td>
+<td style="text-align: left;">no column has that name: a typo, or it was renamed</td>
+<td style="text-align: left;">check <code>df.columns</code></td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">2</th>
-<td>45000</td>
-<td>10.714418</td>
-<td>82.7</td>
+<td style="text-align: left;"><code>NameError: name 'both' is not defined</code></td>
+<td style="text-align: left;">the cell that creates <code>both</code> has not run</td>
+<td style="text-align: left;">run the cells above, in order</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ValueError: The truth value of a Series is ambiguous</code></td>
+<td style="text-align: left;"><code>and</code> or <code>or</code> between two conditions</td>
+<td style="text-align: left;"><code>&amp;</code> or <code>|</code>, each condition in brackets</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fewer rows after a join</td>
+<td style="text-align: left;"><code>how="inner"</code> drops the rows with no match</td>
+<td style="text-align: left;"><code>how="left"</code>, then <code>len()</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>PatsyError: ... name 'gdp' is not defined</code></td>
+<td style="text-align: left;">the formula names a column the table does not have</td>
+<td style="text-align: left;">check <code>df.columns</code></td>
 </tr>
 </tbody>
 </table>
+<p>Read an error from its <strong>last line</strong>: it names the problem, and often the fix.</p>
+</section></section>
+<section>
+<section id="what-to-do-with-a-notebook" class="title-slide slide level1 center">
+<h1>4. What to Do With a Notebook</h1>
 
-</div>
-</div>
-</div>
-<div class="callout callout-warning callout-titled callout-style-default">
+</section>
+<section id="a-notebook-is-a-file" class="slide level2">
+<h2>A Notebook Is a File</h2>
+<style>
+.nb-bar {display: flex; gap: 1.1em; align-items: center; background: #1f1f1f; color: #d4d4d4;
+  font-size: 0.62em; padding: 0.45em 0.9em; border-radius: 8px; margin: 0.3em 0 0.9em 0;}
+.nb-bar span {white-space: nowrap;}
+.nb-bar .sep {border-left: 1px solid #777; height: 1.1em;}
+.nb-bar .kernel {margin-left: auto; color: #ffffff;}
+</style>
+<div class="nb-bar"><span>+ Code</span><span>+ Markdown</span><span class="sep"></span>
+<span>▷ Run All</span><span>↻ Restart</span><span>Clear All Outputs</span>
+<span class="kernel">Python 3.14.10</span></div>
+<ul>
+<li>A <code>.ipynb</code> file holds <strong>cells</strong>, code or Markdown text, and the <strong>output</strong> of each code cell, saved with it: it opens in VS Code, Colab or Jupyter</li>
+<li>The toolbar, above the first cell: <code>+ Code</code> and <code>+ Markdown</code> add a cell; <strong>Run All</strong> runs every cell, from the top; <strong>Restart</strong> empties the kernel’s memory</li>
+<li>The <strong>kernel</strong>, at the top right, is the Python that runs the cells: on your laptop, the one you use in the tutorials. Wrong kernel? <code>ModuleNotFoundError</code></li>
+</ul>
+</section>
+<section id="run-the-cells-in-order" class="slide level2">
+<h2>Run the Cells in Order</h2>
+<ul>
+<li>Once run, a code cell shows a number, <code>[1]</code>, <code>[2]</code>: the order in which the cells ran</li>
+<li>The kernel <strong>remembers every name</strong> a cell creates, until it restarts. A cell can only use a name that a cell already run has created:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href=""></a><span class="co"># the cell above: it creates both, but it has not run yet</span></span>
+<span id="cb28-2"><a href=""></a>both <span class="op">=</span> y1952.merge(y2007, on<span class="op">=</span><span class="st">"country"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a><span class="co"># the cell below, run first</span></span>
+<span id="cb29-2"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(both))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>NameError: name 'both' is not defined</code></pre>
+<ul>
+<li>Editing a cell changes nothing until it runs again, with <kbd>Shift</kbd>+<kbd>Enter</kbd></li>
+</ul>
+</section>
+<section id="restart-then-run-all" class="slide level2">
+<h2>Restart, Then Run All</h2>
+<ul>
+<li>The kernel also remembers the names made by cells you have since <strong>changed or deleted</strong>: a notebook can work for you, and fail for anyone who opens it</li>
+<li>The check: <strong>Restart</strong>, which empties the kernel’s memory, then <strong>Run All</strong>, from the top. If a cell stops with an error, fix that one, then check again</li>
+<li>Do it before you hand in or share a notebook, then save it: <kbd>Ctrl</kbd>+<kbd>S</kbd>, or <kbd>Cmd</kbd>+<kbd>S</kbd> on a Mac. A dot on the notebook’s tab means unsaved changes</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Warning</strong></p>
+<p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>Never predict outside the range of the data. Incomes in 2007 run from $278 to $49,357: for $500,000, the same line predicts 100.5 years. It has never seen such a country, and neither have you.</p>
+<p>A notebook that runs from top to bottom after a restart is a notebook anyone can run: the marker, a colleague, or you in six months.</p>
 </div>
 </div>
 </div>
 </section>
-<section id="overfitting" class="slide level2">
-<h2>Overfitting</h2>
-<div id="71a03541" class="cell" data-execution_count="27">
-<div class="cell-output cell-output-display">
-<div>
-<figure>
-<p><img data-src="lecture_9_files/figure-revealjs/cell-28-output-1.png" width="974" height="235"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>A straight line has two numbers to estimate and barely overfits. The degree-8 curve has nine: it learns the <strong>noise</strong> of its 12 points, so its training error falls while its test error more than doubles. Use the test set once, at the end, or you start fitting to it too.</p>
-</section>
-<section id="the-same-pattern-in-scikit-learn" class="slide level2">
-<h2>The Same Pattern in scikit-learn</h2>
-<div id="2d9a9db6" class="cell" data-execution_count="28">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href=""></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb41-2"><a href=""></a>model_sk <span class="op">=</span> LinearRegression()</span>
-<span id="cb41-3"><a href=""></a>model_sk.fit(train[[<span class="st">"log_gdp"</span>]], train[<span class="st">"life_exp"</span>])</span>
-<span id="cb41-4"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model_sk.intercept_, <span class="dv">2</span>), model_sk.coef_.<span class="bu">round</span>(<span class="dv">2</span>))</span>
-<span id="cb41-5"><a href=""></a><span class="bu">print</span>(fit.params.<span class="bu">round</span>(<span class="dv">2</span>).tolist())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>3.62 [7.38]
-[3.62, 7.38]</code></pre>
-</div>
-</div>
+<section id="text-cells-and-shortcuts" class="slide level2">
+<h2>Text Cells and Shortcuts</h2>
+<div class="quarto-layout-panel" data-layout="[1,1]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: flex-start;">
+<p><strong>Markdown cells</strong> hold text:</p>
 <ul>
-<li>Same split, same line. <code>X</code> is a DataFrame, hence two brackets; <code>y</code> is a Series</li>
-<li>Choose a model, <code>.fit()</code>, <code>.predict()</code>: the same three steps for decision trees, random forests and neural networks</li>
-<li>scikit-learn has no summary table: it is built for prediction, not explanation</li>
+<li><code>+ Markdown</code>, or <kbd>Esc</kbd> then <kbd>M</kbd></li>
+<li>Double-click to edit, <kbd>Shift</kbd>+<kbd>Enter</kbd> to show</li>
+<li><code># A heading</code>, <code>**bold**</code>, <code>- a list</code></li>
+<li>In the tests, written answers go in the cells marked <em>Your answer</em></li>
 </ul>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<div class="small-font">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Action</th>
+<th style="text-align: left;">Keys</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">run, then move on</td>
+<td style="text-align: left;"><kbd>Shift</kbd>+<kbd>Enter</kbd></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">leave the cell</td>
+<td style="text-align: left;"><kbd>Esc</kbd></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">add a cell above, below</td>
+<td style="text-align: left;"><kbd>Esc</kbd>, <kbd>A</kbd> or <kbd>B</kbd></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">make it text, code</td>
+<td style="text-align: left;"><kbd>Esc</kbd>, <kbd>M</kbd> or <kbd>Y</kbd></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">delete it</td>
+<td style="text-align: left;"><kbd>Esc</kbd>, <kbd>D</kbd> <kbd>D</kbd></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">undo a deletion</td>
+<td style="text-align: left;"><kbd>Esc</kbd>, <kbd>Z</kbd></td>
+</tr>
+</tbody>
+</table>
+<p>The same keys on Windows and on a Mac.</p>
+</div>
+</div>
+</div>
+</div>
 </section>
-<section id="what-you-can-and-cannot-write" class="slide level2">
-<h2>What You Can and Cannot Write</h2>
-<blockquote>
-<p>In 2007, across 142 countries, each doubling of GDP per capita was associated with about 5 more years of life expectancy (95% CI 4.4 to 5.6), and income accounted for 65% of the variation. On 36 countries held out from fitting, predictions missed by 5.7 years on average.</p>
-</blockquote>
-<ul>
-<li>Numbers in real units, with their uncertainty and their scope</li>
-<li>No cause: “associated with”, not “raises”</li>
-<li>No extrapolation: nothing about incomes outside $278 to $49,357</li>
-</ul>
+<section id="from-loop-to-vs-code-and-back" class="slide level2 smaller">
+<h2>From Loop to VS Code, and Back</h2>
+<p>The mock test and Test 2 each come as a zip: a notebook and its <code>data</code> folder.</p>
+<ol type="1">
+<li><strong>Unzip</strong> it: on Windows, right-click, then <em>Extract All</em>; on a Mac, double-click it. A notebook opened from inside the zip has no <code>data</code> folder beside it</li>
+<li><strong>Move</strong> the unzipped folder into <code>BAA1118</code>, notebook and <code>data</code> together. On a DCU computer, leave it where it is</li>
+<li>In VS Code, open <code>BAA1118</code> (on a DCU computer, the unzipped folder), then the notebook. Select the kernel you use in the tutorials, or on a DCU computer the Python that VS Code offers</li>
+<li><strong>Run the first cell</strong>: <code>Ready. Data found: True</code>. <code>False</code>? See section 1, on paths</li>
+<li>Work in order: code in the empty cells, sentences in the <em>Your answer</em> cells</li>
+<li><strong>Save</strong>, then <strong>upload the <code>.ipynb</code> file</strong> to Loop: the notebook only, not the data</li>
+</ol>
 </section>
-<section id="your-turn-predict" class="slide level2" data-background="#43464B">
-<h2>Your Turn: Predict</h2>
+<section id="your-turn-the-mock-test-drill" class="slide level2" data-background="#43464B">
+<h2>Your Turn: The Mock Test Drill</h2>
+<p>With the mock test from Loop, so that everything works first time on 26 November:</p>
+<ol type="1">
+<li>Download <code>BAA1118_test2_mock.zip</code>, unzip it, and move <code>BAA1118_test2_mock</code> into <code>BAA1118</code></li>
+<li>In VS Code, open <code>test2_mock.ipynb</code>, select your kernel, and run the first cell</li>
+<li>Add a cell under it (<kbd>Esc</kbd>, <kbd>B</kbd>), run <code>print(os.getcwd())</code>, and save</li>
+</ol>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
-<p>With the same <code>train</code> and <code>test</code>:</p>
-<ol type="1">
-<li>Fit <code>life_exp ~ log_gdp + C(continent)</code> on <code>train</code></li>
-<li>Predict <code>test</code>: RMSE and MAE?</li>
-<li>Does knowing the continent improve the predictions, and by how much?</li>
-<li>Predict the life expectancy of an Asian country with a GDP per capita of $5,000</li>
-</ol>
+<p>You should see <code>Ready. Data found: True</code>, then a path that ends with <code>BAA1118_test2_mock</code>.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
-<p>You should see:</p>
-<pre><code>RMSE 6.0, MAE 4.0
-69.7</code></pre>
-                    <div id="timer4"></div>
+                    <div id="timer6"></div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            initializeTimer("timer4", 540, "interaction");
+                            initializeTimer("timer6", 300, "interaction");
                         });
                     </script>
                 
@@ -958,31 +1030,22 @@ dtype: float64
 </div>
 </div>
 </section>
-<section id="solution-3" class="slide level2">
-<h2>Solution</h2>
-<div id="09dc22f2" class="cell" data-execution_count="29">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href=""></a>fit2 <span class="op">=</span> smf.ols(<span class="st">"life_exp ~ log_gdp + C(continent)"</span>, data<span class="op">=</span>train).fit()</span>
-<span id="cb44-2"><a href=""></a>errors2 <span class="op">=</span> test[<span class="st">"life_exp"</span>] <span class="op">-</span> fit2.predict(test)</span>
-<span id="cb44-3"><a href=""></a>rmse2 <span class="op">=</span> np.sqrt((errors2 <span class="op">**</span> <span class="dv">2</span>).mean())</span>
-<span id="cb44-4"><a href=""></a>mae2 <span class="op">=</span> errors2.<span class="bu">abs</span>().mean()</span>
-<span id="cb44-5"><a href=""></a><span class="bu">print</span>(<span class="ss">f"RMSE </span><span class="sc">{</span>rmse2<span class="sc">:.1f}</span><span class="ss">, MAE </span><span class="sc">{</span>mae2<span class="sc">:.1f}</span><span class="ss">"</span>)</span>
-<span id="cb44-6"><a href=""></a></span>
-<span id="cb44-7"><a href=""></a>asia <span class="op">=</span> pd.DataFrame({<span class="st">"log_gdp"</span>: [np.log(<span class="dv">5000</span>)], <span class="st">"continent"</span>: [<span class="st">"Asia"</span>]})</span>
-<span id="cb44-8"><a href=""></a><span class="bu">print</span>(fit2.predict(asia).<span class="bu">round</span>(<span class="dv">1</span>).tolist())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>RMSE 6.0, MAE 4.0
-[69.7]</code></pre>
-</div>
-</div>
-<p>The continent cuts the typical miss from 8.0 to 6.0 years (RMSE), and the average miss from 5.7 to 4.0. A test country’s continent must also appear in <code>train</code>, or <code>predict()</code> stops with an error.</p>
-</section>
 <section id="test-2-thursday-26-november" class="slide level2">
 <h2>Test 2: Thursday 26 November</h2>
 <ul>
-<li>In class, <strong>one hour</strong>, multiple choice, like Test 1</li>
-<li>It covers <strong>lectures 7, 8 and 9</strong>: pandas, matplotlib, statistics and regression</li>
-<li>The best revision: redo every Your Turn from these three lectures without the solution, then check</li>
-<li>On the answer sheet, <strong>cross</strong> the boxes of your student number, do not only write the digits, and <strong>cross</strong> your answers rather than shading them</li>
+<li>In class, <strong>one hour</strong>, in a <strong>notebook in VS Code</strong>: you write and run the code, as in the tutorials and the mock test</li>
+<li>It covers the <strong>pandas, matplotlib, statistics and regression</strong> of lectures 6, 7 and 8: today’s review</li>
+<li>The best revision: the mock test in one hour, then every Your Turn of lectures 6 to 9 without the solution, then check</li>
+</ul>
+</section>
+<section id="references" class="slide level2">
+<h2>References</h2>
+<ul>
+<li><a href="https://code.visualstudio.com/docs/datascience/jupyter-notebooks">Jupyter Notebooks in VS Code</a>: VS Code’s own guide to cells, kernels and Run All</li>
+<li><a href="https://docs.python.org/3/library/os.path.html">os.path</a>: Python’s functions for paths, <code>exists()</code> among them</li>
+<li><a href="https://swcarpentry.github.io/shell-novice/02-filedir">Navigating Files and Directories</a>: Software Carpentry’s lesson on absolute and relative paths, and <code>..</code>, from a terminal</li>
+<li><a href="https://r4ds.hadley.nz/whole-game">R for Data Science, Whole game</a>: the same road, from import to communication, in R</li>
+<li>The References of lectures 6, 7 and 8, one library each</li>
 </ul>
 </section>
 <section id="section" class="slide level2" data-background="#43464B">

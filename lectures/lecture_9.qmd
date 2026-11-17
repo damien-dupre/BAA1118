@@ -46,8 +46,8 @@ A **path** is a file's address: the folders to open, from the top of the disk do
 file.
 
 ```{.default}
-Mac:      /Users/aoife/BAA1118/data/roasted_daily.csv
-Windows:  C:\Users\aoife\BAA1118\data\roasted_daily.csv
+Mac:      /Users/aoife/BAA1118/data/gapminder.csv
+Windows:  C:\Users\aoife\BAA1118\data\gapminder.csv
 ```
 
 Read it from left to right:
@@ -56,17 +56,17 @@ Read it from left to right:
 - `Users/aoife`: your **home folder**, named after you
 - `BAA1118`, then `data`: two folders, each inside the one before. `BAA1118` is the course
   folder you made in tutorial 5
-- `roasted_daily.csv`: the **file**, its name then its extension
+- `gapminder.csv`: the **file**, its name then its extension
 
 ## Absolute and Relative Paths
 
 ```{.python}
 # absolute: starts at the root, so it works on Aoife's laptop only
-sales = pd.read_csv("/Users/aoife/BAA1118/data/roasted_daily.csv")
-# on Windows:       "C:/Users/aoife/BAA1118/data/roasted_daily.csv"
+gapminder = pd.read_csv("/Users/aoife/BAA1118/data/gapminder.csv")
+# on Windows:       "C:/Users/aoife/BAA1118/data/gapminder.csv"
 
 # relative: starts from the notebook's folder, so it works on any computer
-sales = pd.read_csv("data/roasted_daily.csv")
+gapminder = pd.read_csv("data/gapminder.csv")
 ```
 
 - **Absolute**: from the root. Anyone else's computer has no `aoife` folder, so the same
@@ -84,13 +84,13 @@ import os
 print(os.getcwd())                                # the folder relative paths start from
 print(os.listdir())                               # what is in it
 print(os.listdir("data"))                         # what is in its data folder
-print(os.path.exists("data/roasted_daily.csv"))   # True if the path finds a file
+print(os.path.exists("data/gapminder.csv"))   # True if the path finds a file
 ```
 
 ```
 /Users/aoife/BAA1118
 ['data', 'lecture_9.ipynb', 'tutorial_08.ipynb']
-['roasted_daily.csv']
+['gapminder.csv']
 True
 ```
 
@@ -105,19 +105,19 @@ you opened:
 ```{.default}
 BAA1118                       ← the folder open in VS Code
 ├── data
-│   └── roasted_daily.csv
+│   └── gapminder.csv
 └── BAA1118_test2_mock        ← the notebook's folder: its paths start here
     ├── data
-    │   └── lifeExpectancy.csv
+    │   └── ratings.csv
     └── test2_mock.ipynb
 ```
 
 In `test2_mock.ipynb`:
 
 ```{.python}
-pd.read_csv("data/lifeExpectancy.csv")      # found: this data folder is beside it
-pd.read_csv("data/roasted_daily.csv")        # FileNotFoundError: not in this one
-pd.read_csv("../data/roasted_daily.csv")     # found: .. goes up one folder, to BAA1118
+pd.read_csv("data/ratings.csv")              # found: this data folder is beside it
+pd.read_csv("data/gapminder.csv")           # FileNotFoundError: not in this one
+pd.read_csv("../data/gapminder.csv")        # found: .. goes up one folder, to BAA1118
 ```
 
 ## Copy the Path, Never Type It
@@ -140,30 +140,49 @@ In VS Code's Explorer, right-click the file:
 :::
 ::::
 
-On Windows, both use `\`: change each one to `/`. In `"data\roasted_daily.csv"`, Python reads
+On Windows, both use `\`: change each one to `/`. In `"data\ratings.csv"`, Python reads
 `\r` as one character, a carriage return, and never finds the file.
 
-## Your Turn: Get Set Up {background="#43464B"}
+## Your Turn: Get Set Up {.smaller background="#43464B"}
 
-In VS Code, open your `BAA1118` folder, then `File -> New File... -> Jupyter Notebook`. Save
-it in `BAA1118` as `lecture_9.ipynb`, select your kernel as in the tutorials, and run this
-cell first:
+1. Open VS Code: it reopens your `BAA1118` folder (if not: `File -> Open Recent -> BAA1118`)
+2. Download `gapminder.csv` from Loop, then drag it from Downloads onto `data`, in the Explorer
+3. `File -> New File... -> Jupyter Notebook`. Save it in `BAA1118` as `lecture_9.ipynb`
+   (<kbd>Ctrl</kbd>+<kbd>S</kbd>, or <kbd>Cmd</kbd>+<kbd>S</kbd> on a Mac), and select your
+   kernel as in the tutorials
+4. Run this cell, and keep the notebook open: today's exercises reuse its libraries and
+   `gapminder`
 
+:::: {layout="[3,1]"}
+::: {#first-column}
 ```{.python}
 import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
-url = "https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"
-gapminder = pd.read_csv(url)
-print(gapminder.shape)
+print(os.path.exists("data/gapminder.csv"))      # True if the file is found
+gapminder = pd.read_csv("data/gapminder.csv")    # read it, with its relative path
+print(gapminder.shape)                           # (rows, columns)
 ```
+:::
+
+::: {#second-column}
+In the Explorer:
+
+```{.default}
+BAA1118
+├── data
+│   └── gapminder.csv
+└── lecture_9.ipynb
+```
+:::
+::::
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-You should see `(1704, 6)`. Keep the notebook open: today's exercises reuse these libraries
-and `gapminder`.
+You should see `True`, then `(1704, 6)`. `False`? Check the Explorer, as above: `gapminder.csv`
+inside `data`, and `lecture_9.ipynb` beside `data`. Done? Help your neighbour.
 :::
 
 ::: {#second-column}
@@ -172,6 +191,18 @@ and `gapminder`.
 :::
 ::::
 
+## When It Does Not Work {.smaller}
+
+| What you see | What to do |
+|:----------------|:------------------------|
+| No `data` folder in the Explorer | Open `BAA1118` itself: `File -> Open Folder...`. Still none? Hover over `BAA1118`, click the **New Folder** icon, and name it `data` |
+| `gapminder.csv` will not drag into VS Code | Right-click `data`, then **Reveal in Finder** (Mac) or **Reveal in File Explorer** (Windows), and drag the file into it |
+| `False`: the file is not in `data` | Drag it onto `data` in the Explorer, then run the cell again |
+| `False`: the file is `gapminder (1).csv` | Right-click it, **Rename...**, and call it `gapminder.csv` |
+| `False`: the notebook is not beside `data` | `File -> Save As...` into `BAA1118`, then click **Restart** and run the cell again |
+| `ModuleNotFoundError`, or no Python 3.14 | Select **Python 3.14** at the top right. Still an error? Run `%pip install numpy pandas matplotlib statsmodels`, then click **Restart** |
+| On a DCU computer | Make `BAA1118` and its `data` folder in Downloads (tutorial 5, step 3), with `gapminder.csv` from Loop in `data`. Select the Python that VS Code offers |
+
 ## Your Turn: Read a Path {background="#43464B"}
 
 Replace each `____`, using the comments, then run the cell:
@@ -179,15 +210,15 @@ Replace each `____`, using the comments, then run the cell:
 ```{.python}
 print(os.____())                                  # the notebook's folder, with getcwd
 print(os.listdir(____))                           # what is in the "data" folder
-print(os.path.exists("data/roasted_daily.csv"))   # True if the file is found
-sales = pd.read_csv(____)                         # the file's relative path, in quotes
-print(sales.shape)
+print(os.path.exists("data/gapminder.csv"))      # True if the file is found
+gapminder = pd.read_csv(____)                         # the file's relative path, in quotes
+print(gapminder.shape)
 ```
 
 :::: {layout="[3,2]"}
 ::: {#first-column}
-You should see the path of your `BAA1118` folder, a list with `'roasted_daily.csv'` in it,
-`True`, then `(1086, 10)`.
+You should see the path of your `BAA1118` folder, a list with `'gapminder.csv'` in it,
+`True`, then `(1704, 6)`.
 :::
 
 ::: {#second-column}
@@ -201,16 +232,16 @@ You should see the path of your `BAA1118` folder, a list with `'roasted_daily.cs
 ```{.python}
 print(os.getcwd())
 print(os.listdir("data"))
-print(os.path.exists("data/roasted_daily.csv"))
-sales = pd.read_csv("data/roasted_daily.csv")
-print(sales.shape)
+print(os.path.exists("data/gapminder.csv"))
+gapminder = pd.read_csv("data/gapminder.csv")
+print(gapminder.shape)
 ```
 
 ```
 /Users/aoife/BAA1118
-['roasted_daily.csv']
+['gapminder.csv']
 True
-(1086, 10)
+(1704, 6)
 ```
 
 On Windows, the first line is `C:\Users\aoife\BAA1118`. `False`, or a `FileNotFoundError`?

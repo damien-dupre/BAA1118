@@ -225,7 +225,7 @@ Damien Dupré
 </section>
 <section id="setup" class="slide level2">
 <h2>Setup</h2>
-<div id="5a38d442" class="cell" data-execution_count="2">
+<div id="035e617c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-3"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -323,7 +323,7 @@ Damien Dupré
 </section>
 <section id="is-a-richer-country-a-healthier-one" class="slide level2">
 <h2>Is a Richer Country a Healthier One?</h2>
-<div id="3811e55f" class="cell" data-execution_count="3">
+<div id="d978d477" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">2.6</span>))</span>
 <span id="cb4-2"><a href=""></a>ax.scatter(g2007[<span class="st">"gdpPercap"</span>], g2007[<span class="st">"lifeExp"</span>])</span>
 <span id="cb4-3"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"GDP per capita (dollars)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)</span>
@@ -343,13 +343,13 @@ Damien Dupré
 </section>
 <section id="correlation-1" class="slide level2">
 <h2>Correlation</h2>
-<div id="a9ccf2b4" class="cell" data-execution_count="4">
+<div id="4cfb4bf3" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(g2007[<span class="st">"gdpPercap"</span>].corr(g2007[<span class="st">"lifeExp"</span>]), <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.68</code></pre>
 </div>
 </div>
-<div id="2bc70ab6" class="cell" data-execution_count="5">
+<div id="3a61c2fa" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -365,7 +365,7 @@ Damien Dupré
 </section>
 <section id="several-columns-at-once" class="slide level2">
 <h2>Several Columns at Once</h2>
-<div id="7e41ac09" class="cell" data-execution_count="6">
+<div id="7a16fca9" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>g2007[[<span class="st">"lifeExp"</span>, <span class="st">"gdpPercap"</span>, <span class="st">"pop"</span>]].corr().<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
@@ -424,14 +424,14 @@ Damien Dupré
 </section>
 <section id="correlation-only-sees-straight-lines" class="slide level2">
 <h2>Correlation Only Sees Straight Lines</h2>
-<div id="7c71eb32" class="cell" data-execution_count="7">
+<div id="11457322" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>g2007[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g2007[<span class="st">"gdpPercap"</span>])</span>
 <span id="cb8-2"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(g2007[<span class="st">"log_gdp"</span>].corr(g2007[<span class="st">"lifeExp"</span>]), <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.81</code></pre>
 </div>
 </div>
-<div id="d009ee75" class="cell" data-execution_count="8">
+<div id="1ceb4326" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -489,7 +489,7 @@ Damien Dupré
 </section>
 <section id="solution" class="slide level2">
 <h2>Solution</h2>
-<div id="771fef66" class="cell" data-execution_count="9">
+<div id="8d5af8d5" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
 <span id="cb11-2"><a href=""></a>g1952[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1952[<span class="st">"gdpPercap"</span>])</span>
 <span id="cb11-3"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(g1952[<span class="st">"gdpPercap"</span>].corr(g1952[<span class="st">"lifeExp"</span>]), <span class="dv">2</span>))</span>
@@ -510,7 +510,7 @@ Damien Dupré
 <h2>From Correlation to a Line</h2>
 <p>Correlation measures the link. <strong>Linear regression</strong> draws the line:</p>
 <p><span class="math display">\[\text{lifeExp} = b_0 + b_1 \times \text{log_gdp} + e\]</span></p>
-<div id="f1e720b4" class="cell" data-execution_count="10">
+<div id="a1c3ff1e" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -526,7 +526,7 @@ Damien Dupré
 </section>
 <section id="the-line-of-best-fit" class="slide level2">
 <h2>The Line of Best Fit</h2>
-<div id="b0e3a59b" class="cell" data-execution_count="11">
+<div id="879b6ac9" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -543,7 +543,7 @@ Damien Dupré
 <section id="fitting-a-model-in-python" class="slide level2">
 <h2>Fitting a Model in Python</h2>
 <p><code>smf.ols()</code> needs two things: a <strong>formula</strong>, the equation, and the <strong>data</strong>.</p>
-<div id="c7adced1" class="cell" data-execution_count="12">
+<div id="2b490349" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb13-2"><a href=""></a></span>
 <span id="cb13-3"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ log_gdp"</span>, data<span class="op">=</span>g2007).fit()</span>
@@ -617,7 +617,7 @@ dtype: float64</code></pre>
 </section>
 <section id="solution-1" class="slide level2">
 <h2>Solution</h2>
-<div id="a54ab4a2" class="cell" data-execution_count="13">
+<div id="40e259bf" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
 <span id="cb18-2"><a href=""></a>g1952[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1952[<span class="st">"gdpPercap"</span>])</span>
 <span id="cb18-3"><a href=""></a>model1 <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ log_gdp"</span>, data<span class="op">=</span>g1952).fit()</span>
@@ -639,7 +639,7 @@ dtype: float64</code></pre>
 <section id="the-table-of-estimates" class="slide level2">
 <h2>The Table of Estimates</h2>
 <p><code>.summary()</code> prints the full results. Its second table, <code>.tables[1]</code>, holds the estimates:</p>
-<div id="b57eab4f" class="cell" data-execution_count="14">
+<div id="93ef6ebe" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a><span class="bu">print</span>(model.summary().tables[<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>==============================================================================
@@ -668,7 +668,7 @@ log_gdp        7.2028      0.442     16.283      0.000       6.328       8.077
 </section>
 <section id="how-well-does-it-fit" class="slide level2">
 <h2>How Well Does It Fit?</h2>
-<div id="eac0067a" class="cell" data-execution_count="15">
+<div id="c65c1e62" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.rsquared, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.65</code></pre>
@@ -694,7 +694,7 @@ log_gdp        7.2028      0.442     16.283      0.000       6.328       8.077
 </section>
 <section id="a-categorical-predictor" class="slide level2">
 <h2>A Categorical Predictor</h2>
-<div id="fa00d44d" class="cell" data-execution_count="16">
+<div id="36f8c32a" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a>model2 <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ log_gdp + C(continent)"</span>, data<span class="op">=</span>g2007).fit()</span>
 <span id="cb24-2"><a href=""></a><span class="bu">print</span>(model2.params.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -740,7 +740,7 @@ dtype: float64</code></pre>
 </section>
 <section id="solution-2" class="slide level2">
 <h2>Solution</h2>
-<div id="291da7b6" class="cell" data-execution_count="17">
+<div id="55080443" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
 <span id="cb27-2"><a href=""></a>g1952[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1952[<span class="st">"gdpPercap"</span>])</span>
 <span id="cb27-3"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ log_gdp"</span>, data<span class="op">=</span>g1952).fit()</span>
@@ -777,7 +777,7 @@ log_gdp        8.8298      0.663     13.326      0.000       7.520      10.140
 <section id="predicting-one-new-value" class="slide level2">
 <h2>Predicting One New Value</h2>
 <p>Back to the 2007 model. Fit it, put the new income in a table, and predict. Here, a country with $10,000 per person:</p>
-<div id="a3b6db3c" class="cell" data-execution_count="18">
+<div id="3912b511" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ log_gdp"</span>, data<span class="op">=</span>g2007).fit()</span>
 <span id="cb29-2"><a href=""></a>new <span class="op">=</span> pd.DataFrame({<span class="st">"log_gdp"</span>: [np.log(<span class="dv">10000</span>)]})</span>
 <span id="cb29-3"><a href=""></a>model.predict(new).<span class="bu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -795,7 +795,7 @@ dtype: float64</code></pre>
 <section id="predicting-for-several-countries" class="slide level2">
 <h2>Predicting for Several Countries</h2>
 <p>One row per country. <code>np.log()</code> takes the whole list of incomes at once:</p>
-<div id="6ad104c8" class="cell" data-execution_count="19">
+<div id="33449557" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href=""></a>new <span class="op">=</span> pd.DataFrame({<span class="st">"log_gdp"</span>: np.log([<span class="dv">2000</span>, <span class="dv">10000</span>, <span class="dv">45000</span>])})</span>
 <span id="cb31-2"><a href=""></a>model.predict(new).<span class="bu">round</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
@@ -825,7 +825,7 @@ dtype: float64</code></pre>
 <section id="how-wrong-are-the-predictions" class="slide level2">
 <h2>How Wrong Are the Predictions?</h2>
 <p>To find out, predict the countries whose life expectancy we already know, and compare:</p>
-<div id="e3a59402" class="cell" data-execution_count="20">
+<div id="c2ba0b64" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href=""></a>g2007[<span class="st">"predicted"</span>] <span class="op">=</span> model.predict(g2007)</span>
 <span id="cb33-2"><a href=""></a>g2007[<span class="st">"error"</span>] <span class="op">=</span> g2007[<span class="st">"lifeExp"</span>] <span class="op">-</span> g2007[<span class="st">"predicted"</span>]</span>
 <span id="cb33-3"><a href=""></a>g2007[[<span class="st">"country"</span>, <span class="st">"lifeExp"</span>, <span class="st">"predicted"</span>, <span class="st">"error"</span>]].<span class="bu">round</span>(<span class="dv">1</span>).head(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -897,7 +897,7 @@ dtype: float64</code></pre>
 </section>
 <section id="one-number-for-all-the-errors" class="slide level2">
 <h2>One Number for All the Errors</h2>
-<div id="2c558b12" class="cell" data-execution_count="21">
+<div id="e0f0eef8" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href=""></a>mae <span class="op">=</span> g2007[<span class="st">"error"</span>].<span class="bu">abs</span>().mean()</span>
 <span id="cb34-2"><a href=""></a>rmse <span class="op">=</span> np.sqrt((g2007[<span class="st">"error"</span>] <span class="op">**</span> <span class="dv">2</span>).mean())</span>
 <span id="cb34-3"><a href=""></a><span class="bu">print</span>(<span class="st">"MAE"</span>, <span class="bu">round</span>(mae, <span class="dv">1</span>), <span class="st">"years; RMSE"</span>, <span class="bu">round</span>(rmse, <span class="dv">1</span>), <span class="st">"years"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -937,7 +937,7 @@ dtype: float64</code></pre>
 <section id="train-and-test" class="slide level2">
 <h2>Train and Test</h2>
 <p>Before fitting, put a quarter of the countries aside:</p>
-<div id="86d6128e" class="cell" data-execution_count="22">
+<div id="c0b0bd7d" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href=""></a>train <span class="op">=</span> g2007.sample(frac<span class="op">=</span><span class="fl">0.75</span>, random_state<span class="op">=</span><span class="dv">1118</span>)</span>
 <span id="cb36-2"><a href=""></a>test <span class="op">=</span> g2007.drop(train.index)</span>
 <span id="cb36-3"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(train), <span class="st">"countries to fit the model,"</span>, <span class="bu">len</span>(test), <span class="st">"to test it"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -954,7 +954,7 @@ dtype: float64</code></pre>
 </section>
 <section id="fit-on-train-measure-on-test" class="slide level2">
 <h2>Fit on Train, Measure on Test</h2>
-<div id="0c1012fb" class="cell" data-execution_count="23">
+<div id="a311d8f7" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href=""></a>fit <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ log_gdp"</span>, data<span class="op">=</span>train).fit()</span>
 <span id="cb38-2"><a href=""></a>errors_train <span class="op">=</span> train[<span class="st">"lifeExp"</span>] <span class="op">-</span> fit.predict(train)</span>
 <span id="cb38-3"><a href=""></a>errors_test <span class="op">=</span> test[<span class="st">"lifeExp"</span>] <span class="op">-</span> fit.predict(test)</span>
@@ -965,7 +965,7 @@ dtype: float64</code></pre>
 MAE on test: 5.7 years</code></pre>
 </div>
 </div>
-<div id="9b4a0b34" class="cell" data-execution_count="24">
+<div id="19e3d621" class="cell" data-execution_count="24">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -981,7 +981,7 @@ MAE on test: 5.7 years</code></pre>
 </section>
 <section id="why-it-matters-overfitting" class="slide level2">
 <h2>Why It Matters: Overfitting</h2>
-<div id="4af53086" class="cell" data-execution_count="25">
+<div id="8437d982" class="cell" data-execution_count="25">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -995,7 +995,7 @@ MAE on test: 5.7 years</code></pre>
 <section id="the-same-pattern-in-scikit-learn" class="slide level2">
 <h2>The Same Pattern in scikit-learn</h2>
 <p><strong>scikit-learn</strong>, the main machine learning library, fits the same line on <code>train</code>:</p>
-<div id="bc8e20a6" class="cell" data-execution_count="26">
+<div id="4469264d" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href=""></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
 <span id="cb40-2"><a href=""></a>model_sk <span class="op">=</span> LinearRegression()</span>
 <span id="cb40-3"><a href=""></a>model_sk.fit(train[[<span class="st">"log_gdp"</span>]], train[<span class="st">"lifeExp"</span>])</span>
@@ -1052,7 +1052,7 @@ MAE on test: 5.7 years</code></pre>
 </section>
 <section id="solution-3" class="slide level2">
 <h2>Solution</h2>
-<div id="c0e84d1f" class="cell" data-execution_count="27">
+<div id="a705e0d2" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href=""></a>g2007[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g2007[<span class="st">"gdpPercap"</span>])</span>
 <span id="cb43-2"><a href=""></a>train <span class="op">=</span> g2007.sample(frac<span class="op">=</span><span class="fl">0.75</span>, random_state<span class="op">=</span><span class="dv">1118</span>)</span>
 <span id="cb43-3"><a href=""></a>test <span class="op">=</span> g2007.drop(train.index)</span>

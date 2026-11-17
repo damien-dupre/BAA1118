@@ -220,24 +220,24 @@ Damien Dupré
 <section id="where-is-the-file" class="slide level2">
 <h2>Where Is the File?</h2>
 <p>A <strong>path</strong> is a file’s address: the folders to open, from the top of the disk down to the file.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href=""></a>Mac:      /Users/aoife/BAA1118/data/roasted_daily.csv</span>
-<span id="cb1-2"><a href=""></a>Windows:  C:\Users\aoife\BAA1118\data\roasted_daily.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href=""></a>Mac:      /Users/aoife/BAA1118/data/gapminder.csv</span>
+<span id="cb1-2"><a href=""></a>Windows:  C:\Users\aoife\BAA1118\data\gapminder.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Read it from left to right:</p>
 <ul>
 <li><code>/</code>, or <code>C:\</code> on Windows: the <strong>root</strong>, the top of the disk</li>
 <li><code>Users/aoife</code>: your <strong>home folder</strong>, named after you</li>
 <li><code>BAA1118</code>, then <code>data</code>: two folders, each inside the one before. <code>BAA1118</code> is the course folder you made in tutorial 5</li>
-<li><code>roasted_daily.csv</code>: the <strong>file</strong>, its name then its extension</li>
+<li><code>gapminder.csv</code>: the <strong>file</strong>, its name then its extension</li>
 </ul>
 </section>
 <section id="absolute-and-relative-paths" class="slide level2">
 <h2>Absolute and Relative Paths</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="co"># absolute: starts at the root, so it works on Aoife's laptop only</span></span>
-<span id="cb2-2"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"/Users/aoife/BAA1118/data/roasted_daily.csv"</span>)</span>
-<span id="cb2-3"><a href=""></a><span class="co"># on Windows:       "C:/Users/aoife/BAA1118/data/roasted_daily.csv"</span></span>
+<span id="cb2-2"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(<span class="st">"/Users/aoife/BAA1118/data/gapminder.csv"</span>)</span>
+<span id="cb2-3"><a href=""></a><span class="co"># on Windows:       "C:/Users/aoife/BAA1118/data/gapminder.csv"</span></span>
 <span id="cb2-4"><a href=""></a></span>
 <span id="cb2-5"><a href=""></a><span class="co"># relative: starts from the notebook's folder, so it works on any computer</span></span>
-<span id="cb2-6"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"data/roasted_daily.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-6"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(<span class="st">"data/gapminder.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>Absolute</strong>: from the root. Anyone else’s computer has no <code>aoife</code> folder, so the same line fails there</li>
 <li><strong>Relative</strong>: from the folder <strong>the notebook is in</strong>. It works wherever the notebook sits beside its <code>data</code> folder: use relative paths in your notebooks</li>
@@ -251,10 +251,10 @@ Damien Dupré
 <span id="cb3-2"><a href=""></a><span class="bu">print</span>(os.getcwd())                                <span class="co"># the folder relative paths start from</span></span>
 <span id="cb3-3"><a href=""></a><span class="bu">print</span>(os.listdir())                               <span class="co"># what is in it</span></span>
 <span id="cb3-4"><a href=""></a><span class="bu">print</span>(os.listdir(<span class="st">"data"</span>))                         <span class="co"># what is in its data folder</span></span>
-<span id="cb3-5"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/roasted_daily.csv"</span>))   <span class="co"># True if the path finds a file</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-5"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/gapminder.csv"</span>))   <span class="co"># True if the path finds a file</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <pre><code>/Users/aoife/BAA1118
 ['data', 'lecture_9.ipynb', 'tutorial_08.ipynb']
-['roasted_daily.csv']
+['gapminder.csv']
 True</code></pre>
 <ul>
 <li><code>getcwd()</code>: get the <strong>current working directory</strong>. On Windows: <code>C:\Users\aoife\BAA1118</code></li>
@@ -266,15 +266,15 @@ True</code></pre>
 <p>In VS Code, a notebook’s relative paths start from <strong>its own folder</strong>, not from the folder you opened:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href=""></a>BAA1118                       ← the folder open in VS Code</span>
 <span id="cb5-2"><a href=""></a>├── data</span>
-<span id="cb5-3"><a href=""></a>│   └── roasted_daily.csv</span>
+<span id="cb5-3"><a href=""></a>│   └── gapminder.csv</span>
 <span id="cb5-4"><a href=""></a>└── BAA1118_test2_mock        ← the notebook's folder: its paths start here</span>
 <span id="cb5-5"><a href=""></a>    ├── data</span>
-<span id="cb5-6"><a href=""></a>    │   └── lifeExpectancy.csv</span>
+<span id="cb5-6"><a href=""></a>    │   └── ratings.csv</span>
 <span id="cb5-7"><a href=""></a>    └── test2_mock.ipynb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In <code>test2_mock.ipynb</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>pd.read_csv(<span class="st">"data/lifeExpectancy.csv"</span>)      <span class="co"># found: this data folder is beside it</span></span>
-<span id="cb6-2"><a href=""></a>pd.read_csv(<span class="st">"data/roasted_daily.csv"</span>)        <span class="co"># FileNotFoundError: not in this one</span></span>
-<span id="cb6-3"><a href=""></a>pd.read_csv(<span class="st">"../data/roasted_daily.csv"</span>)     <span class="co"># found: .. goes up one folder, to BAA1118</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>pd.read_csv(<span class="st">"data/ratings.csv"</span>)              <span class="co"># found: this data folder is beside it</span></span>
+<span id="cb6-2"><a href=""></a>pd.read_csv(<span class="st">"data/gapminder.csv"</span>)           <span class="co"># FileNotFoundError: not in this one</span></span>
+<span id="cb6-3"><a href=""></a>pd.read_csv(<span class="st">"../data/gapminder.csv"</span>)        <span class="co"># found: .. goes up one folder, to BAA1118</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="copy-the-path-never-type-it" class="slide level2">
 <h2>Copy the Path, Never Type It</h2>
@@ -295,23 +295,41 @@ True</code></pre>
 </div>
 </div>
 </div>
-<p>On Windows, both use <code>\</code>: change each one to <code>/</code>. In <code>"data\roasted_daily.csv"</code>, Python reads <code>\r</code> as one character, a carriage return, and never finds the file.</p>
+<p>On Windows, both use <code>\</code>: change each one to <code>/</code>. In <code>"data\ratings.csv"</code>, Python reads <code>\r</code> as one character, a carriage return, and never finds the file.</p>
 </section>
-<section id="your-turn-get-set-up" class="slide level2" data-background="#43464B">
+<section id="your-turn-get-set-up" class="slide level2 smaller" data-background="#43464B">
 <h2>Your Turn: Get Set Up</h2>
-<p>In VS Code, open your <code>BAA1118</code> folder, then <code>File -&gt; New File... -&gt; Jupyter Notebook</code>. Save it in <code>BAA1118</code> as <code>lecture_9.ipynb</code>, select your kernel as in the tutorials, and run this cell first:</p>
+<ol type="1">
+<li>Open VS Code: it reopens your <code>BAA1118</code> folder (if not: <code>File -&gt; Open Recent -&gt; BAA1118</code>)</li>
+<li>Download <code>gapminder.csv</code> from Loop, then drag it from Downloads onto <code>data</code>, in the Explorer</li>
+<li><code>File -&gt; New File... -&gt; Jupyter Notebook</code>. Save it in <code>BAA1118</code> as <code>lecture_9.ipynb</code> (<kbd>Ctrl</kbd>+<kbd>S</kbd>, or <kbd>Cmd</kbd>+<kbd>S</kbd> on a Mac), and select your kernel as in the tutorials</li>
+<li>Run this cell, and keep the notebook open: today’s exercises reuse its libraries and <code>gapminder</code></li>
+</ol>
+<div class="quarto-layout-panel" data-layout="[3,1]">
+<div class="quarto-layout-row">
+<div id="first-column" class="quarto-layout-cell" style="flex-basis: 75.0%;justify-content: flex-start;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="im">import</span> os</span>
 <span id="cb7-2"><a href=""></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-3"><a href=""></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-4"><a href=""></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-5"><a href=""></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb7-6"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb7-7"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)</span>
-<span id="cb7-8"><a href=""></a><span class="bu">print</span>(gapminder.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-6"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/gapminder.csv"</span>))      <span class="co"># True if the file is found</span></span>
+<span id="cb7-7"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(<span class="st">"data/gapminder.csv"</span>)    <span class="co"># read it, with its relative path</span></span>
+<span id="cb7-8"><a href=""></a><span class="bu">print</span>(gapminder.shape)                           <span class="co"># (rows, columns)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="second-column" class="quarto-layout-cell" style="flex-basis: 25.0%;justify-content: flex-start;">
+<p>In the Explorer:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href=""></a>BAA1118</span>
+<span id="cb8-2"><a href=""></a>├── data</span>
+<span id="cb8-3"><a href=""></a>│   └── gapminder.csv</span>
+<span id="cb8-4"><a href=""></a>└── lecture_9.ipynb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
-<p>You should see <code>(1704, 6)</code>. Keep the notebook open: today’s exercises reuse these libraries and <code>gapminder</code>.</p>
+<p>You should see <code>True</code>, then <code>(1704, 6)</code>. <code>False</code>? Check the Explorer, as above: <code>gapminder.csv</code> inside <code>data</code>, and <code>lecture_9.ipynb</code> beside <code>data</code>. Done? Help your neighbour.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
                     <div id="timer1"></div>
@@ -325,18 +343,63 @@ True</code></pre>
 </div>
 </div>
 </section>
+<section id="when-it-does-not-work" class="slide level2 smaller">
+<h2>When It Does Not Work</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">What you see</th>
+<th style="text-align: left;">What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">No <code>data</code> folder in the Explorer</td>
+<td style="text-align: left;">Open <code>BAA1118</code> itself: <code>File -&gt; Open Folder...</code>. Still none? Hover over <code>BAA1118</code>, click the <strong>New Folder</strong> icon, and name it <code>data</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>gapminder.csv</code> will not drag into VS Code</td>
+<td style="text-align: left;">Right-click <code>data</code>, then <strong>Reveal in Finder</strong> (Mac) or <strong>Reveal in File Explorer</strong> (Windows), and drag the file into it</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>False</code>: the file is not in <code>data</code></td>
+<td style="text-align: left;">Drag it onto <code>data</code> in the Explorer, then run the cell again</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>False</code>: the file is <code>gapminder (1).csv</code></td>
+<td style="text-align: left;">Right-click it, <strong>Rename…</strong>, and call it <code>gapminder.csv</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>False</code>: the notebook is not beside <code>data</code></td>
+<td style="text-align: left;"><code>File -&gt; Save As...</code> into <code>BAA1118</code>, then click <strong>Restart</strong> and run the cell again</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ModuleNotFoundError</code>, or no Python 3.14</td>
+<td style="text-align: left;">Select <strong>Python 3.14</strong> at the top right. Still an error? Run <code>%pip install numpy pandas matplotlib statsmodels</code>, then click <strong>Restart</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">On a DCU computer</td>
+<td style="text-align: left;">Make <code>BAA1118</code> and its <code>data</code> folder in Downloads (tutorial 5, step 3), with <code>gapminder.csv</code> from Loop in <code>data</code>. Select the Python that VS Code offers</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="your-turn-read-a-path" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Read a Path</h2>
 <p>Replace each <code>____</code>, using the comments, then run the cell:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a><span class="bu">print</span>(os.____())                                  <span class="co"># the notebook's folder, with getcwd</span></span>
-<span id="cb8-2"><a href=""></a><span class="bu">print</span>(os.listdir(____))                           <span class="co"># what is in the "data" folder</span></span>
-<span id="cb8-3"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/roasted_daily.csv"</span>))   <span class="co"># True if the file is found</span></span>
-<span id="cb8-4"><a href=""></a>sales <span class="op">=</span> pd.read_csv(____)                         <span class="co"># the file's relative path, in quotes</span></span>
-<span id="cb8-5"><a href=""></a><span class="bu">print</span>(sales.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a><span class="bu">print</span>(os.____())                                  <span class="co"># the notebook's folder, with getcwd</span></span>
+<span id="cb9-2"><a href=""></a><span class="bu">print</span>(os.listdir(____))                           <span class="co"># what is in the "data" folder</span></span>
+<span id="cb9-3"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/gapminder.csv"</span>))      <span class="co"># True if the file is found</span></span>
+<span id="cb9-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(____)                         <span class="co"># the file's relative path, in quotes</span></span>
+<span id="cb9-5"><a href=""></a><span class="bu">print</span>(gapminder.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
-<p>You should see the path of your <code>BAA1118</code> folder, a list with <code>'roasted_daily.csv'</code> in it, <code>True</code>, then <code>(1086, 10)</code>.</p>
+<p>You should see the path of your <code>BAA1118</code> folder, a list with <code>'gapminder.csv'</code> in it, <code>True</code>, then <code>(1704, 6)</code>.</p>
 </div>
 <div id="second-column" class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
                     <div id="timer2"></div>
@@ -352,15 +415,15 @@ True</code></pre>
 </section>
 <section id="solution" class="slide level2">
 <h2>Solution</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a><span class="bu">print</span>(os.getcwd())</span>
-<span id="cb9-2"><a href=""></a><span class="bu">print</span>(os.listdir(<span class="st">"data"</span>))</span>
-<span id="cb9-3"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/roasted_daily.csv"</span>))</span>
-<span id="cb9-4"><a href=""></a>sales <span class="op">=</span> pd.read_csv(<span class="st">"data/roasted_daily.csv"</span>)</span>
-<span id="cb9-5"><a href=""></a><span class="bu">print</span>(sales.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a><span class="bu">print</span>(os.getcwd())</span>
+<span id="cb10-2"><a href=""></a><span class="bu">print</span>(os.listdir(<span class="st">"data"</span>))</span>
+<span id="cb10-3"><a href=""></a><span class="bu">print</span>(os.path.exists(<span class="st">"data/gapminder.csv"</span>))</span>
+<span id="cb10-4"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(<span class="st">"data/gapminder.csv"</span>)</span>
+<span id="cb10-5"><a href=""></a><span class="bu">print</span>(gapminder.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <pre><code>/Users/aoife/BAA1118
-['roasted_daily.csv']
+['gapminder.csv']
 True
-(1086, 10)</code></pre>
+(1704, 6)</code></pre>
 <p>On Windows, the first line is <code>C:\Users\aoife\BAA1118</code>. <code>False</code>, or a <code>FileNotFoundError</code>? Compare the first two lines with the Explorer: is the notebook in <code>BAA1118</code>, and the file in <code>data</code>?</p>
 </section></section>
 <section>
@@ -370,16 +433,16 @@ True
 </section>
 <section id="lecture-6-wrangling-with-pandas" class="slide level2">
 <h2>Lecture 6: Wrangling with pandas</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/file.csv"</span>)               <span class="co"># read: a DataFrame</span></span>
-<span id="cb11-2"><a href=""></a>df.shape, df.head(<span class="dv">3</span>), df[<span class="st">"a"</span>].value_counts()    <span class="co"># look</span></span>
-<span id="cb11-3"><a href=""></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">"old"</span>: <span class="st">"new"</span>})          <span class="co"># rename: store the new table</span></span>
-<span id="cb11-4"><a href=""></a>df[[<span class="st">"a"</span>, <span class="st">"b"</span>]]                                  <span class="co"># select: df["a"] alone is a Series</span></span>
-<span id="cb11-5"><a href=""></a>df[(df[<span class="st">"a"</span>] <span class="op">==</span> <span class="st">"x"</span>) <span class="op">&amp;</span> (df[<span class="st">"b"</span>] <span class="op">&gt;</span> <span class="dv">0</span>)]            <span class="co"># filter: &amp; for and, | for or</span></span>
-<span id="cb11-6"><a href=""></a>df.sort_values(<span class="st">"a"</span>, ascending<span class="op">=</span><span class="va">False</span>)            <span class="co"># sort: the largest first</span></span>
-<span id="cb11-7"><a href=""></a>df[<span class="st">"c"</span>] <span class="op">=</span> df[<span class="st">"a"</span>] <span class="op">*</span> <span class="dv">2</span>                           <span class="co"># create: every row at once</span></span>
-<span id="cb11-8"><a href=""></a>df.groupby(<span class="st">"g"</span>)[<span class="st">"a"</span>].mean()                     <span class="co"># summarise: one number per group</span></span>
-<span id="cb11-9"><a href=""></a>df.groupby(<span class="st">"g"</span>).agg(avg<span class="op">=</span>(<span class="st">"a"</span>, <span class="st">"mean"</span>))          <span class="co"># several statistics, each named</span></span>
-<span id="cb11-10"><a href=""></a>df.merge(other, on<span class="op">=</span><span class="st">"key"</span>, how<span class="op">=</span><span class="st">"left"</span>)           <span class="co"># join: then check len()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/file.csv"</span>)               <span class="co"># read: a DataFrame</span></span>
+<span id="cb12-2"><a href=""></a>df.shape, df.head(<span class="dv">3</span>), df[<span class="st">"a"</span>].value_counts()    <span class="co"># look</span></span>
+<span id="cb12-3"><a href=""></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">"old"</span>: <span class="st">"new"</span>})          <span class="co"># rename: store the new table</span></span>
+<span id="cb12-4"><a href=""></a>df[[<span class="st">"a"</span>, <span class="st">"b"</span>]]                                  <span class="co"># select: df["a"] alone is a Series</span></span>
+<span id="cb12-5"><a href=""></a>df[(df[<span class="st">"a"</span>] <span class="op">==</span> <span class="st">"x"</span>) <span class="op">&amp;</span> (df[<span class="st">"b"</span>] <span class="op">&gt;</span> <span class="dv">0</span>)]            <span class="co"># filter: &amp; for and, | for or</span></span>
+<span id="cb12-6"><a href=""></a>df.sort_values(<span class="st">"a"</span>, ascending<span class="op">=</span><span class="va">False</span>)            <span class="co"># sort: the largest first</span></span>
+<span id="cb12-7"><a href=""></a>df[<span class="st">"c"</span>] <span class="op">=</span> df[<span class="st">"a"</span>] <span class="op">*</span> <span class="dv">2</span>                           <span class="co"># create: every row at once</span></span>
+<span id="cb12-8"><a href=""></a>df.groupby(<span class="st">"g"</span>)[<span class="st">"a"</span>].mean()                     <span class="co"># summarise: one number per group</span></span>
+<span id="cb12-9"><a href=""></a>df.groupby(<span class="st">"g"</span>).agg(avg<span class="op">=</span>(<span class="st">"a"</span>, <span class="st">"mean"</span>))          <span class="co"># several statistics, each named</span></span>
+<span id="cb12-10"><a href=""></a>df.merge(other, on<span class="op">=</span><span class="st">"key"</span>, how<span class="op">=</span><span class="st">"left"</span>)           <span class="co"># join: then check len()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Five operations: <strong>selection</strong>, <strong>reduction</strong> (filter), <strong>extension</strong> (create), <strong>aggregation</strong> (summarise) and <strong>combination</strong> (join)</li>
 <li>Text in quotes, numbers without; <code>==</code> compares, <code>=</code> stores</li>
@@ -388,14 +451,14 @@ True
 <section id="your-turn-wrangle" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Wrangle</h2>
 <p><strong>The 1952 countries.</strong> Replace each <code>____</code>, using the comments:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[____] <span class="op">==</span> ____]          <span class="co"># the column "year", then 1952</span></span>
-<span id="cb12-2"><a href=""></a>g1952[<span class="st">"pop_m"</span>] <span class="op">=</span> g1952[____] <span class="op">/</span> <span class="dv">1_000_000</span>            <span class="co"># "pop", in millions</span></span>
-<span id="cb12-3"><a href=""></a>(g1952</span>
-<span id="cb12-4"><a href=""></a>  .groupby(____)                                    <span class="co"># by "continent"</span></span>
-<span id="cb12-5"><a href=""></a>  .agg(countries<span class="op">=</span>(<span class="st">"country"</span>, ____), pop_m<span class="op">=</span>(<span class="st">"pop_m"</span>, ____))   <span class="co"># "nunique", then "sum"</span></span>
-<span id="cb12-6"><a href=""></a>  .sort_values(<span class="st">"pop_m"</span>, ascending<span class="op">=</span>____)             <span class="co"># largest first: False</span></span>
-<span id="cb12-7"><a href=""></a>  .<span class="bu">round</span>()</span>
-<span id="cb12-8"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[____] <span class="op">==</span> ____]          <span class="co"># the column "year", then 1952</span></span>
+<span id="cb13-2"><a href=""></a>g1952[<span class="st">"pop_m"</span>] <span class="op">=</span> g1952[____] <span class="op">/</span> <span class="dv">1_000_000</span>            <span class="co"># "pop", in millions</span></span>
+<span id="cb13-3"><a href=""></a>(g1952</span>
+<span id="cb13-4"><a href=""></a>  .groupby(____)                                    <span class="co"># by "continent"</span></span>
+<span id="cb13-5"><a href=""></a>  .agg(countries<span class="op">=</span>(<span class="st">"country"</span>, ____), pop_m<span class="op">=</span>(<span class="st">"pop_m"</span>, ____))   <span class="co"># "nunique", then "sum"</span></span>
+<span id="cb13-6"><a href=""></a>  .sort_values(<span class="st">"pop_m"</span>, ascending<span class="op">=</span>____)             <span class="co"># largest first: False</span></span>
+<span id="cb13-7"><a href=""></a>  .<span class="bu">round</span>()</span>
+<span id="cb13-8"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
@@ -415,15 +478,15 @@ True
 </section>
 <section id="solution-1" class="slide level2 smaller">
 <h2>Solution</h2>
-<div id="0e1e9f11" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
-<span id="cb13-2"><a href=""></a>g1952[<span class="st">"pop_m"</span>] <span class="op">=</span> g1952[<span class="st">"pop"</span>] <span class="op">/</span> <span class="dv">1_000_000</span></span>
-<span id="cb13-3"><a href=""></a>(g1952</span>
-<span id="cb13-4"><a href=""></a>  .groupby(<span class="st">"continent"</span>)</span>
-<span id="cb13-5"><a href=""></a>  .agg(countries<span class="op">=</span>(<span class="st">"country"</span>, <span class="st">"nunique"</span>), pop_m<span class="op">=</span>(<span class="st">"pop_m"</span>, <span class="st">"sum"</span>))</span>
-<span id="cb13-6"><a href=""></a>  .sort_values(<span class="st">"pop_m"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb13-7"><a href=""></a>  .<span class="bu">round</span>()</span>
-<span id="cb13-8"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6bcd3600" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a>g1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]</span>
+<span id="cb14-2"><a href=""></a>g1952[<span class="st">"pop_m"</span>] <span class="op">=</span> g1952[<span class="st">"pop"</span>] <span class="op">/</span> <span class="dv">1_000_000</span></span>
+<span id="cb14-3"><a href=""></a>(g1952</span>
+<span id="cb14-4"><a href=""></a>  .groupby(<span class="st">"continent"</span>)</span>
+<span id="cb14-5"><a href=""></a>  .agg(countries<span class="op">=</span>(<span class="st">"country"</span>, <span class="st">"nunique"</span>), pop_m<span class="op">=</span>(<span class="st">"pop_m"</span>, <span class="st">"sum"</span>))</span>
+<span id="cb14-6"><a href=""></a>  .sort_values(<span class="st">"pop_m"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb14-7"><a href=""></a>  .<span class="bu">round</span>()</span>
+<span id="cb14-8"><a href=""></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <style scoped="">
@@ -489,14 +552,14 @@ True
 </section>
 <section id="lecture-7-visualisation-with-matplotlib" class="slide level2">
 <h2>Lecture 7: Visualisation with matplotlib</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()                              <span class="co"># the canvas</span></span>
-<span id="cb14-2"><a href=""></a>ax.scatter(df[<span class="st">"x"</span>], df[<span class="st">"y"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)      <span class="co"># a geometry: x first, then y</span></span>
-<span id="cb14-3"><a href=""></a>ax.scatter(one[<span class="st">"x"</span>], one[<span class="st">"y"</span>], color<span class="op">=</span><span class="st">"red"</span>)          <span class="co"># grey everything, colour one thing</span></span>
-<span id="cb14-4"><a href=""></a>ax.set_xscale(<span class="st">"log"</span>)                                 <span class="co"># a scale</span></span>
-<span id="cb14-5"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Income (US$)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)   <span class="co"># labels, with units</span></span>
-<span id="cb14-6"><a href=""></a>ax.set_title(<span class="st">"A title that states the finding"</span>)      <span class="co"># the finding</span></span>
-<span id="cb14-7"><a href=""></a>plt.show()</span>
-<span id="cb14-8"><a href=""></a>fig.savefig(<span class="st">"chart.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()                              <span class="co"># the canvas</span></span>
+<span id="cb15-2"><a href=""></a>ax.scatter(df[<span class="st">"x"</span>], df[<span class="st">"y"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)      <span class="co"># a geometry: x first, then y</span></span>
+<span id="cb15-3"><a href=""></a>ax.scatter(one[<span class="st">"x"</span>], one[<span class="st">"y"</span>], color<span class="op">=</span><span class="st">"red"</span>)          <span class="co"># grey everything, colour one thing</span></span>
+<span id="cb15-4"><a href=""></a>ax.set_xscale(<span class="st">"log"</span>)                                 <span class="co"># a scale</span></span>
+<span id="cb15-5"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Income (US$)"</span>, ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>)   <span class="co"># labels, with units</span></span>
+<span id="cb15-6"><a href=""></a>ax.set_title(<span class="st">"A title that states the finding"</span>)      <span class="co"># the finding</span></span>
+<span id="cb15-7"><a href=""></a>plt.show()</span>
+<span id="cb15-8"><a href=""></a>fig.savefig(<span class="st">"chart.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>The question picks the geometry</strong>: how two columns relate, <code>ax.scatter()</code>; a change over time, <code>ax.plot()</code>; one number per category, <code>ax.bar()</code> or <code>ax.barh()</code>; a spread, <code>ax.hist()</code> or <code>ax.boxplot()</code></li>
 <li>After a <code>groupby()</code>, the groups are the index: <code>ax.bar(s.index, s.values)</code></li>
@@ -506,14 +569,14 @@ True
 <section id="your-turn-grey-bars-one-colour" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Grey Bars, One Colour</h2>
 <p><strong>The 2007 countries.</strong> Replace each <code>____</code>, using the comments:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb15-2"><a href=""></a>means <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[____].mean()     <span class="co"># the mean of "lifeExp"</span></span>
-<span id="cb15-3"><a href=""></a>low <span class="op">=</span> means[means <span class="op">&lt;</span> ____]                           <span class="co"># the continents below 60 years</span></span>
-<span id="cb15-4"><a href=""></a>fig, ax <span class="op">=</span> plt.____()                                <span class="co"># the canvas, with subplots</span></span>
-<span id="cb15-5"><a href=""></a>ax.____(means.index, means.values, color<span class="op">=</span>____)      <span class="co"># bars, with .bar(); "lightgrey"</span></span>
-<span id="cb15-6"><a href=""></a>ax.bar(low.____, low.____, color<span class="op">=</span>____)              <span class="co"># .index, .values; then "red"</span></span>
-<span id="cb15-7"><a href=""></a>ax.<span class="bu">set</span>(ylabel<span class="op">=</span>____, title<span class="op">=</span>____)                     <span class="co"># "... (years)", then the finding</span></span>
-<span id="cb15-8"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb16-2"><a href=""></a>means <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[____].mean()     <span class="co"># the mean of "lifeExp"</span></span>
+<span id="cb16-3"><a href=""></a>low <span class="op">=</span> means[means <span class="op">&lt;</span> ____]                           <span class="co"># the continents below 60 years</span></span>
+<span id="cb16-4"><a href=""></a>fig, ax <span class="op">=</span> plt.____()                                <span class="co"># the canvas, with subplots</span></span>
+<span id="cb16-5"><a href=""></a>ax.____(means.index, means.values, color<span class="op">=</span>____)      <span class="co"># bars, with .bar(); "lightgrey"</span></span>
+<span id="cb16-6"><a href=""></a>ax.bar(low.____, low.____, color<span class="op">=</span>____)              <span class="co"># .index, .values; then "red"</span></span>
+<span id="cb16-7"><a href=""></a>ax.<span class="bu">set</span>(ylabel<span class="op">=</span>____, title<span class="op">=</span>____)                     <span class="co"># "... (years)", then the finding</span></span>
+<span id="cb16-8"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
@@ -533,16 +596,16 @@ True
 </section>
 <section id="solution-2" class="slide level2 smaller">
 <h2>Solution</h2>
-<div id="00e62bfe" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb16-2"><a href=""></a>means <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[<span class="st">"lifeExp"</span>].mean()</span>
-<span id="cb16-3"><a href=""></a>low <span class="op">=</span> means[means <span class="op">&lt;</span> <span class="dv">60</span>]                             <span class="co"># a Series filters like a table</span></span>
-<span id="cb16-4"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb16-5"><a href=""></a>ax.bar(means.index, means.values, color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
-<span id="cb16-6"><a href=""></a>ax.bar(low.index, low.values, color<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb16-7"><a href=""></a>ax.<span class="bu">set</span>(ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>,</span>
-<span id="cb16-8"><a href=""></a>       title<span class="op">=</span><span class="st">"Africa: the only continent below 60 years in 2007"</span>)</span>
-<span id="cb16-9"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="170cbc41" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb17-2"><a href=""></a>means <span class="op">=</span> g2007.groupby(<span class="st">"continent"</span>)[<span class="st">"lifeExp"</span>].mean()</span>
+<span id="cb17-3"><a href=""></a>low <span class="op">=</span> means[means <span class="op">&lt;</span> <span class="dv">60</span>]                             <span class="co"># a Series filters like a table</span></span>
+<span id="cb17-4"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb17-5"><a href=""></a>ax.bar(means.index, means.values, color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
+<span id="cb17-6"><a href=""></a>ax.bar(low.index, low.values, color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb17-7"><a href=""></a>ax.<span class="bu">set</span>(ylabel<span class="op">=</span><span class="st">"Life expectancy (years)"</span>,</span>
+<span id="cb17-8"><a href=""></a>       title<span class="op">=</span><span class="st">"Africa: the only continent below 60 years in 2007"</span>)</span>
+<span id="cb17-9"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -554,16 +617,16 @@ True
 </section>
 <section id="lecture-8-statistics-with-statsmodels" class="slide level2">
 <h2>Lecture 8: Statistics with statsmodels</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href=""></a>df[<span class="st">"x"</span>].corr(df[<span class="st">"y"</span>])                                <span class="co"># r, from -1 to +1: straight lines</span></span>
-<span id="cb17-2"><a href=""></a>df[[<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span>]].corr()                           <span class="co"># every pair of columns at once</span></span>
-<span id="cb17-3"><a href=""></a>df[<span class="st">"log_x"</span>] <span class="op">=</span> np.log(df[<span class="st">"x"</span>])                        <span class="co"># a curve? straighten it first</span></span>
-<span id="cb17-4"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"y ~ x + C(group)"</span>, data<span class="op">=</span>df).fit()  <span class="co"># = becomes ~, + adds a predictor</span></span>
-<span id="cb17-5"><a href=""></a>model.params                                         <span class="co"># the estimates: Intercept, slopes</span></span>
-<span id="cb17-6"><a href=""></a>model.summary().tables[<span class="dv">1</span>]                            <span class="co"># std err, p-value, 95% CI</span></span>
-<span id="cb17-7"><a href=""></a>model.rsquared                                       <span class="co"># the share of the variation</span></span>
-<span id="cb17-8"><a href=""></a>model.predict(new)                                   <span class="co"># new: a DataFrame with x in it</span></span>
-<span id="cb17-9"><a href=""></a>train <span class="op">=</span> df.sample(frac<span class="op">=</span><span class="fl">0.75</span>, random_state<span class="op">=</span><span class="dv">1</span>)         <span class="co"># fit on train, then measure</span></span>
-<span id="cb17-10"><a href=""></a>test <span class="op">=</span> df.drop(train.index)                          <span class="co"># the misses on test: RMSE, MAE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a>df[<span class="st">"x"</span>].corr(df[<span class="st">"y"</span>])                                <span class="co"># r, from -1 to +1: straight lines</span></span>
+<span id="cb18-2"><a href=""></a>df[[<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span>]].corr()                           <span class="co"># every pair of columns at once</span></span>
+<span id="cb18-3"><a href=""></a>df[<span class="st">"log_x"</span>] <span class="op">=</span> np.log(df[<span class="st">"x"</span>])                        <span class="co"># a curve? straighten it first</span></span>
+<span id="cb18-4"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"y ~ x + C(group)"</span>, data<span class="op">=</span>df).fit()  <span class="co"># = becomes ~, + adds a predictor</span></span>
+<span id="cb18-5"><a href=""></a>model.params                                         <span class="co"># the estimates: Intercept, slopes</span></span>
+<span id="cb18-6"><a href=""></a>model.summary().tables[<span class="dv">1</span>]                            <span class="co"># std err, p-value, 95% CI</span></span>
+<span id="cb18-7"><a href=""></a>model.rsquared                                       <span class="co"># the share of the variation</span></span>
+<span id="cb18-8"><a href=""></a>model.predict(new)                                   <span class="co"># new: a DataFrame with x in it</span></span>
+<span id="cb18-9"><a href=""></a>train <span class="op">=</span> df.sample(frac<span class="op">=</span><span class="fl">0.75</span>, random_state<span class="op">=</span><span class="dv">1</span>)         <span class="co"># fit on train, then measure</span></span>
+<span id="cb18-10"><a href=""></a>test <span class="op">=</span> df.drop(train.index)                          <span class="co"># the misses on test: RMSE, MAE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>Explanation</strong>: the estimates and how sure we are, fitted on all the data</li>
 <li><strong>Prediction</strong>: how far the guesses miss, on rows the model has never seen</li>
@@ -583,13 +646,13 @@ True
 <section id="your-turn-fit-read-predict" class="slide level2" data-background="#43464B">
 <h2>Your Turn: Fit, Read, Predict</h2>
 <p><strong>The 1977 countries.</strong> Replace each <code>____</code>, using the comments:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href=""></a>g1977 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1977</span>]</span>
-<span id="cb18-2"><a href=""></a>g1977[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1977[<span class="st">"gdpPercap"</span>])</span>
-<span id="cb18-3"><a href=""></a>model <span class="op">=</span> smf.ols(____, data<span class="op">=</span>g1977).fit()                   <span class="co"># lifeExp explained by log_gdp</span></span>
-<span id="cb18-4"><a href=""></a><span class="bu">print</span>(model.____.<span class="bu">round</span>(<span class="dv">2</span>))                                <span class="co"># the estimates, with .params</span></span>
-<span id="cb18-5"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.____, <span class="dv">2</span>))                               <span class="co"># R², with .rsquared</span></span>
-<span id="cb18-6"><a href=""></a>new <span class="op">=</span> pd.DataFrame({<span class="st">"log_gdp"</span>: np.log([<span class="dv">1000</span>, <span class="dv">10000</span>])})    <span class="co"># 1,000 and 10,000 US$</span></span>
-<span id="cb18-7"><a href=""></a><span class="bu">print</span>(model.____(new).<span class="bu">round</span>(<span class="dv">1</span>))                           <span class="co"># with .predict()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>g1977 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1977</span>]</span>
+<span id="cb19-2"><a href=""></a>g1977[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1977[<span class="st">"gdpPercap"</span>])</span>
+<span id="cb19-3"><a href=""></a>model <span class="op">=</span> smf.ols(____, data<span class="op">=</span>g1977).fit()                   <span class="co"># lifeExp explained by log_gdp</span></span>
+<span id="cb19-4"><a href=""></a><span class="bu">print</span>(model.____.<span class="bu">round</span>(<span class="dv">2</span>))                                <span class="co"># the estimates, with .params</span></span>
+<span id="cb19-5"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.____, <span class="dv">2</span>))                               <span class="co"># R², with .rsquared</span></span>
+<span id="cb19-6"><a href=""></a>new <span class="op">=</span> pd.DataFrame({<span class="st">"log_gdp"</span>: np.log([<span class="dv">1000</span>, <span class="dv">10000</span>])})    <span class="co"># 1,000 and 10,000 US$</span></span>
+<span id="cb19-7"><a href=""></a><span class="bu">print</span>(model.____(new).<span class="bu">round</span>(<span class="dv">1</span>))                           <span class="co"># with .predict()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
@@ -609,14 +672,14 @@ True
 </section>
 <section id="solution-3" class="slide level2 smaller">
 <h2>Solution</h2>
-<div id="285c52e1" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href=""></a>g1977 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1977</span>]</span>
-<span id="cb19-2"><a href=""></a>g1977[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1977[<span class="st">"gdpPercap"</span>])</span>
-<span id="cb19-3"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ log_gdp"</span>, data<span class="op">=</span>g1977).fit()</span>
-<span id="cb19-4"><a href=""></a><span class="bu">print</span>(model.params.<span class="bu">round</span>(<span class="dv">2</span>))</span>
-<span id="cb19-5"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.rsquared, <span class="dv">2</span>))</span>
-<span id="cb19-6"><a href=""></a>new <span class="op">=</span> pd.DataFrame({<span class="st">"log_gdp"</span>: np.log([<span class="dv">1000</span>, <span class="dv">10000</span>])})</span>
-<span id="cb19-7"><a href=""></a><span class="bu">print</span>(model.predict(new).<span class="bu">round</span>(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fbc9590f" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href=""></a>g1977 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1977</span>]</span>
+<span id="cb20-2"><a href=""></a>g1977[<span class="st">"log_gdp"</span>] <span class="op">=</span> np.log(g1977[<span class="st">"gdpPercap"</span>])</span>
+<span id="cb20-3"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ log_gdp"</span>, data<span class="op">=</span>g1977).fit()</span>
+<span id="cb20-4"><a href=""></a><span class="bu">print</span>(model.params.<span class="bu">round</span>(<span class="dv">2</span>))</span>
+<span id="cb20-5"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.rsquared, <span class="dv">2</span>))</span>
+<span id="cb20-6"><a href=""></a>new <span class="op">=</span> pd.DataFrame({<span class="st">"log_gdp"</span>: np.log([<span class="dv">1000</span>, <span class="dv">10000</span>])})</span>
+<span id="cb20-7"><a href=""></a><span class="bu">print</span>(model.predict(new).<span class="bu">round</span>(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Intercept   -2.74
 log_gdp      7.55
@@ -636,7 +699,7 @@ dtype: float64</code></pre>
 </section>
 <section id="one-analysis-three-lectures" class="slide level2">
 <h2>One Analysis, Three Lectures</h2>
-<div id="3e54143a" class="cell" data-execution_count="6">
+<div id="6ca8caa7" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -703,18 +766,18 @@ dtype: float64</code></pre>
 <section id="one-question-three-lectures-pandas" class="slide level2">
 <h2>One Question, Three Lectures: pandas</h2>
 <p><strong>Did the countries that lived longest in 1952 still live longest in 2007?</strong></p>
-<div id="861e56d6" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
-<span id="cb21-2"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)                                             <span class="co"># read</span></span>
-<span id="cb21-3"><a href=""></a>y1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]                             <span class="co"># filter</span></span>
-<span id="cb21-4"><a href=""></a>y1952 <span class="op">=</span> y1952[[<span class="st">"country"</span>, <span class="st">"continent"</span>, <span class="st">"lifeExp"</span>]]                      <span class="co"># select</span></span>
-<span id="cb21-5"><a href=""></a>y1952 <span class="op">=</span> y1952.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: <span class="st">"life_1952"</span>})                  <span class="co"># rename</span></span>
-<span id="cb21-6"><a href=""></a>y2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb21-7"><a href=""></a>y2007 <span class="op">=</span> y2007[[<span class="st">"country"</span>, <span class="st">"lifeExp"</span>]]</span>
-<span id="cb21-8"><a href=""></a>y2007 <span class="op">=</span> y2007.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: <span class="st">"life_2007"</span>})</span>
-<span id="cb21-9"><a href=""></a>both <span class="op">=</span> y1952.merge(y2007, on<span class="op">=</span><span class="st">"country"</span>, how<span class="op">=</span><span class="st">"left"</span>)                     <span class="co"># join</span></span>
-<span id="cb21-10"><a href=""></a>both[<span class="st">"gain"</span>] <span class="op">=</span> both[<span class="st">"life_2007"</span>] <span class="op">-</span> both[<span class="st">"life_1952"</span>]                     <span class="co"># create</span></span>
-<span id="cb21-11"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(y1952), <span class="bu">len</span>(both), <span class="bu">round</span>(both[<span class="st">"gain"</span>].mean(), <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="bae36931" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href=""></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/damien-dupre/data/refs/heads/master/gapminder.csv"</span></span>
+<span id="cb22-2"><a href=""></a>gapminder <span class="op">=</span> pd.read_csv(url)                                             <span class="co"># read</span></span>
+<span id="cb22-3"><a href=""></a>y1952 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">1952</span>]                             <span class="co"># filter</span></span>
+<span id="cb22-4"><a href=""></a>y1952 <span class="op">=</span> y1952[[<span class="st">"country"</span>, <span class="st">"continent"</span>, <span class="st">"lifeExp"</span>]]                      <span class="co"># select</span></span>
+<span id="cb22-5"><a href=""></a>y1952 <span class="op">=</span> y1952.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: <span class="st">"life_1952"</span>})                  <span class="co"># rename</span></span>
+<span id="cb22-6"><a href=""></a>y2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb22-7"><a href=""></a>y2007 <span class="op">=</span> y2007[[<span class="st">"country"</span>, <span class="st">"lifeExp"</span>]]</span>
+<span id="cb22-8"><a href=""></a>y2007 <span class="op">=</span> y2007.rename(columns<span class="op">=</span>{<span class="st">"lifeExp"</span>: <span class="st">"life_2007"</span>})</span>
+<span id="cb22-9"><a href=""></a>both <span class="op">=</span> y1952.merge(y2007, on<span class="op">=</span><span class="st">"country"</span>, how<span class="op">=</span><span class="st">"left"</span>)                     <span class="co"># join</span></span>
+<span id="cb22-10"><a href=""></a>both[<span class="st">"gain"</span>] <span class="op">=</span> both[<span class="st">"life_2007"</span>] <span class="op">-</span> both[<span class="st">"life_1952"</span>]                     <span class="co"># create</span></span>
+<span id="cb22-11"><a href=""></a><span class="bu">print</span>(<span class="bu">len</span>(y1952), <span class="bu">len</span>(both), <span class="bu">round</span>(both[<span class="st">"gain"</span>].mean(), <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>142 142 17.9</code></pre>
 </div>
@@ -723,15 +786,15 @@ dtype: float64</code></pre>
 </section>
 <section id="one-question-three-lectures-matplotlib" class="slide level2">
 <h2>One Question, Three Lectures: matplotlib</h2>
-<div id="f8d2d6b5" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href=""></a>fell <span class="op">=</span> both[both[<span class="st">"gain"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]</span>
-<span id="cb23-2"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.45</span>))</span>
-<span id="cb23-3"><a href=""></a>ax.scatter(both[<span class="st">"life_1952"</span>], both[<span class="st">"life_2007"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
-<span id="cb23-4"><a href=""></a>ax.scatter(fell[<span class="st">"life_1952"</span>], fell[<span class="st">"life_2007"</span>], color<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb23-5"><a href=""></a>ax.plot([<span class="dv">30</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">80</span>], color<span class="op">=</span><span class="st">"black"</span>)              <span class="co"># where 2007 equals 1952</span></span>
-<span id="cb23-6"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Life expectancy in 1952 (years)"</span>, ylabel<span class="op">=</span><span class="st">"In 2007 (years)"</span>)</span>
-<span id="cb23-7"><a href=""></a>ax.set_title(<span class="st">"Long lives in 1952 still meant long lives in 2007"</span>, loc<span class="op">=</span><span class="st">"left"</span>)</span>
-<span id="cb23-8"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="89c413ca" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a>fell <span class="op">=</span> both[both[<span class="st">"gain"</span>] <span class="op">&lt;</span> <span class="dv">0</span>]</span>
+<span id="cb24-2"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="fl">1.45</span>))</span>
+<span id="cb24-3"><a href=""></a>ax.scatter(both[<span class="st">"life_1952"</span>], both[<span class="st">"life_2007"</span>], color<span class="op">=</span><span class="st">"lightgrey"</span>)</span>
+<span id="cb24-4"><a href=""></a>ax.scatter(fell[<span class="st">"life_1952"</span>], fell[<span class="st">"life_2007"</span>], color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb24-5"><a href=""></a>ax.plot([<span class="dv">30</span>, <span class="dv">80</span>], [<span class="dv">30</span>, <span class="dv">80</span>], color<span class="op">=</span><span class="st">"black"</span>)              <span class="co"># where 2007 equals 1952</span></span>
+<span id="cb24-6"><a href=""></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Life expectancy in 1952 (years)"</span>, ylabel<span class="op">=</span><span class="st">"In 2007 (years)"</span>)</span>
+<span id="cb24-7"><a href=""></a>ax.set_title(<span class="st">"Long lives in 1952 still meant long lives in 2007"</span>, loc<span class="op">=</span><span class="st">"left"</span>)</span>
+<span id="cb24-8"><a href=""></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -744,10 +807,10 @@ dtype: float64</code></pre>
 </section>
 <section id="one-question-three-lectures-statsmodels" class="slide level2">
 <h2>One Question, Three Lectures: statsmodels</h2>
-<div id="d64d4f61" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"life_2007 ~ life_1952"</span>, data<span class="op">=</span>both).fit()</span>
-<span id="cb24-2"><a href=""></a><span class="bu">print</span>(model.summary().tables[<span class="dv">1</span>])</span>
-<span id="cb24-3"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.rsquared, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="5295d968" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"life_2007 ~ life_1952"</span>, data<span class="op">=</span>both).fit()</span>
+<span id="cb25-2"><a href=""></a><span class="bu">print</span>(model.summary().tables[<span class="dv">1</span>])</span>
+<span id="cb25-3"><a href=""></a><span class="bu">print</span>(<span class="bu">round</span>(model.rsquared, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>==============================================================================
                  coef    std err          t      P&gt;|t|      [0.025      0.975]
@@ -764,14 +827,14 @@ life_1952      0.7668      0.053     14.580      0.000       0.663       0.871
 </section>
 <section id="your-turn-from-table-to-finding" class="slide level2" data-background="#43464B">
 <h2>Your Turn: From Table to Finding</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb26-2"><a href=""></a>europe <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> ____]          <span class="co"># lecture 6: "Europe"</span></span>
-<span id="cb26-3"><a href=""></a>europe[<span class="st">"gdp_k"</span>] <span class="op">=</span> europe[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1000</span>     <span class="co"># in thousands of US$</span></span>
-<span id="cb26-4"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb26-5"><a href=""></a>ax.____(europe[<span class="st">"gdp_k"</span>], europe[<span class="st">"lifeExp"</span>])        <span class="co"># lecture 7: points, .scatter()</span></span>
-<span id="cb26-6"><a href=""></a>plt.show()</span>
-<span id="cb26-7"><a href=""></a>model <span class="op">=</span> smf.ols(____, data<span class="op">=</span>europe).fit()            <span class="co"># lecture 8: lifeExp by gdp_k</span></span>
-<span id="cb26-8"><a href=""></a><span class="bu">print</span>(model.params.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb27-2"><a href=""></a>europe <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> ____]          <span class="co"># lecture 6: "Europe"</span></span>
+<span id="cb27-3"><a href=""></a>europe[<span class="st">"gdp_k"</span>] <span class="op">=</span> europe[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1000</span>     <span class="co"># in thousands of US$</span></span>
+<span id="cb27-4"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb27-5"><a href=""></a>ax.____(europe[<span class="st">"gdp_k"</span>], europe[<span class="st">"lifeExp"</span>])        <span class="co"># lecture 7: points, .scatter()</span></span>
+<span id="cb27-6"><a href=""></a>plt.show()</span>
+<span id="cb27-7"><a href=""></a>model <span class="op">=</span> smf.ols(____, data<span class="op">=</span>europe).fit()            <span class="co"># lecture 8: lifeExp by gdp_k</span></span>
+<span id="cb27-8"><a href=""></a><span class="bu">print</span>(model.params.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="quarto-layout-panel" data-layout="[3,2]">
 <div class="quarto-layout-row">
 <div id="first-column" class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
@@ -791,15 +854,15 @@ life_1952      0.7668      0.053     14.580      0.000       0.663       0.871
 </section>
 <section id="solution-4" class="slide level2 smaller">
 <h2>Solution</h2>
-<div id="8011c7d4" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
-<span id="cb27-2"><a href=""></a>europe <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Europe"</span>]</span>
-<span id="cb27-3"><a href=""></a>europe[<span class="st">"gdp_k"</span>] <span class="op">=</span> europe[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1000</span></span>
-<span id="cb27-4"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb27-5"><a href=""></a>ax.scatter(europe[<span class="st">"gdp_k"</span>], europe[<span class="st">"lifeExp"</span>])</span>
-<span id="cb27-6"><a href=""></a>plt.show()</span>
-<span id="cb27-7"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ gdp_k"</span>, data<span class="op">=</span>europe).fit()</span>
-<span id="cb27-8"><a href=""></a><span class="bu">print</span>(model.params.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="ea3c973c" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href=""></a>g2007 <span class="op">=</span> gapminder[gapminder[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>]</span>
+<span id="cb28-2"><a href=""></a>europe <span class="op">=</span> g2007[g2007[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Europe"</span>]</span>
+<span id="cb28-3"><a href=""></a>europe[<span class="st">"gdp_k"</span>] <span class="op">=</span> europe[<span class="st">"gdpPercap"</span>] <span class="op">/</span> <span class="dv">1000</span></span>
+<span id="cb28-4"><a href=""></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb28-5"><a href=""></a>ax.scatter(europe[<span class="st">"gdp_k"</span>], europe[<span class="st">"lifeExp"</span>])</span>
+<span id="cb28-6"><a href=""></a>plt.show()</span>
+<span id="cb28-7"><a href=""></a>model <span class="op">=</span> smf.ols(<span class="st">"lifeExp ~ gdp_k"</span>, data<span class="op">=</span>europe).fit()</span>
+<span id="cb28-8"><a href=""></a><span class="bu">print</span>(model.params.<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -872,7 +935,7 @@ dtype: float64</code></pre>
 </section>
 <section id="a-notebooks-life-at-work" class="slide level2">
 <h2>A Notebook’s Life at Work</h2>
-<div id="83913f22" class="cell" data-execution_count="12">
+<div id="b994d58e" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure>
@@ -956,11 +1019,11 @@ dtype: float64</code></pre>
 <section id="work-write-for-a-reader" class="slide level2">
 <h2>Work: Write for a Reader</h2>
 <p>At work, the first cell answers the question, for a reader who reads nothing else:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href=""></a><span class="fu"># Life expectancy, 1952 to 2007</span></span>
-<span id="cb29-2"><a href=""></a></span>
-<span id="cb29-3"><a href=""></a><span class="ss">- </span>**Question:** did the countries that lived longest in 1952 still live longest in 2007?</span>
-<span id="cb29-4"><a href=""></a><span class="ss">- </span>**Data:** gapminder, 142 countries, in 1952 and in 2007</span>
-<span id="cb29-5"><a href=""></a><span class="ss">- </span>**Finding:** yes: each extra year in 1952 was associated with 0.77 more years in 2007</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href=""></a><span class="fu"># Life expectancy, 1952 to 2007</span></span>
+<span id="cb30-2"><a href=""></a></span>
+<span id="cb30-3"><a href=""></a><span class="ss">- </span>**Question:** did the countries that lived longest in 1952 still live longest in 2007?</span>
+<span id="cb30-4"><a href=""></a><span class="ss">- </span>**Data:** gapminder, 142 countries, in 1952 and in 2007</span>
+<span id="cb30-5"><a href=""></a><span class="ss">- </span>**Finding:** yes: each extra year in 1952 was associated with 0.77 more years in 2007</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Then a Markdown cell before each step: what it does, and why, in one sentence</li>
 <li>Charts with a title that states the finding, and numbers with their units</li>
@@ -1029,7 +1092,7 @@ dtype: float64</code></pre>
 <li>A PDF? Print the HTML from your browser</li>
 <li>Without the code, as reports for managers often are, in a terminal:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href=""></a><span class="ex">jupyter</span> nbconvert <span class="at">--to</span> html <span class="at">--no-input</span> lecture_9.ipynb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href=""></a><span class="ex">jupyter</span> nbconvert <span class="at">--to</span> html <span class="at">--no-input</span> lecture_9.ipynb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="your-turn-from-notebook-to-report" class="slide level2" data-background="#43464B">
 <h2>Your Turn: From Notebook to Report</h2>
